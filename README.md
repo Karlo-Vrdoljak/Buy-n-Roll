@@ -1,6 +1,6 @@
 # Buy-n-Roll
 ## Description
-Buy / sell vehicles with immediate fill in of purchase contract if your in Croatia
+Buy / sell vehicles with immediate fill in of purchase contract if you're in Croatia
 
 ### Features
 ```
