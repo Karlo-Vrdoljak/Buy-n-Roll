@@ -1,0 +1,93 @@
+@import "../../variables.scss";
+
+.topbar {
+  height: 50px;
+  background-color: $deepGray;
+}
+:host ::ng-deep .ui-toolbar {
+  padding: 0;
+  border: none;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  flex-wrap: nowrap;
+}
+.flex-1 {
+  flex: 1;
+  margin: 0;
+}
+.flex-center {
+  align-self: center;
+}
+.main-logo {
+  //   background-position: 0em;
+  min-width: 4.5em;
+  margin: 0.5em;
+  flex-basis: 15%;
+}
+.last {
+  text-align: right;
+  padding: 1em;
+}
+
+.logo {
+  overflow: visible;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: right;
+  margin: 0 1.5em;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.25s all ease-in-out;
+}
+
+.logo:hover {
+  filter: saturate(3);
+}
+
+.logo:active {
+  filter: brightness(1.2);
+}
+.app-logo {
+  background-image: url("../../assets/images/topbar/app.png");
+}
+.us0 {
+  user-select: none;
+}
+:host ::ng-deep .ui-button-primary {
+  background-color: $yellow;
+  border: 1px solid $yellow;
+}
+:host ::ng-deep .ui-button.ui-state-default.ui-button-info {
+  background-color: $deepGray;
+  border: 1px solid $deepGray;
+}
+:host ::ng-deep .ui-button-primary:enabled:hover {
+  background-color: $lightYellow;
+  border: 1px solid $lightYellow;
+}
+:host ::ng-deep .ui-button-primary:enabled:active {
+  background-color: $darkYellow;
+  border: 1px solid $darkYellow;
+}
+:host ::ng-deep .ui-button.ui-state-default.ui-button-info:enabled:hover {
+  background-color: $deepGray;
+  border: 1px solid $deepGray;
+}
+:host ::ng-deep .ui-button.ui-state-default.ui-button-info:enabled:active {
+  background-color: $deepGray;
+  border: 1px solid $deepGray;
+}
+:host ::ng-deep .ui-button:enabled:focus {
+  outline: 0 none;
+  outline-offset: 0px;
+  box-shadow: 0 0 0 0.15em lighten($color: $yellow, $amount: 20%);
+}
+:host ::ng-deep .ui-button.ui-state-default.ui-button-secondary:enabled:focus {
+  outline: 0 none;
+  outline-offset: 0px;
+  box-shadow: 0 0 0 0.15em #8dcdff;
+}

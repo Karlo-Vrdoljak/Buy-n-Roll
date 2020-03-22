@@ -1,0 +1,10 @@
+{
+  "type": "mysql",
+  "host": "127.0.0.1",
+  "port": 3336,
+  "username": "root",
+  "password": "asdfasdf",
+  "database": "buynroll",
+  "entities": ["dist/entity/*.entity{.ts,.js}"],
+  "synchronize": true
+}

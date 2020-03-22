@@ -1,0 +1,25 @@
+@import "../../variables.scss";
+
+:host ::ng-deep .ui-panel {
+    padding: 1em;
+}
+
+.ylw {
+    background-color: $yellow;
+}
+
+
+.s {
+    background-color: $silver;
+}
+.sg {
+    background-color: $deepGray;
+    color: #fff;
+}
+.d {
+    background-color: $dark;
+    color: #fff;
+}
+
+
+
