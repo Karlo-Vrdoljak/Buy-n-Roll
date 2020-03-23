@@ -29,8 +29,8 @@
   flex-basis: 15%;
 }
 .last {
-  text-align: right;
-  padding: 1em;
+  text-align: left;
+  padding: 0.35em 1em;
 }
 
 .logo {
@@ -46,6 +46,15 @@
 
 .logo:hover {
   filter: saturate(3);
+}
+.oswald {
+  font-family: 'Oswald', sans-serif;
+  color: $silver;
+  flex: 0 0 9em;
+  font-size: 1.3em;
+}
+.oswald:hover {
+  color: lighten($color: $silver, $amount: 10%);
 }
 
 .logo:active {
