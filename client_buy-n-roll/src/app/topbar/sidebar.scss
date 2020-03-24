@@ -1,0 +1,56 @@
+@import "../../variables.scss";
+
+
+:host ::ng-deep .ui-sidebar-left.ui-sidebar-active {
+  background-color: $deepGray;
+  border: 1px solid $deepGray;
+}
+:host ::ng-deep .ui-sidebar {
+  background-color: $deepGray;
+  border: 1px solid $deepGray;
+}
+
+
+:host ::ng-deep .pi.pi-times.ng-tns-c31-0 {
+  color: $silver;
+  user-select: none;
+  font-size: 1.5em;
+  margin: 0.5em 0 0 0;
+}
+:host ::ng-deep .pi.pi-times.ng-tns-c31-0:hover {
+  color: lighten($color: $silver, $amount: 20%);
+  user-select: none;
+}
+
+.sidebar {
+  user-select: none;
+  color: $silver;
+  padding: 4em 1em 1em 1em;
+}
+.cp {
+  cursor: pointer;
+  transition: box-shadow 0.25s ease;
+}
+.cp:hover {
+  background-color: darken($color: $deepGray, $amount: 4%);
+  border-radius: 5px;
+  border: 1px solid $deepGray;
+  box-shadow: inset 0 0 4px 1px $deepGray;
+  color: $lightYellow;
+}
+.sb-top-left {
+  position: absolute;
+  top: 0;
+  height: 64px;
+  width: 64px;
+  left: -1em;
+}
+.oswald-top-left {
+  font-family: "Oswald", sans-serif;
+  cursor: default;
+  color: $silver;
+  font-size: 1.5em;
+  position: absolute;
+  top: 12px;
+  left: 5em;
+}

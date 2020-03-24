@@ -24,13 +24,15 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "src/styles.scss",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/luna-blue/theme.css",
               "node_modules/primeng/resources/themes/nova-dark/theme.css",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/primeflex/primeflex.css"
             ],
             "scripts": []
           },
@@ -94,13 +96,15 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "src/styles.scss",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/luna-blue/theme.css",
               "node_modules/primeng/resources/themes/nova-dark/theme.css",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/primeflex/primeflex.css"
             ],
             "scripts": []
           }
@@ -136,8 +140,8 @@
   "defaultProject": "buy-n-roll",
   "schematics": {
     "@schematics/angular:component": {
-    "spec": false,
-    "style": "scss"
+      "spec": false,
+      "style": "scss"
     }
   }
 }

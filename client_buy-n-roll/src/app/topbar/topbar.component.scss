@@ -1,5 +1,6 @@
 @import "../../variables.scss";
-
+@import "./sidebar.scss";
+@import "../../assets/scss/dark_material_override.scss";
 .topbar {
   height: 50px;
   background-color: $deepGray;
@@ -99,4 +100,14 @@
   outline: 0 none;
   outline-offset: 0px;
   box-shadow: 0 0 0 0.15em #8dcdff;
+}
+
+.hideSmall {
+  display: block;    
+} 
+
+@media only screen and (max-width:700px) {
+  .hideSmall {
+    display: none;    
+  } 
 }

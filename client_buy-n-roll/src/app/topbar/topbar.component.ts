@@ -8,12 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class TopbarComponent implements OnInit {
   displaySidebar:boolean = false;
   constructor() { }
-
+  val = "asdf";
   ngOnInit(): void {
   }
 
   openSidebar() {
     this.displaySidebar = this.displaySidebar == false? true: false;
+  }
+  expression() {
+    this.val = "kozel";
   }
 
 }

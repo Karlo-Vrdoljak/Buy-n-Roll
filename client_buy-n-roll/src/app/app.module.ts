@@ -17,7 +17,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { MenubarModule } from 'primeng/menubar';
 import { Config } from 'src/environments/config';
 import {CarouselModule} from 'primeng/carousel';
-import { NgxUiLoaderModule, NgxUiLoaderService, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION, NgxUiLoaderHttpModule } from 'ngx-ui-loader';
+import { NgxUiLoaderModule, NgxUiLoaderService, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION, NgxUiLoaderHttpModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 import { AppHttpInterceptor } from './services/httpInterceptor';
 import { ErrorHandler } from './services/errorHandler';
 import { CommonModule } from '@angular/common';  
@@ -25,13 +25,15 @@ import { ToastrModule } from 'ngx-toastr';
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { TopbarComponent } from './topbar/topbar.component';
 import { ToolbarModule } from 'primeng/toolbar';
-
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#000',
   fgsColor: '#1f7ed0',
+  overlayColor:'#00000000',
   bgsPosition: POSITION.bottomCenter,
   bgsSize: 40,
   bgsType: SPINNER.chasingDots, // background spinner type
@@ -60,7 +62,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     RadioButtonModule,
     SidebarModule,
     MenubarModule,
-    NgxUiLoaderHttpModule.forRoot({... ngxUiLoaderConfig, showForeground: true}),
+    NgxUiLoaderRouterModule.forRoot({... ngxUiLoaderConfig, showForeground: true}),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     CarouselModule,
     ToastrModule.forRoot({
@@ -71,7 +73,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
       positionClass:"toast-bottom-left",
       enableHtml:true
     }),
-    ToolbarModule
+    ToolbarModule,
+    MatInputModule,
+    MatFormFieldModule,
   ],
   providers: [
     TestService,
@@ -83,8 +87,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     Config,
     { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true },
     ErrorHandler,
-
-
   ],
   bootstrap: [AppComponent]
 })
