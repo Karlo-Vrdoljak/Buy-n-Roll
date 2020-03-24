@@ -1,0 +1,27 @@
+@import "../../variables.scss";
+
+:host ::ng-deep .mat-focused .mat-form-field-label {
+  color: $deepGray;
+}
+:host ::ng-deep .mat-focused .mat-form-field-underline .mat-form-field-ripple {
+  background: $yellow;
+}
+:host ::ng-deep .mat-form-field-label {
+  color: $lightGray;
+}
+:host ::ng-deep .mat-form-field-underline {
+  background: $lightGray;
+}
+:host ::ng-deep .mat-input-element::placeholder {
+  color: $silver;
+}
+:host ::ng-deep mat-form-field:first-child {
+  color: $silver;
+}
+.mat-align {
+  position: absolute;
+  color: $lightGray;
+}
+:host ::ng-deep .mat-form-field-wrapper {
+  padding: 1rem;
+}

@@ -1,4 +1,5 @@
 @import "../../variables.scss";
+@import "../../assets/scss/light_material_override.scss";
 
 :host ::ng-deep .ui-panel {
     padding: 1em;
