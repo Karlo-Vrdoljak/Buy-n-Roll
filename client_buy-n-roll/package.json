@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 5530",
-    "build": "ng build",
+    "build": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --base-href \"/buy-n-roll/\" --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -40,9 +40,9 @@
     "@angular/cli": "~9.0.3",
     "@angular/compiler-cli": "~9.0.3",
     "@angular/language-service": "~9.0.3",
-    "@types/node": "^12.11.1",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -54,6 +54,7 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.7.5"
+    "typescript": "~3.7.5",
+    "uglifyjs-webpack-plugin": "^1.0.0-rc.0"
   }
 }

@@ -30,6 +30,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
+
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#000',
   fgsColor: '#1f7ed0',
