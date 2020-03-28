@@ -9,13 +9,20 @@ import { Connection } from 'typeorm';
 import { RolesModule } from './roles/roles.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { ColorModule } from './vehicle/color/color.module';
+import { ChassisModule } from './vehicle/chassis/chassis.module';
+import { SeriesModule } from './vehicle/series/color.module';
+
 
 @Module({
   imports: [
-    AuthModule,
     UsersModule,
-    TypeOrmModule.forRoot(),
     RolesModule,
+    ColorModule,
+    ChassisModule,
+    SeriesModule,
+    AuthModule,
+    TypeOrmModule.forRoot(),
     MulterModule,
   ],
   controllers: [AppController, TestProtectedController],

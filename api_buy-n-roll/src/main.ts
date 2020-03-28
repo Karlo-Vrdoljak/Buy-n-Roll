@@ -8,7 +8,7 @@ import { join } from 'path';
 async function bootstrap() {
   const config = new Config();
   const app = await NestFactory.create(AppModule);
-  //   app.use(express.static(join(__dirname,'/controllers/music/uploads')));
+  // app.use(express.static(join(__dirname, 'assets/static')));
   app.enableCors(config.corsOptions);
 
   await app.listen(3000);

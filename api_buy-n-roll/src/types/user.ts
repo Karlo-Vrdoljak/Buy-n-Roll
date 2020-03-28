@@ -1,5 +1,5 @@
 export interface UserType {
-    userId: number,
+    PkUser: number,
     username: string,
     password: string,
     roles: string[]

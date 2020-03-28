@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from 'src/entity/user.entity';
 import { Connection } from 'typeorm';
 import { Role } from 'src/entity/role.entity';
+import { DbLogs } from 'src/db.logs';
 
 
 @Injectable()
@@ -14,13 +15,14 @@ export class UsersService implements OnModuleInit{
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
-    private readonly connection: Connection
+    private readonly connection: Connection,
+    private dbLogs: DbLogs
   ) { }
 
   onModuleInit() {
-    this.usersRepository.find().then((users) => {
-      if (users.length == 0) {
-        this.initUsers();
+    this.usersRepository.count().then((count) => {
+      if (count == 0) {
+        this.initUsers().then(()=> this.dbLogs.usersWithRolesInit());
       }
     });
   }
@@ -82,11 +84,11 @@ export class UsersService implements OnModuleInit{
     return this.usersRepository.find();
   }
 
-  findOneById(userId: string): Promise<User> {
-    return this.usersRepository.findOne(userId);
+  findOneById(PkUser: string): Promise<User> {
+    return this.usersRepository.findOne(PkUser);
   }
 
-  async remove(userId: string): Promise<void> {
-    await this.usersRepository.delete(userId);
+  async remove(PkUser: string): Promise<void> {
+    await this.usersRepository.delete(PkUser);
   }
 }

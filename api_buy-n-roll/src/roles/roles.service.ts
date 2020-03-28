@@ -14,11 +14,11 @@ export class RolesService {
     return this.rolesRepository.find();
   }
 
-  findOne(roleId: string): Promise<Role> {
-    return this.rolesRepository.findOne(roleId);
+  findOne(PkRole: string): Promise<Role> {
+    return this.rolesRepository.findOne(PkRole);
   }
 
-  async remove(roleId: string): Promise<void> {
-    await this.rolesRepository.delete(roleId);
+  async remove(PkRole: string): Promise<void> {
+    await this.rolesRepository.delete(PkRole);
   }
 }
