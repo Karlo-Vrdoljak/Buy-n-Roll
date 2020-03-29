@@ -16,9 +16,7 @@ export class ChassisService implements OnModuleInit {
 
   onModuleInit() {
     this.chassisRepository.count().then(count => {
-      if (count == 0) {
-          this.dbLogs.warnNeedsInit('Chassis');
-      }
+      if (count == 0) { }
     });
   }
 

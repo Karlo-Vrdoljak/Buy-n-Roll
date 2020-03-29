@@ -21,5 +21,8 @@ export class TestService {
   getToken(params) {
     return this.http.post(this.config.API_URL_ROOT + 'auth/login/', params );
   }
+  testColorTable() {
+    return this.http.get(this.config.API_URL_ROOT + "api/vehicle/color/");
+  }
   
 }

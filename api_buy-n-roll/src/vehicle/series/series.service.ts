@@ -3,35 +3,38 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DbLogs } from 'src/db.logs';
 import { Series } from 'src/entity/series.entity';
-
+import { seriesList } from '../../assets/static/series-list'
+import { Manufacturer } from 'src/entity/manufacturer.entity';
 
 @Injectable()
 export class SeriesService implements OnModuleInit {
 
   constructor(
     @InjectRepository(Series)
-    private readonly colorRepository: Repository<Series>,
+    private readonly seriesRepository: Repository<Series>,
     public httpService: HttpService,
     public dbLogs:DbLogs
   ) {}
 
   onModuleInit() {
-    this.colorRepository.count().then(count => {
-			if(count == 0) {
-        this.dbLogs.warnNeedsInit("Series");
-      }
+    this.seriesRepository.count().then(count => {
+			if(count == 0) { }
     });
   }
 
   findAll(): Promise<Series[]> {
-    return this.colorRepository.find();
+    return this.seriesRepository.find();
   }
 
   findOne(PkSeries: number): Promise<Series> {
-    return this.colorRepository.findOne(PkSeries);
+    return this.seriesRepository.findOne(PkSeries);
   }
 
   async remove(PkSeries: number): Promise<void> {
-    await this.colorRepository.delete(PkSeries);
+    await this.seriesRepository.delete(PkSeries);
+  }
+
+  getRepo() {
+    return this.seriesRepository;
   }
 }

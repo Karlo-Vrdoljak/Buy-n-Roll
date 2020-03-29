@@ -17,13 +17,7 @@ export class ColorService implements OnModuleInit {
     public dbLogs:DbLogs
   ) {}
 
-  onModuleInit() {
-    this.colorRepository.count().then(count => {
-			if(count == 0) {
-        concat(of (Object.keys(COLORS).map(key => this.colorRepository.save( { color:key,colorCode:COLORS[key]} )))).subscribe(val => this.dbLogs.vehicleColorInit());
-      }
-    });
-  }
+  onModuleInit() { }
 
   findAll(): Promise<Color[]> {
     return this.colorRepository.find();

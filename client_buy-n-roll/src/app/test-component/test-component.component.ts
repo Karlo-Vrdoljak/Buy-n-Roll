@@ -31,11 +31,15 @@ export class TestComponentComponent implements OnInit {
       console.log(auth);
       this.storage.set('auth',auth);
       this.config.isLoggedIn = true;
+
+
       this.testService.testNestJWT().subscribe((data:any[]) => {
         this.user = data[0];
         console.log(this.user);
         
         this.message = data[1];
+        this.testService.testColorTable().subscribe(data => console.log(data));
+
         
       },err => {
         this.errorHandler.handleError(err);

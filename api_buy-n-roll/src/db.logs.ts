@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class DbLogs {
-    vehicleColorInit() { console.info('[APP]', new Date().toLocaleString('hr'),"Successfully initialized vehicle Color table data!"); }
-    usersWithRolesInit() { console.info('[APP]', new Date().toLocaleString('hr'),"Successfully initialized User and Roles table data!"); }
-
-    warnNeedsInit(label:string) { console.warn('[APP]', new Date().toLocaleString('hr'),label + " needs init!"); }
+    successInit(label:string) { console.info('[APP]', new Date(),"Successfully initialized ",label," table data!"); }
+    warnNeedsInit(label:string) { console.warn('[APP]', new Date(),label + " needs init!"); }
+    initializing(num){ console.info('[APP]', new Date(),"Initializing", num + '%'); }
+    done(){ console.info('[APP]', new Date(),"Done!"); }
 }

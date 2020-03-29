@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 import { Color } from './color.entity';
+import { Model } from './model.entity';
 
 @Entity()
 export class Chassis {
@@ -18,5 +19,8 @@ export class Chassis {
   @OneToOne(type => Color)
   @JoinColumn()
   color: Color;
+
+  @ManyToOne(type => Model, model => model.chassisList)
+  model: Model;
 
 }

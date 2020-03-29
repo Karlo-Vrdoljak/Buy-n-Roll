@@ -22,7 +22,7 @@ export class UsersService implements OnModuleInit{
   onModuleInit() {
     this.usersRepository.count().then((count) => {
       if (count == 0) {
-        this.initUsers().then(()=> this.dbLogs.usersWithRolesInit());
+        this.initUsers().then(()=> this.dbLogs.successInit('Users & Roles'));
       }
     });
   }
@@ -84,11 +84,11 @@ export class UsersService implements OnModuleInit{
     return this.usersRepository.find();
   }
 
-  findOneById(PkUser: string): Promise<User> {
-    return this.usersRepository.findOne(PkUser);
+  findOneById(userId: string): Promise<User> {
+    return this.usersRepository.findOne(userId);
   }
 
-  async remove(PkUser: string): Promise<void> {
-    await this.usersRepository.delete(PkUser);
+  async remove(userId: string): Promise<void> {
+    await this.usersRepository.delete(userId);
   }
 }
