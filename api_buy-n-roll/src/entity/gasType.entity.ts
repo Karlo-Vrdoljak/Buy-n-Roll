@@ -9,6 +9,4 @@ export class GasType {
   @Column({ nullable: false })
   gasType: string; // 'benzinac, dizelas, lpg'
 
-  @ManyToOne(type => Model, model => model.drivetrains)
-  model: Model;
 } 

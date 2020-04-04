@@ -19,22 +19,26 @@ export class Model {
   @Column({ nullable: true })
   endOfProductionYear: string;
 
-  @OneToMany(type => Drivetrain, drivetrain => drivetrain.model)
+  @OneToMany(type => Drivetrain, drivetrain => drivetrain.model, {nullable:true})
   drivetrains: Drivetrain[];
 
-  @OneToMany(type => Trim, trim => trim.model)
+  @OneToMany(type => Trim, trim => trim.model, {nullable:true})
   trims: Trim[];
 
-  @OneToMany(type => Transmission, transmission => transmission.model)
-  transmissions: Transmission[];
 
-  @OneToMany(type => GasType, gasType => gasType.model)
-  gasTypes: GasType[];
+  @OneToOne(type => Transmission, {nullable:true})
+  @JoinColumn()
+  transmission: Transmission;
+ 
+  @OneToOne(type => GasType, {nullable:true})
+  @JoinColumn()
+  gasType: string;
 
-  @OneToMany(type => Body, body => body.model)
-  bodies: Body[];
+  @OneToOne(type => Body, {nullable:true})
+  @JoinColumn()
+  body: Body;
 
-  @OneToMany(type => Chassis, chassis => chassis.model)
+  @OneToMany(type => Chassis, chassis => chassis.model, {nullable:true})
   chassisList: Chassis[];
 
   @ManyToOne(type => Series, series => series.models)

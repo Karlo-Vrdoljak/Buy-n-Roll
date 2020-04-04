@@ -9,6 +9,4 @@ export class Body {
   @Column({ nullable: false })
   BodyName: string; // 'sedan, hatchback, limuzina'
 
-  @ManyToOne(type => Model, model => model.drivetrains)
-  model: Model;
 } 

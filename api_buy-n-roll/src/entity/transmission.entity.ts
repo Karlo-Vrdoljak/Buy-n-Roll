@@ -9,6 +9,4 @@ export class Transmission {
   @Column({ nullable: false })
   transmissionName: string; // 'Automatic, Manual'
 
-  @ManyToOne(type => Model, model => model.drivetrains)
-  model: Model;
 } 
