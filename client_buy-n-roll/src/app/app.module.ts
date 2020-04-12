@@ -29,6 +29,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LandingComponent } from './landing/landing.component';
 import {InputTextModule} from 'primeng/inputtext';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 
@@ -81,7 +83,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ToolbarModule,
     MatInputModule,
     MatFormFieldModule,
-    InputTextModule
+    InputTextModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     TestService,
