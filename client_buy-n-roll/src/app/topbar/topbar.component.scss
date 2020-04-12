@@ -3,13 +3,41 @@
 @import "../../assets/scss/dark_material_override.scss";
 .topbar {
   height: 50px;
-  background-color: $deepGray;
+  background-color: $deepGray!important;
+}
+.topbar-landing {
+  height: 100px;
+  background-color: #393f4dbd;
+  position: fixed;
+  width: 100vw;
+}
+.menu-bars {
+  color: #fff;
+  background-color: #393f4d00;
+  cursor: pointer;
+  padding: 1rem;
+  transition: all 0.2s ease-in-out;
+
+}
+.menu-bars:hover {
+  background-color: darken($color: #393f4d, $amount: 5%);
+  border-radius: 50%;
+}
+.menu-bars-large {
+  padding: 1.5rem;
+
 }
 :host ::ng-deep .ui-toolbar {
   padding: 0;
+  margin: 0;
   border: none;
+  background-color: #00000000;
+  border-radius: 0;
 }
 
+.larger {
+  font-size: 1.50rem;
+}
 .flex {
   display: flex;
   flex-direction: row;
@@ -19,13 +47,14 @@
 .flex-1 {
   flex: 1;
   margin: 0;
+  align-self: center;
 }
 .flex-center {
   align-self: center;
 }
 .main-logo {
   //   background-position: 0em;
-  min-width: 4.5em;
+  // min-width: 4.5em;
   margin: 0.5em;
   flex-basis: 15%;
 }
@@ -67,40 +96,40 @@
 .us0 {
   user-select: none;
 }
-:host ::ng-deep .ui-button-primary {
-  background-color: $yellow;
-  border: 1px solid $yellow;
-}
-:host ::ng-deep .ui-button.ui-state-default.ui-button-info {
-  background-color: $deepGray;
-  border: 1px solid $deepGray;
-}
-:host ::ng-deep .ui-button-primary:enabled:hover {
-  background-color: $lightYellow;
-  border: 1px solid $lightYellow;
-}
-:host ::ng-deep .ui-button-primary:enabled:active {
-  background-color: $darkYellow;
-  border: 1px solid $darkYellow;
-}
-:host ::ng-deep .ui-button.ui-state-default.ui-button-info:enabled:hover {
-  background-color: $deepGray;
-  border: 1px solid $deepGray;
-}
-:host ::ng-deep .ui-button.ui-state-default.ui-button-info:enabled:active {
-  background-color: $deepGray;
-  border: 1px solid $deepGray;
-}
-:host ::ng-deep .ui-button:enabled:focus {
-  outline: 0 none;
-  outline-offset: 0px;
-  box-shadow: 0 0 0 0.15em lighten($color: $yellow, $amount: 20%);
-}
-:host ::ng-deep .ui-button.ui-state-default.ui-button-secondary:enabled:focus {
-  outline: 0 none;
-  outline-offset: 0px;
-  box-shadow: 0 0 0 0.15em #8dcdff;
-}
+// :host ::ng-deep .ui-button-primary {
+//   background-color: $yellow;
+//   border: 1px solid $yellow;
+// }
+// :host ::ng-deep .ui-button.ui-state-default.ui-button-info {
+//   background-color: $deepGray;
+//   border: 1px solid $deepGray;
+// }
+// :host ::ng-deep .ui-button-primary:enabled:hover {
+//   background-color: $lightYellow;
+//   border: 1px solid $lightYellow;
+// }
+// :host ::ng-deep .ui-button-primary:enabled:active {
+//   background-color: $darkYellow;
+//   border: 1px solid $darkYellow;
+// }
+// :host ::ng-deep .ui-button.ui-state-default.ui-button-info:enabled:hover {
+//   background-color: $deepGray;
+//   border: 1px solid $deepGray;
+// }
+// :host ::ng-deep .ui-button.ui-state-default.ui-button-info:enabled:active {
+//   background-color: $deepGray;
+//   border: 1px solid $deepGray;
+// }
+// :host ::ng-deep .ui-button:enabled:focus {
+//   outline: 0 none;
+//   outline-offset: 0px;
+//   box-shadow: 0 0 0 0.15em lighten($color: $yellow, $amount: 20%);
+// }
+// :host ::ng-deep .ui-button.ui-state-default.ui-button-secondary:enabled:focus {
+//   outline: 0 none;
+//   outline-offset: 0px;
+//   box-shadow: 0 0 0 0.15em #8dcdff;
+// }
 
 .hideSmall {
   display: block;    
@@ -110,4 +139,14 @@
   .hideSmall {
     display: none;    
   } 
+  .menu-bars-large {
+    padding: 1rem;
+  
+  }
+  .larger {
+    font-size: 1.2rem;
+  }
+  .topbar-landing {
+    height: 75px;
+  }
 }

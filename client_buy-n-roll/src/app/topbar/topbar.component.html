@@ -1,24 +1,27 @@
 <p-toolbar>
-	<div class="topbar us0">
-		<div class="flex">
+	<div class="us0" [ngClass]="{'topbar': !landing, 'topbar-landing': landing}">
+		<div class="flex" [ngClass]="{'larger': landing}">
 			<div class="flex-1 main-logo">
-				<button style="width: 3em;" (click)="openSidebar()" type="button" class="ui-button-info" pButton icon="pi pi-bars"></button>
+				<!-- <button style="width: 3em;" [ngClass]="{'larger': landing}" (click)="openSidebar()" type="button" class="ui-button-warning" pButton icon="pi pi-bars"></button> -->
+				<i class="fas fa-bars menu-bars" [ngClass]="{'larger': landing, 'fa-2x': landing, 'menu-bars-large': landing}" (click)="openSidebar()"></i>
 			</div>
-			<div class="flex-1 flex-center hideSmall">
+			<!-- <div class="flex-1 flex-center hideSmall">
 				<button style="width: 7em;" type="button" class="ui-button-raised ui-button-primary ui-button-rounded" pButton icon="fas fa-user" label="app"></button>
 			</div>
 			<div class="flex-1 flex-center hideSmall">
 				<button style="width: 7em;" type="button" class="ui-button-raised ui-button-secondary ui-button-rounded" pButton icon="fas fa-user" label="app"></button>
-			</div>
-			<div class="flex-1 flex-center hideSmall">
-			</div>
-			<div class="flex-1 flex-center hideSmall">
+			</div> -->
+			<div class="flex-1 flex-center hideSmall"></div>
+			<div class="flex-1 flex-center hideSmall"></div>
+			<div class="flex-1 flex-center hideSmall"></div>
+			<div class="flex-1 flex-center hideSmall"></div>
+			<!-- <div class="flex-1 flex-center hideSmall">
 				<mat-form-field>
 					<mat-label>Favorite food</mat-label>
 					<input matInput placeholder="Ex. Pizza" [(ngModel)]="val">
 					<i class="fa fa-search mat-align"></i>
 				</mat-form-field>
-			</div>
+			</div> -->
 			<div class="flex-1 flex-center hideSmall">
 			</div>
 			<div class="flex-1 flex-center hideSmall">

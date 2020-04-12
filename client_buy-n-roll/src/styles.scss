@@ -14,14 +14,25 @@ body {
   height: 100vh;
   padding: 0;
   margin: 0;
-}
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+
 }
 
+@-ms-viewport{
+  width: device-width;
+}
+
+div:after {
+  clear: both;
+  margin: 0;
+  padding: 0;
+  display: table;
+  font-size: 0;
+  line-height: 0;
+  content: ' ';
+  visibility: hidden;
+  overflow: hidden;
+  }
+div {
+  zoom: 1;
+  }

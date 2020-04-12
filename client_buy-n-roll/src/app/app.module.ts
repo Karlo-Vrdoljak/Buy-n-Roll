@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TestService } from './services/test.service';
+import { TestService } from './_services/test.service';
 import { TestComponentComponent } from './test-component/test-component.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,8 +18,8 @@ import { MenubarModule } from 'primeng/menubar';
 import { Config } from 'src/environments/config';
 import {CarouselModule} from 'primeng/carousel';
 import { NgxUiLoaderModule, NgxUiLoaderService, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION, NgxUiLoaderHttpModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
-import { AppHttpInterceptor } from './services/httpInterceptor';
-import { ErrorHandler } from './services/errorHandler';
+import { AppHttpInterceptor } from './_services/httpInterceptor';
+import { ErrorHandler } from './_services/errorHandler';
 import { CommonModule } from '@angular/common';  
 import { ToastrModule } from 'ngx-toastr';
 import { AngularWebStorageModule } from 'angular-web-storage';
@@ -27,6 +27,9 @@ import { TopbarComponent } from './topbar/topbar.component';
 import { ToolbarModule } from 'primeng/toolbar';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { LandingComponent } from './landing/landing.component';
+import {InputTextModule} from 'primeng/inputtext';
+
 
 
 
@@ -48,6 +51,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AppComponent,
     TestComponentComponent,
     TopbarComponent,
+    LandingComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +81,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ToolbarModule,
     MatInputModule,
     MatFormFieldModule,
+    InputTextModule
   ],
   providers: [
     TestService,

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { TestService } from '../services/test.service';
+import { TestService } from '../_services/test.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { ErrorHandler } from '../services/errorHandler';
+import { ErrorHandler } from '../_services/errorHandler';
 import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
 import { Config } from 'src/environments/config';
 

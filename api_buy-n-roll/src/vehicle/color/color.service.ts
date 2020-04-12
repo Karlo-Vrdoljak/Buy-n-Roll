@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { concat, of } from 'rxjs';
 import { Color } from 'src/entity/color.entity';
 import { Repository } from 'typeorm';
-import * as COLORS from '../../assets/static/color-names.json';
 import { DbLogs } from 'src/db.logs';
 
 
@@ -29,5 +28,11 @@ export class ColorService implements OnModuleInit {
 
   async remove(PkColor: number): Promise<void> {
     await this.colorRepository.delete(PkColor);
+  }
+  count() {
+    return this.colorRepository.count();
+  }
+  getRepo() {
+    return this.colorRepository;
   }
 }

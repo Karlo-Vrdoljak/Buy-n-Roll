@@ -18,6 +18,8 @@ import { concat, of } from 'rxjs';
 import { Connection } from 'typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as COLORS from '../assets/static/color-names.json';
+
 
 @Injectable()
 export class VehicleService implements OnModuleInit {
@@ -37,8 +39,14 @@ export class VehicleService implements OnModuleInit {
     public dbLogs: DbLogs,
     public connection: Connection,
   ) {}
-  // concat(of (Object.keys(COLORS).map(key => this.colorRepository.save( { color:key,colorCode:COLORS[key]} )))).subscribe(val => this.dbLogs.vehicleColorInit());
   onModuleInit() {
+
+    this.colorService.count().then(count => {
+			if(count == 0) {
+        concat(of (Object.keys(COLORS).map(key => this.colorService.getRepo().save( { color:key,colorCode:COLORS[key]} )))).subscribe(val => this.dbLogs.successInit('color'));
+      }
+    });
+
     this.manufacturerService.count().then(count => {
       if (count == 0) {
         this.dbLogs.warnNeedsInit('Vehicle');
@@ -56,7 +64,7 @@ export class VehicleService implements OnModuleInit {
 
               this.getAllManufacturerSeries().then(result => {
 								this.saveModelsToSeries(result[0]); // manufacturerSeries
-								this.dbLogs.initializing(66);
+								this.dbLogs.initializing(100);
 
               });
             });

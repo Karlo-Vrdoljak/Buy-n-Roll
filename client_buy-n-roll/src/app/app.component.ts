@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from "@angular/core";
 import { MenuItem } from "primeng/api/menuitem";
 import { Config } from "src/environments/config";
 import { SPINNER } from "ngx-ui-loader";
-import { ErrorHandler } from "./services/errorHandler";
+import { ErrorHandler } from "./_services/errorHandler";
 
 @Component({
   selector: "app-root",

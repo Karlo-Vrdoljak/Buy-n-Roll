@@ -1,10 +1,12 @@
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { TestComponentComponent } from './test-component/test-component.component';
+import { LandingComponent } from './landing/landing.component';
 
 
 const routes: Routes = [
-  { path: '', component: TestComponentComponent, },
+  { path: 'test', component: TestComponentComponent, },
+  { path: '', component: LandingComponent, },
   { path: '**', redirectTo: '' },
 ];
 // canActivate: [AuthGuard]
