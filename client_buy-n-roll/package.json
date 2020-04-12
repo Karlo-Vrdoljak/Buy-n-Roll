@@ -7,8 +7,7 @@
     "build": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --base-href \"/buy-n-roll/\" --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "electron:start": "ng build --watch -op=electron/app"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
