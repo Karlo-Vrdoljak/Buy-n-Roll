@@ -1,8 +1,8 @@
 {
   "name": "buy-n-roll",
   "short_name": "buy-n-roll",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "theme_color": "#393f4d",
+  "background_color": "#d4d4dc",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
