@@ -6,3 +6,15 @@
         </div>
     </div>
 </div>
+
+<div class="swiper-container no-control" [swiper]="config" [(index)]="index">
+    <div class="swiper-wrapper slider">
+      <div class="swiper-slide" *ngFor="let slide of slides">
+        <img [src]="slide.src" class="slide-img" >
+      </div>
+    </div>
+   
+    <div class="swiper-scrollbar"></div>
+    <div class="swiper-pagination"></div>
+   
+  </div>

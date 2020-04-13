@@ -31,10 +31,8 @@ import { LandingComponent } from './landing/landing.component';
 import {InputTextModule} from 'primeng/inputtext';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-
-
-
-
+import { SwiperModule } from 'ngx-swiper-wrapper';
+import { HelperService } from './_services/helper.service';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#000',
@@ -84,7 +82,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MatInputModule,
     MatFormFieldModule,
     InputTextModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    SwiperModule
   ],
   providers: [
     TestService,
@@ -96,6 +95,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     Config,
     { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true },
     ErrorHandler,
+    HelperService
   ],
   bootstrap: [AppComponent]
 })
