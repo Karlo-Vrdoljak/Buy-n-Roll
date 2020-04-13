@@ -8,14 +8,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { RolesModule } from './roles/roles.module';
 import { MulterModule } from '@nestjs/platform-express';
-import { VehicleModule } from './vehicle/vehicle.module';
+// import { VehicleModule } from './vehicle/vehicle.module';
 
 
 @Module({
   imports: [
     UsersModule,
     RolesModule,
-    VehicleModule,
+    // VehicleModule,
     AuthModule,
     TypeOrmModule.forRoot(),
     MulterModule,

@@ -1,10 +1,14 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { User } from 'src/entity/user.entity';
 import { Connection } from 'typeorm';
 import { Role } from 'src/entity/role.entity';
 import { DbLogs } from 'src/db.logs';
+import { UserVehicle } from 'src/entity/userVehicle.entity';
+import { ManufacturerService } from 'src/vehicle/manufacturer/manufacturer.service';
+import { ModelService } from 'src/vehicle/model/model.service';
+import { SeriesService } from 'src/vehicle/series/series.service';
 
 
 @Injectable()
@@ -15,15 +19,59 @@ export class UsersService implements OnModuleInit{
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
+
     private readonly connection: Connection,
+
+    @InjectRepository(UserVehicle)
+    private readonly userVehicleRepository:Repository<UserVehicle>,
+
+    public manufacturerService: ManufacturerService,
+    public modelService: ModelService,
+    public seriesService: SeriesService,
+
     private dbLogs: DbLogs
   ) { }
 
   onModuleInit() {
     this.usersRepository.count().then((count) => {
       if (count == 0) {
-        this.initUsers().then(()=> this.dbLogs.successInit('Users & Roles'));
+        this.initUsers().then(()=> {
+          this.dbLogs.successInit('Users & Roles');
+          this.userVehicleRepository.count().then((count) => {
+            if (count == 0) {
+              this.initVehicleForUser().then(() => {
+                this.dbLogs.successInit('Admin user\'s vehicle');
+              });
+            }
+          });
+        });
       }
+    });
+    
+  }
+  async initVehicleForUser() {
+    await this.connection.transaction(async manager => {
+      const dbUserVehicle = new UserVehicle();
+      dbUserVehicle.manufacturer = await this.manufacturerService.getRepo()
+       .createQueryBuilder("manufacturer")
+       .where("manufacturer.manufacturerName = :manufacturerName", { manufacturerName: 'opel' })
+       .getOne();
+
+       dbUserVehicle.series = await this.seriesService.getRepo()
+       .createQueryBuilder("series")
+       .where("series.seriesName = :seriesName", { seriesName: 'astra 3 doors' })
+       .getOne();
+
+       dbUserVehicle.model = await this.modelService.getRepo().findOne({
+         modelName:Like("%gsi 16v%")
+       });
+
+       dbUserVehicle.user = await this.usersRepository.findOne({
+         username: Like('%admin%')
+       });
+      
+      await manager.save(dbUserVehicle);
+      
     });
   }
 

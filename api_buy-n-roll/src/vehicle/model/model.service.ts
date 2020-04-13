@@ -31,4 +31,8 @@ export class ModelService implements OnModuleInit {
   async remove(PkModel: number): Promise<void> {
     await this.ModelRepository.delete(PkModel);
   }
+
+  getRepo() {
+    return this.ModelRepository;
+  }
 }
