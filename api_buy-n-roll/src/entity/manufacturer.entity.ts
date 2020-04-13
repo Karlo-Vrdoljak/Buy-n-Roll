@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, Index } from 'typeorm';
 import { User } from './user.entity';
 import { Series } from './series.entity';
 
@@ -7,6 +7,7 @@ export class Manufacturer {
   @PrimaryGeneratedColumn()
   PkManufacturer: number;
 
+  @Index({fulltext:true})
   @Column()
   manufacturerName: string;
 

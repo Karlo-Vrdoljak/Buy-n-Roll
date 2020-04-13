@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, Index } from 'typeorm';
 
 @Entity()
 export class Color {
@@ -8,6 +8,7 @@ export class Color {
   @Column({ nullable: true })
   colorCode: string; // z20r etc
 
+  @Index({fulltext:true})
   @Column({ nullable: false })
   color: string; // blue, red, black...
 

@@ -1,14 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
-import { Model } from './model.entity';
-import { Manufacturer } from './manufacturer.entity';
-import { Series } from './series.entity';
-import { Chassis } from './chassis.entity';
-import { Body } from './body.entity';
-import { Color } from './color.entity';
-import { Drivetrain } from './drivetrain.entity';
-import { GasType } from './gasType.entity';
-import { Transmission } from './transmission.entity';
-import { Trim } from './trim.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -20,43 +10,33 @@ export class UserVehicle {
   @JoinColumn()
   user: User;
 
-  @OneToOne(type => Manufacturer, { nullable: false })
-  @JoinColumn()
-  manufacturer: Manufacturer;
+  @Column({ nullable: false })
+  Pkmanufacturer: number;
 
-  @OneToOne(type => Series, { nullable: false })
-  @JoinColumn()
-  series: Series;
+  @Column({ nullable: false })
+  Pkseries: number;
 
-  @OneToOne(type => Model, { nullable: false })
-  @JoinColumn()
-  model: Model;
+  @Column({ nullable: false })
+  Pkmodel: number;
 
-  @OneToOne(type => Chassis, { nullable: true })
-  @JoinColumn()
-  chassis: Chassis;
+  @Column({ nullable: true })
+  Pkchassis: number;
 
-  @OneToOne(type => Body, { nullable: true })
-  @JoinColumn()
-  body: Body;
+  @Column({ nullable: true })
+  Pkbody: number;
 
-  @OneToOne(type => Color, { nullable: true })
-  @JoinColumn()
-  color: Color;
+  @Column({ nullable: true })
+  Pkcolor: number;
 
-  @OneToOne(type => Drivetrain, { nullable: true })
-  @JoinColumn()
-  driveTrain: Drivetrain;
+  @Column({ nullable: true })
+  PkdriveTrain: number;
 
-  @OneToOne(type => GasType, { nullable: true })
-  @JoinColumn()
-  gasType: GasType;
+  @Column({ nullable: true })
+  PkgasType: number;
 
-  @OneToOne(type => Transmission, { nullable: true })
-  @JoinColumn()
-  transmission: Transmission;
+  @Column({ nullable: true })
+  Pktransmission: number;
 
-  @OneToOne(type => Trim, { nullable: true })
-  @JoinColumn()
-  trim: Trim;
+  @Column({ nullable: true })
+  Pktrim: number;
 }

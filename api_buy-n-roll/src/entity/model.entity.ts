@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn, ManyToOne, Index } from 'typeorm';
 import { Chassis } from './chassis.entity';
 import { Manufacturer } from './manufacturer.entity';
 import { Drivetrain } from './drivetrain.entity';
@@ -12,7 +12,8 @@ import { Series } from './series.entity';
 export class Model {
   @PrimaryGeneratedColumn()
   PkModel: number;
-
+  
+  @Index({fulltext:true})
   @Column({ nullable: false })
   modelName: string; // 'F/G/H E46...' 
 

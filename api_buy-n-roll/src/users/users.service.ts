@@ -52,23 +52,26 @@ export class UsersService implements OnModuleInit{
   async initVehicleForUser() {
     await this.connection.transaction(async manager => {
       const dbUserVehicle = new UserVehicle();
-      dbUserVehicle.manufacturer = await this.manufacturerService.getRepo()
-       .createQueryBuilder("manufacturer")
-       .where("manufacturer.manufacturerName = :manufacturerName", { manufacturerName: 'opel' })
-       .getOne();
-
-       dbUserVehicle.series = await this.seriesService.getRepo()
+      let manufacturer = await this.manufacturerService.getRepo()
+      .createQueryBuilder("manufacturer")
+      .where("manufacturer.manufacturerName = :manufacturerName", { manufacturerName: 'opel' })
+      .getOne();
+      dbUserVehicle.Pkmanufacturer = manufacturer.PkManufacturer;
+      
+       let series = await this.seriesService.getRepo()
        .createQueryBuilder("series")
        .where("series.seriesName = :seriesName", { seriesName: 'astra 3 doors' })
        .getOne();
-
-       dbUserVehicle.model = await this.modelService.getRepo().findOne({
+       dbUserVehicle.Pkseries = series.PkSeries;
+       
+       let model = await this.modelService.getRepo().findOne({
          modelName:Like("%gsi 16v%")
-       });
+        });
+        dbUserVehicle.Pkmodel = model.PkModel;
 
-       dbUserVehicle.user = await this.usersRepository.findOne({
+        dbUserVehicle.user = await this.usersRepository.findOne({
          username: Like('%admin%')
-       });
+        });
       
       await manager.save(dbUserVehicle);
       
