@@ -56,6 +56,9 @@ export class LandingComponent implements OnInit, OnDestroy {
       {
         src: "assets/images/landing/car_3.jpg",
       },
+      {
+        src: "assets/images/landing/car_4.jpg",
+      },
     ];
   }
   evalScreenSize() {

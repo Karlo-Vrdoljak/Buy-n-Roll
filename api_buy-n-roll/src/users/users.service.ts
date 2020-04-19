@@ -9,6 +9,13 @@ import { UserVehicle } from 'src/entity/userVehicle.entity';
 import { ManufacturerService } from 'src/vehicle/manufacturer/manufacturer.service';
 import { ModelService } from 'src/vehicle/model/model.service';
 import { SeriesService } from 'src/vehicle/series/series.service';
+import { Chassis } from 'src/entity/chassis.entity';
+import { ColorService } from 'src/vehicle/color/color.service';
+import { ChassisService } from 'src/vehicle/chassis/chassis.service';
+import { Model } from 'src/entity/model.entity';
+import { Series } from 'src/entity/series.entity';
+import { Manufacturer } from 'src/entity/manufacturer.entity';
+import { Body } from 'src/entity/body.entity';
 
 
 @Injectable()
@@ -28,6 +35,8 @@ export class UsersService implements OnModuleInit{
     public manufacturerService: ManufacturerService,
     public modelService: ModelService,
     public seriesService: SeriesService,
+    public colorService: ColorService,
+    public chassisService: ChassisService,
 
     private dbLogs: DbLogs
   ) { }
@@ -47,31 +56,67 @@ export class UsersService implements OnModuleInit{
         });
       }
     });
+
+    this.userVehicleRepository.count().then((count) => {
+      if (count > 0) {
+        this.testFullVehicleQuery().then((result:UserVehicle[]) => {
+          console.log(result[0]);
+          
+          
+        });
+      }
+    });
     
   }
   async initVehicleForUser() {
     await this.connection.transaction(async manager => {
       const dbUserVehicle = new UserVehicle();
-      let manufacturer = await this.manufacturerService.getRepo()
-      .createQueryBuilder("manufacturer")
-      .where("manufacturer.manufacturerName = :manufacturerName", { manufacturerName: 'opel' })
-      .getOne();
-      dbUserVehicle.Pkmanufacturer = manufacturer.PkManufacturer;
       
-       let series = await this.seriesService.getRepo()
-       .createQueryBuilder("series")
-       .where("series.seriesName = :seriesName", { seriesName: 'astra 3 doors' })
-       .getOne();
-       dbUserVehicle.Pkseries = series.PkSeries;
-       
-       let model = await this.modelService.getRepo().findOne({
-         modelName:Like("%gsi 16v%")
-        });
-        dbUserVehicle.Pkmodel = model.PkModel;
+      dbUserVehicle.RegistriranDaNe = true;
 
-        dbUserVehicle.user = await this.usersRepository.findOne({
-         username: Like('%admin%')
-        });
+      let result = await this.connection
+      .query(`
+        select  s.seriesName, s.PkSeries,  m.manufacturerName, m.PkManufacturer, ml.modelName, ml.PkModel, ml.endOfProductionYear from series s
+        left join manufacturer m on s.manufacturerPkManufacturer  = m.PkManufacturer
+        left join model ml on s.PkSeries = ml.seriesPkSeries
+        where MATCH (s.seriesName)
+        AGAINST (? IN BOOLEAN MODE)
+        and MATCH (m.manufacturerName)
+        AGAINST (? IN BOOLEAN MODE)
+        and MATCH (ml.modelName)
+        AGAINST (? IN BOOLEAN MODE);
+      `, ['gsi opel astra 2.0 16 hp','gsi opel astra 2.0 16 hp','gsi opel astra 2.0 16 hp']);
+      let dbData = result[0] as { seriesName: string, PkSeries: number, manufacturerName: string, PkManufacturer: 86, modelName: string, PkModel: number, endOfProductionYear: string, };
+
+      let chassis = new Chassis();
+
+      let model = await this.modelService.getRepo()
+      .createQueryBuilder('m')
+      .where('m.PkModel = :PkModel', { PkModel: dbData.PkModel })
+      .getOne();
+
+      let color = await this.colorService.getRepo()
+      .createQueryBuilder('c')
+      .where('c.color = :color', { color: 'midnight blue' })
+      .getOne();
+
+      chassis.model = model;
+      chassis.makeYear = '1991';
+      chassis.color = color;
+
+      await manager.save(chassis);
+      
+      // dbUserVehicle.chassis = await this.chassisService.getRepo()
+      // .createQueryBuilder('c')
+      // .where('c.modelPkModel = :PkModel', { PkModel: dbData.PkModel })
+      // .getOne();
+
+      
+      dbUserVehicle.chassis = chassis;
+
+      dbUserVehicle.user = await this.usersRepository.findOne({
+        username: Like('%admin%')
+      });
       
       await manager.save(dbUserVehicle);
       
@@ -124,6 +169,19 @@ export class UsersService implements OnModuleInit{
     });
   }
 
+  testFullVehicleQuery() {
+    return this.userVehicleRepository
+    .createQueryBuilder('uv')
+    // .select('uv.RegistriranDaNe, ch.makeYear, u.username, ml.endOfProductionYear, ml.modelName, s.seriesName, m.manufacturerName, b.BodyName')
+    .leftJoinAndSelect('uv.chassis','ch')
+    .leftJoinAndSelect('uv.user','u')
+    .leftJoinAndSelect('ch.model','ml')
+    .leftJoinAndSelect('ch.color','c')
+    .leftJoinAndSelect('ml.series','s')
+    .leftJoinAndSelect('s.manufacturer','m')
+    .leftJoinAndSelect('ml.body','b')
+    .getMany();
+  }
   async findOne(username: string): Promise<User | undefined> {
     return this.usersRepository
       .createQueryBuilder("user")

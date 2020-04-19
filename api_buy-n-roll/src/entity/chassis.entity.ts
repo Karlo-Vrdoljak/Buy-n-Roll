@@ -13,12 +13,9 @@ export class Chassis {
   @Column({ nullable: true, unique:true })
   VIN: string;
 
-  @Column({ nullable: false, default:false })
-  RegistriranDaNe: boolean;
-
-  @OneToOne(type => Color)
-  @JoinColumn()
+  @ManyToOne(type => Color, color => color.chassisList)
   color: Color;
+
 
   @ManyToOne(type => Model, model => model.chassisList)
   model: Model;

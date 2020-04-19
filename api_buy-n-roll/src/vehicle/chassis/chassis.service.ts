@@ -31,4 +31,5 @@ export class ChassisService implements OnModuleInit {
   async remove(PkChassis: number): Promise<void> {
     await this.chassisRepository.delete(PkChassis);
   }
+  getRepo() { return this.chassisRepository };
 }

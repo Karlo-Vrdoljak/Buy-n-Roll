@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, Index } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, Index, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
+import { Chassis } from './chassis.entity';
 
 @Entity()
 export class Color {
@@ -11,5 +12,8 @@ export class Color {
   @Index({fulltext:true})
   @Column({ nullable: false })
   color: string; // blue, red, black...
+
+  @OneToMany(type => Chassis, chassis => chassis.color, {nullable:true})
+  chassisList: Chassis[];
 
 }

@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
+import { Chassis } from './chassis.entity';
 
 @Entity()
 export class UserVehicle {
@@ -10,33 +11,11 @@ export class UserVehicle {
   @JoinColumn()
   user: User;
 
-  @Column({ nullable: false })
-  Pkmanufacturer: number;
+  @OneToOne(type => Chassis, { nullable: false })
+  @JoinColumn()
+  chassis: Chassis;
 
-  @Column({ nullable: false })
-  Pkseries: number;
+  @Column({ nullable: false, default:false })
+  RegistriranDaNe: boolean;
 
-  @Column({ nullable: false })
-  Pkmodel: number;
-
-  @Column({ nullable: true })
-  Pkchassis: number;
-
-  @Column({ nullable: true })
-  Pkbody: number;
-
-  @Column({ nullable: true })
-  Pkcolor: number;
-
-  @Column({ nullable: true })
-  PkdriveTrain: number;
-
-  @Column({ nullable: true })
-  PkgasType: number;
-
-  @Column({ nullable: true })
-  Pktransmission: number;
-
-  @Column({ nullable: true })
-  Pktrim: number;
 }

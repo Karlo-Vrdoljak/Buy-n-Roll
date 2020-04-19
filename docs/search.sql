@@ -1,6 +1,6 @@
+drop table user_vehicle;
 drop table role;
 drop table user;
-drop table user_vehicle;
 
 select * from series where seriesName like '%astra 3 doors%' limit 1;
 
@@ -8,7 +8,13 @@ select * from model where modelName like '%gsi 16v%';
 
 select * from user;
 
-select * from user_vehicle where userUserId = 1;
+select * from chassis;
+
+select * from user_vehicle;
+
+select * from color where color = 'midnight blue';
+
+select * from color where match (color) against ('midnight blue' IN BOOLEAN MODE);
 
 -- inline regex slowest
 select  s.seriesName, s.PkSeries,  m.manufacturerName, m.PkManufacturer, ml.modelName, ml.PkModel, ml.endOfProductionYear from series s
