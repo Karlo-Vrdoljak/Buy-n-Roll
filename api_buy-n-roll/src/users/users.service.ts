@@ -57,15 +57,15 @@ export class UsersService implements OnModuleInit{
       }
     });
 
-    this.userVehicleRepository.count().then((count) => {
-      if (count > 0) {
-        this.testFullVehicleQuery().then((result:UserVehicle[]) => {
-          console.log(result[0]);
+    // this.userVehicleRepository.count().then((count) => {
+    //   if (count > 0) {
+    //     this.testFullVehicleQuery().then((result:UserVehicle[]) => {
+    //       console.log(result[0]);
           
           
-        });
-      }
-    });
+    //     });
+    //   }
+    // });
     
   }
   async initVehicleForUser() {
@@ -200,4 +200,5 @@ export class UsersService implements OnModuleInit{
   async remove(userId: string): Promise<void> {
     await this.usersRepository.delete(userId);
   }
+  getUserRepo() { return this.usersRepository; }
 }

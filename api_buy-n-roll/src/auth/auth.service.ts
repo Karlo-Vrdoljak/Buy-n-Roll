@@ -20,7 +20,12 @@ export class AuthService {
   }
 
   async login(user: User) {
-    const payload = { username: user.username, sub: user.userId, roles: user.roles };
+    let dbUser = await this.usersService.getUserRepo()
+    .createQueryBuilder('u')
+    .leftJoinAndSelect('u.roles', 'r')
+    .where('u.username = :username', { username: user.username })
+    .getOne();
+    const payload = { username: dbUser.username, sub: dbUser.userId, roles: dbUser.roles };
     return {
       access_token: this.jwtService.sign(payload),
     };
