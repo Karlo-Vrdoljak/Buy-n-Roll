@@ -10,15 +10,16 @@ body {
   background-color: #d4d4dc;
   background-position: center;
   background-attachment: fixed;
+  overflow: overlay;
+  overflow-x: hidden;
   width: 100vw;
   height: 100vh;
   padding: 0;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-
 }
 
-@-ms-viewport{
+@-ms-viewport {
   width: device-width;
 }
 
@@ -29,10 +30,30 @@ div:after {
   display: table;
   font-size: 0;
   line-height: 0;
-  content: ' ';
+  content: " ";
   visibility: hidden;
   overflow: hidden;
-  }
+}
 div {
   zoom: 1;
-  }
+}
+
+// * {
+//   outline: 1px solid red;
+// }
+
+
+
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(90, 90, 90);
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
