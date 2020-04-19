@@ -6,8 +6,10 @@
   background-color: $deepGray!important;
 }
 .topbar-landing {
+  transition: background 0.35s ease-in-out;
+  transition: background-color 0.35s ease-in-out;
   height: 100px;
-  background-color: #393f4dbd;
+  background: linear-gradient(to bottom,  #363636bd,#ff000000); 
   position: fixed;
   width: 100vw;
 }

@@ -28,11 +28,29 @@ export class LandingComponent implements OnInit, OnDestroy {
   orientationObservable$: Observable<Event>;
   orientationSubscription$: Subscription;
 
+  scrollObservable$: Observable<Event>;
+  scrollSubscription$: Subscription;
+
+
   constructor(public helperService: HelperService) {}
 
   ngOnInit(): void {
     
     this.orientationObservable$ = fromEvent(window, "orientationchange");
+    this.scrollObservable$ = fromEvent(window, "scroll");
+    this.scrollSubscription$ = this.scrollObservable$.subscribe((evt) => {
+      let topbar = document.getElementById('topbar') as HTMLElement;
+      if(window.scrollY > (screen.availHeight*0.25)) {
+        if(!topbar.classList.contains('transparent')) {
+          topbar.classList.add('transparent');
+        }
+      } else {
+        if(topbar.classList.contains('transparent')) {
+          topbar.classList.remove('transparent');
+        }
+      }
+      
+    });
     this.orientationSubscription$ = this.orientationObservable$.subscribe((evt) => this.evalScreenSize());
     this.shuffledSlides = this.helperService.shuffle(this.defaultSlides());
     console.log(this.shuffledSlides);
@@ -43,6 +61,7 @@ export class LandingComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.orientationSubscription$.unsubscribe();
+    this.scrollSubscription$.unsubscribe();
   }
 
   defaultSlides() {
