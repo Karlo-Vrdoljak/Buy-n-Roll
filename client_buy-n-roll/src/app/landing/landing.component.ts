@@ -3,6 +3,7 @@ import { fromEvent, Observable, Subscription } from "rxjs";
 import { Slide } from "../_types/Slides";
 import { HelperService } from "../_services/helper.service";
 import { deepCopy } from "owl-deepcopy";
+import { IParallaxScrollConfig } from 'ngx-parallax-scroll';
 @Component({
   selector: "app-landing",
   templateUrl: "./landing.component.html",
@@ -21,6 +22,13 @@ export class LandingComponent implements OnInit, OnDestroy {
     effect: "fade",
     speed: 1000,
   };
+  // ngParallaxConf: IParallaxScrollConfig = {
+  //   parallaxSpeed: 1,
+  //   parallaxSmoothness: 1,
+  //   parallaxDirection: 'reverse',
+  //   parallaxTimingFunction: 'ease-in',
+  //   parallaxThrottleTime: 20
+  // };
   slides: Slide[];
   shuffledSlides: Slide[];
   index: number = 0;

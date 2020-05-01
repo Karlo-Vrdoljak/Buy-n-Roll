@@ -26,18 +26,19 @@
     "@fortawesome/fontawesome-free": "^5.12.1",
     "angular-web-storage": "^7.0.0-beta.1",
     "angular-webstorage-service": "^1.0.2",
+    "ngx-parallax-scroll": "^1.0.2",
     "ngx-swiper-wrapper": "^9.0.1",
     "ngx-toastr": "^12.0.0",
     "ngx-ui-loader": "^8.0.0",
     "ngx-webstorage": "^5.0.0",
     "ngx-webstorage-service": "^4.1.0",
+    "owl-deepcopy": "0.0.6",
     "primeflex": "^1.0.0",
     "primeicons": "^2.0.0",
     "primeng": "^9.0.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
-    "zone.js": "~0.10.2",
-    "owl-deepcopy": "0.0.6"
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.900.3",

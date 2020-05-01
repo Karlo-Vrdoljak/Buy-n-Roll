@@ -33,6 +33,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { HelperService } from './_services/helper.service';
+import { NgxParallaxScrollModule } from 'ngx-parallax-scroll';
+
+
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#000',
@@ -83,7 +86,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MatFormFieldModule,
     InputTextModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    SwiperModule
+    SwiperModule,
+    NgxParallaxScrollModule
   ],
   providers: [
     TestService,
