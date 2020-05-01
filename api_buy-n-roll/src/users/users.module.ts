@@ -6,11 +6,23 @@ import { UserController } from 'src/controllers/user/user.controller';
 import { DbLogs } from 'src/db.logs';
 import { UserVehicleModule } from './userVehicle/userVehicle.module';
 import { VehicleModule } from 'src/vehicle/vehicle.module';
+import { OglasModule } from './oglas/oglas.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), UserVehicleModule, VehicleModule],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    UserVehicleModule,
+    VehicleModule,
+    OglasModule,
+  ],
   providers: [UsersService, DbLogs],
   controllers: [UserController],
-  exports: [UsersService, TypeOrmModule, UserVehicleModule, VehicleModule],
+  exports: [
+    UsersService,
+    TypeOrmModule,
+    UserVehicleModule,
+    VehicleModule,
+    OglasModule,
+  ],
 })
 export class UsersModule {}

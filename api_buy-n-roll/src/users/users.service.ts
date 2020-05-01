@@ -16,12 +16,14 @@ import { Model } from 'src/entity/model.entity';
 import { Series } from 'src/entity/series.entity';
 import { Manufacturer } from 'src/entity/manufacturer.entity';
 import { Body } from 'src/entity/body.entity';
-
+import { OglasService } from './oglas/oglas.service';
+import { Oglas } from 'src/entity/oglas.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService implements OnModuleInit{
   
-  private users: User[];
+  private saltRounds = 10;
 
   constructor(
     @InjectRepository(User)
@@ -37,6 +39,7 @@ export class UsersService implements OnModuleInit{
     public seriesService: SeriesService,
     public colorService: ColorService,
     public chassisService: ChassisService,
+    public oglasService: OglasService,
 
     private dbLogs: DbLogs
   ) { }
@@ -50,6 +53,13 @@ export class UsersService implements OnModuleInit{
             if (count == 0) {
               this.initVehicleForUser().then(() => {
                 this.dbLogs.successInit('Admin user\'s vehicle');
+                this.oglasService.getRepo().count().then(count => {
+                  if (count == 0) {
+                    this.initOglas().then(() => {
+                      this.dbLogs.successInit('1st Oglas');
+                    });
+                  } 
+                });
               });
             }
           });
@@ -67,6 +77,25 @@ export class UsersService implements OnModuleInit{
     //   }
     // });
     
+  }
+  async initOglas() {
+    await this.connection.transaction(async manager => {
+      let oglas = new Oglas;
+      oglas.oglasNaziv = 'Opel astra gsi prvi vlasnik';
+      oglas.oglasOpis = `
+      Prodaje se Opel Astra 1.8 16V
+      cijena je ta zbog odlaska u inozemstvo...
+      sportsko podvozje
+      atestirani branici
+      atestiran plin
+      zadnja slika te felge su trenutno na njemu
+      Astra nije registrirana,papiri uredni
+      limarija u osrednjem stanju trebalo bi malo uložiti u nju...
+      `;
+      oglas.vehicle = await this.userVehicleRepository.findOne(1);
+
+      await manager.save(oglas);
+    });
   }
   async initVehicleForUser() {
     await this.connection.transaction(async manager => {
@@ -139,7 +168,7 @@ export class UsersService implements OnModuleInit{
       userAdmin.firstName = "Karlo";
       userAdmin.lastName = "Vrdoljak";
       userAdmin.username = "admin";
-      userAdmin.password = "admin";
+      userAdmin.password = await this.getHash("admin");
       // userAdmin.roles = [roleAdmin, roleUser];
 
       await manager.save(userAdmin);
@@ -147,7 +176,7 @@ export class UsersService implements OnModuleInit{
       user.firstName = "K";
       user.lastName = "V";
       user.username = "user";
-      user.password = "user";
+      user.password = await this.getHash("user");
       // user.roles = [roleUser];
 
       await manager.save(user);
@@ -199,6 +228,14 @@ export class UsersService implements OnModuleInit{
 
   async remove(userId: string): Promise<void> {
     await this.usersRepository.delete(userId);
+  }
+
+  async getHash(password: string|undefined): Promise<string> {
+    return bcrypt.hash(password, this.saltRounds);
+}
+
+  async compareHash(password: string|undefined, hash: string|undefined): Promise<boolean> {
+    return bcrypt.compare(password, hash);
   }
   getUserRepo() { return this.usersRepository; }
 }

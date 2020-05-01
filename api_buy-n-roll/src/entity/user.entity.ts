@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } from 'typeorm';
 import { Role } from './role.entity';
+import { Oglas } from './oglas.entity';
 
 @Entity()
 export class User {
@@ -21,9 +22,13 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
+  @Column({generated:"uuid"})
+  userCode:string;
+
   @CreateDateColumn()
   createdAt:Date;
 
   @OneToMany(type => Role, role => role.user)
   roles: Role[];
+
 }
