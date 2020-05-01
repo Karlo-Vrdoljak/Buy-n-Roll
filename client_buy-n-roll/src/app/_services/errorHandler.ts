@@ -3,7 +3,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { HTTPErrorCodes } from "../_types/http.error.codes";
 import { ToastrService } from "ngx-toastr";
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class ErrorHandler {
   constructor(public toastr: ToastrService) {}
@@ -11,19 +11,20 @@ export class ErrorHandler {
   handleError(err: HttpErrorResponse) {
     switch (err.status) {
       case HTTPErrorCodes.UNAUTHORIZED:
-        this.toastr.error( HTTPErrorCodes.UNAUTHORIZED.toString(), err.statusText );
-        break;
-      case HTTPErrorCodes.FORBIDDEN:
-        this.toastr.error( HTTPErrorCodes.FORBIDDEN.toString(), err.statusText );
-        break;
-      default:
-        if(err.status == 0) {
-          this.toastr.error( "Check your internet connection!" );
-        } else {
-          this.toastr.error( err.status.toString(), err.statusText );
-        }
+        this.toastr.error(HTTPErrorCodes.UNAUTHORIZED.toString(),err.statusText);
+        throw err.statusText;
 
-        break;
+      case HTTPErrorCodes.FORBIDDEN:
+        this.toastr.error(HTTPErrorCodes.FORBIDDEN.toString(), err.statusText);
+        throw err.statusText;
+      default:
+        if (err.status == 0) {
+          this.toastr.error("Check your internet connection!");
+          throw err.statusText;
+        } else {
+          this.toastr.error(err.status.toString(), err.statusText);
+          throw err.statusText;
+        }
     }
   }
 }

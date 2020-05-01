@@ -26,7 +26,7 @@ export class TestComponentComponent implements OnInit {
       console.log(data);
       
     }, err => this.errorHandler.handleError(err));
-    this.testService.getToken({ username: 'admin', password: 'admin' }).subscribe(data => {
+    this.testService.getToken({ username: 'admin', password: 'admin' }).subscribe((data:any) => {
       let auth = {...data};
       console.log(auth);
       this.storage.set('auth',auth);

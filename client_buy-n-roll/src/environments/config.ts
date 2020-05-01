@@ -6,4 +6,5 @@ export class Config {
     API_URL_ROOT = 'http://localhost:3000/';
     BEARER:'Bearer ';
     isLoggedIn:boolean = false;
+    retryCount = 3;
 }

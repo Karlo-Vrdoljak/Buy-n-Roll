@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn, ManyToOne, Index, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn, ManyToOne, Index, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Model } from './model.entity';
 import { User } from './user.entity';
 import { Photo } from './photo.entity';
@@ -20,10 +20,19 @@ export class Oglas {
   @CreateDateColumn()
   oglasCreatedAt:Date;
 
+  @UpdateDateColumn()
+  lastModified:Date;
+
   @OneToMany(type => Photo, photo => photo.oglas)
   photos: Photo[];
 
   @OneToOne(type => UserVehicle, {nullable:true})
   @JoinColumn()
   vehicle: UserVehicle;
+
+  @Column({default: 0})
+  rating:number;
+
+  @Column({default:0})
+  views:number;
 } 
