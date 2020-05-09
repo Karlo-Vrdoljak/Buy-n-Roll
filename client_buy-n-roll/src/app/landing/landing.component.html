@@ -1,4 +1,12 @@
 <section style="overflow-x: hidden;">
+  <div class="swiper-container no-control" [swiper]="config">
+    <div class="swiper-wrapper slider">
+      <div class="swiper-slide" *ngFor="let slide of slides">
+        <img [src]="slide.src" class="slide-img">
+      </div>
+    </div>
+
+  </div>
   <div class="content-container">
     <div class="center-content">
       <div class="search-box">
@@ -8,24 +16,14 @@
     </div>
   </div>
 
-  <div class="swiper-container no-control" [swiper]="config">
-    <div class="swiper-wrapper slider">
-      <div class="swiper-slide" *ngFor="let slide of slides">
-        <!-- <ngx-parallax-scroll [config]="ngParallaxConf"> -->
-          <img [src]="slide.src" class="slide-img">
-        <!-- </ngx-parallax-scroll> -->
-      </div>
-    </div>
-
-    <div class="swiper-scrollbar"></div>
-    <div class="swiper-pagination"></div>
-
-  </div>
-
   <div class="arrow">
     <span></span>
     <span></span>
     <span></span>
   </div>
 </section>
-<section style="background-color: #f5f5f5; overflow-x: hidden;"></section>
+<section class="presentational" style="overflow-x: hidden;">
+  <div  class="banner">
+    <h3 class="px-3" style="color: aliceblue;">asdf</h3>
+  </div>
+</section>

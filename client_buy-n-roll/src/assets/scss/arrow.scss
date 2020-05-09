@@ -7,8 +7,9 @@ body {
 }
 .arrow {
   position: absolute;
+  overflow: visible;
   left: 50%;
-  bottom: 5%;
+  bottom: 50px;
   transform: translate(-50%, -50%);
 }
 .arrow span {

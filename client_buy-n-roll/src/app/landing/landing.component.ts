@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { fromEvent, Observable, Subscription } from "rxjs";
 import { Slide } from "../_types/Slides";
 import { HelperService } from "../_services/helper.service";
@@ -9,7 +9,7 @@ import { IParallaxScrollConfig } from 'ngx-parallax-scroll';
   templateUrl: "./landing.component.html",
   styleUrls: ["./landing.component.scss"],
 })
-export class LandingComponent implements OnInit, OnDestroy {
+export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   config = {
     direction: "horizontal",
     slidesPerView: 1,
@@ -41,9 +41,20 @@ export class LandingComponent implements OnInit, OnDestroy {
 
 
   constructor(public helperService: HelperService) {}
+  ngAfterViewInit(): void {
+    var docWidth = document.documentElement.offsetWidth;
+    console.log(docWidth);
+    [].forEach.call(
+      document.querySelectorAll('*'),
+      function(el) {
+        if (el.offsetWidth > docWidth) {
+          console.log(el);
+        }
+      }
+    );
+  }
 
   ngOnInit(): void {
-    
     this.orientationObservable$ = fromEvent(window, "orientationchange");
     this.scrollObservable$ = fromEvent(window, "scroll");
     this.scrollSubscription$ = this.scrollObservable$.subscribe((evt) => {
@@ -67,6 +78,10 @@ export class LandingComponent implements OnInit, OnDestroy {
     this.evalScreenSize();
 
   }
+
+  scrollToEl(el: HTMLElement) {
+    el.scrollIntoView({behavior:"smooth"});
+  }
   ngOnDestroy(): void {
     this.orientationSubscription$.unsubscribe();
     this.scrollSubscription$.unsubscribe();
@@ -89,12 +104,15 @@ export class LandingComponent implements OnInit, OnDestroy {
     ];
   }
   evalScreenSize() {
+
     if (screen.availWidth < 500) {
+      this.slides = [];
       this.slides = deepCopy(this.shuffledSlides).map((e) => {
         e.src = e.src.split(".jpg")[0] + "m" + ".jpg";
         return e;
       });
     } else {
+      this.slides = [];
       this.slides = deepCopy(this.shuffledSlides);
     }
   }

@@ -87,7 +87,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     InputTextModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     SwiperModule,
-    NgxParallaxScrollModule
+    NgxParallaxScrollModule,
   ],
   providers: [
     TestService,

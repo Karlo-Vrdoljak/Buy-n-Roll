@@ -7,6 +7,8 @@
 .content-container {
   height: 100%;
   width: 100%;
+  z-index: 5;
+
   // background-image: url("../../assets/images/landing/car_2.jpg");
   // background-repeat: no-repeat;
   // background-attachment: fixed;
@@ -14,8 +16,8 @@
   margin: 0;
 }
 .slide-img {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   object-fit: cover;
 
 }
@@ -24,6 +26,8 @@
   z-index: -1;
   left: 0;
   top: 0;
+  width: 100%;
+  height: 100%;
 
 }
 .no-control {
@@ -95,6 +99,14 @@
     left: calc(100vw - 50px);
     bottom: 3rem;
   }
+}
+.presentational {
+  background-color: $silver;
+}
+.banner {
+  width: 100%;
+  height: 50%;
+  background-color: $darkGray;
 }
 
 // @media only screen and (max-width: 450px) {
