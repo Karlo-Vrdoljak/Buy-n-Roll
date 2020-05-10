@@ -46,6 +46,7 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+Note: check cors origin for deploy root url
 
 ## Test
 
