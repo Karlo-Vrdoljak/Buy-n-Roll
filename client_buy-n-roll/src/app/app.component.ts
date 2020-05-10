@@ -2,12 +2,14 @@ import { Component, OnInit, Inject } from "@angular/core";
 import { MenuItem } from "primeng/api/menuitem";
 import { Config } from "src/environments/config";
 import { SPINNER } from "ngx-ui-loader";
+import { TranslateService } from "@ngx-translate/core";
 import { ErrorHandler } from "./_services/errorHandler";
+import { LocalStorageService } from "angular-web-storage";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"]
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
   title = "buy-n-roll";
@@ -17,6 +19,8 @@ export class AppComponent implements OnInit {
   constructor(
     public config: Config,
     public errorHandler: ErrorHandler,
+    public translate: TranslateService,
+    public storage: LocalStorageService
   ) {
     // SPINNER.rectangleBouncePulseOutRapid
   }
@@ -25,12 +29,22 @@ export class AppComponent implements OnInit {
     return SPINNER;
   }
   ngOnInit(): void {
+    let lang = this.storage.get("buynroll_lang");
+    if (!lang) {
+      this.translate.setDefaultLang("hr");
+      this.translate.use("hr");
+      this.storage.set("buynroll_lang",'hr');
+    } else {
+      this.translate.setDefaultLang(lang);
+      this.translate.use(lang);
+
+    }
     this.items = [
       {
         label: null,
         icon: "pi pi-arrow-right",
-        command: () => (this.display = true)
-      }
+        command: () => (this.display = true),
+      },
     ];
   }
 }

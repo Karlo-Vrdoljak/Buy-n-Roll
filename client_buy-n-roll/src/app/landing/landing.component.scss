@@ -19,7 +19,6 @@
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-
 }
 .slider {
   position: fixed;
@@ -28,7 +27,6 @@
   top: 0;
   width: 100%;
   height: 100%;
-
 }
 .no-control {
   z-index: -1;
@@ -100,17 +98,117 @@
     bottom: 3rem;
   }
 }
-.presentational {
+.presentational-lg {
   background-color: $silver;
+  height: 100vh;
+  width: 100vw;
+}
+.presentational-sm {
+  background-color: $silver;
+  height: 100vh;
+  width: 100vw;
+  display: none;
+}
+.section {
+  height: 100vh;
+  width: 100vw;
 }
 .banner {
   width: 100%;
   height: 50%;
   background-color: $darkGray;
+  background-image: url("../../assets/images/landing/bmw1.jpg");
+  background-repeat: no-repeat;
+  background-blend-mode: color-dodge;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+}
+.steps-lg {
+  width: 100%;
+  height: 50%;
 }
 
-// @media only screen and (max-width: 450px) {
-//   .content-container {
-//     background-image: url("../../assets/images/landing/car_2m.jpg");
-//   }
-// }
+.steps-sm {
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+.section-header {
+  padding: 3rem 0 0 0;
+  font-family: "Oswald", sans-serif;
+  font-size: 3em;
+  color: $silver;
+  height: 100%;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  line-height: 2em;
+  justify-content: center;
+}
+.header-text {
+  height: 50%;
+  align-self: center;
+}
+
+.smaller {
+  font-size: 0.75em;
+}
+
+.search-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 700px) {
+  .section-header {
+    padding: 6rem 0 0 0;
+  }
+}
+
+@media (max-height: 450px) {
+  .banner {
+    height: 100%;
+  }
+  .presentational-lg,
+  .steps-lg {
+    display: none;
+  }
+  .presentational-sm,
+  .steps-sm {
+    display: block;
+  }
+}
+@media (max-width: 575px) {
+  .header-text {
+    line-height: 3em;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .header-text {
+    font-size: 1em;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (min-width: 991px) {
+  .header-text {
+    font-size: 1.5em;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (min-width: 1199px) {
+  .header-text {
+    font-size: 1.5em;
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  .header-text {
+    font-size: 1.5em;
+  }
+}

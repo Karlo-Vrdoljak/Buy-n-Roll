@@ -79,8 +79,8 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  scrollToEl(el: HTMLElement) {
-    el.scrollIntoView({behavior:"smooth"});
+  scrollToEl(id: string) {
+    document.getElementById(id).scrollIntoView({ block: "start", behavior: 'smooth' });
   }
   ngOnDestroy(): void {
     this.orientationSubscription$.unsubscribe();

@@ -25,3 +25,30 @@
 :host ::ng-deep .mat-form-field-wrapper {
   padding: 1rem;
 }
+
+
+:host ::ng-deep .mat-step-header .mat-step-icon-selected, 
+:host ::ng-deep .mat-step-header .mat-step-icon-state-done,
+:host ::ng-deep .mat-step-header .mat-step-icon-state-edit {
+  background-color: $yellow;
+}
+:host ::ng-deep .mat-stepper-vertical {
+  height: 100%;
+  font-size: 2em;
+}
+:host ::ng-deep .mat-step-icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+:host ::ng-deep .mat-stepper-vertical-line::before {
+  border-left: 0;
+}
+:host ::ng-deep .mat-step-icon .mat-icon {
+  width: 1em;
+  height: 1em;
+  font-size: 1em;
+}
+
+:host ::ng-deep .mat-step-text-label {
+  font-size: 1.25em;
+}

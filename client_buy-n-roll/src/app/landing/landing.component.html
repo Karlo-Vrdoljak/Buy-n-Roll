@@ -1,4 +1,4 @@
-<section style="overflow-x: hidden;">
+<section class="section" style="overflow-x: hidden;">
   <div class="swiper-container no-control" [swiper]="config">
     <div class="swiper-wrapper slider">
       <div class="swiper-slide" *ngFor="let slide of slides">
@@ -16,14 +16,62 @@
     </div>
   </div>
 
-  <div class="arrow">
+  <div class="arrow" (click)="scrollToEl('header_00')">
     <span></span>
     <span></span>
     <span></span>
   </div>
 </section>
-<section class="presentational" style="overflow-x: hidden;">
-  <div  class="banner">
-    <h3 class="px-3" style="color: aliceblue;">asdf</h3>
+
+<section id="header_00" class="presentational-lg" style="overflow-x: hidden;">
+  <div class="banner">
+    <div class="section-header px-3">
+      <ng-container *ngTemplateOutlet="header"></ng-container>
+    </div>
+  </div>
+  <div class="steps-lg">
+    <div class="p-grid p-dir-col mx p-nogutter">
+      <div class="p-col-4 mx p-nogutter">
+        <img [ngsReveal]="{reset: true, origin: 'left', delay: 500 }" src="assets/images/landing/car_search.jpg" class="search-img">
+      </div>
+      <div class="p-col-8 mx p-nogutter">
+        <ng-container *ngTemplateOutlet="steps"></ng-container>
+      </div>
+    </div>
   </div>
 </section>
+
+<section class="presentational-sm" style="overflow-x: hidden;">
+  <div class="banner">
+    <div class="section-header px-3">
+      <ng-container *ngTemplateOutlet="header"></ng-container>
+    </div>
+  </div>
+</section>
+
+<section class="presentational-sm" style="overflow-x: hidden;">
+  <div class="steps-sm">
+    <div class="p-grid p-dir-col mx p-nogutter">
+      <div class="p-col mx p-nogutter">
+        <ng-container *ngTemplateOutlet="steps"></ng-container>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<ng-template #steps>
+  <mat-vertical-stepper [ngsReveal]="{reset: true, origin: 'left', delay: 600 }">
+    <mat-step [label]="'MANUFACTURER' | translate">
+      {{ 'MANUFACTURER' | translate }}
+    </mat-step>
+    <mat-step [label]="'SERIJA' | translate">
+      {{ 'SERIJA' | translate }}
+    </mat-step>
+  </mat-vertical-stepper>
+</ng-template>
+
+<ng-template #header>
+  <div [ngsReveal]="{reset: true, origin: 'right', delay: 250  }" class="header-text">{{ 'LANDING_SECTION_ONE_HEADER' | translate }}</div>
+  <div [ngsReveal]="{reset: true, origin: 'left', delay: 400 }" class="header-text smaller">{{ 'LANDING_SECTION_ONE_HEADER_A' | translate }}</div>
+</ng-template>
