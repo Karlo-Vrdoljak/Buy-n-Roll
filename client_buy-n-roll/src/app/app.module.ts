@@ -38,6 +38,16 @@ import { NgsRevealModule } from "ngx-scrollreveal";
 import { MatStepperModule } from "@angular/material/stepper";
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { LandingResolver } from './_resolvers/landing.resolver';
+import { VehicleService } from './_services/vehicle.service';
+import { ManufacturerPropComponent } from './props/manufacturer-prop/manufacturer-prop.component';
+import {VirtualScrollerModule} from 'primeng/virtualscroller';
+import {DropdownModule} from 'primeng/dropdown';
+import {ListboxModule} from 'primeng/listbox';
+import { SeriesPropComponent } from './props/series-prop/series-prop.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatRippleModule} from '@angular/material/core';
+import { ModelPropComponent } from './props/model-prop/model-prop.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#000",
@@ -57,6 +67,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     TestComponentComponent,
     TopbarComponent,
     LandingComponent,
+    ManufacturerPropComponent,
+    SeriesPropComponent,
+    ModelPropComponent,
   ],
   imports: [
     BrowserModule,
@@ -104,6 +117,12 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
         deps: [HttpClient]
       }
     }),
+    VirtualScrollerModule,
+    DropdownModule,
+    ListboxModule,
+    MatRippleModule,
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
+    
   ],
   providers: [
     TestService,
@@ -116,6 +135,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true },
     ErrorHandler,
     HelperService,
+    LandingResolver,
+    VehicleService
   ],
   bootstrap: [AppComponent],
 })

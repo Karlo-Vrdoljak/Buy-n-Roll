@@ -3,13 +3,13 @@
 @import "../../assets/scss/dark_material_override.scss";
 .topbar {
   height: 50px;
-  background-color: $deepGray!important;
+  background-color: $deepGray !important;
 }
 .topbar-landing {
   transition: background 0.35s ease-in-out;
   transition: background-color 0.35s ease-in-out;
   height: 100px;
-  background: linear-gradient(to bottom,  #363636bd,#ff000000);
+  background: linear-gradient(to bottom, #363636bd, #ff000000);
   position: fixed;
   width: 100vw;
 }
@@ -19,7 +19,6 @@
   cursor: pointer;
   padding: 1rem;
   transition: all 0.2s ease-in-out;
-
 }
 .menu-bars:hover {
   background-color: darken($color: #393f4d, $amount: 5%);
@@ -27,7 +26,6 @@
 }
 .menu-bars-large {
   padding: 1.5rem;
-
 }
 :host ::ng-deep .ui-toolbar {
   padding: 0;
@@ -38,7 +36,7 @@
 }
 
 .larger {
-  font-size: 1.50rem;
+  font-size: 1.5rem;
 }
 .flex {
   display: flex;
@@ -80,7 +78,7 @@
   filter: saturate(3);
 }
 .oswald {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   color: $silver;
   flex: 0 0 9em;
   font-size: 1.3em;
@@ -134,21 +132,28 @@
 // }
 
 .hideSmall {
-  display: block;    
-} 
+  display: block;
+}
 
-@media only screen and (max-width:700px) {
+@media only screen and (max-width: 700px) {
   .hideSmall {
-    display: none;    
-  } 
+    display: none;
+  }
   .menu-bars-large {
     padding: 1rem;
-  
   }
   .larger {
     font-size: 1.2rem;
   }
   .topbar-landing {
     height: 75px;
+  }
+}
+@media screen and (orientation: landscape) and (max-height: 600px) {
+  .topbar-landing {
+    height: 50px;
+  }
+  .larger {
+    font-size: 1rem;
   }
 }

@@ -1,9 +1,13 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from "@angular/core";
 import { fromEvent, Observable, Subscription } from "rxjs";
 import { Slide } from "../_types/Slides";
 import { HelperService } from "../_services/helper.service";
 import { deepCopy } from "owl-deepcopy";
-import { IParallaxScrollConfig } from 'ngx-parallax-scroll';
+import { Manufacturer, Series, Model } from '../_types/manufacturer.interface';
+import { ActivatedRoute } from '@angular/router';
+import { VehicleService } from '../_services/vehicle.service';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { ManufacturerPropComponent } from '../props/manufacturer-prop/manufacturer-prop.component';
 @Component({
   selector: "app-landing",
   templateUrl: "./landing.component.html",
@@ -22,13 +26,7 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     effect: "fade",
     speed: 1000,
   };
-  // ngParallaxConf: IParallaxScrollConfig = {
-  //   parallaxSpeed: 1,
-  //   parallaxSmoothness: 1,
-  //   parallaxDirection: 'reverse',
-  //   parallaxTimingFunction: 'ease-in',
-  //   parallaxThrottleTime: 20
-  // };
+
   slides: Slide[];
   shuffledSlides: Slide[];
   index: number = 0;
@@ -39,19 +37,41 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   scrollObservable$: Observable<Event>;
   scrollSubscription$: Subscription;
 
+  formGroupManufacturer:FormGroup;
+  formGroupSeries:FormGroup;
+  formGroupModel:FormGroup;
 
-  constructor(public helperService: HelperService) {}
+  manufacturers:Manufacturer[];
+  selectedManufacturer: Manufacturer;
+  @ViewChild('manufacturerProp', { static: false })
+  manufacturerProp: ManufacturerPropComponent;
+
+  series: Series[];
+  selectedSeries: Series;
+
+  models:Model[];
+  selectedModel: Model;
+
+  height:number;
+  width:number;
+
+  constructor(
+    public helperService: HelperService, 
+    public route: ActivatedRoute, 
+    public vehicleService:VehicleService,
+    public formBuilder: FormBuilder) {}
+
   ngAfterViewInit(): void {
-    var docWidth = document.documentElement.offsetWidth;
-    console.log(docWidth);
-    [].forEach.call(
-      document.querySelectorAll('*'),
-      function(el) {
-        if (el.offsetWidth > docWidth) {
-          console.log(el);
-        }
-      }
-    );
+    // var docWidth = document.documentElement.offsetWidth;
+    // console.log(docWidth);
+    // [].forEach.call(
+    //   document.querySelectorAll('*'),
+    //   function(el) {
+    //     if (el.offsetWidth > docWidth) {
+    //       console.log(el);
+    //     }
+    //   }
+    // );
   }
 
   ngOnInit(): void {
@@ -76,6 +96,69 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     
     this.slides = deepCopy(this.shuffledSlides);
     this.evalScreenSize();
+
+    this.manufacturers = this.route.snapshot.data.pageData[0] || [];
+
+    this.formGroupManufacturer = this.formBuilder.group({
+      manufacturer: ['', Validators.required]
+    });
+
+    this.formGroupSeries = this.formBuilder.group({
+      series: ['', Validators.required]
+    });
+
+    this.formGroupModel = this.formBuilder.group({
+      model: ['', Validators.required]
+    });
+
+    console.log(this.manufacturers);
+
+  }
+
+  acceptSelectedManufacturer(event:Manufacturer) {
+    if(this.selectedManufacturer) {
+      this.selectedManufacturer = null;
+      this.series = null;
+      this.selectedSeries = null;
+      this.selectedModel = null;
+      this.models = null;
+    }
+    this.selectedManufacturer = event;
+    this.vehicleService.seriesFindByPkmanufacturer(this.selectedManufacturer.PkManufacturer).subscribe((res:any) => {
+      this.series = res.series;
+      console.log(this.series);
+      
+    });
+  }
+  acceptSelectedSeries(event:Series) {
+    console.log(event);
+
+    if(this.selectedSeries) {
+      this.selectedSeries = null;
+      this.models = null;
+      this.selectedModel = null;
+    }
+    this.selectedSeries = event;
+    
+    this.vehicleService.modelFindByPkSeries(this.selectedSeries.PkSeries).subscribe((res:any) => {
+      this.models = res.models;
+      console.log(this.models);
+      
+    });
+
+  }
+
+  acceptSelectedModel(event:Model) {
+    console.log(event);
+
+    if(this.selectedModel == event) {
+      return;
+    } else if (event == null) {
+      this.selectedModel = null;
+      // this.series = null;
+      return;
+    }
+    this.selectedModel = event;
 
   }
 
@@ -104,8 +187,13 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     ];
   }
   evalScreenSize() {
-
-    if (screen.availWidth < 500) {
+    if(screen.availHeight < 450) {
+      this.height = (screen.availHeight/3);
+    } else {
+      this.height = (screen.availHeight/5);
+    }
+    this.width = screen.availWidth;
+    if (this.width < 500) {
       this.slides = [];
       this.slides = deepCopy(this.shuffledSlides).map((e) => {
         e.src = e.src.split(".jpg")[0] + "m" + ".jpg";

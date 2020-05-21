@@ -6,13 +6,10 @@ import { ManufacturerService } from 'src/vehicle/manufacturer/manufacturer.servi
 
 @Controller('api/vehicle/manufacturer/')
 export class ManufacturerController {
+  constructor(public manufacturerService: ManufacturerService) {}
 
-  constructor(public manufacturerService:ManufacturerService) { }
-
-  @UseGuards(JwtAuthGuard,RolesGuard)
-  @Roles('user')
   @Get()
-  testProtected(@Request() req) {
+  getAllManufacturers(@Request() req) {
     return this.manufacturerService.findAll();
   }
- }
+}

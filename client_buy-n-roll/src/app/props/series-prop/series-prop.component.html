@@ -1,0 +1,7 @@
+<div  style="position: relative;">
+  <p-listbox  [options]="seriesList"  (onChange)="emitSeries()" [filter]="true" [(ngModel)]="selectedSeries" [listStyle]="{'max-height':height? (height + 'px'):'175px', 'box-shadow': '0 2px 3px 0 rgba(0, 0, 0, 0.15)'}" optionLabel="seriesName">
+    <ng-template let-serie pTemplate="item">
+      <div class="ui-helper-clearfix">{{serie.value.seriesName}}</div>
+    </ng-template>
+  </p-listbox>
+</div>

@@ -31,45 +31,42 @@
   </div>
   <div class="steps-lg">
     <div class="p-grid p-dir-col mx p-nogutter">
-      <div class="p-col-4 mx p-nogutter">
-        <img [ngsReveal]="{reset: true, origin: 'left', delay: 500 }" src="assets/images/landing/car_search.jpg" class="search-img">
+      <div class="p-col-4 mx p-nogutter" style="position: relative;" [ngsRevealSet]="{reset: true, origin: 'left', delay: 500 }" [ngsInterval]="250" [ngsSelector]="'.item'" [ngsReveal]="{reset: true, origin: 'left', delay: 500 }">
+        <img src="assets/images/landing/car_search.jpg" class="search-img">
+        <div class="imageText">
+          <div class="item header-text">{{ 'LANDING_SECTION_ONE_HEADER' | translate }}</div>
+          <div class="item header-text smaller">{{ 'LANDING_SECTION_ONE_HEADER_A' | translate }}</div>
+        </div>
       </div>
       <div class="p-col-8 mx p-nogutter">
-        <ng-container *ngTemplateOutlet="steps"></ng-container>
+        <mat-vertical-stepper id="vstep" [linear]="true" style="height: 100%;" [ngsReveal]="{reset: true, origin: 'left', delay: 600 }">
+          <mat-step [label]="'MANUFACTURER' | translate">
+            <div class="p-grid" [style.min-height]="(height * 1.25) + 'px'">
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-4">
+                <app-manufacturer-prop #manufacturerProp (passSelectedManufacturer)="acceptSelectedManufacturer($event)" [manufacturerList]="manufacturers" [height]="height"></app-manufacturer-prop>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step [label]="'SERIJA' | translate" *ngIf="series">
+            <div class="p-grid" [style.min-height]="(height * 1.25) + 'px'">
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-3">
+                <app-series-prop (passSelectedSeries)="acceptSelectedSeries($event)" [seriesList]="series" [height]="height"></app-series-prop>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step [label]="'MODEL' | translate" *ngIf="models">
+            <div class="p-grid" [style.min-height]="(height * 1.25) + 'px'">
+              <div class="p-col-12 p-sm-12 p-md-6 p-lg-3">
+                <app-model-prop (passSelectedModel)="acceptSelectedModel($event)" [modelList]="models" [height]="height"></app-model-prop>
+              </div>
+            </div>
+          </mat-step>
+        </mat-vertical-stepper>
       </div>
     </div>
   </div>
 </section>
 
-<section class="presentational-sm" style="overflow-x: hidden;">
-  <div class="banner">
-    <div class="section-header px-3">
-      <ng-container *ngTemplateOutlet="header"></ng-container>
-    </div>
-  </div>
-</section>
-
-<section class="presentational-sm" style="overflow-x: hidden;">
-  <div class="steps-sm">
-    <div class="p-grid p-dir-col mx p-nogutter">
-      <div class="p-col mx p-nogutter">
-        <ng-container *ngTemplateOutlet="steps"></ng-container>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<ng-template #steps>
-  <mat-vertical-stepper [ngsReveal]="{reset: true, origin: 'left', delay: 600 }">
-    <mat-step [label]="'MANUFACTURER' | translate">
-      {{ 'MANUFACTURER' | translate }}
-    </mat-step>
-    <mat-step [label]="'SERIJA' | translate">
-      {{ 'SERIJA' | translate }}
-    </mat-step>
-  </mat-vertical-stepper>
-</ng-template>
 
 <ng-template #header>
   <div [ngsReveal]="{reset: true, origin: 'right', delay: 250  }" class="header-text">{{ 'LANDING_SECTION_ONE_HEADER' | translate }}</div>

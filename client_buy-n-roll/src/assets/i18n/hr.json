@@ -2,5 +2,9 @@
   "LANDING_SECTION_ONE_HEADER": "Odaberite vozilo",
   "LANDING_SECTION_ONE_HEADER_A": "Pronaći ćemo ga!",
   "MANUFACTURER":"Proizvođač",
-  "SERIJA":"Serija"
+  "SERIJA":"Serija",
+  "TRY_AGAIN":"Molimo, pokušajte ponovo!",
+  "ERROR":"Greška",
+  "MODEL":"Model"
+
 }

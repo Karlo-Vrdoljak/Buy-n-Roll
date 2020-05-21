@@ -25,7 +25,7 @@ export class TestComponentComponent implements OnInit {
     this.testService.testNestJSApi().subscribe(data => {
       console.log(data);
       
-    }, err => this.errorHandler.handleError(err));
+    }, );
     this.testService.getToken({ username: 'admin', password: 'admin' }).subscribe((data:any) => {
       let auth = {...data};
       console.log(auth);
@@ -42,7 +42,7 @@ export class TestComponentComponent implements OnInit {
 
         
       },err => {
-        this.errorHandler.handleError(err);
+
       }
       , () => { });
     });

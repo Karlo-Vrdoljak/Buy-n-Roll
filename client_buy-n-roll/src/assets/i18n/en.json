@@ -2,6 +2,10 @@
   "LANDING_SECTION_ONE_HEADER": "Pick your ride",
   "LANDING_SECTION_ONE_HEADER_A": "We'll set you up!",
   "MANUFACTURER":"Manufacturer",
-  "SERIJA":"Series"
+  "SERIJA":"Series",
+  "TRY_AGAIN":"Please, try again!",
+  "ERROR":"Error",
+  "MODEL":"Model"
+
 
 }

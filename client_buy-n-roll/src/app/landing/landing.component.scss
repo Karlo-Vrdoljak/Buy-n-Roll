@@ -98,17 +98,7 @@
     bottom: 3rem;
   }
 }
-.presentational-lg {
-  background-color: $silver;
-  height: 100vh;
-  width: 100vw;
-}
-.presentational-sm {
-  background-color: $silver;
-  height: 100vh;
-  width: 100vw;
-  display: none;
-}
+
 .section {
   height: 100vh;
   width: 100vw;
@@ -128,11 +118,8 @@
   width: 100%;
   height: 50%;
 }
-
-.steps-sm {
-  width: 100%;
-  height: 100%;
-  display: none;
+.presentational-lg {
+  height: 100vh;
 }
 .section-header {
   padding: 3rem 0 0 0;
@@ -160,6 +147,14 @@
   height: 100%;
   object-fit: cover;
 }
+.imageText {
+  display: none;
+  position: absolute;
+  bottom: 2rem;
+  left: 1rem;
+  color: #fff;
+  font-size: 1.5rem;
+}
 
 @media (min-width: 700px) {
   .section-header {
@@ -167,16 +162,17 @@
   }
 }
 
-@media (max-height: 450px) {
+@media (max-height: 500px) {
   .banner {
-    height: 100%;
-  }
-  .presentational-lg,
-  .steps-lg {
     display: none;
   }
-  .presentational-sm,
-  .steps-sm {
+  .presentational-lg {
+    height: 100vh;
+  }
+  .steps-lg {
+    height: 100%;
+  }
+  .imageText {
     display: block;
   }
 }
@@ -184,6 +180,9 @@
   .header-text {
     line-height: 3em;
   }
+  // .banner {
+  //   height: 30%;
+  // }
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
@@ -210,5 +209,12 @@
 @media (min-width: 1200px) {
   .header-text {
     font-size: 1.5em;
+  }
+}
+
+@media screen and (orientation: landscape) and (max-height: 550px) {
+  #hstep,
+  #vstep {
+    padding-top: 3rem;
   }
 }

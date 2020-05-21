@@ -26,8 +26,7 @@
   padding: 1rem;
 }
 
-
-:host ::ng-deep .mat-step-header .mat-step-icon-selected, 
+:host ::ng-deep .mat-step-header .mat-step-icon-selected,
 :host ::ng-deep .mat-step-header .mat-step-icon-state-done,
 :host ::ng-deep .mat-step-header .mat-step-icon-state-edit {
   background-color: $yellow;
@@ -36,6 +35,15 @@
   height: 100%;
   font-size: 2em;
 }
+:host ::ng-deep .mat-vertical-content {
+  padding: 0 24px 0 24px;
+}
+
+:host ::ng-deep .mat-stepper-horizontal {
+  height: 100%;
+  font-size: 2em;
+}
+
 :host ::ng-deep .mat-step-icon {
   width: 1.5em;
   height: 1.5em;
@@ -51,4 +59,21 @@
 
 :host ::ng-deep .mat-step-text-label {
   font-size: 1.25em;
+}
+
+@media only screen and (max-height: 1100px) {
+  :host ::ng-deep .mat-stepper-vertical {
+    height: 100%;
+    font-size: 1em;
+  }
+  :host ::ng-deep .mat-vertical-stepper-header {
+    padding: 12px 24px;
+  }
+}
+
+.b-0 {
+  border: 0;
+}
+.m-0 {
+  margin: 0;
 }

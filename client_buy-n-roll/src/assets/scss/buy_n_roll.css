@@ -79,7 +79,7 @@ body .ui-inputtext {
   color: #333333;
   background: #ffffff;
   padding: 0.429em;
-  border: 1px solid #a6a6a6;
+  border: 1px solid #bdbdbd;
   -moz-transition: border-color 0.2s;
   -o-transition: border-color 0.2s;
   -webkit-transition: border-color 0.2s;
@@ -106,7 +106,7 @@ body .ui-chkbox {
   height: 20px;
 }
 body .ui-chkbox .ui-chkbox-box {
-  border: 1px solid #a6a6a6;
+  border: 1px solid #bdbdbd;
   background-color: #ffffff;
   width: 20px;
   height: 20px;
@@ -161,7 +161,7 @@ body .ui-radiobutton {
   height: 20px;
 }
 body .ui-radiobutton .ui-radiobutton-box {
-  border: 1px solid #a6a6a6;
+  border: 1px solid #bdbdbd;
   background-color: #ffffff;
   width: 20px;
   height: 20px;
@@ -384,7 +384,7 @@ body .ui-chips > ul.ui-inputtext .ui-chips-token {
 }
 body .ui-dropdown {
   background: #ffffff;
-  border: 1px solid #a6a6a6;
+  border: 1px solid #bdbdbd;
   -moz-transition: border-color 0.2s;
   -o-transition: border-color 0.2s;
   -webkit-transition: border-color 0.2s;
@@ -465,7 +465,7 @@ body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item:not(.ui-state-highl
 }
 body .ui-multiselect {
   background: #ffffff;
-  border: 1px solid #a6a6a6;
+  border: 1px solid #bdbdbd;
   -moz-transition: border-color 0.2s;
   -o-transition: border-color 0.2s;
   -webkit-transition: border-color 0.2s;
@@ -569,7 +569,7 @@ body .ui-multiselect-panel .ui-multiselect-items .ui-multiselect-item.ui-state-d
   cursor: auto;
 }
 body .ui-multiselect-panel .ui-multiselect-items .ui-multiselect-item.ui-state-disabled .ui-chkbox-box:hover {
-  border: 1px solid #a6a6a6;
+  border: 1px solid #bdbdbd;
 }
 body .ui-multiselect-panel .ui-multiselect-items .ui-multiselect-item.ui-state-disabled .ui-chkbox-box.ui-state-active:hover {
   border-color: #feda6a;
@@ -588,7 +588,8 @@ body .ui-listbox {
   padding: 0;
   min-width: 12em;
   background: #ffffff;
-  border: 1px solid #a6a6a6;
+  border: 1px solid #bdbdbd;
+  width: 100%;
 }
 body .ui-listbox .ui-chkbox {
   margin: 0 0.5em 0 0;
@@ -606,6 +607,9 @@ body .ui-listbox .ui-listbox-header .ui-listbox-filter-container {
 body .ui-listbox .ui-listbox-header .ui-listbox-filter-container input {
   padding: 0.429em;
   padding-right: 2em;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  background-color: #f5f5f5;
 }
 body .ui-listbox .ui-listbox-header .ui-listbox-filter-container .ui-listbox-filter-icon {
   top: 50%;
@@ -646,7 +650,7 @@ body .ui-listbox:not(.ui-state-disabled) .ui-listbox-item:not(.ui-state-highligh
   background-color: #dee6f8;
 }
 body .ui-listbox.ui-state-disabled .ui-chkbox-box:not(.ui-state-disabled):not(.ui-state-active):hover {
-  border: 1px solid #a6a6a6;
+  border: 1px solid #bdbdbd;
 }
 body .ui-listbox .ui-listbox-footer {
   padding: 0.429em 0.857em 0.429em 0.857em;
@@ -811,7 +815,7 @@ body .ui-datepicker {
   min-width: 20em;
   background-color: #ffffff;
   color: #333333;
-  border: 1px solid #a6a6a6;
+  border: 1px solid #bdbdbd;
 }
 body .ui-datepicker:not(.ui-datepicker-inline) {
   border: 1px solid #B8BECC;
@@ -846,7 +850,7 @@ body .ui-datepicker .ui-datepicker-header .ui-datepicker-prev,
 body .ui-datepicker .ui-datepicker-header .ui-datepicker-next {
   cursor: pointer;
   top: 0;
-  color: #a6a6a6;
+  border: 1px solid #bdbdbd;
   -moz-transition: color 0.2s;
   -o-transition: color 0.2s;
   -webkit-transition: color 0.2s;
@@ -896,7 +900,7 @@ body .ui-datepicker table td.ui-datepicker-today > a.ui-state-active, body .ui-d
   background-color: #feda6a;
 }
 body .ui-datepicker table td.ui-datepicker-weekheader, body .ui-datepicker table td.ui-datepicker-weeknumber {
-  border-right: 1px solid #a6a6a6;
+  border: 1px solid #bdbdbd;
 }
 body .ui-datepicker .ui-datepicker-buttonbar {
   border-top: 1px solid #d8dae2;
@@ -1010,7 +1014,7 @@ body .ui-password-panel {
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
 }
 body .ui-inputgroup .ui-inputgroup-addon {
-  border-color: #a6a6a6;
+  border: 1px solid #bdbdbd;
   background-color: #dee6f8;
   color: #737373;
   padding: 0.429em;
