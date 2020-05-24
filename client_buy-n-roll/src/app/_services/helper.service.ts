@@ -18,4 +18,11 @@ export class HelperService {
     }
     return a;
   }
+
+  isPortrait() {
+    return window.innerHeight > window.innerWidth;
+  }
+  isLandscape() {
+    return (window.orientation === 90 || window.orientation === -90);
+  }
 }

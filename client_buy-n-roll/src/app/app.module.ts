@@ -50,10 +50,10 @@ import {MatRippleModule} from '@angular/material/core';
 import { ModelPropComponent } from './props/model-prop/model-prop.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
-  bgsColor: "#000",
+  bgsColor: "#ffcd39",
   fgsColor: "#1f7ed0",
   overlayColor: "#00000000",
-  bgsPosition: POSITION.bottomCenter,
+  bgsPosition: POSITION.bottomRight,
   bgsSize: 40,
   bgsType: SPINNER.chasingDots, // background spinner type
   fgsType: SPINNER.cubeGrid, // foreground spinner type

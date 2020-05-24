@@ -1,5 +1,5 @@
 <div  style="position: relative;">
-    <p-listbox [options]="manufacturerList" (onChange)="emitManufacturer()" [filter]="true" [(ngModel)]="selectedManufacturer" [listStyle]="{'max-height':height? (height + 'px'):'175px', 'box-shadow': '0 2px 3px 0 rgba(0, 0, 0, 0.15)'}" optionLabel="manufacturerName">
+    <p-listbox [options]="manufacturerList" (onChange)="emitManufacturer()" [filter]="true" [(ngModel)]="selectedManufacturer" [listStyle]="{'min-height': '70px','max-height':height? (height + 'px'):'70px', 'box-shadow': '0 2px 3px 0 rgba(0, 0, 0, 0.15)'}" optionLabel="manufacturerName">
         <ng-template let-manuf pTemplate="item">
             <div class="ui-helper-clearfix">{{manuf.value.manufacturerName}}</div>
         </ng-template>

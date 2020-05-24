@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { VehicleService } from '../_services/vehicle.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ManufacturerPropComponent } from '../props/manufacturer-prop/manufacturer-prop.component';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 @Component({
   selector: "app-landing",
   templateUrl: "./landing.component.html",
@@ -59,7 +60,9 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     public helperService: HelperService, 
     public route: ActivatedRoute, 
     public vehicleService:VehicleService,
-    public formBuilder: FormBuilder) {}
+    public formBuilder: FormBuilder,
+    public loader: NgxUiLoaderService
+    ) {}
 
   ngAfterViewInit(): void {
     // var docWidth = document.documentElement.offsetWidth;
@@ -124,11 +127,16 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
       this.models = null;
     }
     this.selectedManufacturer = event;
+    console.log(this.selectedManufacturer);
+    if(this.selectedManufacturer == null) {
+      return;
+    }
+    this.loader.startBackgroundLoader('vehicle');
     this.vehicleService.seriesFindByPkmanufacturer(this.selectedManufacturer.PkManufacturer).subscribe((res:any) => {
       this.series = res.series;
-      console.log(this.series);
-      
-    });
+      this.loader.stopBackgroundLoader('vehicle');
+    }, err => this.loader.stopBackgroundLoader('vehicle'));
+    
   }
   acceptSelectedSeries(event:Series) {
     console.log(event);
@@ -139,12 +147,15 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
       this.selectedModel = null;
     }
     this.selectedSeries = event;
-    
+    console.log(this.selectedSeries);
+    if(this.selectedSeries == null) {
+      return;
+    }
+    this.loader.startBackgroundLoader('vehicle');
     this.vehicleService.modelFindByPkSeries(this.selectedSeries.PkSeries).subscribe((res:any) => {
       this.models = res.models;
-      console.log(this.models);
-      
-    });
+      this.loader.stopBackgroundLoader('vehicle');
+    },err => this.loader.stopBackgroundLoader('vehicle'));
 
   }
 
@@ -187,11 +198,7 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     ];
   }
   evalScreenSize() {
-    if(screen.availHeight < 450) {
-      this.height = (screen.availHeight/3);
-    } else {
-      this.height = (screen.availHeight/5);
-    }
+    this.calcScreenHeightForProps();
     this.width = screen.availWidth;
     if (this.width < 500) {
       this.slides = [];
@@ -202,6 +209,53 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.slides = [];
       this.slides = deepCopy(this.shuffledSlides);
+    }
+  }
+  calcScreenHeightForProps() {
+    if(this.helperService.isPortrait()){
+      switch (true) {
+        case screen.availHeight < 600: {
+          this.height = (screen.availHeight/8);
+          break;
+        }
+        case screen.availHeight < 700: {
+          this.height = (screen.availHeight/6);
+          break;
+        }
+        case screen.availHeight >= 700 && screen.availHeight < 850: {
+          this.height = (screen.availHeight/4);
+          break;
+        }
+        case screen.availHeight >= 850 && screen.availHeight < 1500: {
+          this.height = (screen.availHeight/4);
+          break;
+        }
+        default:
+          this.height = (screen.availHeight/4);
+          break;
+      }
+    } else {
+      switch (true) {
+        case screen.availHeight < 600: {
+          this.height = (screen.availHeight/8);
+          break;
+        }
+        case screen.availHeight < 700: {
+          this.height = (screen.availHeight/6);
+          break;
+        }
+        case screen.availHeight >= 700 && screen.availHeight < 850: {
+          this.height = (screen.availHeight/5);
+          break;
+        }
+        case screen.availHeight >= 850 && screen.availHeight < 1500: {
+          this.height = (screen.availHeight/4);
+          break;
+        }
+        default:
+          this.height = (screen.availHeight/4);
+          break;
+      }
     }
   }
 }

@@ -156,6 +156,11 @@
   font-size: 1.5rem;
 }
 
+.matSteps {
+  display: flex;
+  flex-direction: column;
+}
+
 @media (min-width: 700px) {
   .section-header {
     padding: 6rem 0 0 0;
@@ -212,9 +217,24 @@
   }
 }
 
+@media (max-width: 1200px) {
+  .banner {
+    height: 40%; 
+  }
+  .steps-lg {
+    height: 60%;
+  }
+}
+
 @media screen and (orientation: landscape) and (max-height: 550px) {
   #hstep,
   #vstep {
     padding-top: 3rem;
+  }
+}
+
+@media screen and (orientation: portrait) and (max-height: 850px) {
+  .p-sm-4 {
+    width: 25%;
   }
 }

@@ -1,7 +1,10 @@
 <div  style="position: relative;">
-  <p-listbox [options]="modelList"  (onChange)="emitModel()" [filter]="true" [(ngModel)]="selectedModel" [listStyle]="{'max-height':height? (height + 'px'):'175px', 'box-shadow': '0 2px 3px 0 rgba(0, 0, 0, 0.15)'}" optionLabel="modelName">
+  <p-listbox [options]="modelList"  (onChange)="emitModel()" [filter]="true" [(ngModel)]="selectedModel" [listStyle]="{'min-height': '70px','max-height':height? (height + 'px'):'70px', 'box-shadow': '0 2px 3px 0 rgba(0, 0, 0, 0.15)'}" optionLabel="modelName">
     <ng-template let-model pTemplate="item">
-      <div class="ui-helper-clearfix">{{model.value.modelName}}</div>
+      <div class="ui-helper-clearfix">
+        {{model.value.modelName}}
+        {{model.value.endOfProductionYear? (' ' + model.value.endOfProductionYear): ''}}
+      </div>
     </ng-template>
   </p-listbox>
 </div>
