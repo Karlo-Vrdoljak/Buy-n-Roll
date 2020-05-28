@@ -9,10 +9,16 @@ import { VehicleService } from '../_services/vehicle.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ManufacturerPropComponent } from '../props/manufacturer-prop/manufacturer-prop.component';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
+import { searchTypes } from '../_types/misc';
 @Component({
   selector: "app-landing",
   templateUrl: "./landing.component.html",
   styleUrls: ["./landing.component.scss"],
+  animations: [
+    fadeInRightOnEnterAnimation(),
+    fadeOutLeftOnLeaveAnimation()
+  ]
 })
 export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   config = {
@@ -53,6 +59,8 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   models:Model[];
   selectedModel: Model;
 
+  searchQuery:string;
+
   height:number;
   width:number;
 
@@ -66,15 +74,19 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     // var docWidth = document.documentElement.offsetWidth;
-    // console.log(docWidth);
     // [].forEach.call(
     //   document.querySelectorAll('*'),
     //   function(el) {
     //     if (el.offsetWidth > docWidth) {
-    //       console.log(el);
     //     }
     //   }
     // );
+  }
+
+  search(searchType: number) {
+    if(searchType == searchTypes.text) {
+    }
+    
   }
 
   ngOnInit(): void {
@@ -95,7 +107,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     this.orientationSubscription$ = this.orientationObservable$.subscribe((evt) => this.evalScreenSize());
     this.shuffledSlides = this.helperService.shuffle(this.defaultSlides());
-    console.log(this.shuffledSlides);
     
     this.slides = deepCopy(this.shuffledSlides);
     this.evalScreenSize();
@@ -114,7 +125,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
       model: ['', Validators.required]
     });
 
-    console.log(this.manufacturers);
 
   }
 
@@ -127,7 +137,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
       this.models = null;
     }
     this.selectedManufacturer = event;
-    console.log(this.selectedManufacturer);
     if(this.selectedManufacturer == null) {
       return;
     }
@@ -139,7 +148,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     
   }
   acceptSelectedSeries(event:Series) {
-    console.log(event);
 
     if(this.selectedSeries) {
       this.selectedSeries = null;
@@ -147,7 +155,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
       this.selectedModel = null;
     }
     this.selectedSeries = event;
-    console.log(this.selectedSeries);
     if(this.selectedSeries == null) {
       return;
     }
@@ -160,7 +167,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   acceptSelectedModel(event:Model) {
-    console.log(event);
 
     if(this.selectedModel == event) {
       return;

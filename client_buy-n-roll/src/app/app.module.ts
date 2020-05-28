@@ -48,6 +48,8 @@ import { SeriesPropComponent } from './props/series-prop/series-prop.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatRippleModule} from '@angular/material/core';
 import { ModelPropComponent } from './props/model-prop/model-prop.component';
+import {MatButtonModule} from '@angular/material/button';
+
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -121,7 +123,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     DropdownModule,
     ListboxModule,
     MatRippleModule,
-    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
+    MatButtonModule
     
   ],
   providers: [

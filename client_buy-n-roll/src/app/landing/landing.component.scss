@@ -160,6 +160,16 @@
   display: flex;
   flex-direction: column;
 }
+.ctaButton {
+  position: absolute;
+  top: 28px;
+  right: calc(15% - 56px);
+}
+@media (max-width: 600px) {
+  .ctaButton {
+    left: calc(67% - 56px);
+  }
+}
 
 @media (min-width: 700px) {
   .section-header {
@@ -175,7 +185,7 @@
     height: 100vh;
   }
   .steps-lg {
-    height: 100%;
+    height: 100% !important;
   }
   .imageText {
     display: block;
@@ -219,7 +229,7 @@
 
 @media (max-width: 1200px) {
   .banner {
-    height: 40%; 
+    height: 40%;
   }
   .steps-lg {
     height: 60%;

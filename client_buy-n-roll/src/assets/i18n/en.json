@@ -5,7 +5,9 @@
   "SERIJA":"Series",
   "TRY_AGAIN":"Please, try again!",
   "ERROR":"Error",
-  "MODEL":"Model"
+  "MODEL":"Model",
+  "VEHICLE_SEARCH":"Enter the name of the car"
+
 
 
 }

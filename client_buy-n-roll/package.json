@@ -28,6 +28,7 @@
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
+    "angular-animations": "0.0.10",
     "angular-web-storage": "^7.0.0-beta.1",
     "angular-webstorage-service": "^1.0.2",
     "bootstrap": "^4.4.0",

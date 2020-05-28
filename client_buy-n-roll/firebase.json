@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/buy-n-roll/",
+    "public": "dist/buy-n-roll",
     "ignore": [
       "firebase.json",
       "**/.*",

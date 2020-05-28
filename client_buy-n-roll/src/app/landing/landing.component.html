@@ -10,8 +10,8 @@
   <div class="content-container">
     <div class="center-content">
       <div class="search-box">
-        <input type="text" class="input-landing" pInputText placeholder="asdf" />
-        <i class="fas fa-2x fa-search input-search"></i>
+        <input type="text" class="input-landing" pInputText [placeholder]="'VEHICLE_SEARCH' | translate" [(ngModel)]="searchQuery"  (keyup.enter)="search(0)"/>
+        <i class="fas fa-2x fa-search input-search cp" (click)="search(0)"></i>
       </div>
     </div>
   </div>
@@ -48,28 +48,33 @@
               </div>
             </div>
           </mat-step>
-          <mat-step [label]="'SERIJA' | translate" *ngIf="series">
+          <mat-step *ngIf="series" [label]="'SERIJA' | translate" >
             <div class="ui-g" [style.min-height]="(height * 1.25) + 'px'">
               <div class="ui-g-12 ui-sm-8 ui-md-10 ui-lg-10">
                 <app-series-prop (passSelectedSeries)="acceptSelectedSeries($event)" [seriesList]="series" [height]="height"></app-series-prop>
-
               </div>
             </div>
           </mat-step>
-          <mat-step [label]="'MODEL' | translate" *ngIf="models && models.length > 0">
+          <mat-step *ngIf="models && models.length > 0" [label]="'MODEL' | translate" >
             <div class="ui-g" [style.min-height]="(height * 1.25) + 'px'">
               <div class="ui-g-12 ui-sm-8 ui-md-10 ui-lg-10">
                 <app-model-prop (passSelectedModel)="acceptSelectedModel($event)" [modelList]="models" [height]="height"></app-model-prop>
-                
               </div>
             </div>
           </mat-step>
         </mat-vertical-stepper>
+        <button mat-fab color="accent" class="ctaButton" (click)="search(1)" *ngIf="selectedManufacturer && selectedSeries" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+          <span class="fa-stack">
+            <i class="fas fa-car pl-1 fa-stack-2x buynroll_deepGray"></i>
+            <i class="fas fa-search fa-stack-1x fa-2x pr-2 fa-inverse"></i>
+          </span>
+        </button>
         <ngx-ui-loader [loaderId]="'vehicle'"></ngx-ui-loader>
       </div>
     </div>
   </div>
 </section>
+
 
 
 <ng-template #header>

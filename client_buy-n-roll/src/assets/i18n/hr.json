@@ -5,6 +5,7 @@
   "SERIJA":"Serija",
   "TRY_AGAIN":"Molimo, pokušajte ponovo!",
   "ERROR":"Greška",
-  "MODEL":"Model"
+  "MODEL":"Model",
+  "VEHICLE_SEARCH":"Upišite naziv automobila"
 
 }
