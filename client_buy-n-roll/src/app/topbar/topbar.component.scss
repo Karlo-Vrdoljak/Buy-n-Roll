@@ -131,6 +131,28 @@
 //   box-shadow: 0 0 0 0.15em #8dcdff;
 // }
 
+:host ::ng-deep .ui-accordion .ui-accordion-content {
+  border: 0;
+  background-color: $none;
+  color: $silver;
+}
+
+.ctaButton {
+  position: absolute;
+  top: 0;
+  right: calc(15% - 56px);
+  transition: all 0.25s ease;
+}
+.ctaCollapsed {
+  // filter: grayscale(1);
+  transform: scale(0.5);
+}
+@media (max-width: 600px) {
+  .ctaButton {
+    left: calc(67% - 56px);
+  }
+}
+
 .hideSmall {
   display: block;
 }

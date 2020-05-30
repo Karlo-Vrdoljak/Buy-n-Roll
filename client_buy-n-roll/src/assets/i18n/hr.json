@@ -6,6 +6,8 @@
   "TRY_AGAIN":"Molimo, pokušajte ponovo!",
   "ERROR":"Greška",
   "MODEL":"Model",
-  "VEHICLE_SEARCH":"Upišite naziv automobila"
+  "VEHICLE_SEARCH":"Upišite naziv automobila",
+  "ODABERITE":"Odaberite",
+  "PRETRAZI":"Pretraga"
 
 }

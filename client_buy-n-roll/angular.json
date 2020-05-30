@@ -31,6 +31,7 @@
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
               "src/assets/scss/buy_n_roll.css",
+              "src/assets/scss/swiper.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/primeflex/primeflex.css"
             ],
@@ -107,6 +108,7 @@
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
               "src/assets/scss/buy_n_roll.css",
+              "src/assets/scss/swiper.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/primeflex/primeflex.css"
             ],

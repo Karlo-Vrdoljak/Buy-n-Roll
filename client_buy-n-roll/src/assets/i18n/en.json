@@ -6,7 +6,11 @@
   "TRY_AGAIN":"Please, try again!",
   "ERROR":"Error",
   "MODEL":"Model",
-  "VEHICLE_SEARCH":"Enter the name of the car"
+  "VEHICLE_SEARCH":"Enter the name of the car",
+  "ODABERITE":"Choose",
+  "PRETRAZI":"Search"
+
+
 
 
 

@@ -404,7 +404,7 @@ body .ui-dropdown .ui-dropdown-label {
   padding-right: 2em;
 }
 body .ui-dropdown .ui-dropdown-trigger {
-  background-color: #ffffff;
+  background-color: #feda6a;
   width: 2em;
   line-height: 2em;
   text-align: center;
@@ -435,6 +435,10 @@ body .ui-dropdown-panel .ui-dropdown-filter-container {
 body .ui-dropdown-panel .ui-dropdown-filter-container .ui-dropdown-filter {
   width: 100%;
   padding-right: 2em;
+  padding: 0.429em;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  background-color: #f5f5f5;
 }
 body .ui-dropdown-panel .ui-dropdown-filter-container .ui-dropdown-filter-icon {
   top: 50%;

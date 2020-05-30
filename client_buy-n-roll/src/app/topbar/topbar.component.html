@@ -1,5 +1,5 @@
 <p-toolbar>
-	<div id="topbar" class="us0"  style="z-index: 1000;"[ngClass]="{'topbar': !landing, 'topbar-landing': landing}">
+	<div id="topbar" class="us0" style="z-index: 1000;" [ngClass]="{'topbar': !landing, 'topbar-landing': landing}">
 		<div class="flex" [ngClass]="{'larger': landing}">
 			<div class="flex-1 main-logo">
 				<!-- <button style="width: 3em;" [ngClass]="{'larger': landing}" (click)="openSidebar()" type="button" class="ui-button-warning" pButton icon="pi pi-bars"></button> -->
@@ -44,8 +44,52 @@
 		<div class="p-grid p-dir-col">
 			<div class="sb-top-left logo app-logo"></div>
 			<div class="oswald-top-left">Buy'n'Roll</div>
-			<div class="p-col cp">content 1</div>
-			<div class="p-col cp">content 2</div>
+			<div class="p-col" style="position: relative;">
+				<p-accordion [activeIndex]="index" (onOpen)="onTabOpen($event)" expandIcon="fas fa-caret-right" collapseIcon="fas fa-caret-down">
+					<p-accordionTab [header]="'PRETRAZI' | translate">
+						<div class="p-grid p-dir-col">
+							<div class="p-col">
+								<h6>{{ 'MANUFACTURER' | translate }}</h6>
+								<p-dropdown [placeholder]="'ODABERITE' | translate" filter="true" (onChange)="getSeriesData($event)" *ngIf="manufacturers" [virtualScroll]="true" itemSize="20" [options]="manufacturers" [(ngModel)]="selectedManufacturer" optionLabel="manufacturerName">
+									<ng-template let-item pTemplate="selectedItem">
+										<span *ngIf="item.label">{{ helperService.truncateString(item.label,15) }}</span>
+									</ng-template>
+								</p-dropdown>
+							</div>
+							<div class="p-col">
+								<h6>{{ 'SERIJA' | translate }}</h6>
+								<p-dropdown [placeholder]="'ODABERITE' | translate" [@fadeInUpOnEnter] *ngIf="series" filter="true" (onChange)="getModelData($event)" [virtualScroll]="true" itemSize="20" [options]="series" [(ngModel)]="selectedSeries" optionLabel="seriesName">
+									<ng-template let-item pTemplate="selectedItem">
+										<span *ngIf="item.label">{{ helperService.truncateString(item.label,15) }}</span>
+									</ng-template>
+								</p-dropdown>
+							</div>
+							<div class="p-col">
+								<h6>{{ 'MODEL' | translate }}</h6>
+								<p-dropdown [placeholder]="'ODABERITE' | translate" [@fadeInUpOnEnter] *ngIf="models" filter="true" (onChange)="selectModel($event)" [virtualScroll]="true" itemSize="20" [options]="models" [(ngModel)]="selectedModel" optionLabel="modelName">
+									<ng-template let-item pTemplate="selectedItem">
+										<span *ngIf="item.label">{{ helperService.truncateString(item.label,15) }}</span>
+									</ng-template>
+								</p-dropdown>
+							</div>
+						</div>
+						<button [disabled]="index != 0" mat-fab color="accent" class="ctaButton" (click)="search(1)" [ngClass]="{'ctaCollapsed': index != 0}" *ngIf="selectedManufacturer && selectedSeries" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+							<span class="fa-stack">
+								<i class="fas fa-car pl-1 fa-stack-2x buynroll_deepGray"></i>
+								<i class="fas fa-search fa-stack-1x fa-2x pr-2 fa-inverse"></i>
+							</span>
+						</button>
+					</p-accordionTab>
+					<p-accordionTab header="Header 2">
+					</p-accordionTab>
+					<p-accordionTab header="Header 3">
+						Content 3
+					</p-accordionTab>
+				</p-accordion>
+				<ngx-ui-loader [loaderId]="'vehicleTopbar'"></ngx-ui-loader>
+			</div>
+			<div class="p-col">
+			</div>
 			<div class="p-col cp">content 3</div>
 		</div>
 	</div>
