@@ -53,8 +53,8 @@
 									<input type="text" class="input-sidebar" pInputText [placeholder]="'PRETRAZI_INPUT' | translate" [(ngModel)]="searchQuery" (keyup.enter)="search(0)" />
 									<i class="fas fa-search input-search" (click)="search(0)"></i>
 								</div>
-
 							</div>
+							<div class="divider div-light"></div>
 							<div class="p-col">
 								<h6>{{ 'MANUFACTURER' | translate }}</h6>
 								<p-dropdown [placeholder]="'ODABERITE' | translate" filter="true" (onChange)="getSeriesData($event)" *ngIf="manufacturers" [virtualScroll]="true" itemSize="20" [options]="manufacturers" [(ngModel)]="selectedManufacturer" optionLabel="manufacturerName">

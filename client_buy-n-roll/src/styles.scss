@@ -12,8 +12,8 @@ body {
   // background-attachment: fixed;
   overflow: overlay;
   overflow-x: hidden;
-  width: 100vw!important;
-  height: 100vh!important;
+  width: 100vw !important;
+  height: 100vh !important;
   padding: 0;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -23,11 +23,11 @@ body {
   width: device-width;
 }
 
-html, body {
+html,
+body {
   // overflow-x:hidden;
   scroll-behavior: smooth;
-} 
-
+}
 
 div:after {
   clear: both;
@@ -48,9 +48,6 @@ div {
 //   outline: 1px solid red;
 // }
 
-
-
-
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -65,7 +62,7 @@ div {
 }
 
 .transparent {
-  background-color: #393f4dbd!important;
+  background-color: #393f4dbd !important;
 }
 
 .mx {
@@ -75,5 +72,28 @@ div {
   cursor: pointer;
 }
 
+.divider {
+  position: relative;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  height: 1px;
+}
+
+.div-light:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5%;
+  right: 5%;
+  width: 90%;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    $silver,
+    transparent
+  );
+} 
+
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";

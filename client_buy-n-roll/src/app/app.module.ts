@@ -36,23 +36,24 @@ import { HelperService } from "./_services/helper.service";
 import { NgxParallaxScrollModule } from "ngx-parallax-scroll";
 import { NgsRevealModule } from "ngx-scrollreveal";
 import { MatStepperModule } from "@angular/material/stepper";
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LandingResolver } from './_resolvers/landing.resolver';
 import { VehicleService } from './_services/vehicle.service';
 import { ManufacturerPropComponent } from './props/manufacturer-prop/manufacturer-prop.component';
-import {VirtualScrollerModule} from 'primeng/virtualscroller';
-import {DropdownModule} from 'primeng/dropdown';
-import {ListboxModule} from 'primeng/listbox';
+import { VirtualScrollerModule } from 'primeng/virtualscroller';
+import { DropdownModule } from 'primeng/dropdown';
+import { ListboxModule } from 'primeng/listbox';
 import { SeriesPropComponent } from './props/series-prop/series-prop.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import {MatRippleModule} from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core';
 import { ModelPropComponent } from './props/model-prop/model-prop.component';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { CatalogueComponent } from './catalogue/catalogue.component';
 import { TranslationList } from './_services/translation.list';
 import { CatalogueResolver } from './_resolvers/catalogue.resolver';
 import { SearchService } from './_services/search.service';
+
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -129,7 +130,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ListboxModule,
     MatRippleModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
-    MatButtonModule
+    MatButtonModule,
     
   ],
   providers: [
