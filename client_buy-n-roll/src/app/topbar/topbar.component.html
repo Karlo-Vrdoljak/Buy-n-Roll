@@ -45,9 +45,16 @@
 			<div class="sb-top-left logo app-logo"></div>
 			<div class="oswald-top-left">Buy'n'Roll</div>
 			<div class="p-col" style="position: relative;">
-				<p-accordion [activeIndex]="index" (onOpen)="onTabOpen($event)" expandIcon="fas fa-caret-right" collapseIcon="fas fa-caret-down">
+				<p-accordion [activeIndex]="index" (onOpen)="onTabOpen($event)" (onClose)="onTabClose($event)" expandIcon="fas fa-caret-right" collapseIcon="fas fa-caret-down">
 					<p-accordionTab [header]="'PRETRAZI' | translate">
 						<div class="p-grid p-dir-col">
+							<div class="p-col">
+								<div class="search-box" style="position: relative;">
+									<input type="text" class="input-sidebar" pInputText [placeholder]="'PRETRAZI_INPUT' | translate" [(ngModel)]="searchQuery" (keyup.enter)="search(0)" />
+									<i class="fas fa-search input-search" (click)="search(0)"></i>
+								</div>
+
+							</div>
 							<div class="p-col">
 								<h6>{{ 'MANUFACTURER' | translate }}</h6>
 								<p-dropdown [placeholder]="'ODABERITE' | translate" filter="true" (onChange)="getSeriesData($event)" *ngIf="manufacturers" [virtualScroll]="true" itemSize="20" [options]="manufacturers" [(ngModel)]="selectedManufacturer" optionLabel="manufacturerName">
@@ -56,17 +63,17 @@
 									</ng-template>
 								</p-dropdown>
 							</div>
-							<div class="p-col">
+							<div class="p-col" [@fadeInUpOnEnter] *ngIf="series">
 								<h6>{{ 'SERIJA' | translate }}</h6>
-								<p-dropdown [placeholder]="'ODABERITE' | translate" [@fadeInUpOnEnter] *ngIf="series" filter="true" (onChange)="getModelData($event)" [virtualScroll]="true" itemSize="20" [options]="series" [(ngModel)]="selectedSeries" optionLabel="seriesName">
+								<p-dropdown [placeholder]="'ODABERITE' | translate" filter="true" (onChange)="getModelData($event)" [virtualScroll]="true" itemSize="20" [options]="series" [(ngModel)]="selectedSeries" optionLabel="seriesName">
 									<ng-template let-item pTemplate="selectedItem">
 										<span *ngIf="item.label">{{ helperService.truncateString(item.label,15) }}</span>
 									</ng-template>
 								</p-dropdown>
 							</div>
-							<div class="p-col">
+							<div class="p-col" [@fadeInUpOnEnter] *ngIf="models">
 								<h6>{{ 'MODEL' | translate }}</h6>
-								<p-dropdown [placeholder]="'ODABERITE' | translate" [@fadeInUpOnEnter] *ngIf="models" filter="true" (onChange)="selectModel($event)" [virtualScroll]="true" itemSize="20" [options]="models" [(ngModel)]="selectedModel" optionLabel="modelName">
+								<p-dropdown [placeholder]="'ODABERITE' | translate" filter="true" (onChange)="selectModel($event)" [virtualScroll]="true" itemSize="20" [options]="models" [(ngModel)]="selectedModel" optionLabel="modelName">
 									<ng-template let-item pTemplate="selectedItem">
 										<span *ngIf="item.label">{{ helperService.truncateString(item.label,15) }}</span>
 									</ng-template>

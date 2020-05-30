@@ -119,11 +119,18 @@ export class TopbarComponent implements OnInit {
   onTabOpen(event) {
     this.index = event.index;
   }
+  onTabClose(event) {
+    console.log('close', event);
+    
+    this.index = event.index == 0? null: event.index;
+  }
   search(searchType: number) {
     if(searchType == searchTypes.text) {
       let sanitizedQuery = this.helperService.sanitizeQuery(this.searchQuery);
       if(sanitizedQuery.length > 1) {
         this.router.navigate(["catalogues", sanitizedQuery], {queryParams: {searchType: searchType}});
+        this.searchQuery = null;
+        this.displaySidebar = false;
       }
     } else if (searchType == searchTypes.pickList) {
       if(this.selectedManufacturer && this.selectedSeries) {
