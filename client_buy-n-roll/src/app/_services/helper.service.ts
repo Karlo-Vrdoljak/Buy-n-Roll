@@ -25,4 +25,23 @@ export class HelperService {
   isLandscape() {
     return (window.orientation === 90 || window.orientation === -90);
   }
+  private removeByIndex(str,index) {
+    if (index==0) {
+        return  str.slice(1)
+    } else {
+        return str.slice(0,index) + str.slice(index +1);
+    } 
+  }
+  sanitizeQuery(query:string) {
+    let unsafe = ["\"", "<", ">", "#", "%", "{","}", "|", "\\", "^", "~", "[", "]", "`", ";", "/", "?", ":", "@", "=", "&", "$"];
+    for (let i = 0; i < query.length; i++) {
+      unsafe.map(u => {
+        if(query[i] && query.includes(u)) {
+          query = this.removeByIndex(query, query.indexOf(u));
+          i = 0;
+        }
+      });
+    }
+    return query;
+  }
 }

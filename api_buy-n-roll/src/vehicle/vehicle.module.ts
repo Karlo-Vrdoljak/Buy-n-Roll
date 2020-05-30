@@ -12,6 +12,10 @@ import { TrimModule } from './trim/trim.module';
 import { VehicleService } from './vehicle.service';
 import { DbLogs } from 'src/db.logs';
 import { Connection } from 'typeorm/connection/Connection';
+import { SearchController } from 'src/controllers/vehicle/search/search.controller';
+import { DBAccess } from 'src/types/db.access';
+import { OglasModule } from 'src/users/oglas/oglas.module';
+import { Config } from 'src/config';
 
 @Module({
   imports: [
@@ -26,6 +30,7 @@ import { Connection } from 'typeorm/connection/Connection';
     TransmissionModule,
     TrimModule,
     HttpModule,
+    OglasModule
   ],
   exports: [
     BodyModule,
@@ -39,11 +44,16 @@ import { Connection } from 'typeorm/connection/Connection';
     TransmissionModule,
     TrimModule,
     HttpModule,
-    DbLogs
+    DbLogs,
+    VehicleService,
+    OglasModule
   ],
+  controllers: [SearchController],
   providers: [
     VehicleService,
-    DbLogs
+    DbLogs,
+    DBAccess,
+    Config
   ]
 })
 export class VehicleModule {private readonly connection: Connection}

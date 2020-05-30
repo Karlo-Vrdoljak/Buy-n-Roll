@@ -4,7 +4,7 @@ import { Slide } from "../_types/Slides";
 import { HelperService } from "../_services/helper.service";
 import { deepCopy } from "owl-deepcopy";
 import { Manufacturer, Series, Model } from '../_types/manufacturer.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleService } from '../_services/vehicle.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ManufacturerPropComponent } from '../props/manufacturer-prop/manufacturer-prop.component';
@@ -69,7 +69,8 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     public route: ActivatedRoute, 
     public vehicleService:VehicleService,
     public formBuilder: FormBuilder,
-    public loader: NgxUiLoaderService
+    public loader: NgxUiLoaderService,
+    public router:Router,
     ) {}
 
   ngAfterViewInit(): void {
@@ -85,8 +86,20 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   search(searchType: number) {
     if(searchType == searchTypes.text) {
+      let sanitizedQuery = this.helperService.sanitizeQuery(this.searchQuery);
+      if(sanitizedQuery.length > 1) {
+        this.router.navigate(["catalogues", sanitizedQuery], {queryParams: {searchType: searchType}});
+      }
+    } else if (searchType == searchTypes.pickList) {
+      if(this.selectedManufacturer && this.selectedSeries) {
+        let params = {
+          ...this.selectedManufacturer,
+          ...this.selectedSeries,
+          ...this.selectedModel? this.selectedModel: null
+        }
+        this.router.navigate(["catalogues",params], {queryParams: {searchType:searchType}});
+      }
     }
-    
   }
 
   ngOnInit(): void {

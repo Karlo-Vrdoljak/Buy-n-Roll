@@ -49,6 +49,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {MatRippleModule} from '@angular/material/core';
 import { ModelPropComponent } from './props/model-prop/model-prop.component';
 import {MatButtonModule} from '@angular/material/button';
+import { CatalogueComponent } from './catalogue/catalogue.component';
+import { TranslationList } from './_services/translation.list';
+import { CatalogueResolver } from './_resolvers/catalogue.resolver';
+import { SearchService } from './_services/search.service';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -72,6 +76,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ManufacturerPropComponent,
     SeriesPropComponent,
     ModelPropComponent,
+    CatalogueComponent,
   ],
   imports: [
     BrowserModule,
@@ -139,7 +144,10 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ErrorHandler,
     HelperService,
     LandingResolver,
-    VehicleService
+    CatalogueResolver,
+    VehicleService,
+    TranslationList,
+    SearchService
   ],
   bootstrap: [AppComponent],
 })

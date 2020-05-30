@@ -19,13 +19,11 @@ export class LandingResolver implements Resolve<unknown>{
   ){ }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-    
     return forkJoin ([
       this.vehicleService.manufacturersFindAll(),
       // this.vehicleService.seriesFindAll()
       ]).pipe(
         catchError(error => {
-          console.error(error);
           const state: RouterState = this.router.routerState;
           this.errorHandler.handleRouterState(state);
           return this.errorHandler.handleError('LandingResolver');

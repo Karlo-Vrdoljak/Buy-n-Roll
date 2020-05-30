@@ -6,4 +6,5 @@ export class DbLogs {
     warnNeedsInit(label:string) { console.warn('[APP]', new Date(),label + " needs init!"); }
     initializing(num){ console.info('[APP]', new Date(),"Initializing", num + '%'); }
     done(){ console.info('[APP]', new Date(),"Done!"); }
+    queryLog(query){ console.info('[APP]', new Date(), query); }
 }

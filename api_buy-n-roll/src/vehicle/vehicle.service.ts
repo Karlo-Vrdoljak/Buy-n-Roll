@@ -19,6 +19,8 @@ import { Connection } from 'typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as COLORS from '../assets/static/color-names.json';
+import { DBAccess } from 'src/types/db.access';
+import { OglasService } from 'src/users/oglas/oglas.service';
 
 
 @Injectable()
@@ -38,6 +40,8 @@ export class VehicleService implements OnModuleInit {
     public httpService: HttpService,
     public dbLogs: DbLogs,
     public connection: Connection,
+    public dbAccess: DBAccess,
+    public oglasService: OglasService
   ) {}
   onModuleInit() {
 
@@ -52,18 +56,18 @@ export class VehicleService implements OnModuleInit {
         this.dbLogs.warnNeedsInit('Vehicle');
         this.dbLogs.initializing(0);
 
-        this.saveManufacturerData().then(() => {
+        this._saveManufacturerData().then(() => {
           this.dbLogs.initializing(33);
 
           this.manufacturerService
             .findAll()
             .then((manufacturers: Manufacturer[]) => {
-              let carsByManufacturer = this.groupByKey(cars, 'MAKER');
-              this.saveSeriesData(manufacturers, carsByManufacturer);
+              let carsByManufacturer = this._groupByKey(cars, 'MAKER');
+              this._saveSeriesData(manufacturers, carsByManufacturer);
               this.dbLogs.initializing(66);
 
-              this.getAllManufacturerSeries().then(result => {
-								this.saveModelsToSeries(result[0]); // manufacturerSeries
+              this._getAllManufacturerSeries().then(result => {
+								this._saveModelsToSeries(result[0]); // manufacturerSeries
 								this.dbLogs.initializing(100);
 
               });
@@ -73,11 +77,11 @@ export class VehicleService implements OnModuleInit {
     });
   }
 
-  saveModelsToSeries(manufacturerSeries) {
-    let Makergroup = this.groupByKey(cars, 'MAKER');
+  private _saveModelsToSeries(manufacturerSeries) {
+    let Makergroup = this._groupByKey(cars, 'MAKER');
     let modelList = (Object.keys(Makergroup).map(makerGroupKey => {
       return {
-				[makerGroupKey]: this.groupByKey(Makergroup[makerGroupKey], 'MODEL')
+				[makerGroupKey]: this._groupByKey(Makergroup[makerGroupKey], 'MODEL')
 			}
 		}));
 		
@@ -105,14 +109,7 @@ export class VehicleService implements OnModuleInit {
     });
   }
 
-  // async getSerie($name) {
-  // 	return await this.seriesService
-  // 	.getRepo()
-  // 	.createQueryBuilder('series')
-  // 	.where("series.seriesName = :name", {name: $name})
-  // 	.getMany();
-  // }
-  async getAllManufacturerSeries() {
+  private async _getAllManufacturerSeries() {
     return await this.manufacturerService
 			.getRepo()
 			.createQueryBuilder('manufacturer')
@@ -120,7 +117,7 @@ export class VehicleService implements OnModuleInit {
       .getManyAndCount();
   }
 
-  async saveManufacturerData() {
+  private async _saveManufacturerData() {
     let uniqueManufacturers = cars
       .map(car => car.MAKER)
       .filter((item, pos, self) => {
@@ -140,9 +137,9 @@ export class VehicleService implements OnModuleInit {
     return manufacturerList;
   }
 
-  saveSeriesData(manufacturers: Manufacturer[], manufacturerList) {
+  private _saveSeriesData(manufacturers: Manufacturer[], manufacturerList) {
     manufacturers.map(async (manufacturer: Manufacturer) => {
-      let seriesList = this.groupByKey(
+      let seriesList = this._groupByKey(
         manufacturerList[manufacturer.manufacturerName],
         'MODEL',
       );
@@ -171,10 +168,20 @@ export class VehicleService implements OnModuleInit {
     });
   }
 
-  groupByKey(array: any[], key) {
+  private _groupByKey(array: any[], key) {
     return array.reduce((rv, x) => {
       (rv[x[key]] = rv[x[key]] || []).push(x);
       return rv;
     }, {});
+  }
+
+  findOglasiBySearchString(searchString:string) {
+    return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), new Array(6).fill(searchString));
+  }
+  findOglasiAll() {
+    return this.oglasService.getRepo().query(this.dbAccess.getOglasAll());
+  }
+  findOglasiByProps(props: Manufacturer & Series & Model) {
+    return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), [props.manufacturerName, props.manufacturerName, props.seriesName, props.seriesName, props.modelName, props.modelName]);
   }
 }

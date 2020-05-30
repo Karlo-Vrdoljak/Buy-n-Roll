@@ -4,6 +4,6 @@ export class Config {
     // origin: 'https://buy-n-roll.web.app', //deploy
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
-    db_logs:true
   };
+  dbAccessQueryLogs: boolean = false;
 }
