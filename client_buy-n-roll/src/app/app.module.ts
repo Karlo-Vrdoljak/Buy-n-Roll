@@ -106,6 +106,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
       progressAnimation: "decreasing",
       positionClass: "toast-bottom-left",
       enableHtml: true,
+      timeOut: 2000
     }),
     ToolbarModule,
     MatInputModule,

@@ -9,6 +9,7 @@
   "VEHICLE_SEARCH":"Upišite naziv automobila",
   "ODABERITE":"Odaberite",
   "PRETRAZI":"Pretraga",
-  "PRETRAZI_INPUT":"Pretražite ovdje"
+  "PRETRAZI_INPUT":"Pretražite ovdje",
+  "FORM_ERROR_TWOCHAR":"Unesite barem 2 znaka"
 
 }

@@ -11,6 +11,7 @@ import { ManufacturerPropComponent } from '../props/manufacturer-prop/manufactur
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
 import { searchTypes } from '../_types/misc';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: "app-landing",
   templateUrl: "./landing.component.html",
@@ -63,6 +64,7 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   height:number;
   width:number;
+  translations:any;
 
   constructor(
     public helperService: HelperService, 
@@ -71,6 +73,7 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     public formBuilder: FormBuilder,
     public loader: NgxUiLoaderService,
     public router:Router,
+    public toast: ToastrService
     ) {}
 
   ngAfterViewInit(): void {
@@ -89,6 +92,8 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
       let sanitizedQuery = this.helperService.sanitizeQuery(this.searchQuery);
       if(sanitizedQuery.length > 1) {
         this.router.navigate(["catalogues", sanitizedQuery], {queryParams: {searchType: searchType}});
+      } else {
+        this.toast.info(this.translations.FORM_ERROR_TWOCHAR);
       }
     } else if (searchType == searchTypes.pickList) {
       if(this.selectedManufacturer && this.selectedSeries) {
@@ -126,6 +131,8 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.manufacturers = this.route.snapshot.data.pageData[0] || [];
 
+    this.translations = this.route.snapshot.data.pageData[1] || {};
+
     this.formGroupManufacturer = this.formBuilder.group({
       manufacturer: ['', Validators.required]
     });
@@ -138,7 +145,7 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
       model: ['', Validators.required]
     });
 
-
+    this.searchQuery = '';
   }
 
   acceptSelectedManufacturer(event:Manufacturer) {

@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ErrorHandler } from '../_services/errorHandler';
 import { VehicleService } from '../_services/vehicle.service';
+import { TranslationList } from '../_services/translation.list';
 
 
 @Injectable()
@@ -13,15 +14,18 @@ export class LandingResolver implements Resolve<unknown>{
 
   constructor(
     private translate:TranslateService,
+    private translationProvider:TranslationList,
     private router:Router,
     private errorHandler: ErrorHandler,
     private vehicleService: VehicleService
   ){ }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
+    console.log(this.translate.currentLang);
+    
     return forkJoin ([
       this.vehicleService.manufacturersFindAll(),
-      // this.vehicleService.seriesFindAll()
+      this.translate.get(this.translationProvider.getLanding())
       ]).pipe(
         catchError(error => {
           const state: RouterState = this.router.routerState;

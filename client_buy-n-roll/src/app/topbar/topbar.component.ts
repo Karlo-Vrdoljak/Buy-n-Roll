@@ -7,6 +7,10 @@ import { fadeInUpOnEnterAnimation, fadeOutDownOnLeaveAnimation, fadeInRightOnEnt
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { HelperService } from '../_services/helper.service';
 import { searchTypes } from '../_types/misc';
+import { ToastrService } from 'ngx-toastr';
+import { forkJoin } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { TranslationList } from '../_services/translation.list';
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -30,12 +34,16 @@ export class TopbarComponent implements OnInit {
   models:Model[];
   searchQuery:string;
   index:number = 0;
+  translations:any;
   constructor(
     public router: Router,
     public activatedRoute: ActivatedRoute,
     public vehicleService: VehicleService,
     public loader:NgxUiLoaderService,
-    public helperService: HelperService
+    public helperService: HelperService,
+    public toast:ToastrService,
+    public translate: TranslateService,
+    public translateProvider: TranslationList
   ) { }
   ngOnInit(): void {
     this.selectedManufacturer = null;
@@ -50,18 +58,22 @@ export class TopbarComponent implements OnInit {
           this.landing = false;
         }
       });
-    this.vehicleService.manufacturersFindAll().subscribe((manufs:Manufacturer[]) => {
+    forkJoin(
+      this.vehicleService.manufacturersFindAll(),
+      this.translate.get(this.translateProvider.getLanding())
+    ).subscribe(([manufs, t]:[Manufacturer[], any]) => {
+      this.translations = t || {};
       this.manufacturers = manufs.map(m => {
         m.manufacturerName = m.manufacturerName.toLocaleLowerCase();
         m.manufacturerName = m.manufacturerName.charAt(0).toUpperCase() + m.manufacturerName.slice(1); 
         return m;
       });
     });
+    this.searchQuery = '';
     // this.infLog();
   }
   getSeriesData(event:any) {
     let manufacturer = event.value as Manufacturer;
-    console.log("topbar", manufacturer);
     
     if(this.selectedManufacturer) {
       this.selectedManufacturer = null;
@@ -120,7 +132,6 @@ export class TopbarComponent implements OnInit {
     this.index = event.index;
   }
   onTabClose(event) {
-    console.log('close', event);
     
     this.index = event.index == 0? null: event.index;
   }
@@ -129,8 +140,10 @@ export class TopbarComponent implements OnInit {
       let sanitizedQuery = this.helperService.sanitizeQuery(this.searchQuery);
       if(sanitizedQuery.length > 1) {
         this.router.navigate(["catalogues", sanitizedQuery], {queryParams: {searchType: searchType}});
-        this.searchQuery = null;
+        this.searchQuery = '';
         this.displaySidebar = false;
+      } else {
+        this.toast.info(this.translations.FORM_ERROR_TWOCHAR);
       }
     } else if (searchType == searchTypes.pickList) {
       if(this.selectedManufacturer && this.selectedSeries) {
@@ -146,7 +159,6 @@ export class TopbarComponent implements OnInit {
   }
   infLog() {
     setTimeout(() => {
-      console.log(this.series);
       this.infLog();
     }, 3000);
 }

@@ -9,7 +9,9 @@
   "VEHICLE_SEARCH":"Enter the name of the car",
   "ODABERITE":"Choose",
   "PRETRAZI":"Search",
-  "PRETRAZI_INPUT":"Search here"
+  "PRETRAZI_INPUT":"Search here",
+  "FORM_ERROR_TWOCHAR":"Enter at least 2 characters"
+
 
 
 
