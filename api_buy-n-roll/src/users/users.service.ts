@@ -19,6 +19,11 @@ import { Body } from 'src/entity/body.entity';
 import { OglasService } from './oglas/oglas.service';
 import { Oglas } from 'src/entity/oglas.entity';
 import * as bcrypt from 'bcrypt';
+import { DrivetrainService } from 'src/vehicle/drivetrain/drivetrain.service';
+import { GasTypeService } from 'src/vehicle/gasType/gasType.service';
+import { TransmissionService } from 'src/vehicle/transmission/transmission.service';
+import { BodyService } from 'src/vehicle/body/body.service';
+import { VehicleState } from 'src/types/enums';
 
 @Injectable()
 export class UsersService implements OnModuleInit{
@@ -40,7 +45,10 @@ export class UsersService implements OnModuleInit{
     public colorService: ColorService,
     public chassisService: ChassisService,
     public oglasService: OglasService,
-
+    public drivetrainService: DrivetrainService,
+    public gasTypeService: GasTypeService,
+    public transmissionService: TransmissionService,
+    public bodyService: BodyService,
     private dbLogs: DbLogs
   ) { }
 
@@ -93,6 +101,9 @@ export class UsersService implements OnModuleInit{
       limarija u osrednjem stanju trebalo bi malo uložiti u nju...
       `;
       oglas.vehicle = await this.userVehicleRepository.findOne(1);
+      oglas.accessories = ["putno racunalo", "rezervno kolo", "3. štop", "alu felge"];
+      oglas.airConditioning = ["nema"];
+      oglas.comfortAccessories = ["šiber", "podizaci stakala", "recaro profilirani sicevi"];
 
       await manager.save(oglas);
     });
@@ -120,9 +131,36 @@ export class UsersService implements OnModuleInit{
       let chassis = new Chassis();
 
       let model = await this.modelService.getRepo()
-      .createQueryBuilder('m')
-      .where('m.PkModel = :PkModel', { PkModel: dbData.PkModel })
-      .getOne();
+        .createQueryBuilder('m')
+        .where('m.PkModel = :PkModel', { PkModel: dbData.PkModel })
+        .getOne();
+
+      let drivetrain = await this.drivetrainService.getRepo()
+        .createQueryBuilder('dt')
+        .where('dt.drivetrainCode = :code', { code: 'FWD'})
+        .getOne();
+
+      let gas = await this.gasTypeService.getRepo()
+        .createQueryBuilder('g')
+        .where('g.gasType = :x', { x: 'BENZIN' })
+        .getOne();
+      
+      let transmission = await this.transmissionService.getRepo()
+        .createQueryBuilder('t')
+        .where('t.transmissionName = :tr', { tr: 'MANUAL' })
+        .getOne();
+
+      let body = await this.bodyService.getRepo()
+        .createQueryBuilder('b')
+        .where('b.bodyName = :bname', { bname: 'HATCHBACK' })
+        .getOne();
+
+      model.drivetrain = drivetrain;
+      model.gasType = gas;
+      model.transmission = transmission;
+      model.body = body;
+
+      await manager.save(model);
 
       let color = await this.colorService.getRepo()
       .createQueryBuilder('c')
@@ -132,6 +170,9 @@ export class UsersService implements OnModuleInit{
       chassis.model = model;
       chassis.makeYear = '1991';
       chassis.color = color;
+      chassis.kilometers = '210000';
+      chassis.consumption = 11;
+      chassis.vehicleState = VehicleState.IZVRSNO;
 
       await manager.save(chassis);
       
@@ -198,19 +239,6 @@ export class UsersService implements OnModuleInit{
     });
   }
 
-  testFullVehicleQuery() {
-    return this.userVehicleRepository
-    .createQueryBuilder('uv')
-    // .select('uv.RegistriranDaNe, ch.makeYear, u.username, ml.endOfProductionYear, ml.modelName, s.seriesName, m.manufacturerName, b.BodyName')
-    .leftJoinAndSelect('uv.chassis','ch')
-    .leftJoinAndSelect('uv.user','u')
-    .leftJoinAndSelect('ch.model','ml')
-    .leftJoinAndSelect('ch.color','c')
-    .leftJoinAndSelect('ml.series','s')
-    .leftJoinAndSelect('s.manufacturer','m')
-    .leftJoinAndSelect('ml.body','b')
-    .getMany();
-  }
   async findOne(username: string): Promise<User | undefined> {
     return this.usersRepository
       .createQueryBuilder("user")

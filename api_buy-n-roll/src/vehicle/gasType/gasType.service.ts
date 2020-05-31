@@ -31,4 +31,10 @@ export class GasTypeService implements OnModuleInit {
   async remove(PkGasType: number): Promise<void> {
     await this.gasTypeRepository.delete(PkGasType);
   }
+  count() {
+    return this.gasTypeRepository.count();
+  }
+  getRepo() {
+    return this.gasTypeRepository;
+  }
 }

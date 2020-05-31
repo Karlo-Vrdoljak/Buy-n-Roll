@@ -10,10 +10,10 @@ export class Photo {
 
   @Index({fulltext:true})
   @Column({ nullable: true })
-  photoTitle: string; // 'Astra f gsi prvi vlasnik'
+  photoTitle: string;
 
   @Column({ nullable: true })
-  photoOpis: string; // 'free text opis' 
+  photoOpis: string;
 
   @CreateDateColumn()
   photoCreatedAt:Date;
@@ -21,5 +21,28 @@ export class Photo {
   @ManyToOne(type => Oglas, oglas => oglas.photos)
   oglas: Oglas;
 
+  @Column({ nullable: true })
+  fieldname: string;
+
+  @Column({ nullable: true })
+  originalname: string;
+
+  @Column({ nullable: true })
+  encoding: string;
+
+  @Column({ nullable: true })
+  mimetype: string;
+
+  @Column({ nullable: true })
+  destination: string;
+
+  @Column({ nullable: true })
+  filename: string;
+
+  @Column({ nullable: true })
+  path: string;
+
+  @Column({ nullable: true })
+  size: string;
 
 } 

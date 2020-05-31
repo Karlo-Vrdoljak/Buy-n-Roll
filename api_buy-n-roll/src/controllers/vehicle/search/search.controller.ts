@@ -5,22 +5,15 @@ import { VehicleService } from 'src/vehicle/vehicle.service';
 
 @Controller('api/vehicle/search/')
 export class SearchController {
+  constructor(private vehicleService: VehicleService) {}
 
-  constructor(private vehicleService:VehicleService) { }
-
-  // @Get()
-  // getOglasiAll() {
-  //   return this.vehicleService.findOglasiAll();
-  // }
-  
   @Get('detailed')
   getOglasiByManufSerieModel(@Request() req) {
-   return this.vehicleService.findOglasiByProps(req.query);
- }
-
-  @Get(':query')
-   getOglasiBySearchString(@Param() params) {
-    return this.vehicleService.findOglasiBySearchString(params.query);
+    return this.vehicleService.findOglasiBySimpleProps(req.query);
   }
 
+  @Get(':query')
+  getOglasiBySearchString(@Param() params) {
+    return this.vehicleService.findOglasiBySearchString(params.query);
+  }
 }

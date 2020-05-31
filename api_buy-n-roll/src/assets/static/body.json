@@ -1,0 +1,44 @@
+[
+  {
+    "body": "BUGGY"
+  },
+  {
+    "body": "CONVERTIBLE"
+  },
+  {
+    "body": "COUPE"
+  },
+  {
+    "body": "HATCHBACK"
+  },
+  {
+    "body": "HEARSE"
+  },
+  {
+    "body": "LIMOUSINE"
+  },
+  {
+    "body": "MINIVAN"
+  },
+  {
+    "body": "PANEL_VAN"
+  },
+  {
+    "body": "PICKUP"
+  },
+  {
+    "body": "ROADSTER"
+  },
+  {
+    "body": "SEDAN"
+  },
+  {
+    "body": "TARGA"
+  },
+  {
+    "body": "UTE"
+  },
+  {
+    "body": "SUV"
+  }
+]

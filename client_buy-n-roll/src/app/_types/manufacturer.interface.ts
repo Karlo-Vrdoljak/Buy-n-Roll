@@ -17,7 +17,6 @@ export interface Model {
   modelName: string; // 'F/G/H E46...' 
   endOfProductionYear: string;
   drivetrains: Drivetrain[];
-  trims: Trim[];
   transmission: Transmission;
   gasType: string;
   body: Body;
@@ -32,12 +31,6 @@ export interface Drivetrain {
   model: Model;
 } 
 
-export interface Trim {
-  PkTrim: number;
-  trimName: string; // 'GLS, GSi'
-  trimCode: string; // 'FWD | AWD | RWD' 
-  model: Model;
-} 
 
 export interface Transmission {
   PkTransmission: number;

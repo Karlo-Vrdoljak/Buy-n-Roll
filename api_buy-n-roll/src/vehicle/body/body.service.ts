@@ -32,4 +32,11 @@ export class BodyService implements OnModuleInit {
   async remove(PkBody: number): Promise<void> {
     await this.bodyRepository.delete(PkBody);
   }
+
+  count() {
+    return this.bodyRepository.count();
+  }
+  getRepo() {
+    return this.bodyRepository;
+  }
 }

@@ -31,4 +31,11 @@ export class TransmissionService implements OnModuleInit {
   async remove(PkTransmission: number): Promise<void> {
     await this.TransmissionRepository.delete(PkTransmission);
   }
+
+  count() {
+    return this.TransmissionRepository.count();
+  }
+  getRepo() {
+    return this.TransmissionRepository;
+  }
 }

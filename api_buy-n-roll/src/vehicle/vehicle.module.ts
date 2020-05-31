@@ -8,7 +8,6 @@ import { ManufacturerModule } from './manufacturer/manufacturer.module';
 import { ModelModule } from './model/model.module';
 import { SeriesModule } from './series/series.module';
 import { TransmissionModule } from './transmission/transmission.module';
-import { TrimModule } from './trim/trim.module';
 import { VehicleService } from './vehicle.service';
 import { DbLogs } from 'src/db.logs';
 import { Connection } from 'typeorm/connection/Connection';
@@ -28,7 +27,6 @@ import { Config } from 'src/config';
     ModelModule,
     SeriesModule,
     TransmissionModule,
-    TrimModule,
     HttpModule,
     OglasModule
   ],
@@ -42,7 +40,6 @@ import { Config } from 'src/config';
     ModelModule,
     SeriesModule,
     TransmissionModule,
-    TrimModule,
     HttpModule,
     DbLogs,
     VehicleService,

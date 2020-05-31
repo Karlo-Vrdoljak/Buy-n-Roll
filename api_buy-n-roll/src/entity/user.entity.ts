@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } from 'typeorm';
 import { Role } from './role.entity';
-import { Oglas } from './oglas.entity';
+import { SellerType } from 'src/types/enums';
+
 
 @Entity()
 export class User {
@@ -30,5 +31,8 @@ export class User {
 
   @OneToMany(type => Role, role => role.user)
   roles: Role[];
+
+  @Column({ type: "enum",enum: SellerType,default: SellerType.PRIVATNA_OSOBA })
+  sellerType:SellerType;
 
 }

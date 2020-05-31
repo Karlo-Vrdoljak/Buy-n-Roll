@@ -8,12 +8,6 @@ export class Drivetrain {
   
   @Index({fulltext:true})
   @Column({ nullable: false })
-  drivetrainName: string; // 'Front wheel drive'
-  
-  @Index({fulltext:true})
-  @Column({ nullable: false })
   drivetrainCode: string; // 'FWD | AWD | RWD' 
 
-  @ManyToOne(type => Model, model => model.drivetrains)
-  model: Model;
 } 

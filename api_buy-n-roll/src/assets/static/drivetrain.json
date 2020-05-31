@@ -1,0 +1,11 @@
+[
+  {
+    "drivetrain": "FWD"
+  },
+  {
+    "drivetrain": "RWD"
+  },
+  {
+    "drivetrain": "AWD"
+  }
+]

@@ -31,4 +31,11 @@ export class DrivetrainService implements OnModuleInit {
   async remove(PkDrivetrain: number): Promise<void> {
     await this.drivetrainRepository.delete(PkDrivetrain);
   }
+
+  count() {
+    return this.drivetrainRepository.count();
+  }
+  getRepo() {
+    return this.drivetrainRepository;
+  }
 }

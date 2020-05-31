@@ -8,6 +8,6 @@ export class Body {
   
   @Index({fulltext:true})
   @Column({ nullable: false })
-  BodyName: string; // 'sedan, hatchback, limuzina'
+  bodyName: string; // 'sedan, hatchback, limuzina'
 
 } 

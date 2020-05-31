@@ -9,7 +9,6 @@ import { ManufacturerService } from './manufacturer/manufacturer.service';
 import { ModelService } from './model/model.service';
 import { SeriesService } from './series/series.service';
 import { TransmissionService } from './transmission/transmission.service';
-import { TrimService } from './trim/trim.service';
 import { cars } from '../assets/static/cars';
 import { Manufacturer } from 'src/entity/manufacturer.entity';
 import { Series } from 'src/entity/series.entity';
@@ -19,6 +18,10 @@ import { Connection } from 'typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as COLORS from '../assets/static/color-names.json';
+import * as GAS_TYPE from '../assets/static/gasTypes.json';
+import * as BODY from '../assets/static/body.json';
+import * as TRANSMISSION from '../assets/static/transmission.json';
+import * as DRIVETRAIN from '../assets/static/drivetrain.json';
 import { DBAccess } from 'src/types/db.access';
 import { OglasService } from 'src/users/oglas/oglas.service';
 
@@ -36,7 +39,6 @@ export class VehicleService implements OnModuleInit {
     public modelService: ModelService,
     public seriesService: SeriesService,
     public transmissionService: TransmissionService,
-    public trimService: TrimService,
     public httpService: HttpService,
     public dbLogs: DbLogs,
     public connection: Connection,
@@ -48,6 +50,31 @@ export class VehicleService implements OnModuleInit {
     this.colorService.count().then(count => {
 			if(count == 0) {
         concat(of (Object.keys(COLORS).map(key => this.colorService.getRepo().save( { color:key,colorCode:COLORS[key]} )))).subscribe(val => this.dbLogs.successInit('color'));
+      }
+    });
+    this.gasTypeService.count().then(count => {
+      if(count == 0) {
+        // concat(of (Object.keys(GAS_TYPE).map(key => this.colorService.getRepo().save( { color:key,colorCode:COLORS[key]} )))).subscribe(val => this.dbLogs.successInit('color'));
+        concat(of (GAS_TYPE.map(gt => this.gasTypeService.getRepo().save( { gasType: gt.vrstaGoriva } ))));
+      }
+    });
+
+    this.bodyService.count().then(count => {
+      if(count == 0) {
+        // concat(of (Object.keys(GAS_TYPE).map(key => this.colorService.getRepo().save( { color:key,colorCode:COLORS[key]} )))).subscribe(val => this.dbLogs.successInit('color'));
+        concat(of (BODY.map(b => this.bodyService.getRepo().save( { bodyName: b.body } ))));
+      }
+    });
+
+    this.transmissionService.count().then(count => {
+      if(count == 0) {
+        concat(of (TRANSMISSION.map(t => this.transmissionService.getRepo().save( { transmissionName: t.transmission } ))));
+      }
+    });
+
+    this.drivetrainService.count().then(count => {
+      if(count == 0) {
+        concat(of (DRIVETRAIN.map(d => this.drivetrainService.getRepo().save( { drivetrainCode: d.drivetrain } ))));
       }
     });
 
@@ -178,10 +205,10 @@ export class VehicleService implements OnModuleInit {
   findOglasiBySearchString(searchString:string) {
     return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), new Array(6).fill(searchString));
   }
-  findOglasiAll() {
-    return this.oglasService.getRepo().query(this.dbAccess.getOglasAll());
-  }
-  findOglasiByProps(props: Manufacturer & Series & Model) {
+  // findOglasiAll() {
+  //   return this.oglasService.getRepo().query(this.dbAccess.getOglasAll());
+  // }
+  findOglasiBySimpleProps(props: Manufacturer & Series & Model) {
     return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), [props.manufacturerName, props.manufacturerName, props.seriesName, props.seriesName, props.modelName, props.modelName]);
   }
 }

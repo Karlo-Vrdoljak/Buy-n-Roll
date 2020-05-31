@@ -2,7 +2,6 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn
 import { Chassis } from './chassis.entity';
 import { Manufacturer } from './manufacturer.entity';
 import { Drivetrain } from './drivetrain.entity';
-import { Trim } from './trim.entity';
 import { Transmission } from './transmission.entity';
 import { GasType } from './gasType.entity';
 import { Body } from './body.entity';
@@ -20,12 +19,9 @@ export class Model {
   @Column({ nullable: true })
   endOfProductionYear: string;
 
-  @OneToMany(type => Drivetrain, drivetrain => drivetrain.model, {nullable:true})
-  drivetrains: Drivetrain[];
-
-  @OneToMany(type => Trim, trim => trim.model, {nullable:true})
-  trims: Trim[];
-
+  @OneToOne(type => Drivetrain, {nullable:true})
+  @JoinColumn()
+  drivetrain: Drivetrain;
 
   @OneToOne(type => Transmission, {nullable:true})
   @JoinColumn()
@@ -33,7 +29,7 @@ export class Model {
  
   @OneToOne(type => GasType, {nullable:true})
   @JoinColumn()
-  gasType: string;
+  gasType: GasType;
 
   @OneToOne(type => Body, {nullable:true})
   @JoinColumn()
