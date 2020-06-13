@@ -203,12 +203,12 @@ export class VehicleService implements OnModuleInit {
   }
 
   findOglasiBySearchString(searchString:string) {
-    return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), new Array(6).fill(searchString));
+    return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), new Array(14).fill(searchString));
   }
   // findOglasiAll() {
   //   return this.oglasService.getRepo().query(this.dbAccess.getOglasAll());
   // }
   findOglasiBySimpleProps(props: Manufacturer & Series & Model) {
-    return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), [props.manufacturerName, props.manufacturerName, props.seriesName, props.seriesName, props.modelName, props.modelName]);
+    return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), [props.manufacturerName, props.manufacturerName, props.seriesName, props.seriesName, props.modelName, props.modelName, null, null, null, null, null, null, null, null]);
   }
 }

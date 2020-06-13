@@ -53,8 +53,10 @@ import { CatalogueComponent } from './catalogue/catalogue.component';
 import { TranslationList } from './_services/translation.list';
 import { CatalogueResolver } from './_resolvers/catalogue.resolver';
 import { SearchService } from './_services/search.service';
-
-
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+import { BreadcrumbService } from './_services/breadcrumb.service';
+import { DataViewModule } from 'primeng/dataview';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -78,6 +80,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SeriesPropComponent,
     ModelPropComponent,
     CatalogueComponent,
+    BreadcrumbsComponent,
   ],
   imports: [
     BrowserModule,
@@ -132,7 +135,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MatRippleModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     MatButtonModule,
-    
+    BreadcrumbModule,
+    DataViewModule
   ],
   providers: [
     TestService,
@@ -149,7 +153,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     CatalogueResolver,
     VehicleService,
     TranslationList,
-    SearchService
+    SearchService,
+    BreadcrumbService
   ],
   bootstrap: [AppComponent],
 })

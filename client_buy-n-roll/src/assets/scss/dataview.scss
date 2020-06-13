@@ -1,0 +1,43 @@
+:host ::ng-deep .ui-dataview .ui-paginator-top {
+  border: 0;
+}
+:host ::ng-deep .ui-dataview .ui-paginator-bottom {
+  border: 0;
+}
+:host ::ng-deep .ui-dataview .ui-dataview-content {
+  min-height: calc(80vh - 210px);
+  border: 0;
+}
+:host ::ng-deep .ui-dataview .ui-paginator-top {
+  p-dropdown {
+    div {
+      .ui-dropdown-trigger {
+        background-color: #ecf2ff;
+      }
+      .ui-dropdown-label-container {
+        label {
+          padding-right: 2.5em;
+        }
+      }
+    }
+  }
+}
+:host ::ng-deep .ui-dataview .ui-paginator-bottom {
+  p-dropdown {
+    div {
+      .ui-dropdown-trigger {
+        background-color: #ecf2ff;
+      }
+      .ui-dropdown-label-container {
+        label {
+          padding-right: 2.5em;
+        }
+      }
+    }
+  }
+}
+:host ::ng-deep .ui-dataview .ui-dataview-header {
+  border: 0;
+  border-radius: 0;
+  padding: 0.571em 1em 0 1em;
+}
