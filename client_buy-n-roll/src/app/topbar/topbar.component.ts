@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslationList } from '../_services/translation.list';
+import { LocalStorageService } from "angular-web-storage";
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -43,7 +44,9 @@ export class TopbarComponent implements OnInit {
     public helperService: HelperService,
     public toast:ToastrService,
     public translate: TranslateService,
-    public translateProvider: TranslationList
+    public translateProvider: TranslationList,
+    public storage: LocalStorageService
+
   ) { }
   ngOnInit(): void {
     this.selectedManufacturer = null;
@@ -161,6 +164,10 @@ export class TopbarComponent implements OnInit {
     setTimeout(() => {
       this.infLog();
     }, 3000);
-}
+  }
+  changeLang(lang:string) {
+    this.storage.set("buynroll_lang",lang);
+    this.translate.use(lang);
+  }
 
 }

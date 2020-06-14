@@ -57,6 +57,9 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { BreadcrumbService } from './_services/breadcrumb.service';
 import { DataViewModule } from 'primeng/dataview';
+import { LoginComponent } from './login/login.component';
+import { UserService } from './_services/user.service';
+import { LoginResolver } from './_resolvers/login.resolver';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -81,6 +84,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ModelPropComponent,
     CatalogueComponent,
     BreadcrumbsComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -154,7 +158,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     VehicleService,
     TranslationList,
     SearchService,
-    BreadcrumbService
+    BreadcrumbService,
+    UserService,
+    LoginResolver
   ],
   bootstrap: [AppComponent],
 })

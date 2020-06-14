@@ -1,52 +1,46 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { MenuItem } from 'primeng/api/menuitem';
-import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { Injectable, OnInit, OnDestroy } from "@angular/core";
+import { MenuItem } from "primeng/api/menuitem";
+import { TranslateService } from "@ngx-translate/core";
+import { Subscription } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class BreadcrumbService {
-
   private translateSubscription$: Subscription;
-  private translations:any;
-  constructor(
-    private translate: TranslateService,
-  ) {
-    this.init();
-   }
+  private translations: any;
+  constructor(private translate: TranslateService) {}
 
-  
-   ngOnDestroy(): void {
-    this.translateSubscription$.unsubscribe();
-  }
-
-  async init() {
-    this.setupLangObservable();
-    await this.getTranslations();
-  }
-  
   catalogue() {
     return [
       {
-        label:this.translations.CATALOGUE
-      }
+        label: this.translate.instant("CATALOGUE"),
+      },
     ] as MenuItem[];
   }
 
-  private translationList(){
-    return [
-      "CATALOGUE"
-    ]
-  }
-  private async getTranslations() {
-    this.translate.get(this.translationList()).subscribe(data => {
-      this.translations = data;
-      console.log(this.translations);
-      
+  login(prevRoute?: MenuItem) {
+    let menu = [] as MenuItem[];
+    if (prevRoute) {
+      menu.push(prevRoute);
+    }
+    menu.push({
+      label: this.translate.instant("LOGIN"),
     });
+    return menu;
   }
-  private setupLangObservable() {
-    this.translateSubscription$ = this.translate.onLangChange.subscribe(event => this.getTranslations());
+  determinePath(route: string, fullPath?:string) {
+    switch (route) {
+      case "catalogues":
+        console.log(fullPath);
+        
+        return {
+          label: this.translate.instant("CATALOGUE"),
+          url: fullPath? `/#${fullPath}`: `/${route}/`
+        } as MenuItem;
+
+      default:
+        return null;
+    }
   }
 }

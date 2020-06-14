@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, ActivationStart, NavigationEnd } from "@angular
 import { SelectItem } from "primeng/api/selectitem";
 import { Subscription } from 'rxjs';
 import { HelperService } from '../_services/helper.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: "app-catalogue",
@@ -19,16 +20,18 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   sortField: string;
   sortOrder: number;
   routerSubscription$: Subscription
-
+  translateSubscription$:Subscription
   constructor(
     private breadcrumbService: BreadcrumbService,
     private route: ActivatedRoute,
     private router: Router,
-    public helperService: HelperService
+    public helperService: HelperService,
+    private translate:TranslateService
   ) {}
 
   ngOnDestroy(): void {
     this.routerSubscription$.unsubscribe();
+    this.translateSubscription$.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -44,6 +47,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       { label: "Newest First", value: "!oglasCreatedAt" },
       { label: "Oldest First", value: "oglasCreatedAt" },
     ];
+    this.setupLangObservable();
   }
   
   onSortChange(event) {
@@ -56,5 +60,11 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       this.sortOrder = 1;
       this.sortField = value;
     }
+  }
+
+  private setupLangObservable() {
+    this.translateSubscription$ = this.translate.onLangChange.subscribe(event => {
+      this.breadcrumbs = this.breadcrumbService.catalogue();
+    });
   }
 }

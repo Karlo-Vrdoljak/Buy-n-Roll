@@ -5,10 +5,13 @@ import { LandingComponent } from './landing/landing.component';
 import { LandingResolver } from './_resolvers/landing.resolver';
 import { CatalogueComponent } from './catalogue/catalogue.component';
 import { CatalogueResolver } from './_resolvers/catalogue.resolver';
+import { LoginComponent } from './login/login.component';
+import { LoginResolver } from './_resolvers/login.resolver';
 
 
 const routes: Routes = [
   { path: 'test', component: TestComponentComponent },
+  { path: 'login', component: LoginComponent, resolve: {pageData: LoginResolver} },
   { path: 'catalogues', component: CatalogueComponent, resolve: { pageData: CatalogueResolver} },
   { path: 'catalogues/:query', component: CatalogueComponent, resolve: { pageData: CatalogueResolver} },
   { path: '', component: LandingComponent, resolve: { pageData:LandingResolver } },

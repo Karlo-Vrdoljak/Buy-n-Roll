@@ -24,6 +24,7 @@ import { GasTypeService } from 'src/vehicle/gasType/gasType.service';
 import { TransmissionService } from 'src/vehicle/transmission/transmission.service';
 import { BodyService } from 'src/vehicle/body/body.service';
 import { VehicleState } from 'src/types/enums';
+import { Photo } from 'src/entity/photo.entity';
 
 @Injectable()
 export class UsersService implements OnModuleInit{
@@ -126,8 +127,7 @@ export class UsersService implements OnModuleInit{
         and MATCH (ml.modelName)
         AGAINST (? IN BOOLEAN MODE);
       `, ['gsi opel astra 2.0 16 hp','gsi opel astra 2.0 16 hp','gsi opel astra 2.0 16 hp']);
-      let dbData = result[0] as { seriesName: string, PkSeries: number, manufacturerName: string, PkManufacturer: 86, modelName: string, PkModel: number, endOfProductionYear: string, };
-
+      let dbData = result[0] as { seriesName: string, PkSeries: number, manufacturerName: string, PkManufacturer: number, modelName: string, PkModel: number, endOfProductionYear: string, };
       let chassis = new Chassis();
 
       let model = await this.modelService.getRepo()

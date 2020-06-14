@@ -8,9 +8,12 @@
   "MODEL":"Model",
   "VEHICLE_SEARCH":"Enter the name of the car",
   "ODABERITE":"Choose",
-  "PRETRAZI":"Search",
+  "PRETRAZI":"SEARCH",
   "PRETRAZI_INPUT":"Search here",
   "FORM_ERROR_TWOCHAR":"Enter at least 2 characters",
-  "CATALOGUE":"CATALOGUE"
+  "CATALOGUE":"CATALOGUE",
+  "LOGIN":"LOGIN",
+  "FREE_OGLAS":"SUBMIT YOUR AD FOR FREE",
+  "LANG":"LANGUAGE"
 
 }

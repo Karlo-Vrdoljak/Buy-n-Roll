@@ -1,6 +1,5 @@
 @import "../../variables.scss";
 
-
 :host ::ng-deep .ui-sidebar-left.ui-sidebar-active {
   background-color: $deepGray;
   border: 1px solid $deepGray;
@@ -9,7 +8,6 @@
   background-color: $deepGray;
   border: 1px solid $deepGray;
 }
-
 
 :host ::ng-deep .pi.pi-times.ng-tns-c31-0 {
   color: $silver;
@@ -54,7 +52,6 @@
   top: 12px;
   left: 5em;
 }
-
 
 :host ::ng-deep .ui-accordion .ui-accordion-content {
   border: 0;
@@ -104,13 +101,19 @@
   // filter: grayscale(1);
   transform: scale(0.5) translate(-2rem, 0);
 }
-@media (max-width: 600px) {
-  .ctaButton {
-    left: calc(67% - 56px);
-  }
-}
 
 .line {
   border-top: 1px solid $lightGray;
   margin-top: 1px;
+}
+.lang {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  border: 1px solid $silver;
 }

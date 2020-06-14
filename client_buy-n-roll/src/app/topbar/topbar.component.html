@@ -87,7 +87,21 @@
 							</span>
 						</button>
 					</p-accordionTab>
-					<p-accordionTab header="Header 2">
+					<p-accordionTab [header]="'LANG' | translate">
+						<div class="p-col" style="align-self: baseline;">
+							<div class="p-grid p-dir-row">
+								<div class="p-col">
+									<button mat-mini-fab color="basic" (click)="changeLang('hr')">
+										<div class="lang" style="background-image: url('assets/icons/hr.svg');"></div>
+									</button>
+								</div>
+								<div class="p-col">
+									<button mat-mini-fab color="basic" (click)="changeLang('en')">
+										<div class="lang" style="background-image: url('assets/icons/gb.svg');"></div>
+									</button>
+								</div>
+							</div>
+						</div>
 					</p-accordionTab>
 					<p-accordionTab header="Header 3">
 						Content 3
@@ -97,7 +111,22 @@
 			</div>
 			<div class="p-col">
 			</div>
-			<div class="p-col cp">content 3</div>
+			<div class="p-col">
+				<a [routerLink]="[ '/login' ]" (click)="openSidebar()" style="text-decoration: none;" mat-button color="accent">
+					<div>
+						<i class="fas fa-sign-in-alt"></i>
+						{{ 'LOGIN' | translate }}
+					</div>
+				</a>
+			</div>
+			<div class="p-col">
+				<button mat-button color="accent">
+					<div>
+						<i class="fas fa-paper-plane"></i>
+						{{ 'FREE_OGLAS' | translate }}
+					</div>
+				</button>
+			</div>
 		</div>
 	</div>
 </p-sidebar>

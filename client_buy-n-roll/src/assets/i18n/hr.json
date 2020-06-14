@@ -8,9 +8,13 @@
   "MODEL":"Model",
   "VEHICLE_SEARCH":"Upišite naziv automobila",
   "ODABERITE":"Odaberite",
-  "PRETRAZI":"Pretraga",
+  "PRETRAZI":"PRETRAGA",
   "PRETRAZI_INPUT":"Pretražite ovdje",
   "FORM_ERROR_TWOCHAR":"Unesite barem 2 znaka",
-  "CATALOGUE":"KATALOG"
+  "CATALOGUE":"KATALOG",
+  "LOGIN":"PRIJAVA",
+  "FREE_OGLAS":"PREDAJ OGLAS BESPLATNO",
+  "LANG":"JEZIK"
+
 
 }
