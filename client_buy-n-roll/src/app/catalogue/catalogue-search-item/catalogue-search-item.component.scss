@@ -1,0 +1,59 @@
+@import "../../../variables.scss";
+
+@media screen and (max-height: 639px) {
+  .hideMobileHorizonatal {
+    display: none;
+  }
+  .text-xl,
+  .text-gray-700, 
+  .text-gray-800,
+  .text-gray-900,
+  .text-gray-600 {
+    color: $silver;
+  }
+  .bg-gray-100 {
+    background-color: unset;
+  }
+}
+
+.backgroundImage {
+  background-size: cover;
+}
+
+.overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s;
+  z-index: 0;
+}
+.hoverEffect {
+  transition: all 0.3s ease;
+  .backgroundImage {
+  transition: all 0.3s ease;
+
+  }
+  &:hover .backgroundImage {
+    transform: scale(1.25) rotate(3deg);
+  }
+  &:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: translateY(-0.25rem);
+  }
+}
+
+.price-tag {
+  .price-text {
+    width: 100%;
+    cursor: pointer;
+  }
+}

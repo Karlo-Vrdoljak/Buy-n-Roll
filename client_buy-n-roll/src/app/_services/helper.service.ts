@@ -55,4 +55,22 @@ export class HelperService {
     let dateObj = new Date(date);
     return dateObj.toLocaleDateString(this.translate.currentLang) + ' ' + dateObj.toLocaleTimeString(this.translate.currentLang);
   }
+  getScreenY() {
+    return screen.availHeight;
+  }
+  getScreenX() {
+    return screen.availWidth;
+  }
+  getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+  }
+  fibonacci(n){
+    let arr = [0, 1];
+    for (let i = 2; i < n + 1; i++){
+      arr.push(arr[i - 2] + arr[i -1])
+    }
+   return arr[n]
+  }
 }

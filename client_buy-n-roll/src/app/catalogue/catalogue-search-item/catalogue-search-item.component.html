@@ -1,0 +1,35 @@
+<div class="flex justify-center" [ngsReveal]="{reset: true, origin: 'right', delay: delay[0]  }">
+  <div class="max-w-sm lg:max-w-full rounded overflow-hidden shadow-md relative z-0 hoverEffect" [ngClass]="{'backgroundImage': helperService.getScreenY() < 640 }" [style.background-image]="helperService.getScreenY() < 640? 'url(https://www.njuskalo.hr/image-w920x690/auti/opel-astra-gsi-16v-slika-29041039.jpg)': 'none'">
+    <div *ngIf="helperService.getScreenY() < 640" class="overlay"></div>
+    <div class="bg-gray-100 z-10 relative">
+      <div class="w-full h-64 backgroundImage select-none hideMobileHorizonatal" style="background-image: url(https://www.njuskalo.hr/image-w920x690/auti/opel-astra-gsi-16v-slika-29041039.jpg)"></div>
+      <div class="bg-gray-100 px-4 py-4 relative">
+        <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[1]  }">
+          <div class="font-oswald font-semibold text-gray-800 text-2xl mb-1">{{ searchItem.oglasNaziv }}</div>
+          <div class="font-oswald mb-2 text-xl text-gray-800">{{ searchItem.manufacturerName }}&nbsp;{{ searchItem.seriesName }}&nbsp;{{ searchItem.modelName }}</div>
+          <div class="font-oswald flex flex-row mb-2 text-2xl font-thin">
+            <div class="font-semibold mr-2 text-gray-700 cursor-pointer" [countUp]="2000">0</div>
+            <div class="text-gray-700">EUR</div>
+          </div>
+          <!-- <div class="divider div-dark my-1 mb-2"></div> -->
+          <mat-divider class="mb-2"></mat-divider>
+          <p class="font-mw text-gray-700 text-base">
+            {{ helperService.truncateString(searchItem.oglasOpis, 200) }}
+          </p>
+        </div>
+      </div>
+      <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[2]  }" class="bg-gray-100 px-4 pb-4 relative flex items-center">
+        <img class="w-10 h-10 rounded-full mr-4 select-none" src="https://www.vhv.rs/dpng/d/256-2569650_men-profile-icon-png-image-free-download-searchpng.png" alt="Avatar of Jonathan Reinink">
+        <div class="text-sm">
+          <p class="font-mw text-gray-900 leading-none">{{ searchItem.lastName }}&nbsp;{{ searchItem.firstName }}</p>
+          <p class="font-mw text-gray-600">{{ helperService.date(searchItem.oglasCreatedAt) }}</p>
+        </div>
+      </div>
+      <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[3]  }" class="bg-gray-100 px-2 pb-4 relative flex flex-wrap">
+        <span class="font-oswald inline-block buynroll_bg_yellow rounded-full px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ searchItem.vehicleState }}</span>
+        <span class="font-oswald inline-block buynroll_bg_yellow rounded-full px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ searchItem.makeYear }}</span>
+        <span class="font-oswald inline-block buynroll_bg_yellow rounded-full px-3 py-1 my-1 text-sm font-semibold text-yellow-800">{{ (searchItem.RegistriranDaNe == 1? 'Registriran' : 'Neregistriran' )| uppercase }}</span>
+      </div>
+    </div>
+  </div>
+</div>

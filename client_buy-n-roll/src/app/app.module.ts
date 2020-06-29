@@ -33,7 +33,6 @@ import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
 import { SwiperModule } from "ngx-swiper-wrapper";
 import { HelperService } from "./_services/helper.service";
-import { NgxParallaxScrollModule } from "ngx-parallax-scroll";
 import { NgsRevealModule } from "ngx-scrollreveal";
 import { MatStepperModule } from "@angular/material/stepper";
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -60,6 +59,10 @@ import { DataViewModule } from 'primeng/dataview';
 import { LoginComponent } from './login/login.component';
 import { UserService } from './_services/user.service';
 import { LoginResolver } from './_resolvers/login.resolver';
+import { CatalogueSearchItemComponent } from './catalogue/catalogue-search-item/catalogue-search-item.component';
+import { CountUpModule } from 'ngx-countup';
+import {MatDividerModule} from '@angular/material/divider';
+import { NgxParallaxScrollModule } from 'ngx-parallax-scroll';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -85,6 +88,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     CatalogueComponent,
     BreadcrumbsComponent,
     LoginComponent,
+    CatalogueSearchItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -140,7 +144,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     MatButtonModule,
     BreadcrumbModule,
-    DataViewModule
+    DataViewModule,
+    CountUpModule,
+    MatDividerModule,
   ],
   providers: [
     TestService,

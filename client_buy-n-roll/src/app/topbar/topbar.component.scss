@@ -4,6 +4,8 @@
 .topbar {
   height: 50px;
   background-color: $deepGray !important;
+  position: fixed;
+  width: 100vw;
 }
 .topbar-landing {
   transition: background 0.35s ease-in-out;
@@ -12,6 +14,7 @@
   background: linear-gradient(to bottom, #363636bd, #ff000000);
   position: fixed;
   width: 100vw;
+
 }
 .menu-bars {
   color: #fff;

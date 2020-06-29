@@ -1,5 +1,5 @@
-<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
-<div class="banner"></div>
+<app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<div *ngIf="displayAccessories" class="banner"></div>
 <p-dataView #dv [value]="catalogList" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both" filterBy="brand" [sortField]="sortField" [sortOrder]="sortOrder">
   <p-header>
     <div class="ui-helper-clearfix">
@@ -16,16 +16,16 @@
     </div>
   </p-header>
   <ng-template let-o pTemplate="listItem">
-    <div class="p-col-12">
+    <!-- <div class="p-col-12"> -->
       <div class="car-details">
-        <div>
+        <div class="md:mx-4 lg:mx-16 xl:md-32">
           <!-- <img src="assets/showcase/images/demo/car/{{o.brand}}.png"> -->
           <div class="p-grid">
             <!-- <div class="p-col-12">oglasNaziv: <b>{{o.oglasNaziv}}</b></div> -->
             <!-- <div class="p-col-12">modelName: <b>{{o.modelName}}</b></div> -->
             <!-- <div class="p-col-12">oglasOpis: <b>{{o.oglasOpis}}</b></div> -->
-            <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-4" *ngFor="let item of [0,1,2,3]">
-              <div class="blog-card">
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngFor="let item of [0,1,2,3]">
+              <!-- <div class="blog-card">
                 <div class="meta">
                   <div class="photo" style="background-image: url(https://www.njuskalo.hr/image-w920x690/auti/opel-astra-gsi-16v-slika-29041039.jpg)"></div>
                   <ul class="details">
@@ -49,12 +49,13 @@
                     <a href="#">Read More</a>
                   </p>
                 </div>
-              </div>
+              </div> -->
+              <app-catalogue-search-item [item]="o"></app-catalogue-search-item>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    <!-- </div> -->
   </ng-template>
   <ng-template let-o pTemplate="gridItem">
     <div style="padding:.5em" class="p-col-12 p-sm-6 p-md-4 p-lg-3 p-xl-2" *ngFor="let item of [0,1,2,3]">

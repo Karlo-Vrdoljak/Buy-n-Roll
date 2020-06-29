@@ -43,6 +43,45 @@ $darkGray: #231F20 !default;
   color: $darkGray;
 }
 
+.buynroll_brown {
+
+  color: $brown;
+}
+
+.buynroll_bg_yellow {
+
+  background-color: $yellow;
+}
+.buynroll_bg_lightYellow {
+
+  background-color: $lightYellow;
+}
+.buynroll_bg_darkYellow {
+
+  background-color: $darkYellow;
+}
+.buynroll_bg_silver {
+
+  background-color: $silver;
+}
+.buynroll_bg_lightGray {
+
+  background-color: $lightGray;
+}
+.buynroll_bg_deepGray {
+
+  background-color: $deepGray;
+}
+.buynroll_bg_dark {
+
+  background-color: $dark;
+}
+.buynroll_bg_darkGray {
+
+  background-color: $darkGray;
+}
+
+
 @media (hover: hover) and (pointer: fine) {
   :host ::ng-deep button:focus{
     outline: 0;

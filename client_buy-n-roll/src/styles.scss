@@ -6,6 +6,8 @@
 // @import "../node_modules/@fortawesome/fontawesome-free/css/fontawesome.css";
 @import "./variables.scss";
 
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans&display=swap');
+
 body {
   background-color: #d4d4dc;
   // background-position: center;
@@ -100,7 +102,27 @@ div {
     $silver,
     transparent
   );
+}
+.div-dark:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5%;
+  right: 5%;
+  width: 90%;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    $lightGray,
+    transparent
+  );
 } 
-
+.font-oswald {
+  font-family: 'oswald';
+}
+.font-mw {
+  font-family: 'Merriweather Sans', sans-serif;
+}
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";

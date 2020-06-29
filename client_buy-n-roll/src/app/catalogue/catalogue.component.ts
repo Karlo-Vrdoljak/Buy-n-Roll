@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
 import { BreadcrumbService } from "../_services/breadcrumb.service";
 import { MenuItem } from "primeng/api/menuitem";
 import { ActivatedRoute, Router, ActivationStart, NavigationEnd } from "@angular/router";
@@ -19,8 +19,9 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   sortKey: string;
   sortField: string;
   sortOrder: number;
-  routerSubscription$: Subscription
-  translateSubscription$:Subscription
+  routerSubscription$: Subscription;
+  translateSubscription$:Subscription;
+  displayAccessories:boolean = true;
   constructor(
     private breadcrumbService: BreadcrumbService,
     private route: ActivatedRoute,
@@ -28,6 +29,12 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     public helperService: HelperService,
     private translate:TranslateService
   ) {}
+
+  @HostListener("window:resize") updateOrientationState() {
+    console.log('alo');
+    
+    this.displayAccessories = this.helperService.getScreenY() < 450? false: true;
+  }
 
   ngOnDestroy(): void {
     this.routerSubscription$.unsubscribe();
@@ -48,6 +55,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       { label: "Oldest First", value: "oglasCreatedAt" },
     ];
     this.setupLangObservable();
+    this.updateOrientationState();
   }
   
   onSortChange(event) {

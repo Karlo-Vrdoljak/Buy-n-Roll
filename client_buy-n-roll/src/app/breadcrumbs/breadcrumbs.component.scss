@@ -7,6 +7,10 @@
   background-color: darken($color: $deepGray, $amount: 5%);
   border-bottom: 1px solid $deepGray;
 
+  top: 50px;
+  width: 100vw;
+  position: fixed;
+  z-index: 2;
   ul {
     color: $silver;
     display: flex;
