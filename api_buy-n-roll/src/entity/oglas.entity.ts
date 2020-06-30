@@ -43,6 +43,9 @@ export class Oglas {
 
   @Column({default:'0'})
   priceSubCurrency:string; // lipe
+
+  @Column({default:'HRK'})
+  currencyName:string; // EUR, HRK itd..
   
   @Column({ type: "enum",enum: PaymentMethod,default: PaymentMethod.GOTOVINA })
   paymentMethod:PaymentMethod;
