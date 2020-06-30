@@ -14,7 +14,12 @@
   "CATALOGUE":"KATALOG",
   "LOGIN":"PRIJAVA",
   "FREE_OGLAS":"PREDAJ OGLAS BESPLATNO",
-  "LANG":"JEZIK"
+  "LANG":"JEZIK",
+  "READMORE":"Više detalja",
+  "OOPS":"Ups!",
+  "CATALOGUE_CANT_FIND":"Nismo mogli pronaći ono što ste tražili, pokušajte nešto drugo."
+
+
 
 
 }

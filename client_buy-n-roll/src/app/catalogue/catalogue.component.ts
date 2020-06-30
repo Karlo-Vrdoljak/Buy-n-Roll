@@ -31,8 +31,6 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   ) {}
 
   @HostListener("window:resize") updateOrientationState() {
-    console.log('alo');
-    
     this.displayAccessories = this.helperService.getScreenY() < 450? false: true;
   }
 

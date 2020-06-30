@@ -1,35 +1,60 @@
-<div class="flex justify-center" [ngsReveal]="{reset: true, origin: 'right', delay: delay[0]  }">
+<div class="flex justify-center" [ngsReveal]="{reset: true, origin: 'right'  }">
   <div class="max-w-sm lg:max-w-full rounded overflow-hidden shadow-md relative z-0 hoverEffect" [ngClass]="{'backgroundImage': helperService.getScreenY() < 640 }" [style.background-image]="helperService.getScreenY() < 640? 'url(https://www.njuskalo.hr/image-w920x690/auti/opel-astra-gsi-16v-slika-29041039.jpg)': 'none'">
-    <div *ngIf="helperService.getScreenY() < 640" class="overlay"></div>
+    <div *ngIf="helperService.getScreenY() < 640" class="overlay dark"></div>
     <div class="bg-gray-100 z-10 relative">
       <div class="w-full h-64 backgroundImage select-none hideMobileHorizonatal" style="background-image: url(https://www.njuskalo.hr/image-w920x690/auti/opel-astra-gsi-16v-slika-29041039.jpg)"></div>
+      <div *ngIf="helperService.getScreenY() >= 640" class="overlay light"></div>
       <div class="bg-gray-100 px-4 py-4 relative">
         <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[1]  }">
-          <div class="font-oswald font-semibold text-gray-800 text-2xl mb-1">{{ searchItem.oglasNaziv }}</div>
-          <div class="font-oswald mb-2 text-xl text-gray-800">{{ searchItem.manufacturerName }}&nbsp;{{ searchItem.seriesName }}&nbsp;{{ searchItem.modelName }}</div>
+          <div matRipple class="cursor-pointer title-hover">
+            <div class="w-9/12 lg: font-oswald font-semibold text-gray-800 text-2xl mb-1">{{ searchItem.oglasNaziv }}</div>
+            <div class="w-9/12 sm: font-oswald mb-2 text-xl text-gray-800">{{ searchItem.manufacturerName }}&nbsp;{{ searchItem.seriesName }}&nbsp;{{ searchItem.modelName }}</div>
+          </div>
           <div class="font-oswald flex flex-row mb-2 text-2xl font-thin">
-            <div class="font-semibold mr-2 text-gray-700 cursor-pointer" [countUp]="2000">0</div>
-            <div class="text-gray-700">EUR</div>
+            <div class="font-semibold mr-2 text-gray-700 cursor-pointer" [countUp]="price" [options]="countUpOptions">0</div>
+            <!-- <div class="text-gray-700">{{searchItem.currencyName}}</div> -->
           </div>
           <!-- <div class="divider div-dark my-1 mb-2"></div> -->
           <mat-divider class="mb-2"></mat-divider>
           <p class="font-mw text-gray-700 text-base">
-            {{ helperService.truncateString(searchItem.oglasOpis, 200) }}
+            {{ helperService.truncateString(searchItem.oglasOpis, 100) }}
+          </p>
+          <p matRipple class="font-mw text-gray-800 text-lg py-2 cursor-pointer title-hover readmore">
+            {{ 'READMORE' | translate }}
           </p>
         </div>
-      </div>
-      <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[2]  }" class="bg-gray-100 px-4 pb-4 relative flex items-center">
-        <img class="w-10 h-10 rounded-full mr-4 select-none" src="https://www.vhv.rs/dpng/d/256-2569650_men-profile-icon-png-image-free-download-searchpng.png" alt="Avatar of Jonathan Reinink">
-        <div class="text-sm">
-          <p class="font-mw text-gray-900 leading-none">{{ searchItem.lastName }}&nbsp;{{ searchItem.firstName }}</p>
-          <p class="font-mw text-gray-600">{{ helperService.date(searchItem.oglasCreatedAt) }}</p>
+        <div matRipple [ngsReveal]="{reset: true, origin: 'right', delay: delay[2]  }" class="bg-gray-100 py-2 relative flex items-center cursor-pointer title-hover">
+          <img class="w-10 h-10 rounded-full mr-4 select-none" src="https://www.vhv.rs/dpng/d/256-2569650_men-profile-icon-png-image-free-download-searchpng.png" alt="Avatar of Jonathan Reinink">
+          <div class="text-sm">
+            <p class="font-mw text-gray-900 leading-none person">{{ searchItem.lastName }}&nbsp;{{ searchItem.firstName }}</p>
+            <p class="font-mw text-gray-600">{{ helperService.date(searchItem.oglasCreatedAt) }}</p>
+          </div>
         </div>
       </div>
       <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[3]  }" class="bg-gray-100 px-2 pb-4 relative flex flex-wrap">
-        <span class="font-oswald inline-block buynroll_bg_yellow rounded-full px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ searchItem.vehicleState }}</span>
-        <span class="font-oswald inline-block buynroll_bg_yellow rounded-full px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ searchItem.makeYear }}</span>
-        <span class="font-oswald inline-block buynroll_bg_yellow rounded-full px-3 py-1 my-1 text-sm font-semibold text-yellow-800">{{ (searchItem.RegistriranDaNe == 1? 'Registriran' : 'Neregistriran' )| uppercase }}</span>
+        <span class="font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ searchItem.vehicleState }}</span>
+        <span class="font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ searchItem.makeYear }}</span>
+        <span class="font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800">{{ (searchItem.RegistriranDaNe == 1? 'Registriran' : 'Neregistriran' )| uppercase }}</span>
       </div>
     </div>
+    <ng-container *ngTemplateOutlet="icons"></ng-container>
+    
   </div>
 </div>
+
+<ng-template #icons>
+  <div class="absolute z-10 mx-1 my-1 top-0 right-0 select-none">
+    <button mat-icon-button color="accent" class="mx-1 mt-2 focus:outline-none" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[3]  }">
+      <i class="fas text-4xl text-yellow-500 fa-external-link-square-alt rounded-md"></i>
+    </button>
+    <button mat-icon-button color="accent" class="mx-1 mt-2 relative focus:outline-none" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[2]  }">
+      <i class="fas text-4xl text-red-500 fa-heart rounded-md"></i>
+      <div class=" top-0 font-oswald flex items-center justify-center p-1 absolute rounded-full w-full h-full text-sm text-gray-200">{{helperService.abbreviateNumber(searchItem.rating)}}</div>
+    </button>
+  </div>
+  <div class="absolute z-10 mx-1 my-1 right-0 select-none" style="top: 3em;">
+    <button mat-icon-button color="accent" class="mx-1 mt-2 relative focus:outline-none" [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: delay[4]  }">
+      <i class="fas text-4xl text-gray-200 fa-comments-dollar rounded-md"></i>
+    </button>
+  </div>
+</ng-template>

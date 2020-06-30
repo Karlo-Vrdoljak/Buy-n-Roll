@@ -1,6 +1,6 @@
 <app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 <div *ngIf="displayAccessories" class="banner"></div>
-<p-dataView #dv [value]="catalogList" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both" filterBy="brand" [sortField]="sortField" [sortOrder]="sortOrder">
+<p-dataView *ngIf="catalogList.length > 0; else noRecords" #dv [value]="catalogList" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both" filterBy="brand" [sortField]="sortField" [sortOrder]="sortOrder">
   <p-header>
     <div class="ui-helper-clearfix">
       <div class="p-grid">
@@ -50,7 +50,7 @@
                   </p>
                 </div>
               </div> -->
-              <app-catalogue-search-item [item]="o"></app-catalogue-search-item>
+              <app-catalogue-search-item [item]="o" [size]="'large'"></app-catalogue-search-item>
             </div>
           </div>
         </div>
@@ -74,3 +74,15 @@
     </div>
   </ng-template>
 </p-dataView>
+
+<ng-template #noRecords>
+  <div class="md:mx-4 lg:mx-16 xl:md-32">
+    <div class="flex flex-col justify-center content-center items-center noContentWrap">
+      <img src="assets/images/catalogue/missing.png" class="w-40 h-40 select-none">
+      <span class="text-4xl text-gray-700 font-oswald flex flex-col justify-center content-center items-center">
+        <div class="text-center select-none">{{ 'OOPS' | translate }}</div>
+        <div class="text-center select-none">{{ 'CATALOGUE_CANT_FIND' | translate }}</div>
+      </span>
+    </div>
+  </div>
+</ng-template>

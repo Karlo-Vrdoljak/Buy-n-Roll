@@ -62,7 +62,8 @@ import { LoginResolver } from './_resolvers/login.resolver';
 import { CatalogueSearchItemComponent } from './catalogue/catalogue-search-item/catalogue-search-item.component';
 import { CountUpModule } from 'ngx-countup';
 import {MatDividerModule} from '@angular/material/divider';
-import { NgxParallaxScrollModule } from 'ngx-parallax-scroll';
+import {MatBadgeModule} from '@angular/material/badge';
+
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -127,7 +128,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
       enabled: environment.production,
     }),
     SwiperModule,
-    NgxParallaxScrollModule,
+    MatBadgeModule,
     NgsRevealModule,
     MatStepperModule,
     TranslateModule.forRoot({

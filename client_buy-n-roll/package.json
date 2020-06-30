@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "tailwind": "./node_modules/.bin/tailwind build ./src/tailwind-build.css -c ./tailwind.config.js -o ./src/styles.css",
+    "tailwind": "./node_modules/.bin/tailwind build ./src/tailwind-build.css -c ./tailwind.config.js -o ./src/tailwind.scss",
     "prestart": "npm run tailwind"
   },
   "private": true,
@@ -35,7 +35,6 @@
     "angular-webstorage-service": "^1.0.2",
     "bootstrap": "^4.4.0",
     "ngx-countup": "^7.3.0",
-    "ngx-parallax-scroll": "^1.0.2",
     "ngx-scrollreveal": "^3.0.0",
     "ngx-swiper-wrapper": "^9.0.1",
     "ngx-toastr": "^12.0.0",

@@ -6,7 +6,7 @@
   font-family: "Oswald", sans-serif;
   background-color: darken($color: $deepGray, $amount: 5%);
   border-bottom: 1px solid $deepGray;
-
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   top: 50px;
   width: 100vw;
   position: fixed;
