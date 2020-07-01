@@ -8,7 +8,7 @@ export class LoginResolver implements Resolve<unknown> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if(this.router.getCurrentNavigation().previousNavigation && this.router.getCurrentNavigation().previousNavigation.extractedUrl && this.router.getCurrentNavigation().previousNavigation.extractedUrl.toString()) {
+    if(this.router.getCurrentNavigation().previousNavigation?.extractedUrl.toString() != undefined) {
       return this.router.getCurrentNavigation().previousNavigation.extractedUrl.toString()
     }
     return '/';

@@ -1,19 +1,28 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { OglasService } from 'src/users/oglas/oglas.service';
 import { Oglas } from 'src/entity/oglas.entity';
 
-@Controller('oglas')
+@Controller('api/oglas/')
 export class OglasController {
   constructor(private oglasService:OglasService) { }
   
-  // @Get()
-  // async get(): Promise<Oglas> {
-  //   let oglas = await this.oglasService.getRepo().findOne(1);
-  //   console.log(oglas);
-  //   oglas.priceMainCurrency = '2324';
-  //   oglas.priceSubCurrency = '98';
-  //   oglas.currencyName = 'EUR';
-  //   await this.oglasService.getRepo().save(oglas);
-  //   return this.oglasService.getRepo().findOne(1);
-  // }
+  @Get(':query')
+  getOglasiBySearchString(@Param() params) {
+    return this.oglasService.getRepo().createQueryBuilder('o')
+        .leftJoinAndSelect("o.photos","p","p.oglas")
+        .leftJoinAndSelect("o.vehicle","v")
+        .leftJoinAndSelect("o.location","l")
+        .leftJoinAndSelect("v.user","u")
+        .leftJoinAndSelect("v.chassis","ch")
+        .leftJoinAndSelect("ch.color","c")
+        .leftJoinAndSelect("ch.model","ml")
+        .leftJoinAndSelect("ml.drivetrain","dt")
+        .leftJoinAndSelect("ml.transmission","tr")
+        .leftJoinAndSelect("ml.gasType","gt")
+        .leftJoinAndSelect("ml.body","b")
+        .leftJoinAndSelect("ml.series","s")
+        .leftJoinAndSelect("s.manufacturer","m")
+        .where('o.PkOglas = :PkOglas', { PkOglas: params.query })
+        .getOne();
+  }
 }

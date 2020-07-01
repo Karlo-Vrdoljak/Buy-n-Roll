@@ -23,10 +23,7 @@ export class CatalogueResolver implements Resolve<unknown>{
   ){ }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-    console.log(route);
-    
     if(route.queryParams.searchType == searchTypes.text) {
-      console.log(route.params.query);
       return forkJoin (
         this.searchService.findOglasiBySearchQuery(route.params.query),
         this.translate.get(this.translationList.getCatalogues())
@@ -34,11 +31,10 @@ export class CatalogueResolver implements Resolve<unknown>{
         catchError(error => {
           const state: RouterState = this.router.routerState;
           this.errorHandler.handleRouterState(state);
-          return this.errorHandler.handleError('CatalogueResolver');
+          return this.errorHandler.handleError;
       }));
       
     } else if (route.queryParams.searchType == searchTypes.pickList) {
-      console.log(route.params);
       return forkJoin(
         this.searchService.findOglasiByManufSerieModel(route.params),
         this.translate.get(this.translationList.getCatalogues())
@@ -46,7 +42,7 @@ export class CatalogueResolver implements Resolve<unknown>{
         catchError(error => {
           const state: RouterState = this.router.routerState;
           this.errorHandler.handleRouterState(state);
-          return this.errorHandler.handleError('CatalogueResolver');
+          return this.errorHandler.handleError;
       }));
     }
   }

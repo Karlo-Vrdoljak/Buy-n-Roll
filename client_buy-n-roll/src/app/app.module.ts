@@ -63,7 +63,9 @@ import { CatalogueSearchItemComponent } from './catalogue/catalogue-search-item/
 import { CountUpModule } from 'ngx-countup';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatBadgeModule} from '@angular/material/badge';
-
+import {SplitButtonModule} from 'primeng/splitbutton';
+import { CatalogueItemViewComponent } from './catalogue/catalogue-item-view/catalogue-item-view.component';
+import { CatalogueItemResolver } from './_resolvers/catalogue.item.resolver';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -90,6 +92,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     BreadcrumbsComponent,
     LoginComponent,
     CatalogueSearchItemComponent,
+    CatalogueItemViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -148,6 +151,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     DataViewModule,
     CountUpModule,
     MatDividerModule,
+    SplitButtonModule
   ],
   providers: [
     TestService,
@@ -167,7 +171,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SearchService,
     BreadcrumbService,
     UserService,
-    LoginResolver
+    LoginResolver,
+    CatalogueItemResolver
   ],
   bootstrap: [AppComponent],
 })

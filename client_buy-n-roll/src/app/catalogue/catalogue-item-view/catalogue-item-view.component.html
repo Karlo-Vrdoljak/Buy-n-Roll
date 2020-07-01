@@ -1,0 +1,54 @@
+<app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<div *ngIf="displayAccessories && oglas.photos.length == 0; else imageViewer" class="banner"></div>
+
+
+<div class="p-grid">
+  <div class="p-col">
+    <div class="flex justify-center" [ngsReveal]="{reset: true, origin: 'right'  }">
+      <div class="max-w-sm lg:max-w-full lg:w-full sm:mx-8 md:mx-24 lg:mx-48 xl:mx-64 mx-2 rounded overflow-hidden shadow-md relative z-0">
+        <div class="bg-gray-100 z-10 relative">
+          <div class="bg-gray-100 px-4 py-4 relative">
+            <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[1]  }">
+              <div matRipple class="cursor-pointer title-hover">
+                <div class="w-9/12 lg: font-oswald font-semibold text-gray-800 text-2xl mb-1">{{ oglas.oglasNaziv }}</div>
+                <div class="w-9/12 sm: font-oswald mb-2 text-xl text-gray-800">{{ oglas.manufacturerName }}&nbsp;{{ oglas.seriesName }}&nbsp;{{ oglas.modelName }}</div>
+              </div>
+              <div class="font-oswald flex flex-row mb-2 text-2xl font-thin">
+                <div class="font-semibold mr-2 text-gray-700 cursor-pointer" [countUp]="price" [options]="countUpOptions">0</div>
+                <!-- <div class="text-gray-700">{{oglas.currencyName}}</div> -->
+              </div>
+              <!-- <div class="divider div-dark my-1 mb-2"></div> -->
+              <mat-divider class="mb-2"></mat-divider>
+              <p class="font-mw text-gray-700 text-base">
+                {{ helperService.truncateString(oglas.oglasOpis, 100) }}
+              </p>
+              <p matRipple class="font-mw text-gray-800 text-lg py-2 cursor-pointer title-hover readmore">
+                {{ 'READMORE' | translate }}
+              </p>
+            </div>
+            <div matRipple [ngsReveal]="{reset: true, origin: 'right', delay: delay[2]  }" class="bg-gray-100 py-2 relative flex items-center cursor-pointer title-hover">
+              <img class="w-16 h-16 rounded-full mr-4 select-none" src="https://www.vhv.rs/dpng/d/256-2569650_men-profile-icon-png-image-free-download-searchpng.png" alt="Avatar of Jonathan Reinink">
+              <div class="text-sm">
+                <p class="font-mw text-gray-900 leading-none person">{{ oglas.lastName }}&nbsp;{{ oglas.firstName }}</p>
+                <p class="font-mw text-gray-600 leading-none">{{ helperService.truncateString('15, Ruđera Boškovića, Smrdečac, Split 3, Split, Grad Split, Split-Dalmatia County, 21000, Croatia', 50) }}</p>
+                <p class="font-mw text-gray-600">{{ helperService.date(oglas.oglasCreatedAt) }}</p>
+              </div>
+            </div>
+            <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[3]  }" class="bg-gray-100 relative flex flex-wrap">
+              <span class="font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ oglas.vehicle.chassis.vehicleState }}</span>
+              <span class="font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ oglas.vehicle.chassis.makeYear }}</span>
+              <span class="font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800">{{ (oglas.RegistriranDaNe == 1? 'Registriran' : 'Neregistriran' )| uppercase }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- <ng-container *ngTemplateOutlet="icons"></ng-container> -->
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #imageViewer>
+  yeeeehaw
+</ng-template>

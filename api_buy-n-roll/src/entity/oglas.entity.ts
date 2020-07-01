@@ -4,6 +4,7 @@ import { User } from './user.entity';
 import { Photo } from './photo.entity';
 import { UserVehicle } from './userVehicle.entity';
 import { PaymentMethod } from 'src/types/enums';
+import { Location } from './location.entity';
 
 
 @Entity()
@@ -31,6 +32,10 @@ export class Oglas {
   @OneToOne(type => UserVehicle, {nullable:true})
   @JoinColumn()
   vehicle: UserVehicle;
+
+  @OneToOne(type => Location, {nullable:true})
+  @JoinColumn()
+  location: Location;
 
   @Column({default: 0})
   rating:number;

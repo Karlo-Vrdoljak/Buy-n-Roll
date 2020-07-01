@@ -23,7 +23,7 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @Column({generated:"uuid"})
+  @Column({generated:"uuid", select: false})
   userCode:string;
 
   @CreateDateColumn()

@@ -2,6 +2,7 @@ import { Injectable, OnInit, OnDestroy } from "@angular/core";
 import { MenuItem } from "primeng/api/menuitem";
 import { TranslateService } from "@ngx-translate/core";
 import { Subscription } from "rxjs";
+import { HelperService } from './helper.service';
 
 @Injectable({
   providedIn: "root",
@@ -9,7 +10,7 @@ import { Subscription } from "rxjs";
 export class BreadcrumbService {
   private translateSubscription$: Subscription;
   private translations: any;
-  constructor(private translate: TranslateService) {}
+  constructor(private translate: TranslateService, private helperService: HelperService) {}
 
   catalogue() {
     return [
@@ -19,7 +20,18 @@ export class BreadcrumbService {
     ] as MenuItem[];
   }
 
-  login(prevRoute?: MenuItem) {
+  catalogueItem(oglasNaziv:string, prevRoute?: MenuItem) {
+    let menu = [] as MenuItem[];
+    if (prevRoute) {
+      menu.push(prevRoute);
+    }
+    menu.push({
+        label: oglasNaziv,
+    });
+    return menu;
+  }
+
+  login(prevRoute?: MenuItem) {    
     let menu = [] as MenuItem[];
     if (prevRoute) {
       menu.push(prevRoute);
@@ -32,8 +44,6 @@ export class BreadcrumbService {
   determinePath(route: string, fullPath?:string) {
     switch (route) {
       case "catalogues":
-        console.log(fullPath);
-        
         return {
           label: this.translate.instant("CATALOGUE"),
           url: fullPath? `/#${fullPath}`: `/${route}/`

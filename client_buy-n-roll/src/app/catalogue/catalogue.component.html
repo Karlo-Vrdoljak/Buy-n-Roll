@@ -5,12 +5,11 @@
     <div class="ui-helper-clearfix">
       <div class="p-grid">
         <div class="p-col-4 np">
-          <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By" (onChange)="onSortChange($event)" [style]="{'min-width':'140px'}"></p-dropdown>
+          <p-dropdown [options]="sortOptions"  placeholder="Sort By" (onChange)="onSortChange($event)" [style]="{'min-width':'140px'}"></p-dropdown>
         </div>
         <div class="p-col-4 np filter-container">
         </div>
         <div class="p-col-4 np" style="text-align:right">
-          <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
         </div>
       </div>
     </div>
@@ -24,7 +23,7 @@
             <!-- <div class="p-col-12">oglasNaziv: <b>{{o.oglasNaziv}}</b></div> -->
             <!-- <div class="p-col-12">modelName: <b>{{o.modelName}}</b></div> -->
             <!-- <div class="p-col-12">oglasOpis: <b>{{o.oglasOpis}}</b></div> -->
-            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4" *ngFor="let item of [0,1,2,3]">
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
               <!-- <div class="blog-card">
                 <div class="meta">
                   <div class="photo" style="background-image: url(https://www.njuskalo.hr/image-w920x690/auti/opel-astra-gsi-16v-slika-29041039.jpg)"></div>
@@ -57,7 +56,7 @@
       </div>
     <!-- </div> -->
   </ng-template>
-  <ng-template let-o pTemplate="gridItem">
+  <!-- <ng-template let-o pTemplate="gridItem">
     <div style="padding:.5em" class="p-col-12 p-sm-6 p-md-4 p-lg-3 p-xl-2" *ngFor="let item of [0,1,2,3]">
       <div class="blog-card white">
         <div class="description" style="flex-basis: 100%;">
@@ -72,7 +71,7 @@
         </div>
       </div>
     </div>
-  </ng-template>
+  </ng-template> -->
 </p-dataView>
 
 <ng-template #noRecords>

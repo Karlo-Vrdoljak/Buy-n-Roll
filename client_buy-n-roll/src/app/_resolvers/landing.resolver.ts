@@ -21,8 +21,6 @@ export class LandingResolver implements Resolve<unknown>{
   ){ }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-    console.log(this.translate.currentLang);
-    
     return forkJoin ([
       this.vehicleService.manufacturersFindAll(),
       this.translate.get(this.translationProvider.getLanding())
@@ -30,7 +28,7 @@ export class LandingResolver implements Resolve<unknown>{
         catchError(error => {
           const state: RouterState = this.router.routerState;
           this.errorHandler.handleRouterState(state);
-          return this.errorHandler.handleError('LandingResolver');
+          return this.errorHandler.handleError;
         })
       );
     }

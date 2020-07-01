@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     let prevRoute = this.route.snapshot.data.pageData;
-    let path = this.router.config.map(c => c.path).find(c => prevRoute.includes(c));
+    let path = this.router.config.map(c => c.path).find(c => prevRoute.includes(c.split('/')[0])).split('/')[0];
     this.returnUrl = prevRoute;
     if(prevRoute != '/' && path) {
       this.breadcrumbs = this.breadcrumbService.login(this.breadcrumbService.determinePath(path,this.returnUrl));
@@ -32,7 +32,5 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.breadcrumbs = this.breadcrumbService.login();
 
     }
-    console.log(this.returnUrl);
-    
   }
 }

@@ -7,7 +7,7 @@ import { ErrorHandler } from './errorHandler';
 @Injectable({
   providedIn: 'root'
 })
-export class SearchService {
+export class OglasService {
 
   constructor(
     private http: HttpClient,
@@ -15,14 +15,8 @@ export class SearchService {
     private errorHandler:ErrorHandler
   ) { }
 
-  findOglasiBySearchQuery(data) {
-    return this.http.get(this.config.API_URL_ROOT + "api/vehicle/search/" + data).pipe(
-      retry(this.config.retryCount),
-      catchError(this.errorHandler.handleError)
-    );
-  }
-  findOglasiByManufSerieModel(data) {
-    return this.http.get(this.config.API_URL_ROOT + "api/vehicle/search/detailed", { params: data }).pipe(
+  findOglasByPk(data) {
+    return this.http.get(this.config.API_URL_ROOT + "api/oglas/" + data).pipe(
       retry(this.config.retryCount),
       catchError(this.errorHandler.handleError)
     );
