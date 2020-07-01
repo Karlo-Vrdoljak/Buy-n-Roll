@@ -155,7 +155,10 @@ export class TopbarComponent implements OnInit {
           ...this.selectedSeries,
           ...this.selectedModel? this.selectedModel: null
         }
-        this.router.navigate(["catalogues",params], {queryParams: {searchType:searchType}});
+        console.log(params);
+        
+        this.router.navigate(["catalogues", params], {queryParams: {searchType: searchType}});
+
         this.displaySidebar = false;
       }
     }

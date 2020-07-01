@@ -92,13 +92,13 @@ export class UsersService implements OnModuleInit{
       let oglas = new Oglas;
       oglas.oglasNaziv = 'Opel astra gsi prvi vlasnik';
       oglas.oglasOpis = `
-      Prodaje se Opel Astra 1.8 16V
-      cijena je ta zbog odlaska u inozemstvo...
-      sportsko podvozje
-      atestirani branici
-      atestiran plin
-      zadnja slika te felge su trenutno na njemu
-      Astra nije registrirana,papiri uredni
+      Prodaje se Opel Astra 1.8 16V\n
+      cijena je ta zbog odlaska u inozemstvo...\n
+      sportsko podvozje\n
+      atestirani branici\n
+      atestiran plin\n
+      zadnja slika te felge su trenutno na njemu\n
+      Astra nije registrirana,papiri uredni\n
       limarija u osrednjem stanju trebalo bi malo uložiti u nju...
       `;
       oglas.vehicle = await this.userVehicleRepository.findOne(1);

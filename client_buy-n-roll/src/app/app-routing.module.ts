@@ -14,6 +14,7 @@ import { CatalogueItemResolver } from './_resolvers/catalogue.item.resolver';
 const routes: Routes = [
   { path: 'test', component: TestComponentComponent },
   { path: 'login', component: LoginComponent, resolve: {pageData: LoginResolver} },
+  { path: 'catalogues', component: CatalogueComponent, resolve: { pageData: CatalogueResolver} },
   { path: 'catalogues/:query', component: CatalogueComponent, resolve: { pageData: CatalogueResolver} },
   { path: 'catalogues/item/:query', component: CatalogueItemViewComponent, resolve: { pageData: CatalogueItemResolver} },
   { path: '', component: LandingComponent, resolve: { pageData:LandingResolver } },

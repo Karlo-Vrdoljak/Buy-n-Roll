@@ -9,7 +9,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans&display=swap');
 
 body {
-  background-color: #d4d4dc;
+  background-color: #fff;
   // background-position: center;
   // background-attachment: fixed;
   overflow: overlay;
@@ -31,17 +31,17 @@ body {
   scroll-behavior: smooth;
 }
 
-div:after {
-  clear: both;
-  margin: 0;
-  padding: 0;
-  display: table;
-  font-size: 0;
-  line-height: 0;
-  content: " ";
-  visibility: hidden;
-  overflow: hidden;
-}
+// div:after {
+//   clear: both;
+//   margin: 0;
+//   padding: 0;
+//   display: table;
+//   font-size: 0;
+//   line-height: 0;
+//   content: " ";
+//   visibility: hidden;
+//   overflow: hidden;
+// }
 div {
   zoom: 1;
 }
@@ -125,4 +125,4 @@ div {
   font-family: 'Merriweather Sans', sans-serif;
 }
 /* Importing Bootstrap SCSS file. */
-@import "~bootstrap/scss/bootstrap";
+// @import "~bootstrap/scss/bootstrap";

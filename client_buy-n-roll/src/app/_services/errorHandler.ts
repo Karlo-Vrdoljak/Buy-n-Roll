@@ -56,10 +56,12 @@ export class ErrorHandler {
   }
 
 
-  public handleRouterState(state: RouterState) {
+  public handleRouterState(state: RouterState, viewResolverDeny:boolean = false) {
     this.router.navigateByUrl(state.snapshot.url);
-    this.translate.get(["TRY_AGAIN", "ERROR"]).subscribe((tran) => {
-      this.toastr.error(tran.TRY_AGAIN, tran.ERROR);
-    });
+    if(viewResolverDeny == false) {
+      this.translate.get(["TRY_AGAIN", "ERROR"]).subscribe((tran) => {
+        this.toastr.error(tran.TRY_AGAIN, tran.ERROR);
+      });
+    }
   }
 }

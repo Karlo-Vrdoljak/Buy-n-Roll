@@ -25,4 +25,22 @@ export class OglasController {
         .where('o.PkOglas = :PkOglas', { PkOglas: params.query })
         .getOne();
   }
+
+  @Get()
+  async get(): Promise<Oglas> {
+    let oglas = await this.oglasService.getRepo().findOne(1);
+    console.log(oglas);
+    oglas.oglasOpis = `Prodaje se Opel Astra 1.8 16V
+    cijena je ta zbog odlaska u inozemstvo...
+    sportsko podvozje
+    atestirani branici
+    atestiran plin
+    zadnja slika te felge su trenutno na njemu
+    Astra nije registrirana,papiri uredni
+    limarija u osrednjem stanju trebalo bi malo uložiti u nju...
+    Najbitnije pali i vozi
+    `;
+    await this.oglasService.getRepo().save(oglas);
+    return this.oglasService.getRepo().findOne(1);
+  }
 }

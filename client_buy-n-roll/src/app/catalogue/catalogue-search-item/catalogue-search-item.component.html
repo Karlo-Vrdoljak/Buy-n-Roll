@@ -6,7 +6,7 @@
       <div *ngIf="helperService.getScreenY() >= 640" class="overlay light"></div>
       <div class="bg-gray-100 px-4 py-4 relative">
         <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[1]  }">
-          <div matRipple class="cursor-pointer title-hover">
+          <div matRipple class="cursor-pointer title-hover" [routerLink]="[ '/catalogues/item/', searchItem.PkOglas ]">
             <div class="w-9/12 lg: font-oswald font-semibold text-gray-800 text-2xl mb-1">{{ searchItem.oglasNaziv }}</div>
             <div class="w-9/12 sm: font-oswald mb-2 text-xl text-gray-800">{{ searchItem.manufacturerName }}&nbsp;{{ searchItem.seriesName }}&nbsp;{{ searchItem.modelName }}</div>
           </div>
@@ -16,10 +16,10 @@
           </div>
           <!-- <div class="divider div-dark my-1 mb-2"></div> -->
           <mat-divider class="mb-2"></mat-divider>
-          <p class="font-mw text-gray-700 text-base">
-            {{ helperService.truncateString(searchItem.oglasOpis, 100) }}
+          <p class="font-mw text-gray-700 text-base whitespace-pre-line">
+            {{ helperService.truncateString(searchItem.oglasOpis.trim(), 100) }}
           </p>
-          <p matRipple class="font-mw text-gray-800 text-lg py-2 cursor-pointer title-hover readmore">
+          <p matRipple class="font-mw text-gray-800 text-lg py-2 cursor-pointer title-hover readmore" [routerLink]="[ '/catalogues/item/', searchItem.PkOglas ]">
             {{ 'READMORE' | translate }}
           </p>
         </div>

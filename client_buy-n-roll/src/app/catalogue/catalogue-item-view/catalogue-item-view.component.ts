@@ -48,6 +48,8 @@ export class CatalogueItemViewComponent implements OnInit {
     this.setupBreadCrumbs();
 
     this.setupLangObservable();
+    
+    this.updateOrientationState();
   }
 
   private setupLangObservable() {

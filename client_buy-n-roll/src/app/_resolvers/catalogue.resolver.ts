@@ -23,6 +23,7 @@ export class CatalogueResolver implements Resolve<unknown>{
   ){ }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
+    
     if(route.queryParams.searchType == searchTypes.text) {
       return forkJoin (
         this.searchService.findOglasiBySearchQuery(route.params.query),
@@ -35,6 +36,7 @@ export class CatalogueResolver implements Resolve<unknown>{
       }));
       
     } else if (route.queryParams.searchType == searchTypes.pickList) {
+      
       return forkJoin(
         this.searchService.findOglasiByManufSerieModel(route.params),
         this.translate.get(this.translationList.getCatalogues())
@@ -44,6 +46,9 @@ export class CatalogueResolver implements Resolve<unknown>{
           this.errorHandler.handleRouterState(state);
           return this.errorHandler.handleError;
       }));
+    } else {
+      const state: RouterState = this.router.routerState;
+      this.errorHandler.handleRouterState(state,true);
     }
   }
 }

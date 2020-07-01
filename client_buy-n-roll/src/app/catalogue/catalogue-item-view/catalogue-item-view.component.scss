@@ -3,11 +3,17 @@
 .banner {
   width: 100vw;
   margin-top: 90px;
-  background-image: url("../../../assets/images/catalogue/banner.jpg");
+  background-image: url("../../../assets/images/catalogue/unknown.jpg");
   background-size: cover;
   background-position: bottom;
   height: 20vh;
   position: relative;
+}
+
+@media (max-height: 449px) {
+  .banner {
+    margin-top: 50px;
+  }
 }
 
 .noContentWrap {
@@ -21,11 +27,15 @@
   }
 }
 .title-hover {
-  div, .person, &.readmore {
+  div,
+  .person,
+  &.readmore {
     transition: color 0.15s ease;
   }
   &:hover {
-    div, .person, &.readmore {
+    div,
+    .person,
+    &.readmore {
       color: $lightYellow;
     }
   }
