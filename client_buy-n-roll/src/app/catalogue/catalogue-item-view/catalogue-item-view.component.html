@@ -1,20 +1,20 @@
 <app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 <div *ngIf="oglas.photos.length == 0; else imageViewer" class="banner mb-4 relative">
-  <div class="absolute text-2xl top-0 right-0">
+  <!-- <div class="absolute text-2xl top-0 right-0">
     <div class="w-full">
       <span class="fa-stack px-4">
         <i class="fas fa-fw fa-camera-retro fa-stack-2x buynroll_deepGray"></i>
         <i class="fas fa-fw buynroll_lightYellow pl-2 fa-times fa-stack-1x fa-2x pr-2 fa-inverse"></i>
       </span>
     </div>
-  </div>
+  </div> -->
 </div>
 
 
 <div class="p-grid">
   <div class="p-col">
     <div class="flex justify-center" [ngsReveal]="{reset: true, origin: 'right'  }">
-      <div class="max-w-full lg:w-full sm:mx-8 md:mx-24 lg:mx-48 xl:mx-64 mx-2 rounded overflow-hidden shadow-md relative z-0">
+      <div class="max-w-full lg:w-full sm:mx-8 md:mx-24 lg:mx-48 xl:64 mx-2 rounded overflow-hidden shadow-md relative z-0">
         <div class="bg-gray-100 z-10 relative">
           <div class="bg-gray-100 px-4 py-4 relative">
             <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[1]  }">
@@ -29,9 +29,9 @@
             </div>
           </div>
           <div class="p-grid">
-            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-7">
               <div class="bg-gray-100 px-4 pb-2 relative">
-                <p class="font-mw text-gray-700 text-base">
+                <p class="font-mw text-gray-700 py-2 text-base">
                   <span class="whitespace-pre-line">{{ oglas.oglasOpis }}</span>
                 </p>
                 <div matRipple [ngsReveal]="{reset: true, origin: 'right', delay: delay[2]  }" class="bg-gray-100 py-2 relative flex items-center cursor-pointer title-hover">
@@ -42,23 +42,60 @@
                     <p class="font-mw text-gray-600">{{ helperService.date(oglas.oglasCreatedAt) }}</p>
                   </div>
                 </div>
-                <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[3]  }" class="bg-gray-100 relative flex flex-wrap">
-                  <span class="font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ oglas.vehicle.chassis.vehicleState }}</span>
-                  <span class="font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ oglas.vehicle.chassis.makeYear }}</span>
-                  <span class="font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800">{{ (oglas.RegistriranDaNe == 1? 'Registriran' : 'Neregistriran' )| uppercase }}</span>
+              </div>
+            </div>
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-5">
+              <div [ngsRevealSet]="{reset: true, origin: 'right'  }" [ngsInterval]="100" [ngsSelector]="'.font-oswald'" class="bg-gray-100 relative flex flex-wrap justify-center p-2 w-full">
+                <div class="flex flex-col w-full">
+                  <div>
+                    <div class="font-oswald font-xl text-gray-800 font-medium">{{ ('GENERAL' | translate) | uppercase }}</div>
+                    <!-- <mat-divider class="font-oswald pb-1" style="margin-right: 0.5rem;"></mat-divider> -->
+                  </div>
+                  <div class="font-oswald">
+                    <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2" [ngClass]="{'buynroll_bg_yellow text-yellow-800': oglas.vehicle.RegistriranDaNe == 1, 'buynroll_bg_silver text-gray-600': oglas.vehicle.RegistriranDaNe == 0 }">{{ (oglas.vehicle.RegistriranDaNe == 1? 'Registriran' : 'Neregistriran' )| uppercase }}</span>
+                    <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ oglas.vehicle.chassis.vehicleState }}</span>
+                    <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ oglas.vehicle.chassis.makeYear }}</span>
+                    <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ oglas.paymentMethod }}</span>
+                  </div>
                 </div>
+                <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'ACCESSORIES', items: oglas.accessories, bg: 'buynroll_bg_silver', text: 'text-gray-600' }"></ng-container>
+                <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'ACCESSORIES', items: oglas.accessories, bg: 'buynroll_bg_silver', text: 'text-gray-600' }"></ng-container>
+                <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'KLIMA', items: oglas.airConditioning, bg: 'bg-gray-300', text: 'text-gray-600' }"></ng-container>
+                <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'MUZIKA', items: oglas.autoRadioDefs, bg: 'bg-indigo-200', text: 'text-gray-800' }"></ng-container>
+                <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'COMFORT', items: oglas.comfortAccessories, bg: 'bg-orange-200', text: 'text-yellow-600' }"></ng-container>
+                <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'SAFETY', items: oglas.safety, bg: 'buynroll_bg_silver', text: 'text-gray-600' }"></ng-container>
+                <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'THEFT_SAFETY', items: oglas.theftSafety, bg: 'bg-gray-300', text: 'text-gray-600' }"></ng-container>
               </div>
             </div>
           </div>
-        </div>
-        <!-- <ng-container *ngTemplateOutlet="icons"></ng-container> -->
+          <app-catalogue-action-icons [external]="false" [rating]="oglas.rating" [msgShade]="600" [offset]="1"></app-catalogue-action-icons>
 
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-
+<!-- <div class="showtheway">
+  <a href="https://showtheway.io/to/43.507933,16.466722" target="_blank" title="Show the Way to Ul. Ruđera Boškovića 15 with your favorite navigation application">
+    Show the Way
+  </a>
+</div> -->
 <ng-template #imageViewer>
   yeeeehaw
+</ng-template>
+
+<ng-template #pills let-title='title' let-items='items' let-bg='bg' let-text='text'>
+  <div *ngIf="items" [ngsRevealSet]="{reset: true, origin: 'right'  }" [ngsInterval]="100" [ngsSelector]="'.font-oswald'" class="bg-gray-100 relative flex flex-wrap justify-center py-2 w-full">
+    <div class="flex flex-col w-full">
+      <div>
+        <div class="font-oswald font-xl text-gray-800 font-medium">{{ ( title | translate) | uppercase }}</div>
+        <!-- <mat-divider class="font-oswald pb-1" style="margin-right: 0.5rem;"></mat-divider> -->
+      </div>
+      <div class="font-oswald">
+        <ng-container *ngFor="let item of items">
+          <span [class]="'font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 ' + bg + ' ' + text">{{ item | uppercase }}</span>
+        </ng-container>
+      </div>
+    </div>
+  </div>
 </ng-template>

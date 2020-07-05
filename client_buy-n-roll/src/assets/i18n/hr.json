@@ -17,8 +17,15 @@
   "LANG":"JEZIK",
   "READMORE":"Više detalja",
   "OOPS":"Ups!",
-  "CATALOGUE_CANT_FIND":"Nismo mogli pronaći ono što ste tražili, pokušajte nešto drugo."
-
+  "CATALOGUE_CANT_FIND":"Nismo mogli pronaći ono što ste tražili, pokušajte nešto drugo.",
+  "PAYMENT_METHOD": "Način plaćanja",
+  "ACCESSORIES": "Dodaci opremi",
+  "GENERAL": "Opće",
+  "KLIMA": "Air conditioning",
+  "MUZIKA":"Ozvučenje",
+  "COMFORT":"Udobnost",
+  "SAFETY": "Sigurnost",
+  "THEFT_SAFETY": "Sigurnost protiv krađe"
 
 
 

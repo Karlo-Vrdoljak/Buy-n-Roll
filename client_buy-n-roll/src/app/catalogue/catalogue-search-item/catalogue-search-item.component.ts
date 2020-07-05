@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, NgZone, HostListener } from '@angular/core';
+import { Component, OnInit, Input, NgZone, HostListener, OnDestroy } from '@angular/core';
 import { HelperService } from 'src/app/_services/helper.service';
 import { Oglas } from 'src/app/_types/oglas.interface';
+import ScrollReveal from 'scrollreveal';
 
 interface DisplayType {
   large:"large";
@@ -11,7 +12,7 @@ interface DisplayType {
   templateUrl: './catalogue-search-item.component.html',
   styleUrls: ['./catalogue-search-item.component.scss']
 })
-export class CatalogueSearchItemComponent implements OnInit {
+export class CatalogueSearchItemComponent implements OnInit, OnDestroy {
 
   @Input('item') searchItem:any;
   @Input('delay') delayCoef:number;
@@ -22,6 +23,10 @@ export class CatalogueSearchItemComponent implements OnInit {
   constructor(
     public helperService:HelperService,
   ) { }
+  ngOnDestroy(): void {
+    ScrollReveal().destroy();
+
+  }
 
   ngOnInit(): void {
     this.countUpOptions = {

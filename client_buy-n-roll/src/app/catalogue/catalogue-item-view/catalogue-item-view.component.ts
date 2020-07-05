@@ -5,6 +5,7 @@ import { BreadcrumbService } from 'src/app/_services/breadcrumb.service';
 import { HelperService } from 'src/app/_services/helper.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
+import ScrollReveal from 'scrollreveal';
 
 @Component({
   selector: 'app-catalogue-item-view',
@@ -37,6 +38,8 @@ export class CatalogueItemViewComponent implements OnInit {
   ngOnDestroy(): void {
     this.routerSubscription$.unsubscribe();
     this.translateSubscription$.unsubscribe();
+    ScrollReveal().destroy();
+    
   }
 
   ngOnInit(): void {

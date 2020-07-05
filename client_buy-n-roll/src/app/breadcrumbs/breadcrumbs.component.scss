@@ -40,5 +40,8 @@
       color: lighten($color: $silver, $amount: 10%);
       font-weight: 600;
     }
+    li .ui-menuitem-link:focus {
+      box-shadow: none;
+    }
   }
 }

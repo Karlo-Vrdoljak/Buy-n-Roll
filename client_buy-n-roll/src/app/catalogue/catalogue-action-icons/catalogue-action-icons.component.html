@@ -1,0 +1,14 @@
+<div class="absolute z-10 top-0 right-0 select-none" [ngStyle]="{'margin': (offset + 'rem')}">
+  <button *ngIf="external" mat-icon-button color="accent" class="mx-1 mt-2 focus:outline-none" [routerLink]="[ '/catalogues/item/', PkOglas ]" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[3]  }">
+    <i class="fas text-4xl text-yellow-500 fa-external-link-square-alt rounded-md"></i>
+  </button>
+  <button mat-icon-button color="accent" class="mx-1 mt-2 relative focus:outline-none" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[2]  }">
+    <i class="fas text-4xl text-red-500 fa-heart rounded-md"></i>
+    <div class=" top-0 font-oswald flex items-center justify-center p-1 absolute rounded-full w-full h-full text-sm text-gray-200">{{helperService.abbreviateNumber(rating)}}</div>
+  </button>
+</div>
+<div class="absolute z-10 mx-1 my-1 right-0 select-none" style="top: 3em;" [ngStyle]="{'margin': (offset + 'rem')}">
+  <button mat-icon-button color="accent" class="mx-1 mt-2 relative focus:outline-none" [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: delay[4]  }">
+    <i [class]="'fas text-4xl fa-comments-dollar rounded-md text-gray-' + msgShade" ></i>
+  </button>
+</div>

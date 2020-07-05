@@ -12,6 +12,8 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
 import { searchTypes } from '../_types/misc';
 import { ToastrService } from 'ngx-toastr';
+import ScrollReveal from 'scrollreveal';
+
 @Component({
   selector: "app-landing",
   templateUrl: "./landing.component.html",
@@ -205,6 +207,7 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.orientationSubscription$.unsubscribe();
     this.scrollSubscription$.unsubscribe();
+    ScrollReveal().destroy();
   }
 
   defaultSlides() {

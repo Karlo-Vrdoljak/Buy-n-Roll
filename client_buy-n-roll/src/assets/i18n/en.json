@@ -17,6 +17,15 @@
   "LANG":"LANGUAGE",
   "READMORE":"More details",
   "OOPS":"Oops!",
-  "CATALOGUE_CANT_FIND":"We could not find what you asked for, try something else."
+  "CATALOGUE_CANT_FIND":"We could not find what you asked for, try something else.",
+  "PAYMENT_METHOD": "Payment method",
+  "ACCESSORIES": "Accessories",
+  "GENERAL": "General",
+  "KLIMA": "Air conditioning",
+  "MUZIKA":"Sound system",
+  "COMFORT":"Comfort",
+  "SAFETY": "Safety",
+  "THEFT_SAFETY": "Theft safety"
+
 
 }

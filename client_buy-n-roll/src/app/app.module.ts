@@ -66,6 +66,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {SplitButtonModule} from 'primeng/splitbutton';
 import { CatalogueItemViewComponent } from './catalogue/catalogue-item-view/catalogue-item-view.component';
 import { CatalogueItemResolver } from './_resolvers/catalogue.item.resolver';
+import { CatalogueActionIconsComponent } from './catalogue/catalogue-action-icons/catalogue-action-icons.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -93,6 +94,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     LoginComponent,
     CatalogueSearchItemComponent,
     CatalogueItemViewComponent,
+    CatalogueActionIconsComponent,
   ],
   imports: [
     BrowserModule,

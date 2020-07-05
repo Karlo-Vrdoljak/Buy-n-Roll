@@ -53,7 +53,15 @@ export class HelperService {
   }
   date(date: string) {
     let dateObj = new Date(date);
-    return dateObj.toLocaleDateString(this.translate.currentLang) + ' ' + dateObj.toLocaleTimeString(this.translate.currentLang);
+    if(this.translate.currentLang == 'en') {
+      return ('00' + dateObj.getDate()).slice(-2) + '/' + ('00' + (dateObj.getMonth() + 1)).slice(-2) + '/' + dateObj.getFullYear();
+    } else {
+      return ('00' + dateObj.getDate()).slice(-2) + '. ' + ('00' + (dateObj.getMonth() + 1)).slice(-2) + '. ' + dateObj.getFullYear() + '.';
+
+    }
+    // return dateObj.toLocaleDateString(this.translate.currentLang,  {
+    //   day: '2-digit', month: '2-digit', year: 'numeric'
+    // }) + ' ' + dateObj.toLocaleTimeString(this.translate.currentLang, {hour:'2-digit', minute:'2-digit'});
   }
   getScreenY() {
     return screen.availHeight;

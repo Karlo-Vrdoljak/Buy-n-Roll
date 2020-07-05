@@ -6,6 +6,7 @@ import { SelectItem } from "primeng/api/selectitem";
 import { Subscription } from 'rxjs';
 import { HelperService } from '../_services/helper.service';
 import { TranslateService } from '@ngx-translate/core';
+import ScrollReveal from 'scrollreveal';
 
 @Component({
   selector: "app-catalogue",
@@ -37,6 +38,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routerSubscription$.unsubscribe();
     this.translateSubscription$.unsubscribe();
+    ScrollReveal().destroy();
   }
 
   ngOnInit(): void {
