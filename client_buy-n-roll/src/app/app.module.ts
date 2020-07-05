@@ -67,6 +67,8 @@ import {SplitButtonModule} from 'primeng/splitbutton';
 import { CatalogueItemViewComponent } from './catalogue/catalogue-item-view/catalogue-item-view.component';
 import { CatalogueItemResolver } from './_resolvers/catalogue.item.resolver';
 import { CatalogueActionIconsComponent } from './catalogue/catalogue-action-icons/catalogue-action-icons.component';
+import {TextFieldModule} from '@angular/cdk/text-field';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -153,7 +155,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     DataViewModule,
     CountUpModule,
     MatDividerModule,
-    SplitButtonModule
+    SplitButtonModule,
+    TextFieldModule,
+    DeviceDetectorModule.forRoot()
   ],
   providers: [
     TestService,

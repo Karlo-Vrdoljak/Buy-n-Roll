@@ -5,7 +5,7 @@ import { BreadcrumbService } from 'src/app/_services/breadcrumb.service';
 import { HelperService } from 'src/app/_services/helper.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
-import ScrollReveal from 'scrollreveal';
+import { NgsRevealService } from 'ngx-scrollreveal';
 
 @Component({
   selector: 'app-catalogue-item-view',
@@ -28,7 +28,9 @@ export class CatalogueItemViewComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public helperService: HelperService,
-    private translate:TranslateService
+    private translate:TranslateService,
+    public revealService:NgsRevealService
+
   ) { }
 
   @HostListener("window:resize") updateOrientationState() {
@@ -38,7 +40,8 @@ export class CatalogueItemViewComponent implements OnInit {
   ngOnDestroy(): void {
     this.routerSubscription$.unsubscribe();
     this.translateSubscription$.unsubscribe();
-    ScrollReveal().destroy();
+    this.revealService.destroy();
+
     
   }
 

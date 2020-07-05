@@ -17,7 +17,7 @@
       <div class="max-w-full lg:w-full sm:mx-8 md:mx-24 lg:mx-48 xl:64 mx-2 rounded overflow-hidden shadow-md relative z-0">
         <div class="bg-gray-100 z-10 relative">
           <div class="bg-gray-100 px-4 py-4 relative">
-            <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[1]  }">
+            <div [ngsReveal]="{reset: true, origin: 'right', delay: 50  }">
               <div>
                 <div class="w-9/12 lg: font-oswald font-semibold text-gray-800 text-2xl mb-1">{{ oglas.oglasNaziv }}</div>
                 <div class="w-9/12 sm: font-oswald mb-2 text-xl text-gray-800">{{ oglas.vehicle.chassis.model.series.manufacturer.manufacturerName }}&nbsp;{{ oglas.vehicle.chassis.model.series.seriesName }}&nbsp;{{ oglas.vehicle.chassis.model.modelName }}</div>
@@ -34,7 +34,7 @@
                 <p class="font-mw text-gray-700 py-2 text-base">
                   <span class="whitespace-pre-line">{{ oglas.oglasOpis }}</span>
                 </p>
-                <div matRipple [ngsReveal]="{reset: true, origin: 'right', delay: delay[2]  }" class="bg-gray-100 py-2 relative flex items-center cursor-pointer title-hover">
+                <div matRipple [ngsReveal]="{reset: true, origin: 'right', delay: 100 }" class="bg-gray-100 py-2 relative flex items-center cursor-pointer title-hover">
                   <img class="w-16 h-16 rounded-full mr-4 select-none" src="https://www.vhv.rs/dpng/d/256-2569650_men-profile-icon-png-image-free-download-searchpng.png" alt="Avatar of Jonathan Reinink">
                   <div class="text-sm">
                     <p class="font-mw text-gray-900 leading-none person">{{ oglas.vehicle.user.lastName }}&nbsp;{{ oglas.vehicle.user.firstName }}</p>
@@ -45,7 +45,7 @@
               </div>
             </div>
             <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-5">
-              <div [ngsRevealSet]="{reset: true, origin: 'right'  }" [ngsInterval]="100" [ngsSelector]="'.font-oswald'" class="bg-gray-100 relative flex flex-wrap justify-center p-2 w-full">
+              <div [ngsReveal]="{reset: true, origin: 'right', delay: 150  }" class="bg-gray-100 relative flex flex-wrap justify-center p-2 w-full">
                 <div class="flex flex-col w-full">
                   <div>
                     <div class="font-oswald font-xl text-gray-800 font-medium">{{ ('GENERAL' | translate) | uppercase }}</div>
@@ -58,7 +58,6 @@
                     <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ oglas.paymentMethod }}</span>
                   </div>
                 </div>
-                <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'ACCESSORIES', items: oglas.accessories, bg: 'buynroll_bg_silver', text: 'text-gray-600' }"></ng-container>
                 <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'ACCESSORIES', items: oglas.accessories, bg: 'buynroll_bg_silver', text: 'text-gray-600' }"></ng-container>
                 <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'KLIMA', items: oglas.airConditioning, bg: 'bg-gray-300', text: 'text-gray-600' }"></ng-container>
                 <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'MUZIKA', items: oglas.autoRadioDefs, bg: 'bg-indigo-200', text: 'text-gray-800' }"></ng-container>
@@ -85,13 +84,13 @@
 </ng-template>
 
 <ng-template #pills let-title='title' let-items='items' let-bg='bg' let-text='text'>
-  <div *ngIf="items" [ngsRevealSet]="{reset: true, origin: 'right'  }" [ngsInterval]="100" [ngsSelector]="'.font-oswald'" class="bg-gray-100 relative flex flex-wrap justify-center py-2 w-full">
+  <div *ngIf="items" [ngsRevealSet]="{reset: true, origin: 'right'  }" [ngsInterval]="35" [ngsSelector]="'.revealItem'" class="bg-gray-100 relative flex flex-wrap justify-center py-2 w-full">
     <div class="flex flex-col w-full">
       <div>
-        <div class="font-oswald font-xl text-gray-800 font-medium">{{ ( title | translate) | uppercase }}</div>
+        <div class="revealItem font-oswald font-xl text-gray-800 font-medium">{{ ( title | translate) | uppercase }}</div>
         <!-- <mat-divider class="font-oswald pb-1" style="margin-right: 0.5rem;"></mat-divider> -->
       </div>
-      <div class="font-oswald">
+      <div class="revealItem font-oswald">
         <ng-container *ngFor="let item of items">
           <span [class]="'font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 ' + bg + ' ' + text">{{ item | uppercase }}</span>
         </ng-container>

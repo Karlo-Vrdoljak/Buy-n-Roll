@@ -31,10 +31,10 @@
             <p class="font-mw text-gray-600">{{ helperService.date(searchItem.oglasCreatedAt) }}</p>
           </div>
         </div>
-        <div [ngsRevealSet]="{reset: true, origin: 'right'  }" [ngsInterval]="200" [ngsSelector]="'.font-oswald'" class="bg-gray-100 relative flex flex-wrap">
-          <span class="font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2" [ngClass]="{'buynroll_bg_yellow text-yellow-800': searchItem.RegistriranDaNe == 1, 'buynroll_bg_silver text-gray-600': searchItem.RegistriranDaNe == 0 }" >{{ (searchItem.RegistriranDaNe == 1? 'Registriran' : 'Neregistriran' )| uppercase }}</span>
-          <span class="font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ searchItem.vehicleState }}</span>
-          <span class="font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ searchItem.makeYear }}</span>
+        <div [ngsRevealSet]="{reset: true, origin: 'right'  }" [ngsInterval]="200" [ngsSelector]="'.revealItem'" class="bg-gray-100 relative flex flex-wrap">
+          <span class="revealItem font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2" [ngClass]="{'buynroll_bg_yellow text-yellow-800': searchItem.RegistriranDaNe == 1, 'buynroll_bg_silver text-gray-600': searchItem.RegistriranDaNe == 0 }" >{{ (searchItem.RegistriranDaNe == 1? 'Registriran' : 'Neregistriran' )| uppercase }}</span>
+          <span class="revealItem font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ searchItem.vehicleState }}</span>
+          <span class="revealItem font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ searchItem.makeYear }}</span>
         </div>
       </div>
     </div>

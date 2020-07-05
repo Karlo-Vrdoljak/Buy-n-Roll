@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, NgZone, HostListener, OnDestroy } from '@angular/core';
 import { HelperService } from 'src/app/_services/helper.service';
 import { Oglas } from 'src/app/_types/oglas.interface';
-import ScrollReveal from 'scrollreveal';
+import { NgsRevealService } from 'ngx-scrollreveal';
 
 interface DisplayType {
   large:"large";
@@ -22,10 +22,10 @@ export class CatalogueSearchItemComponent implements OnInit, OnDestroy {
   @Input('size') size: DisplayType;
   constructor(
     public helperService:HelperService,
+    public revealService:NgsRevealService
   ) { }
   ngOnDestroy(): void {
-    ScrollReveal().destroy();
-
+    this.revealService.destroy();
   }
 
   ngOnInit(): void {

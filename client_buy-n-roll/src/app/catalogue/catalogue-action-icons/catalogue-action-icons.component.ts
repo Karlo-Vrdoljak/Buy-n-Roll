@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HelperService } from 'src/app/_services/helper.service';
-
+import { DeviceDetectorService } from 'ngx-device-detector';
 @Component({
   selector: 'app-catalogue-action-icons',
   templateUrl: './catalogue-action-icons.component.html',
@@ -15,9 +15,11 @@ export class CatalogueActionIconsComponent implements OnInit {
   @Input('msgShade') msgShade:number = 200;
   @Input('offset') offset:number = 0.25;
 
-  constructor(public helperService: HelperService) { }
+  message:string = '';
+  messageMaxLength:number = 150;
 
-  ngOnInit(): void {
-  }
+  constructor(public helperService: HelperService, public deviceDetector: DeviceDetectorService) { }
+
+  ngOnInit(): void { }
 
 }

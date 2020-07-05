@@ -13,17 +13,18 @@
   background: $lightGray;
 }
 :host ::ng-deep .mat-input-element::placeholder {
-  color: $silver;
+  color: $lightGray;
 }
 :host ::ng-deep mat-form-field:first-child {
   color: $silver;
 }
+:host ::ng-deep .mat-form-field textarea {
+  overflow: hidden;
+}
+
 .mat-align {
   position: absolute;
   color: $lightGray;
-}
-:host ::ng-deep .mat-form-field-wrapper {
-  padding: 1rem;
 }
 
 :host ::ng-deep .mat-step-header .mat-step-icon-selected,

@@ -12,7 +12,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
 import { searchTypes } from '../_types/misc';
 import { ToastrService } from 'ngx-toastr';
-import ScrollReveal from 'scrollreveal';
+import { NgsRevealService } from 'ngx-scrollreveal';
 
 @Component({
   selector: "app-landing",
@@ -75,7 +75,8 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     public formBuilder: FormBuilder,
     public loader: NgxUiLoaderService,
     public router:Router,
-    public toast: ToastrService
+    public toast: ToastrService,
+    public revealService: NgsRevealService
     ) {}
 
   ngAfterViewInit(): void {
@@ -207,7 +208,7 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.orientationSubscription$.unsubscribe();
     this.scrollSubscription$.unsubscribe();
-    ScrollReveal().destroy();
+    this.revealService.destroy();
   }
 
   defaultSlides() {
