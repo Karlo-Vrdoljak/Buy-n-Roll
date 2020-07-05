@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HelperService } from 'src/app/_services/helper.service';
-import { DeviceDetectorService } from 'ngx-device-detector';
 @Component({
   selector: 'app-catalogue-action-icons',
   templateUrl: './catalogue-action-icons.component.html',
@@ -18,7 +17,7 @@ export class CatalogueActionIconsComponent implements OnInit {
   message:string = '';
   messageMaxLength:number = 150;
 
-  constructor(public helperService: HelperService, public deviceDetector: DeviceDetectorService) { }
+  constructor(public helperService: HelperService) { }
 
   ngOnInit(): void { }
 

@@ -61,14 +61,13 @@ import { UserService } from './_services/user.service';
 import { LoginResolver } from './_resolvers/login.resolver';
 import { CatalogueSearchItemComponent } from './catalogue/catalogue-search-item/catalogue-search-item.component';
 import { CountUpModule } from 'ngx-countup';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatBadgeModule} from '@angular/material/badge';
-import {SplitButtonModule} from 'primeng/splitbutton';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatBadgeModule } from '@angular/material/badge';
+import { SplitButtonModule } from 'primeng/splitbutton';
 import { CatalogueItemViewComponent } from './catalogue/catalogue-item-view/catalogue-item-view.component';
 import { CatalogueItemResolver } from './_resolvers/catalogue.item.resolver';
 import { CatalogueActionIconsComponent } from './catalogue/catalogue-action-icons/catalogue-action-icons.component';
 import {TextFieldModule} from '@angular/cdk/text-field';
-import { DeviceDetectorModule } from 'ngx-device-detector';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -157,7 +156,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MatDividerModule,
     SplitButtonModule,
     TextFieldModule,
-    DeviceDetectorModule.forRoot()
   ],
   providers: [
     TestService,

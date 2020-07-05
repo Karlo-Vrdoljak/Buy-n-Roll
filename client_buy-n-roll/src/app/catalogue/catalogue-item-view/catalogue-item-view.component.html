@@ -19,8 +19,12 @@
           <div class="bg-gray-100 px-4 py-4 relative">
             <div [ngsReveal]="{reset: true, origin: 'right', delay: 50  }">
               <div>
-                <div class="w-9/12 lg: font-oswald font-semibold text-gray-800 text-2xl mb-1">{{ oglas.oglasNaziv }}</div>
-                <div class="w-9/12 sm: font-oswald mb-2 text-xl text-gray-800">{{ oglas.vehicle.chassis.model.series.manufacturer.manufacturerName }}&nbsp;{{ oglas.vehicle.chassis.model.series.seriesName }}&nbsp;{{ oglas.vehicle.chassis.model.modelName }}</div>
+                <div class="w-9/12 font-oswald font-semibold text-gray-800 text-2xl mb-1">{{ oglas.oglasNaziv }}</div>
+                <div class="w-9/12 font-oswald mb-2 text-xl text-gray-800">{{ oglas.vehicle.chassis.model.series.manufacturer.manufacturerName }}&nbsp;{{ oglas.vehicle.chassis.model.series.seriesName }}&nbsp;{{ oglas.vehicle.chassis.model.modelName }}</div>
+                <div class="w-9/12 font-oswald mb-2 text-xl text-gray-800 flex items-center">
+                  <div class="mr-2">VIN &bull;</div>
+                  <div>{{ oglas.vehicle.chassis.VIN? 'W0L0XCE7564000209' : 'W0L0XCE7564000209' }}</div>
+                </div>
               </div>
               <div class="font-oswald flex flex-row mb-2 text-2xl font-thin">
                 <div class="font-semibold mr-2 text-gray-700 cursor-pointer" [countUp]="price" [options]="countUpOptions">0</div>
@@ -52,10 +56,10 @@
                     <!-- <mat-divider class="font-oswald pb-1" style="margin-right: 0.5rem;"></mat-divider> -->
                   </div>
                   <div class="font-oswald">
-                    <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2" [ngClass]="{'buynroll_bg_yellow text-yellow-800': oglas.vehicle.RegistriranDaNe == 1, 'buynroll_bg_silver text-gray-600': oglas.vehicle.RegistriranDaNe == 0 }">{{ (oglas.vehicle.RegistriranDaNe == 1? 'Registriran' : 'Neregistriran' )| uppercase }}</span>
-                    <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ oglas.vehicle.chassis.vehicleState }}</span>
+                    <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2" [ngClass]="{'buynroll_bg_yellow text-yellow-800': oglas.vehicle.RegistriranDaNe == 1, 'buynroll_bg_silver text-gray-600': oglas.vehicle.RegistriranDaNe == 0 }">{{ ((oglas.vehicle.RegistriranDaNe == 1? 'REGISTRIRAN' : 'NEREGISTRIRAN' ) | translate) | uppercase }}</span>
+                    <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ (oglas.vehicle.chassis.vehicleState | translate) | uppercase }}</span>
                     <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ oglas.vehicle.chassis.makeYear }}</span>
-                    <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ oglas.paymentMethod }}</span>
+                    <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ (oglas.paymentMethod | translate) | uppercase }}</span>
                   </div>
                 </div>
                 <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'ACCESSORIES', items: oglas.accessories, bg: 'buynroll_bg_silver', text: 'text-gray-600' }"></ng-container>

@@ -26,8 +26,31 @@
   "COMFORT":"Comfort",
   "SAFETY": "Safety",
   "THEFT_SAFETY": "Theft safety",
-  "CONTACT": "Contact"
-
-
+  "CONTACT": "Contact",
+  "BENZIN" : "Benzinac",
+  "LPG" : "LPG",
+  "STRUJA" : "Electric drive",
+  "HIBRID" : "Hybrid drive",
+  "ETANOL" : "Ethanol drive",
+  "DIZEL" : "Diesel",
+  "MANUAL": "Manual transmission",
+  "AUTOMATIC": "Automatic transmission",
+  "CVT": "CVT",
+  "PRIVATNA_OSOBA": "Natural person",
+  "PODUZECE": "Company",
+  "IZVRSNO": "exquisite",
+  "UREDNO": "Orderly",
+  "DOBRO": "Fine",
+  "RABLJENO": "Used",
+  "LOSIJE": "Not great, not terrible",
+  "DIJELOVI": "Parts",
+  "LOSE": "Bad",
+  "KARAMBOLIRAN": "Crashed",
+  "GOTOVINA": "Cash",
+  "KARTICNO": "Card",
+  "NA_RATE": "Installment",
+  "ZAMJENA": "Substitution",
+  "REGISTRIRAN": "Registered",
+  "NEREGISTRIRAN": "Not registered"
 
 }

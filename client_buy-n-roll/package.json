@@ -35,7 +35,6 @@
     "angular-webstorage-service": "^1.0.2",
     "bootstrap": "^4.4.0",
     "ngx-countup": "^7.3.0",
-    "ngx-device-detector": "^1.4.5",
     "ngx-scrollreveal": "^3.0.0",
     "ngx-swiper-wrapper": "^9.0.1",
     "ngx-toastr": "^12.0.0",
