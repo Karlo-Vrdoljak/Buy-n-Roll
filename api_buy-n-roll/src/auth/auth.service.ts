@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/entity/user.entity';
+import { ErrorMessages } from 'src/types/enums';
 
 @Injectable()
 export class AuthService {
@@ -11,11 +12,15 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
+    
     const user = await this.usersService.findOne(username);
-    if (user && (await this.usersService.compareHash(user.password, await this.usersService.getHash(pass)) ) ) {
-      const { password, ...result } = user;
-      return result;
-    }
+    if (user) {
+      let hash =  await this.usersService.getHash(pass);
+      if(await this.usersService.compareHash(pass, hash)){
+        const { password, ...result } = user;
+        return result;
+      }
+    } 
     return null;
   }
 
@@ -25,6 +30,17 @@ export class AuthService {
     .leftJoinAndSelect('u.roles', 'r')
     .where('u.username = :username', { username: user.username })
     .getOne();
+    if(dbUser == undefined) {
+      return { errMsg: ErrorMessages.userNotFound };
+    }
+    if(!user.password) {
+      return { errMsg: ErrorMessages.wrongPassword };
+    }
+    
+    let result = await this.validateUser(dbUser.username, user.password);
+    if(result == null) {
+      return { errMsg: ErrorMessages.wrongPassword };
+    }
     const payload = { username: dbUser.username, sub: dbUser.userId, roles: dbUser.roles };
     return {
       access_token: this.jwtService.sign(payload),

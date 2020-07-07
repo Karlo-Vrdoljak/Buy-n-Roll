@@ -51,6 +51,19 @@
   "NA_RATE": "Na rate",
   "ZAMJENA": "Zamjena",
   "REGISTRIRAN": "Registriran",
-  "NEREGISTRIRAN": "neregistriran"
+  "NEREGISTRIRAN": "neregistriran",
+  "BUYNROLL_ERR_USER_NOT_FOUND": "Neispravno korisničko ime!",
+  "BUYNROLL_ERR_WRONG_PASSWORD": "Neispravna zaporka!",
+  "USERNAME": "KORISNIČKO IME",
+  "USERNAME_PLACEHOLDER": "Unesite vaše korisničko ime",
+  "PASSWORD": "ZAPORKA",
+  "PASSWORD_PLACEHOLDER": "Unesite vašu zaporku",
+  "SIGNIN": "PRIJAVA",
+  "FORGOTPW": "ZABORAVILI ZAPORKU?",
+  "SIGNOUT": "ODJAVA",
+  "LOGGED_AS":"Prijavljeni ste kao ", 
+  "SIGNEDOUT_OK": "Sada ste odjavljeni",
+  "REGISTRATION": "REGISTRACIJA"
+
 
 }

@@ -1,16 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, RouterState, Router, } from "@angular/router";
+import { HelperService } from '../_services/helper.service';
 
 @Injectable()
 export class LoginResolver implements Resolve<unknown> {
   constructor(
-    private router:Router
+    private helperService: HelperService
   ) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if(this.router.getCurrentNavigation().previousNavigation?.extractedUrl.toString() != undefined) {
-      return this.router.getCurrentNavigation().previousNavigation.extractedUrl.toString()
-    }
-    return '/';
+    return this.helperService.getLastNavigation();
   }
 }

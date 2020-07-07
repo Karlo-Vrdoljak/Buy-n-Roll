@@ -1,5 +1,5 @@
 <div class="flex justify-center" [ngsReveal]="{reset: true, origin: 'right'  }">
-  <div class="max-w-sm lg:max-w-full rounded overflow-hidden shadow-md relative z-0 hoverEffect" [ngClass]="{'backgroundImage': helperService.getScreenY() < 640 }" [style.background-image]="helperService.getScreenY() < 640? 'url(https://www.njuskalo.hr/image-w920x690/auti/opel-astra-gsi-16v-slika-29041039.jpg)': 'none'">
+  <div class="max-w-sm lg:max-w-full rounded  border border-gray-300 overflow-hidden shadow-md relative z-0 hoverEffect" [ngClass]="{'backgroundImage': helperService.getScreenY() < 640 }" [style.background-image]="helperService.getScreenY() < 640? 'url(https://www.njuskalo.hr/image-w920x690/auti/opel-astra-gsi-16v-slika-29041039.jpg)': 'none'">
     <div *ngIf="helperService.getScreenY() < 640" class="overlay dark"></div>
     <div class="bg-gray-100 z-10 relative">
       <div class="w-full h-64 backgroundImage select-none hideMobileHorizonatal" style="background-image: url(https://www.njuskalo.hr/image-w920x690/auti/opel-astra-gsi-16v-slika-29041039.jpg)"></div>

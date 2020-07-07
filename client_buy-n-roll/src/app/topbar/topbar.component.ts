@@ -12,6 +12,8 @@ import { forkJoin } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslationList } from '../_services/translation.list';
 import { LocalStorageService } from "angular-web-storage";
+import { Config } from 'src/environments/config';
+import { UserService } from '../_services/user.service';
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -45,13 +47,15 @@ export class TopbarComponent implements OnInit {
     public toast:ToastrService,
     public translate: TranslateService,
     public translateProvider: TranslationList,
-    public storage: LocalStorageService
+    public storage: LocalStorageService,
+    public config:Config,
+    public userService:UserService
 
   ) { }
   ngOnInit(): void {
     this.selectedManufacturer = null;
     this.selectedSeries = null;
-    this.selectedModel = null;
+    this.selectedModel = null;    
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
       ).subscribe(() => {
@@ -131,6 +135,27 @@ export class TopbarComponent implements OnInit {
   openSidebar() {
     this.displaySidebar = this.displaySidebar == false? true: false;
   }
+  logOff() {
+    this.config.user = null;
+    this.config.isLoggedIn = false;
+    this.storage.remove('auth');
+    this.displaySidebar = false;
+    this.toast.success(this.translations.SIGNEDOUT_OK,);
+    if(this.helperService.logOffRerouteUrl() == '/') {
+      this.router.navigateByUrl('/');
+    }
+  }
+  rerouteOglas() {
+    this.userService.checkToken().then(result => {
+      if(result == true) {
+        this.router.navigate(['/test']);
+        this.displaySidebar = false;
+      } else {
+        this.router.navigate(['/login']);
+        this.displaySidebar = false;
+      }
+    });
+  }
   onTabOpen(event) {
     this.index = event.index;
   }
@@ -164,6 +189,7 @@ export class TopbarComponent implements OnInit {
     }
   }
   infLog() {
+    console.log(this.config.user);
     setTimeout(() => {
       this.infLog();
     }, 3000);

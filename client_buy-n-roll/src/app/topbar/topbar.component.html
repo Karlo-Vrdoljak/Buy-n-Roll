@@ -112,15 +112,24 @@
 			<div class="p-col">
 			</div>
 			<div class="p-col">
-				<a [routerLink]="[ '/login' ]" (click)="openSidebar()" style="text-decoration: none;" mat-button color="accent">
+				<a *ngIf="!config.isLoggedIn" [routerLink]="[ '/login' ]" (click)="openSidebar()" style="text-decoration: none;" mat-button color="accent">
 					<div>
 						<i class="fas fa-sign-in-alt"></i>
-						{{ 'LOGIN' | translate }}
+						{{ 'SIGNIN' | translate }}
+					</div>
+				</a>
+				<div *ngIf="config.user" class="font-oswald my-1 text-lg">
+					{{ 'LOGGED_AS' | translate }} <span class="font-bold" >{{ config.user.username }}</span>
+				</div>
+				<a *ngIf="config.isLoggedIn" (click)="logOff()" style="text-decoration: none;" mat-button color="accent">
+					<div>
+						<i class="fas fa-sign-out-alt"></i>
+						{{ 'SIGNOUT' | translate }}
 					</div>
 				</a>
 			</div>
 			<div class="p-col">
-				<button mat-button color="accent">
+				<button mat-button color="accent" (click)="rerouteOglas()">
 					<div>
 						<i class="fas fa-paper-plane"></i>
 						{{ 'FREE_OGLAS' | translate }}

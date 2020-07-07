@@ -81,3 +81,9 @@
 .m-0 {
   margin: 0;
 }
+
+
+:host ::ng-deep .mat-button.mat-accent {
+  border-radius: 3px;
+  border: 1px solid $yellow;
+}

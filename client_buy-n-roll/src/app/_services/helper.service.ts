@@ -2,12 +2,14 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Config } from "src/environments/config";
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { ProtectedRoutes } from '../_types/misc';
 
 @Injectable({
   providedIn: "root",
 })
 export class HelperService {
-  constructor(public http: HttpClient, public config: Config,public translate: TranslateService) {}
+  constructor(public http: HttpClient, public config: Config,public translate: TranslateService, private router:Router) {}
 
   shuffle(a) {
     var j, x, i;
@@ -18,6 +20,22 @@ export class HelperService {
       a[j] = x;
     }
     return a;
+  }
+
+  logOffRerouteUrl() {
+    if(Object.values(ProtectedRoutes).some(pr => this.router.routerState.snapshot.url.includes(pr))) {
+      return '/'
+    } else {
+      return '';
+    }
+
+  }
+
+  getLastNavigation() {
+    if(this.router.getCurrentNavigation()?.previousNavigation?.extractedUrl.toString() != undefined) {
+      return this.router.getCurrentNavigation().previousNavigation.extractedUrl.toString()
+    }
+    return '/';
   }
 
   isPortrait() {

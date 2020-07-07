@@ -68,6 +68,8 @@ import { CatalogueItemViewComponent } from './catalogue/catalogue-item-view/cata
 import { CatalogueItemResolver } from './_resolvers/catalogue.item.resolver';
 import { CatalogueActionIconsComponent } from './catalogue/catalogue-action-icons/catalogue-action-icons.component';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import { RegistrationComponent } from './registration/registration.component';
+import { RegistrationResolver } from './_resolvers/registration.resolver';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -96,6 +98,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     CatalogueSearchItemComponent,
     CatalogueItemViewComponent,
     CatalogueActionIconsComponent,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -176,7 +179,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     BreadcrumbService,
     UserService,
     LoginResolver,
-    CatalogueItemResolver
+    CatalogueItemResolver,
+    RegistrationResolver
   ],
   bootstrap: [AppComponent],
 })

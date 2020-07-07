@@ -7,4 +7,5 @@ export class Config {
     BEARER:'Bearer ';
     isLoggedIn:boolean = false;
     retryCount = 3;
+    user:any;
 }

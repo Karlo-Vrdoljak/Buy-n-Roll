@@ -244,6 +244,7 @@ export class UsersService implements OnModuleInit{
       .createQueryBuilder("user")
       .leftJoinAndSelect("user.roles","role","role.user")
       .where("user.username = :username", { username: username })
+      .addSelect('user.password')
       .getOne();
   }
   findAll(): Promise<User[]> {

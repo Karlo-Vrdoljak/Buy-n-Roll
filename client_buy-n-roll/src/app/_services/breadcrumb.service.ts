@@ -31,13 +31,13 @@ export class BreadcrumbService {
     return menu;
   }
 
-  login(prevRoute?: MenuItem) {    
+  basicMenu(activatedPage: string, prevRoute?: MenuItem) {    
     let menu = [] as MenuItem[];
     if (prevRoute) {
       menu.push(prevRoute);
     }
     menu.push({
-      label: this.translate.instant("LOGIN"),
+      label: this.translate.instant(activatedPage),
     });
     return menu;
   }

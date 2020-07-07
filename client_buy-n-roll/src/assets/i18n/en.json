@@ -51,6 +51,20 @@
   "NA_RATE": "Installment",
   "ZAMJENA": "Substitution",
   "REGISTRIRAN": "Registered",
-  "NEREGISTRIRAN": "Not registered"
+  "NEREGISTRIRAN": "Not registered",
+  "BUYNROLL_ERR_USER_NOT_FOUND": "Incorrect username!",
+  "BUYNROLL_ERR_WRONG_PASSWORD": "Incorrect password!",
+  "USERNAME": "USERNAME",
+  "USERNAME_PLACEHOLDER": "Enter your username",
+  "PASSWORD": "PASSWORD",
+  "PASSWORD_PLACEHOLDER": "Enter your password",
+  "SIGNIN": "SIGN IN",
+  "FORGOTPW": "FORGOT YOUR PASSWORD?",
+  "SIGNOUT": "SIGN OUT",
+  "LOGGED_AS":"Signed in as ",
+  "SIGNEDOUT_OK": "You are now signed out",
+  "REGISTRATION": "REGISTRATION"
+
+
 
 }
