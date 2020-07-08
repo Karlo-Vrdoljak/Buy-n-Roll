@@ -7,11 +7,18 @@ import { UserService } from '../_services/user.service';
 import { LocalStorageService } from 'angular-web-storage';
 import { Config } from 'src/environments/config';
 import { HelperService } from '../_services/helper.service';
+import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"],
+  animations: [
+    fadeInRightOnEnterAnimation(),
+    fadeOutLeftOnLeaveAnimation()
+  ]
 })
 export class LoginComponent implements OnInit, OnDestroy{
   breadcrumbs: MenuItem[];
@@ -25,6 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy{
   }
   path:string;
   displayAccessories:boolean = true;
+  translateSubscription$:Subscription;
   constructor(
     private breadcrumbService: BreadcrumbService,
     private router: Router,
@@ -33,7 +41,9 @@ export class LoginComponent implements OnInit, OnDestroy{
     private userService: UserService,
     private storage:LocalStorageService,
     private config:Config,
-    private helperService: HelperService
+    private helperService: HelperService,
+    public loader: NgxUiLoaderService,
+
 
   ) {}
 
@@ -41,21 +51,38 @@ export class LoginComponent implements OnInit, OnDestroy{
     this.displayAccessories = this.helperService.getScreenY() < 450? false: true;
   }
 
-  ngOnDestroy(): void { }
+  ngOnDestroy(): void {
+    this.translateSubscription$.unsubscribe();
+
+   }
 
   ngOnInit(): void {
     this.updateOrientationState();
     this.setupBreadcrumbs();
+    this.setupLangObservable();
 
   }
   login() {
+    if(!this.username || !this.password) {
+      return;
+    }
+    this.loader.startLoader('login_loader');
     this.userService.getToken({ username: this.username, password: this.password }).subscribe((data:any) => {
+      
       this.error = null;
       let auth = {...data};
       this.storage.set('auth',auth);
       this.config.isLoggedIn = true;
-      this.userService.checkToken().then(() => this.router.navigateByUrl(this.returnUrl ?? '/'));
+      this.userService.checkToken(this.loader, 'login_loader').then((result) => {
+        
+        if(result == true) {
+          this.router.navigateByUrl(this.returnUrl ?? '/')
+        }
+        this.loader.stopLoader('login_loader');
+      });
     }, err => {
+      
+      this.loader.stopLoader('login_loader');
       if(err.statusText == 'BUYNROLL_ERR_USER_NOT_FOUND') {
         this.error = {
           username: err.statusText
@@ -77,6 +104,12 @@ export class LoginComponent implements OnInit, OnDestroy{
     } else {
       this.breadcrumbs = this.breadcrumbService.basicMenu('LOGIN');
     }
+  }
+
+  private setupLangObservable() {
+    this.translateSubscription$ = this.translate.onLangChange.subscribe(event => {
+      this.setupBreadcrumbs();
+    });
   }
 
 }

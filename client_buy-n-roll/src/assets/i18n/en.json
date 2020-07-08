@@ -63,7 +63,23 @@
   "SIGNOUT": "SIGN OUT",
   "LOGGED_AS":"Signed in as ",
   "SIGNEDOUT_OK": "You are now signed out",
-  "REGISTRATION": "REGISTRATION"
+  "REGISTRATION": "REGISTRATION",
+  "REGISTERNOW": "NO ACCOUNT?",
+  "DENIED": "Access Denied!",
+  "DENIAL_REASON": "You have either made too many requests or tried to to something bad... Now you will have to wait a bit.",
+  "BACK": "BACK",
+  "PASSWORD_PLACEHOLDER_CONFIRM": "Confirm your password",
+  "REGISTERME":"REGISTER ME",
+  "PASSWORD_TWO": "CONFIRMED PASSWORD",
+  "NAME": "NAME",
+  "NAME_PLACEHOLDER": "Enter your name",
+  "PERSONAL_INFO": "Personal information",
+  "LASTNAME": "LAST NAME",
+  "LASTNAME_PLACEHOLDER": "Enter your last name",
+  "VRSTAPRODAVACA": "Seller Classification"
+
+
+
 
 
 

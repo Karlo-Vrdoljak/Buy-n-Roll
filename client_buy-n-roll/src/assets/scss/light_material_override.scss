@@ -34,7 +34,11 @@
 }
 :host ::ng-deep .mat-stepper-vertical {
   height: 100%;
-  font-size: 2em;
+  background: transparent;
+  .step-wrap {
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  }
+
 }
 :host ::ng-deep .mat-vertical-content {
   padding: 0;
@@ -42,7 +46,6 @@
 
 :host ::ng-deep .mat-stepper-horizontal {
   height: 100%;
-  font-size: 2em;
 }
 
 :host ::ng-deep .mat-step-icon {
@@ -72,6 +75,12 @@
   }
   :host ::ng-deep .mat-vertical-stepper-header {
     padding: 12px 24px;
+  }
+}
+
+@media screen and (max-width:1024px) {
+  :host ::ng-deep .mat-vertical-content-container {
+    margin-left: 0;
   }
 }
 

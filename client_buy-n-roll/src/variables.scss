@@ -1,5 +1,6 @@
 $yellow: #feda6a !default;
 $lightYellow: #ffcd39 !default;
+$whiteYellow: #fffaf0!default;
 $darkYellow: #AD974F !default;
 $brown: #795e07!default;
 $silver: #d4d4dc !default;
@@ -80,10 +81,23 @@ $darkGray: #231F20 !default;
 
   background-color: $darkGray;
 }
+.bg_error {
+  background-color: #fc8181;
+}
 
 
 @media (hover: hover) and (pointer: fine) {
   :host ::ng-deep button:focus{
     outline: 0;
   }
+}
+
+:host ::ng-deep .p-col {
+  max-width: 100vw;
+}
+.registrationForm-normal {
+  max-height: calc(80vh - 120px);
+}
+.registrationForm-reduced {
+  max-height: calc(100vh - 80px);
 }

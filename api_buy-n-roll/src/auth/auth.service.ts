@@ -16,7 +16,7 @@ export class AuthService {
     const user = await this.usersService.findOne(username);
     if (user) {
       let hash =  await this.usersService.getHash(pass);
-      if(await this.usersService.compareHash(pass, hash)){
+      if(await this.usersService.compareHash(pass, user.password)){
         const { password, ...result } = user;
         return result;
       }
@@ -36,7 +36,6 @@ export class AuthService {
     if(!user.password) {
       return { errMsg: ErrorMessages.wrongPassword };
     }
-    
     let result = await this.validateUser(dbUser.username, user.password);
     if(result == null) {
       return { errMsg: ErrorMessages.wrongPassword };

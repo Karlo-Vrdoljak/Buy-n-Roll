@@ -37,7 +37,7 @@
   "AUTOMATIC": "Automatski mjenjač",
   "CVT": "CVT",
   "PRIVATNA_OSOBA": "Fizička osoba",
-  "PODUZECE": "Poduzece",
+  "PODUZECE": "Poduzeće",
   "IZVRSNO": "Izvrsno",
   "UREDNO": "Uredno",
   "DOBRO": "Dobro",
@@ -63,7 +63,25 @@
   "SIGNOUT": "ODJAVA",
   "LOGGED_AS":"Prijavljeni ste kao ", 
   "SIGNEDOUT_OK": "Sada ste odjavljeni",
-  "REGISTRATION": "REGISTRACIJA"
+  "REGISTRATION": "REGISTRACIJA",
+  "REGISTERNOW": "NEMATE RAČUN?",
+  "DENIED": "Zabranjen pristup!",
+  "DENIAL_REASON": "Podnijeli ste previše zahtjeva ili pokušali učiniti nešto loše... Sad ćete morati pričekati malo.",
+  "BACK": "NATRAG",
+  "PASSWORD_PLACEHOLDER_CONFIRM": "Potvrdite vašu zaporku",
+  "REGISTERME":"REGISTRIRAJ ME",
+  "PASSWORD_TWO": "POTVRĐENA ZAPORKA",
+  "NAME": "IME",
+  "NAME_PLACEHOLDER": "Unesite vaše ime",
+  "PERSONAL_INFO": "Osobni podaci",
+  "LASTNAME": "PREZIME",
+  "LASTNAME_PLACEHOLDER": "Unesite vaše prezime",
+  "VRSTAPRODAVACA": "Klasifikacija prodavača"
+
+
+
+
+
 
 
 }

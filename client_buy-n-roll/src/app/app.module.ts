@@ -58,7 +58,7 @@ import { BreadcrumbService } from './_services/breadcrumb.service';
 import { DataViewModule } from 'primeng/dataview';
 import { LoginComponent } from './login/login.component';
 import { UserService } from './_services/user.service';
-import { LoginResolver } from './_resolvers/login.resolver';
+import { LastNavigation } from './_resolvers/last-navigation.resolver';
 import { CatalogueSearchItemComponent } from './catalogue/catalogue-search-item/catalogue-search-item.component';
 import { CountUpModule } from 'ngx-countup';
 import { MatDividerModule } from '@angular/material/divider';
@@ -70,16 +70,21 @@ import { CatalogueActionIconsComponent } from './catalogue/catalogue-action-icon
 import {TextFieldModule} from '@angular/cdk/text-field';
 import { RegistrationComponent } from './registration/registration.component';
 import { RegistrationResolver } from './_resolvers/registration.resolver';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { DeniedPageComponent } from './denied-page/denied-page.component';
+import {KeyFilterModule} from 'primeng/keyfilter';
+
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
-  fgsColor: "#1f7ed0",
+  fgsColor: "#ffcd39",
   overlayColor: "#00000000",
   bgsPosition: POSITION.bottomRight,
   bgsSize: 40,
   bgsType: SPINNER.chasingDots, // background spinner type
   fgsType: SPINNER.cubeGrid, // foreground spinner type
   pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
+  pbColor: '#feda6a',
   pbThickness: 5, // progress bar thickness
 };
 
@@ -99,6 +104,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     CatalogueItemViewComponent,
     CatalogueActionIconsComponent,
     RegistrationComponent,
+    ErrorPageComponent,
+    DeniedPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -159,6 +166,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MatDividerModule,
     SplitButtonModule,
     TextFieldModule,
+    KeyFilterModule
   ],
   providers: [
     TestService,
@@ -178,7 +186,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SearchService,
     BreadcrumbService,
     UserService,
-    LoginResolver,
+    LastNavigation,
     CatalogueItemResolver,
     RegistrationResolver
   ],

@@ -4,6 +4,7 @@ import { Config } from 'src/environments/config';
 import { retry, catchError } from 'rxjs/operators';
 import { ErrorHandler } from './errorHandler';
 import { LocalStorageService } from 'angular-web-storage';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 
 @Injectable({
@@ -22,17 +23,19 @@ export class UserService {
   getToken(params) {
     return this.http.post(this.config.API_URL_ROOT + 'auth/login/', params ).pipe(
       retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+
     );
   }
   
   private checkJWT(params) {
     return this.http.post(this.config.API_URL_ROOT + 'auth/check/', params ).pipe(
       retry(this.config.retryCount),
-      // catchError(this.errorHandler.handleError)
+      catchError(this.errorHandler.handleError)
     );
   }
 
-  checkToken(): Promise<boolean> {
+  checkToken(loader?:NgxUiLoaderService, key?:string): Promise<boolean> {
     return new Promise(resolve => {
       let auth = this.storage.get('auth');
       if(auth) {
@@ -44,6 +47,7 @@ export class UserService {
           this.config.user = null;
           this.config.isLoggedIn = false;
           this.storage.remove('auth');
+          loader?.stopLoader(key);
           resolve(false);
         });
       } else {

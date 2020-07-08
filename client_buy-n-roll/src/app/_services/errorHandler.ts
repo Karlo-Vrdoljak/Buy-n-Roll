@@ -13,17 +13,14 @@ export class ErrorHandler {
   constructor(
     private toastr: ToastrService,
     private translate: TranslateService,
-    private router: Router,
-  ) {
+    public router: Router
+  ) {}
 
-  }
-
-
-  handleError(error: HttpErrorResponse) {
+  public handleError(error: HttpErrorResponse) {
     //To know the version of RxJS npm list --depth=0 (I for this example im on version 5.5)
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred: ', error.error.message);
+      console.error("An error occurred: ", error.error.message);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
@@ -31,14 +28,22 @@ export class ErrorHandler {
         `Backend returned code ${error.status}` + ` body was: ${error.message}`
       );
     }
+    if (error.status == 429) {
+      console.log("alo 429");
+
+      if (!window.location.href.includes("denied")) {
+        console.log("alo 429!!", window.location.href);
+        window.location.replace(window.location.href.split('/#/')[0] + '/#/denied');
+      }
+    }
     // return an observable with a user-facing error message
-    return of('Something bad happened; please try again later.');
+    // throw of('Something bad happened; please try again later.');
+    return throwError(error);
   }
 
-
-  public handleRouterState(state: RouterState, viewResolverDeny:boolean = false) {
+  public handleRouterState(state: RouterState,viewResolverDeny: boolean = false) {
     this.router.navigateByUrl(state.snapshot.url);
-    if(viewResolverDeny == false) {
+    if (viewResolverDeny == false) {
       this.translate.get(["TRY_AGAIN", "ERROR"]).subscribe((tran) => {
         this.toastr.error(tran.TRY_AGAIN, tran.ERROR);
       });

@@ -1,0 +1,16 @@
+<div class="flex w-full flex-row h-screen justify-center text-center px-4">
+  <div class="exception-panel">
+    <img class="" src="../../assets/images/misc/crash-icon.png" />
+
+    <mat-divider></mat-divider>
+
+    <h1 class="text-4xl font-oswald text-red-800">{{ 'DENIED' | translate}}</h1>
+    <p class="py-4 lg:py-8 text-xl font-mw text-gray-800">{{ 'DENIAL_REASON' | translate }}</p>
+    <button mat-raised-button color="accent" class="w-full sm:w-1/2 transition-colors duration-150 ease-in" [routerLink]="['/']">
+      <div class="flex items-center align-middle justify-center">
+        <i class="fas fa-backward pr-2 text-yellow-800 text-xl"></i>
+        <div class="text-xl">{{ 'BACK' | translate }}</div>
+      </div>
+    </button>
+  </div>
+</div>

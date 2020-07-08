@@ -21,7 +21,7 @@ export class RegistrationResolver implements Resolve<unknown> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return forkJoin([
       of(this.helperService.getLastNavigation()),
-      this.translate.get(this.translationProvider.getLanding())
+      this.translate.get(this.translationProvider.getRegistration())
     ]).pipe(
       catchError(error => {
         const state: RouterState = this.router.routerState;

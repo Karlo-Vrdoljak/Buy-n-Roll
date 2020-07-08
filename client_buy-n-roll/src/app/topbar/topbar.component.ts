@@ -38,6 +38,7 @@ export class TopbarComponent implements OnInit {
   searchQuery:string;
   index:number = 0;
   translations:any;
+  forbiddenIP:boolean = false;
   constructor(
     public router: Router,
     public activatedRoute: ActivatedRoute,
@@ -63,6 +64,11 @@ export class TopbarComponent implements OnInit {
           this.landing = true;
         } else {
           this.landing = false;
+        }
+        if(['denied'].some(uri => this.router.routerState.snapshot.url.includes(uri))) {
+          this.forbiddenIP = true;
+        } else {
+          this.forbiddenIP = false;
         }
       });
     forkJoin(

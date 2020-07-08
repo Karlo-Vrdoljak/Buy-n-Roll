@@ -3,7 +3,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, RouterState, Rout
 import { HelperService } from '../_services/helper.service';
 
 @Injectable()
-export class LoginResolver implements Resolve<unknown> {
+export class LastNavigation implements Resolve<unknown> {
   constructor(
     private helperService: HelperService
   ) {}

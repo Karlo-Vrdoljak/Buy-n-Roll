@@ -28,7 +28,7 @@ export class LandingResolver implements Resolve<unknown>{
         catchError(error => {
           const state: RouterState = this.router.routerState;
           this.errorHandler.handleRouterState(state);
-          return this.errorHandler.handleError;
+          return this.errorHandler.handleError(error);
         })
       );
     }

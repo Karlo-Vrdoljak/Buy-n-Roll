@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 import { Role } from './role.entity';
+import { Location } from './location.entity';
 import { SellerType } from 'src/types/enums';
 
 
@@ -40,5 +41,9 @@ export class User {
 
   @Column({ type: "enum",enum: SellerType,default: SellerType.PRIVATNA_OSOBA })
   sellerType:SellerType;
+
+  @OneToOne(type => Location, {nullable:true})
+  @JoinColumn()
+  location: Location;
 
 }

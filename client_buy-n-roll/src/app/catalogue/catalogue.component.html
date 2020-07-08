@@ -3,7 +3,7 @@
 <p-dataView *ngIf="catalogList.length > 0; else noRecords" #dv [value]="catalogList" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both" filterBy="brand" [sortField]="sortField" [sortOrder]="sortOrder">
   <p-header>
     <div class="ui-helper-clearfix">
-      <div class="p-grid">
+      <div class="p-grid p-nogutter">
         <div class="p-col-4 np">
           <p-dropdown [options]="sortOptions"  placeholder="Sort By" (onChange)="onSortChange($event)" [style]="{'min-width':'140px'}"></p-dropdown>
         </div>
@@ -19,7 +19,7 @@
       <div class="car-details">
         <div class="md:mx-4 lg:mx-16 xl:md-32">
           <!-- <img src="assets/showcase/images/demo/car/{{o.brand}}.png"> -->
-          <div class="p-grid">
+          <div class="p-grid p-nogutter">
             <!-- <div class="p-col-12">oglasNaziv: <b>{{o.oglasNaziv}}</b></div> -->
             <!-- <div class="p-col-12">modelName: <b>{{o.modelName}}</b></div> -->
             <!-- <div class="p-col-12">oglasOpis: <b>{{o.oglasOpis}}</b></div> -->
