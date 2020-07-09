@@ -15,9 +15,9 @@
 :host ::ng-deep .mat-input-element::placeholder {
   color: $lightGray;
 }
-:host ::ng-deep mat-form-field:first-child {
-  color: $silver;
-}
+// :host ::ng-deep mat-form-field:first-child {
+  // color: $silver;
+// }
 :host ::ng-deep .mat-form-field textarea {
   overflow: hidden;
 }

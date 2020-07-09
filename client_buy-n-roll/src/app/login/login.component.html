@@ -5,7 +5,7 @@
     <div class="p-col">
       <div class="flex wrap justify-center" [ngsReveal]="{reset: true, delay: 50  }">
         <div [ngClass]="{'registrationForm-normal': displayAccessories, 'registrationForm-reduced': !displayAccessories}" style="height: fit-content;" class="bg-gray-100  contentWrap mt-4 lg:max-w-lg sm:mx-8 md:mx-24 lg:mx-48 xl:64 mx-2 border border-gray-300 rounded overflow-hidden shadow-md relative z-0">
-          <div class="px-8 pt-6 pb-8 mb-4" (keyup.enter)="login()">
+          <div (keyup.enter)="keyUp.next($event)" class="px-8 pt-6 pb-8 mb-4">
             <div class="mb-4 relative" [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: 200  }">
               <div class="flex">
                 <div class="flex flex-col justify-center items-center">

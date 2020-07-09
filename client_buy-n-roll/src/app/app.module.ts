@@ -73,6 +73,11 @@ import { RegistrationResolver } from './_resolvers/registration.resolver';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { DeniedPageComponent } from './denied-page/denied-page.component';
 import {KeyFilterModule} from 'primeng/keyfilter';
+import {DialogModule} from 'primeng/dialog';
+import { LocationPropComponent } from './props/location-prop/location-prop.component';
+import {IMaskModule} from 'angular-imask';
+import { ImageUploaderModule } from 'ngx-image-uploader-next';
+import { PolicyComponent } from './policy/policy.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -106,6 +111,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     RegistrationComponent,
     ErrorPageComponent,
     DeniedPageComponent,
+    LocationPropComponent,
+    PolicyComponent,
   ],
   imports: [
     BrowserModule,
@@ -166,7 +173,10 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MatDividerModule,
     SplitButtonModule,
     TextFieldModule,
-    KeyFilterModule
+    KeyFilterModule,
+    DialogModule,
+    IMaskModule,
+    ImageUploaderModule
   ],
   providers: [
     TestService,

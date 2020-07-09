@@ -84,7 +84,16 @@ $darkGray: #231F20 !default;
 .bg_error {
   background-color: #fc8181;
 }
+.bg_error-imp {
+  background-color: #fc8181!important;
+}
 
+.bg_error-text {
+  color: #fc8181;
+}
+.bg_error-text-imp {
+  color: #fc8181!important;
+}
 
 @media (hover: hover) and (pointer: fine) {
   :host ::ng-deep button:focus{

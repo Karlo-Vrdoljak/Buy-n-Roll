@@ -1,0 +1,17 @@
+@import "../../../variables.scss";
+
+.location-item {
+  transition: all 0.25s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  &:hover {
+    background: $silver;
+  }
+}
+.location-dialog {
+  width: 50vw;
+}
+
+@media screen and (max-width: 30em) {
+  .location-dialog {
+      width: 75vw;
+  }
+}

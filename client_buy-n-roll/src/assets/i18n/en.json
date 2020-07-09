@@ -76,7 +76,29 @@
   "PERSONAL_INFO": "Personal information",
   "LASTNAME": "LAST NAME",
   "LASTNAME_PLACEHOLDER": "Enter your last name",
-  "VRSTAPRODAVACA": "Seller Classification"
+  "VRSTAPRODAVACA": "Seller Classification",
+  "PHONE": "PHONE",
+  "PHONE_PLACEHOLDER":"Enter your phone number",
+  "EMAIL": "EMAIL",
+  "EMAIL_PLACEHOLDER": "Enter your e-mail address",
+  "LOCATIONUSER": "FULL ADDRESS",
+  "LOCATIONUSER_PLACEHOLDER": "Enter your full address",
+  "IMGUPLOAD": "Upload your profile image",
+  "CONTACT_INFO": "Contact information",
+  "PREV": "PREVIOUS",
+  "NEXT": "NEXT",
+  "CREDS":"Credentails",
+  "NOTICE": "Remark",
+  "POLICY": "POLICY",
+  "TERMS_CONDITIONS": "TERMS & CONDITIONS",
+  "REQUIRED": "is required.",
+  "CANTBEMORETHAN": "cannot be more than",
+  "ZNAKOVA_DULJINE": "characters long.",
+  "MUSTHAVEMIN": "must be at least",
+  "EMAIL_EXAMPLE": "example: john@doe.com"
+
+
+
 
 
 

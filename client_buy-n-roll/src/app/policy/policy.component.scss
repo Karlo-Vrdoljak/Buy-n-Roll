@@ -1,0 +1,11 @@
+@import "../../variables.scss";
+
+.policy-dialog {
+  width: 50vw;
+}
+
+@media screen and (max-width: 30em) {
+  .policy-dialog {
+      width: 75vw;
+  }
+}

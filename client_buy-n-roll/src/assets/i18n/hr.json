@@ -76,7 +76,31 @@
   "PERSONAL_INFO": "Osobni podaci",
   "LASTNAME": "PREZIME",
   "LASTNAME_PLACEHOLDER": "Unesite vaše prezime",
-  "VRSTAPRODAVACA": "Klasifikacija prodavača"
+  "VRSTAPRODAVACA": "Klasifikacija prodavača",
+  "PHONE": "MOBITEL",
+  "PHONE_PLACEHOLDER":"Unesite vaš broj mobitela",
+  "EMAIL": "EMAIL",
+  "EMAIL_PLACEHOLDER": "Unesite vašu e-mail adresu",
+  "LOCATIONUSER": "PUNA ADRESA",
+  "LOCATIONUSER_PLACEHOLDER": "Unesite vašu potpunu adresu",
+  "IMGUPLOAD": "Prenesite sliku svog profila",
+  "CONTACT_INFO": "Kontakt podaci",
+  "PREV": "PRETHODNI",
+  "NEXT": "SLJEDEĆI",
+  "CREDS":"Vjerodajnice",
+  "NOTICE": "Napomena",
+  "POLICY": "POLITIKA",
+  "TERMS_CONDITIONS": "UVJETI KORIŠTENJA",
+  "REQUIRED": "je obavezan podatak.",
+  "CANTBEMORETHAN": "ne smije biti dulji od",
+  "ZNAKOVA_DULJINE": "znakova duljine.",
+  "MUSTHAVEMIN": "mora imati najmanje",
+  "EMAIL_EXAMPLE": "primjer: nepoznat@netko.com"
+
+
+
+
+
 
 
 

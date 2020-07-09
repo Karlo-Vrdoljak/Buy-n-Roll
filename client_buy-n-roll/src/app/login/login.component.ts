@@ -9,7 +9,8 @@ import { Config } from 'src/environments/config';
 import { HelperService } from '../_services/helper.service';
 import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { Subscription } from 'rxjs';
+import { Subscription, fromEvent, Subject, of } from 'rxjs';
+import { debounceTime, map, distinctUntilChanged, mergeMap, delay } from 'rxjs/operators';
 
 @Component({
   selector: "app-login",
@@ -20,7 +21,7 @@ import { Subscription } from 'rxjs';
     fadeOutLeftOnLeaveAnimation()
   ]
 })
-export class LoginComponent implements OnInit, OnDestroy{
+export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
   breadcrumbs: MenuItem[];
   returnUrl:string;
 
@@ -33,6 +34,8 @@ export class LoginComponent implements OnInit, OnDestroy{
   path:string;
   displayAccessories:boolean = true;
   translateSubscription$:Subscription;
+  keyUp = new Subject<KeyboardEvent>();
+  keyUpSub:Subscription;
   constructor(
     private breadcrumbService: BreadcrumbService,
     private router: Router,
@@ -46,6 +49,9 @@ export class LoginComponent implements OnInit, OnDestroy{
 
 
   ) {}
+  ngAfterViewInit(): void {
+    this.setupDebounceEnter();
+  }
 
   @HostListener("window:resize") updateOrientationState() {
     this.displayAccessories = this.helperService.getScreenY() < 450? false: true;
@@ -53,13 +59,14 @@ export class LoginComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.translateSubscription$.unsubscribe();
-
+    this.keyUpSub.unsubscribe();
    }
 
   ngOnInit(): void {
     this.updateOrientationState();
     this.setupBreadcrumbs();
     this.setupLangObservable();
+
 
   }
   login() {
@@ -112,4 +119,10 @@ export class LoginComponent implements OnInit, OnDestroy{
     });
   }
 
+  setupDebounceEnter() {
+    this.keyUpSub = this.keyUp.pipe(
+      map(event => event.keyCode),
+      debounceTime(300),
+    ).subscribe(res => this.login());
+  }
 }

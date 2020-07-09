@@ -7,6 +7,7 @@ import { DbLogs } from 'src/db.logs';
 import { UserVehicleModule } from './userVehicle/userVehicle.module';
 import { VehicleModule } from 'src/vehicle/vehicle.module';
 import { OglasModule } from './oglas/oglas.module';
+import { Config } from 'src/config';
 
 @Module({
   imports: [
@@ -15,7 +16,11 @@ import { OglasModule } from './oglas/oglas.module';
     VehicleModule,
     OglasModule,
   ],
-  providers: [UsersService, DbLogs],
+  providers: [
+    UsersService,
+    DbLogs,
+    Config
+  ],
   controllers: [UserController],
   exports: [
     UsersService,
@@ -23,6 +28,7 @@ import { OglasModule } from './oglas/oglas.module';
     UserVehicleModule,
     VehicleModule,
     OglasModule,
+    Config
   ],
 })
 export class UsersModule {}

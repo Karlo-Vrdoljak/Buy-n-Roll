@@ -55,5 +55,12 @@ export class UserService {
       }
     });
   }
+
+  getLocation(params) {
+    return this.http.post(this.config.API_URL_ROOT + 'user/findLocation/query/', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
   
 }

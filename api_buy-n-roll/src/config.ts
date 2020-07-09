@@ -6,4 +6,5 @@ export class Config {
     credentials: true,
   };
   dbAccessQueryLogs: boolean = false;
+  locationIQ_token = '575da4a2ca5c53';
 }

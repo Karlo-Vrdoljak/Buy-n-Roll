@@ -64,10 +64,11 @@ export class HelperService {
     return query;
   }
   truncateString(str:string, num:number) {
+    str = str ?? '';
     if (str.length <= num) {
-      return str
+      return str;
     }
-    return str.slice(0, num) + '...'
+    return str.slice(0, num) + '...';
   }
   date(date: string) {
     let dateObj = new Date(date);
