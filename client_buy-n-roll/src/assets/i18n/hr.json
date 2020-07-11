@@ -99,21 +99,11 @@
   "PASS_SAME": " i potvrdna zaporka nisu iste!",
   "EMAIL_NOTE": "Poslat ćemo vam potvrdnu e-poštu čim vaš račun bude spreman! E-pošta bi trebala stići u roku od 5 minuta!",
   "USERNAME_UNIQUE": " mora biti jedinstveno!",
-  "CHOOSE":"ODABERITE"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "CHOOSE":"ODABERITE",
+  "ACC_CONFRIM": "POTVRDA KORISNIČKOG RAČUNA",
+  "ACC_CONFIRM_MSG": "Kopirajte kôd i zalijepite ga na odgovarajuće mjesto u aplikaciji.",
+  "VER_CODE": "Potvrdni kôd",
+  "VER_CODE_PLACEHOLDER": "Kopirajte kôd i zalijepite ga ovdje",
+  "BUYNROLL_ERR_USER_NOT_CONFIRMED_ACC": "Izgleda se da niste potvrdili račun prilikom registracije, provjerite e-poštu"
 
 }

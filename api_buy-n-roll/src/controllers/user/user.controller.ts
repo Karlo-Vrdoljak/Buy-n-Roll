@@ -43,7 +43,6 @@ export class UserController {
   }
   @Post('/register')
   async registerUserStepOne(@Request() req, /*@Res() res: Response*/) {
-    console.log(req.body);
     let user = new User();
     user.email = req.body.email;
     user.firstName = req.body.firstName;
@@ -81,7 +80,6 @@ export class UserController {
 
   @Post('/registerFinalize')
   async registerUserStepTwo(@Request() req, @Res() res: Response) {
-    console.log(req.body.username);
     this.sendMailToNewUser(await this.userService.getUserRepo().createQueryBuilder('u').where('u.username = :username', {username: req.body.username}).addSelect('u.userCode').getOne(), req.body.lang).then((result:any) => {
       if (result instanceof Error) {
         res.status(HttpStatus.SERVICE_UNAVAILABLE).send();
@@ -102,17 +100,30 @@ export class UserController {
     }
   }
 
+  @Post('/check/code')
+  async checkCode(@Request() req, @Res() res: Response) {
+    let user = await this.userService.getUserRepo().createQueryBuilder('u').where('u.username = :uname', {uname: req.body.username}).addSelect('u.userCode').getOne();
+    if(user) {
+      if(user.userCode == req.body.code) {
+        user.isActive = true;
+        await this.userService.getUserRepo().save(user);
+        res.status(HttpStatus.ACCEPTED).send();
+      } else {
+        res.status(HttpStatus.EXPECTATION_FAILED).send();
+      }
+    } else {
+      res.status(HttpStatus.NOT_FOUND).send();
+    }
+  }
+
   @Post('/upload')
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
         destination: async (req: Request, file: any, cb: any) => {
-          // console.log("body",req.headers['username-value'],"FILE",file);
           
           const uploadPath = path.join(__dirname + '/../../assets/static/uploads');
           // Create folder if doesn't exist
-          
-          console.log(uploadPath) ;
           
           if (!existsSync(uploadPath)) {
             mkdirSync(uploadPath);
@@ -158,7 +169,7 @@ export class UserController {
       msg = {
         subject: `Poštovani ${user.lastName} ${user.firstName}, dostavljamo vam vaš potvrdni kôd`,
         text: `Potvrdni kôd: ${user.userCode}`,
-        textHtml:`<div style="display:flex;flex-direction: column;width:100%;font-size: 18px;flex-direction: column;color: #393f4d;">
+        textHtml:`<div style="width:100%;font-size: 18px;color: #393f4d;">
         <div style="width:100%;font-size: 16px;">
           Hvala vam na korištenju <strong>Buy'n'Roll </strong>usluge!</div>
         <div style="font-size:18px;color:#393f4d;width: 25%;">Potvrdni kôd:</div>
@@ -174,7 +185,7 @@ export class UserController {
       msg = {
         subject: `Dear ${user.lastName} ${user.firstName}, your verification code is delivered`,
         text: `Verification code: ${user.userCode}`,
-        textHtml:`<div style="display:flex;flex-direction: column;width:100%;font-size: 18px;flex-direction: column;color: #393f4d;">
+        textHtml:`<div style="width:100%;font-size: 18px;color: #393f4d;">
         <div style="width:100%;font-size: 16px;">
           Thank you for using the <strong>Buy'n'Roll </strong>service!</div>
         <div style="font-size:18px;color:#393f4d;width: 25%;">Verification code:</div>
@@ -206,7 +217,6 @@ export class UserController {
       html: msg.textHtml
     });
 
-    console.log("Message sent: %s", info.messageId);
   }
 }
 

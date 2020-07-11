@@ -17,6 +17,7 @@ import { PolicyComponent } from '../policy/policy.component';
 import { NgModel, ValidationErrors } from '@angular/forms';
 import { Config } from 'src/environments/config';
 import { FileUpload } from 'primeng/fileupload';
+import { AccConfirmComponent } from './acc-confirm/acc-confirm.component';
 @Component({
   selector: "app-registration",
   templateUrl: "./registration.component.html",
@@ -63,6 +64,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   @ViewChild('passInput') passInput:NgModel;
   @ViewChild('passCheckInput') passCheckInput:NgModel;
   @ViewChild('usernameInput') usernameInput:NgModel;
+  @ViewChild('confirmAcc') confirmAcc: AccConfirmComponent;
+
+  registrationSuccess:boolean = false;
   
   constructor(
     private route: ActivatedRoute,
@@ -166,7 +170,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.userModel.passwordCheck ?? null,
       this.userModel.password ?? null,
       this.userModel.username ?? null,
-      this.userModel.username?.length > 4 ? true: null,
+      this.userModel.username?.length >= 4 ? true: null,
       this.userModel.password == this.userModel.passwordCheck? true : null,
       this.phoneInput?.control.status == 'VALID' ? true : null,
       this.emailInput?.control.status == 'VALID' ? true : null,
@@ -290,16 +294,21 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     console.log(params);
     this.userService.registerUserStepOne(params).subscribe(async resOne => {
       this.progressVal = 50;
-      console.log(resOne);
       await this.uploadImageToApi();
       this.userService.registerUserStepTwo({username:this.userModel.username, lang:this.translate.currentLang}).subscribe(resTwo => {
         this.progressVal = 100;
-        console.log(resTwo);
-      }) 
+        this.registrationSuccess = true;
+      }, err => {
+      });
     }, err => {
 
     });
     
+  }
+  goToLogin(event){
+    setTimeout(() => {
+      this.router.navigate(['/login']);
+    }, 400);
   }
 
   cancelUpload() {

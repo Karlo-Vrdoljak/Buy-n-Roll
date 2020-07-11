@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener, AfterViewInit } from "@angular/core";
+import { Component, OnInit, OnDestroy, HostListener, AfterViewInit, ViewChild } from "@angular/core";
 import { MenuItem } from "primeng/api/menuitem";
 import {  Router, ActivatedRoute } from "@angular/router";
 import { BreadcrumbService } from "../_services/breadcrumb.service";
@@ -11,6 +11,7 @@ import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angula
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Subscription, fromEvent, Subject, of } from 'rxjs';
 import { debounceTime, map, distinctUntilChanged, mergeMap, delay } from 'rxjs/operators';
+import { AccConfirmComponent } from '../registration/acc-confirm/acc-confirm.component';
 
 @Component({
   selector: "app-login",
@@ -36,6 +37,8 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
   translateSubscription$:Subscription;
   keyUp = new Subject<KeyboardEvent>();
   keyUpSub:Subscription;
+  needsActivation:boolean = false;
+  @ViewChild('confirmAcc') confirmAcc: AccConfirmComponent;
   constructor(
     private breadcrumbService: BreadcrumbService,
     private router: Router,
@@ -69,7 +72,10 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
 
 
   }
-  login() {
+  login(fromEmitter = null) {
+    if(fromEmitter != null) {
+      this.error = null;
+    }
     if(!this.username || !this.password) {
       return;
     }
@@ -83,21 +89,47 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
       this.userService.checkToken(this.loader, 'login_loader').then((result) => {
         
         if(result == true) {
-          this.router.navigateByUrl(this.returnUrl ?? '/')
+          let url = this.returnUrl ?? '/';
+          if(url.includes('registration')) {
+            url = '/';
+          }
+          this.router.navigateByUrl(url);
         }
         this.loader.stopLoader('login_loader');
       });
     }, err => {
       
       this.loader.stopLoader('login_loader');
-      if(err.statusText == 'BUYNROLL_ERR_USER_NOT_FOUND') {
-        this.error = {
-          username: err.statusText
+
+      switch (err.statusText) {
+        case 'BUYNROLL_ERR_USER_NOT_FOUND':{
+          this.error = {
+            username: err.statusText
+          }
+          break;
         }
-      } else {
-        this.error = {
-          password: err.statusText
-        };
+        case 'BUYNROLL_ERR_WRONG_PASSWORD':{
+          this.error = {
+            password: err.statusText
+          };
+          break;
+        }
+        case 'BUYNROLL_ERR_USER_NOT_CONFIRMED_ACC':{
+          this.error = {
+            password: err.statusText
+          };
+          this.userService.registerUserStepTwo({username: this.username, lang: this.translate.currentLang}).subscribe(data => {
+            this.needsActivation = true;
+            this.confirmAcc.displayDlgAcc = true;
+          }, err => {
+            this.needsActivation = false;
+            this.confirmAcc.displayDlgAcc = false;
+            this.error = null;
+          });
+          break;
+        }
+        default:
+          break;
       }
     });
   }

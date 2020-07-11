@@ -33,6 +33,9 @@ export class AuthService {
     if(dbUser == undefined) {
       return { errMsg: ErrorMessages.userNotFound };
     }
+    if(dbUser.isActive == false) {
+      return { errMsg: ErrorMessages.accNeedsConfirmation };
+    }
     if(!user.password) {
       return { errMsg: ErrorMessages.wrongPassword };
     }

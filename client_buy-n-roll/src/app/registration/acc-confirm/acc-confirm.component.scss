@@ -1,0 +1,11 @@
+@import "../../../assets/scss/light_material_override.scss";
+.acc-confirm-dialog {
+  width: 50vw;
+  min-height: 30vh;
+}
+
+@media screen and (max-width: 30em) {
+  .acc-confirm-dialog {
+      width: 75vw;
+  }
+}

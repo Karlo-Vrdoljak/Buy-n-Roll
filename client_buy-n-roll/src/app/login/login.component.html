@@ -67,3 +67,5 @@
     </div>
   </div>
 </div>
+
+<app-acc-confirm #confirmAcc *ngIf="username && needsActivation == true" [username]="username" (onConfirm)="login($event)"></app-acc-confirm>

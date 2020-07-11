@@ -262,3 +262,5 @@
 </ng-template>
 
 <app-policy #policyRef></app-policy>
+
+<app-acc-confirm  #confirmAcc *ngIf="userModel.username && registrationSuccess == true" [username]="userModel.username" (onConfirm)="goToLogin($event)"></app-acc-confirm>

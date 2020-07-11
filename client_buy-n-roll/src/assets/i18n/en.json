@@ -99,14 +99,11 @@
   "PASS_SAME": "s do not match!",
   "EMAIL_NOTE": "We will send you a confirmation email as soon as your account is ready to go! The email should arrive within 5 minutes!",
   "USERNAME_UNIQUE": " must be unique!",
-  "CHOOSE":"CHOOSE"
-
-
-
-
-
-
-
-
+  "CHOOSE":"CHOOSE",
+  "ACC_CONFRIM": "ACCOUNT CONFIRMATION",
+  "ACC_CONFIRM_MSG": "Copy the code and paste it in the appropriate place in the application.",
+  "VER_CODE": "Verification code",
+  "VER_CODE_PLACEHOLDER": "Copy the code and paste it here",
+  "BUYNROLL_ERR_USER_NOT_CONFIRMED_ACC": "Looks like you did not verify your account upon registration, please check you email"
 
 }

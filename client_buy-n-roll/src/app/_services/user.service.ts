@@ -86,4 +86,10 @@ export class UserService {
     formData.append("image", params, params?.name);
     return this.http.post(this.config.API_URL_ROOT + "user/upload/", formData, {headers: headers});
   }
+  checkCodeByUsername(params) {
+    return this.http.post(this.config.API_URL_ROOT + 'user/check/code/', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
 }
