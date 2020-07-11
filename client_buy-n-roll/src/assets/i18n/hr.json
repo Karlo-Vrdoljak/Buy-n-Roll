@@ -95,7 +95,15 @@
   "CANTBEMORETHAN": "ne smije biti dulji od",
   "ZNAKOVA_DULJINE": "znakova duljine.",
   "MUSTHAVEMIN": "mora imati najmanje",
-  "EMAIL_EXAMPLE": "primjer: nepoznat@netko.com"
+  "EMAIL_EXAMPLE": "primjer: nepoznat@netko.com",
+  "PASS_SAME": " i potvrdna zaporka nisu iste!",
+  "EMAIL_NOTE": "Poslat ćemo vam potvrdnu e-poštu čim vaš račun bude spreman! E-pošta bi trebala stići u roku od 5 minuta!",
+  "USERNAME_UNIQUE": " mora biti jedinstveno!",
+  "CHOOSE":"ODABERITE"
+
+
+
+
 
 
 

@@ -25,6 +25,7 @@ import { TransmissionService } from 'src/vehicle/transmission/transmission.servi
 import { BodyService } from 'src/vehicle/body/body.service';
 import { VehicleState } from 'src/types/enums';
 import { Photo } from 'src/entity/photo.entity';
+import { RolesService } from 'src/roles/roles.service';
 
 @Injectable()
 export class UsersService implements OnModuleInit{
@@ -50,6 +51,7 @@ export class UsersService implements OnModuleInit{
     public gasTypeService: GasTypeService,
     public transmissionService: TransmissionService,
     public bodyService: BodyService,
+    public roleService: RolesService,
     private dbLogs: DbLogs
   ) { }
 

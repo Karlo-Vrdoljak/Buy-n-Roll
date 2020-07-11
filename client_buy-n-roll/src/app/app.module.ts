@@ -76,9 +76,10 @@ import {KeyFilterModule} from 'primeng/keyfilter';
 import {DialogModule} from 'primeng/dialog';
 import { LocationPropComponent } from './props/location-prop/location-prop.component';
 import {IMaskModule} from 'angular-imask';
-import { ImageUploaderModule } from 'ngx-image-uploader-next';
 import { PolicyComponent } from './policy/policy.component';
-
+import { ProgressBarModule } from 'primeng/progressbar';
+import {FileUploadModule} from 'primeng/fileupload';
+import { AccConfirmComponent } from './registration/acc-confirm/acc-confirm.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -113,6 +114,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     DeniedPageComponent,
     LocationPropComponent,
     PolicyComponent,
+    AccConfirmComponent,
   ],
   imports: [
     BrowserModule,
@@ -176,7 +178,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     KeyFilterModule,
     DialogModule,
     IMaskModule,
-    ImageUploaderModule
+    ProgressBarModule,
+    FileUploadModule
   ],
   providers: [
     TestService,

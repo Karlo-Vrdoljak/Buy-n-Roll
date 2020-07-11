@@ -25,3 +25,7 @@ export enum ErrorMessages {
   userNotFound = 'BUYNROLL_ERR_USER_NOT_FOUND',
   wrongPassword = 'BUYNROLL_ERR_WRONG_PASSWORD',
 }
+export enum PhotoDescriptions {
+  USER = 'User\'s profile photo',
+  OGLAS = 'Ad image'
+}

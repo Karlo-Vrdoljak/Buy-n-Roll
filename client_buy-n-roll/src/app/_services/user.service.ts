@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Config } from 'src/environments/config';
 import { retry, catchError } from 'rxjs/operators';
 import { ErrorHandler } from './errorHandler';
@@ -62,5 +62,28 @@ export class UserService {
       catchError(this.errorHandler.handleError)
     );
   }
-  
+  registerUserStepOne(params) {
+    return this.http.post(this.config.API_URL_ROOT + 'user/register/', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
+  registerUserStepTwo(params) {
+    return this.http.post(this.config.API_URL_ROOT + 'user/registerFinalize/', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
+  checkUniqueUsername(params) {
+    return this.http.post(this.config.API_URL_ROOT + 'user/check/username/', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
+  uploadImage(params: File,username:string) {
+    let headers = new HttpHeaders().set('username-value', username);
+    const formData: FormData = new FormData();
+    formData.append("image", params, params?.name);
+    return this.http.post(this.config.API_URL_ROOT + "user/upload/", formData, {headers: headers});
+  }
 }

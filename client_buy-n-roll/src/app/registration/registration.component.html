@@ -59,10 +59,9 @@
         <div class="flex">
           <mat-form-field style="flex-basis: 90%; width: 20em;">
             <mat-label class="font-oswald">{{ 'NAME' | translate }}</mat-label>
-            <input #inputFirstName="ngModel"  required matInput type="text" [(ngModel)]="userModel.firstName" placeholder="{{ 'NAME_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
+            <input #inputFirstName="ngModel" required matInput type="text" [(ngModel)]="userModel.firstName" placeholder="{{ 'NAME_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
           </mat-form-field>
         </div>
-        <p *ngIf="error" class="font-mw text-red-500 text-xs absolute" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>{{ error.firstName | translate }}</p>
       </div>
     </div>
     <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 step-wrap">
@@ -70,10 +69,9 @@
         <div class="flex">
           <mat-form-field style="flex-basis: 90%; width: 20em;">
             <mat-label class="font-oswald">{{ 'LASTNAME' | translate }}</mat-label>
-            <input #inputLastName="ngModel"  required matInput type="text" [(ngModel)]="userModel.lastName" placeholder="{{ 'LASTNAME_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
+            <input #inputLastName="ngModel" required matInput type="text" [(ngModel)]="userModel.lastName" placeholder="{{ 'LASTNAME_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
           </mat-form-field>
         </div>
-        <p *ngIf="error" class="font-mw text-red-500 text-xs absolute" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>{{ error.lastName | translate }}</p>
       </div>
     </div>
     <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 step-wrap flex flex-row">
@@ -86,7 +84,6 @@
         <div class="flex justify-center">
           <p-listbox [ngStyle]="{'width': '100%'}" class="shadow-md" [options]="sellerTypes" [(ngModel)]="selectedSellerType" optionLabel="label"></p-listbox>
         </div>
-        <p *ngIf="error" class="font-mw text-red-500 text-xs absolute" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>{{ error.sellerType | translate }}</p>
       </div>
     </div>
     <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 step-wrap">
@@ -97,9 +94,14 @@
           </div>
         </div>
         <div class="flex items-end">
-          <div matRipple style="border-radius: 50%;">
-            <ngx-image-uploader [options]="imageOptions" (upload)="onUpload($event)"></ngx-image-uploader>
+          <div [hidden]="payload">
+            <p-fileUpload #fp mode="basic" [chooseLabel]="'CHOOSE' | translate" accept="image/*" auto="true" customUpload="true" (uploadHandler)="onUpload($event)"></p-fileUpload>
           </div>
+          <div [hidden]="!payload" class="relative p-2" >
+            <div id="uploaded_img" class="uploaded-image shadow-md"></div>
+            <i class="fas fa-times text-yellow-500 absolute top-0 right-0 cursor-pointer" (click)="cancelUpload()"></i>
+          </div>
+
         </div>
       </div>
     </div>
@@ -130,7 +132,6 @@
           </mat-form-field>
         </div>
         <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('EMAIL' | translate | titlecase), error: emailInput, useEmail: true }"></ng-container>
-        <!-- <p *ngIf="error" class="font-mw text-red-500 text-xs absolute" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>{{ error.email | translate }}</p> -->
       </div>
     </div>
     <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 step-wrap">
@@ -141,7 +142,6 @@
             <input matInput type="text" (keyup)="keyUp.next($event)" [(ngModel)]="location.search" placeholder="{{ 'LOCATIONUSER_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
           </mat-form-field>
         </div>
-        <!-- <p *ngIf="error" class="font-mw text-red-500 text-xs absolute" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>{{ error.firstName | translate }}</p> -->
       </div>
     </div>
   </div>
@@ -151,7 +151,7 @@
 
 <ng-template #stepCreds>
   <div class="p-grid p-nogutter">
-    <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 step-wrap">
+    <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 step-wrap mb-4">
       <div class="mb-4 relative">
         <div class="flex">
           <div class="flex flex-col justify-center items-center">
@@ -159,10 +159,11 @@
           </div>
           <mat-form-field style="flex-basis: 90%; width: 20em;" class="px-2">
             <mat-label class="font-oswald">{{ 'USERNAME' | translate }}</mat-label>
-            <input required matInput type="text" [(ngModel)]="userModel.username" placeholder="{{ 'USERNAME_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
+            <input required #usernameInput="ngModel" (keyup)="keyUpUsername.next($event)" minlength="4" matInput type="text" [(ngModel)]="userModel.username" placeholder="{{ 'USERNAME_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
           </mat-form-field>
         </div>
-        <p *ngIf="error" class="font-mw text-red-500 text-xs absolute" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>{{ error.username | translate }}</p>
+        <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('USERNAME' | translate | titlecase), error: usernameInput, minlength: 4, useMinlength: true }"></ng-container>
+
       </div>
       <div class="mb-4 relative">
         <div class="flex">
@@ -171,10 +172,10 @@
           </div>
           <mat-form-field style="flex-basis: 90%; width: 20em;" class="px-2">
             <mat-label class="font-oswald">{{ 'PASSWORD' | translate }}</mat-label>
-            <input required matInput type="password" [(ngModel)]="userModel.password" placeholder="{{ 'PASSWORD_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+            <input #passInput="ngModel" minlength="8" required matInput type="password" (keyup)="checkIfEqual()" [(ngModel)]="userModel.password" placeholder="{{ 'PASSWORD_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
           </mat-form-field>
         </div>
-        <p *ngIf="error" class="font-mw text-red-500 text-xs absolute" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>{{ error.password | translate }}</p>
+        <!-- <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('PASSWORD' | translate | titlecase), error: passInput, minlength: 8, useMinlength: true }"></ng-container> -->
       </div>
       <div class="mb-4 relative">
         <div class="flex">
@@ -183,18 +184,21 @@
           </div>
           <mat-form-field style="flex-basis: 90%; width: 20em;" class="px-2">
             <mat-label class="font-oswald">{{ 'PASSWORD' | translate }}</mat-label>
-            <input required matInput type="password" [(ngModel)]="userModel.passwordCheck" placeholder="{{ 'PASSWORD_PLACEHOLDER_CONFIRM' | translate }}" class="overflow-hidden font-oswald">
+            <input #passCheckInput="ngModel" minlength="8" required matInput type="password" (keyup)="checkIfEqual()" [(ngModel)]="userModel.passwordCheck" placeholder="{{ 'PASSWORD_PLACEHOLDER_CONFIRM' | translate }}" class="overflow-hidden font-oswald">
           </mat-form-field>
         </div>
-        <p *ngIf="error" class="font-mw text-red-500 text-xs absolute" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>{{ error.passwordCheck | translate }}</p>
+        <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('PASSWORD' | translate | titlecase), error: passCheckInput, useEqual: true, minlength: 8, useMinlength: true }"></ng-container>
       </div>
       <div *ngIf="checkSubmitReady()" class="flex items-center justify-between flex-row flex-wrap" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
-        <button mat-raised-button color="accent" class="w-full lg:w-1/2 transition-colors duration-150 ease-in">
+        <button *ngIf="progressVal == null" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] mat-raised-button color="accent" class="w-full lg:w-1/2 transition-colors duration-150 ease-in" (click)="registerUser()">
           <div class="flex items-center align-middle justify-center">
             <i class="fas fa-sign-in-alt pr-2 text-yellow-800 text-xl"></i>
             {{ 'REGISTERME' | translate }}
           </div>
         </button>
+      </div>
+      <div *ngIf="progressVal > 0" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+        <p-progressBar [value]="progressVal"></p-progressBar>
       </div>
     </div>
     <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 step-wrap">
@@ -202,12 +206,10 @@
         <div class="flex">
           <div class="flex flex-col justify-center">
             <p class="font-mw font-medium text-gray-600 pt-4">
-              We will send you a confirmation email as soon as your account is ready to go!
-              The email should arrive within 5 minutes!
+              {{ 'EMAIL_NOTE' | translate }}
             </p>
             <p class="font-mw font-medium text-gray-600 pt-4">
               <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'NOTICE', items: ['PRIVACY', 'TERMS_CONDITIONS'], bg: 'buynroll_bg_silver', text: 'text-gray-600' }"></ng-container>
-
             </p>
           </div>
         </div>
@@ -219,7 +221,7 @@
 
 <app-location-prop #locationProp (onLocationSelect)="updateSelectedLocation($event)"></app-location-prop>
 
-<ng-template #errors let-title='title' let-error='error' let-useEmail='useEmail' let-useMinlength='useMinlength' let-minLength='minLength' let-useMaxlength='useMaxlength' let-maxLength='maxLength'>
+<ng-template #errors let-title='title' let-error='error' let-useEmail='useEmail' let-useEqual='useEqual' let-useMinlength='useMinlength' let-minLength='minLength' let-useMaxlength='useMaxlength' let-maxLength='maxLength'>
   <div *ngIf="error.invalid && (error.dirty || error.touched)" class="font-mw text-gray-600 text-xs absolute" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
     <div *ngIf="error.errors.required" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
       {{ title }} {{ 'REQUIRED' | translate }}
@@ -232,6 +234,12 @@
     </div>
     <div *ngIf="error.errors.email == true && useEmail == true" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
       {{ title }} {{ 'EMAIL_EXAMPLE' | translate }}
+    </div>
+    <div *ngIf="checkIfEqual() == false && useEqual == true" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+      {{ title }}{{ 'PASS_SAME' | translate }}
+    </div>
+    <div *ngIf="error.errors.uniqueUsername" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+      {{ title }}{{ 'USERNAME_UNIQUE' | translate }}
     </div>
   </div>
 </ng-template>

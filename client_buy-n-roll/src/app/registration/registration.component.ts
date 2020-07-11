@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { HelperService } from "../_services/helper.service";
 import { BreadcrumbService } from '../_services/breadcrumb.service';
 import { MenuItem, SelectItem } from 'primeng/api';
-import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
+import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation, fadeInDownOnEnterAnimation, fadeOutUpOnLeaveAnimation } from 'angular-animations';
 import { User } from '../_types/user.interface';
 import { SellerType } from '../_types/oglas.interface';
 import { Subscribable, Subscription, Subject } from 'rxjs';
@@ -13,16 +13,19 @@ import { debounceTime, map } from 'rxjs/operators';
 import { UserService } from '../_services/user.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { LocationPropComponent } from '../props/location-prop/location-prop.component';
-import { ImageUploaderOptions, FileQueueObject } from 'ngx-image-uploader-next';
 import { PolicyComponent } from '../policy/policy.component';
-import { NgModel } from '@angular/forms';
+import { NgModel, ValidationErrors } from '@angular/forms';
+import { Config } from 'src/environments/config';
+import { FileUpload } from 'primeng/fileupload';
 @Component({
   selector: "app-registration",
   templateUrl: "./registration.component.html",
   styleUrls: ["./registration.component.scss"],
   animations: [
     fadeInRightOnEnterAnimation(),
-    fadeOutLeftOnLeaveAnimation()
+    fadeOutLeftOnLeaveAnimation(),
+    fadeInDownOnEnterAnimation(),
+    fadeOutUpOnLeaveAnimation()
   ]
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
@@ -39,19 +42,16 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   location:{search:string;locationList:any;selectedLocation:any};
 
   translateSubscription$:Subscription;
+  progressVal:number = null;
 
   keyUp = new Subject<KeyboardEvent>();
+  keyUpUsername = new Subject<KeyboardEvent>();
   keyUpSub:Subscription;
+  keyUpUsernameSub:Subscription;
 
-  imageOptions: ImageUploaderOptions = {
-    uploadUrl: 'https://fancy-image-uploader-demo.azurewebsites.net/api/demo/upload',
-    cropEnabled: false,
-    thumbnailResizeMode: 'fill',
-    autoUpload: false,
-    resizeOnLoad: false,
-    thumbnailWidth: 100,
-    thumbnailHeight: 100,
-  };
+  payload: File;
+  @ViewChild("fp") FileUploader: FileUpload;
+
 
   @ViewChild('locationProp') locationProp: LocationPropComponent;
   @ViewChild('policyRef') policyRef: PolicyComponent;
@@ -60,6 +60,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   @ViewChild('emailInput') emailInput:NgModel;
   @ViewChild('inputFirstName') firstNameInput:NgModel;
   @ViewChild('inputLastName') lastNameInput:NgModel;
+  @ViewChild('passInput') passInput:NgModel;
+  @ViewChild('passCheckInput') passCheckInput:NgModel;
+  @ViewChild('usernameInput') usernameInput:NgModel;
+  
   constructor(
     private route: ActivatedRoute,
     public helperService: HelperService,
@@ -68,12 +72,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private translateProvider: TranslationList,
     private userService: UserService,
-    private loader:NgxUiLoaderService
+    private loader:NgxUiLoaderService,
+    private config:Config
 
   ) {}
   ngOnDestroy(): void {
     this.translateSubscription$.unsubscribe();
     this.keyUpSub.unsubscribe();
+    this.keyUpUsernameSub.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -87,6 +93,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.setupBreadcrumbs();
     this.setupLangObservable();
     this.setupDebounceKeys();
+    this.setupDebounceUsernameKeys();
   }
 
   @HostListener("window:resize") updateOrientationState() {
@@ -123,10 +130,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     } as User;
   }
   defaultSellerType() {
+    
     return Object.values(SellerType).map(st => {
-      
+      this.selectedSellerType = this.selectedSellerType ?? {
+        value: st,
+        label: this.translations[st],
+      };
       return {
-        value: this.translations[st],
+        value: st,
         label: this.translations[st],
       } as SelectItem;
     });
@@ -154,10 +165,28 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.userModel.username ?? null,
       this.userModel.passwordCheck ?? null,
       this.userModel.password ?? null,
+      this.userModel.username ?? null,
+      this.userModel.username?.length > 4 ? true: null,
+      this.userModel.password == this.userModel.passwordCheck? true : null,
       this.phoneInput?.control.status == 'VALID' ? true : null,
-      this.emailInput?.control.status == 'VALID' ? true : null
-      
+      this.emailInput?.control.status == 'VALID' ? true : null,
     ].every(e => e != null)
+  }
+  checkIfEqual() {
+    if(this.passInput.control.pristine == true || this.passCheckInput.control.pristine == true) {
+      return false;
+    }
+    if(this.hasError(this.passInput) == true && this.hasError(this.passCheckInput) == true) {
+      let result = this.userModel.password == this.userModel.passwordCheck? true : false;
+      if(result == true) {
+        this.passCheckInput.control.setErrors(null);
+        return true;
+      } else {
+        this.passCheckInput.control.setErrors({ pw: 'ERROR' } as ValidationErrors);
+        return false;
+      }
+    }
+    return false;
   }
   
   private setupLangObservable() {
@@ -178,6 +207,30 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.loader.startBackgroundLoader('registration_loader');
       this.getLocation();
     });
+  }
+  setupDebounceUsernameKeys() {
+    this.keyUpUsernameSub = this.keyUpUsername.pipe(
+      map(event => event),
+      debounceTime(400),
+    ).subscribe(res => {
+      this.loader.startBackgroundLoader('registration_loader');
+      this.checkUsername();
+    });
+  }
+
+  checkUsername() {
+    if(this.userModel.username.length > 3) {
+      this.userService.checkUniqueUsername({username: this.userModel.username}).subscribe(result => {
+        this.usernameInput.control.setErrors(null);
+        this.loader.stopBackgroundLoader('registration_loader');
+
+      }, err => {
+        this.usernameInput.control.setErrors({uniqueUsername: 'ERROR'});
+        console.log(this.usernameInput);
+        
+        this.loader.stopBackgroundLoader('registration_loader');
+      });
+    } 
   }
 
   getLocation() {
@@ -207,11 +260,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     
   }
 
-  onUpload(file: FileQueueObject) {
-    console.log(file);
-    
-  }
-
   openPolicy(key) {
     
     if(key == 'PRIVACY') {
@@ -220,6 +268,61 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     else if (key == 'TERMS_CONDITIONS') {
       this.policyRef.displayDlgTerms = true;
     }
+  }
+  incLoader() {
+    if(this.progressVal > 98) {
+      return;
+    }
+    this.progressVal+=1;
+    setTimeout(() => {
+      this.incLoader();
+    }, 200);
+  }
+
+  registerUser() {
+    this.userModel.sellerType = this.selectedSellerType.value;
+    this.progressVal = 4;
+    this.incLoader();
+    let params = {
+      ...this.userModel,
+      ...this.location.selectedLocation
+    };
+    console.log(params);
+    this.userService.registerUserStepOne(params).subscribe(async resOne => {
+      this.progressVal = 50;
+      console.log(resOne);
+      await this.uploadImageToApi();
+      this.userService.registerUserStepTwo({username:this.userModel.username, lang:this.translate.currentLang}).subscribe(resTwo => {
+        this.progressVal = 100;
+        console.log(resTwo);
+      }) 
+    }, err => {
+
+    });
+    
+  }
+
+  cancelUpload() {
+    this.FileUploader.clear();
+    this.payload = null;
+  }
+
+  onUpload(event) {
+    console.log(event);
+    this.payload = event.files[0];
+    console.log(this.payload);
+    let img = document.getElementById('uploaded_img') as HTMLElement;
+    img.setAttribute('style', `background-image: url('${URL.createObjectURL(this.payload)}')`);
+  }
+
+  uploadImageToApi() {
+    return new Promise((resolve,reject) => {
+      this.userService.uploadImage(this.payload, this.userModel.username).subscribe(data => {
+          resolve();
+        },err => {
+          reject();
+        });
+    });
   }
 
 }

@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, On
 import { Role } from './role.entity';
 import { Location } from './location.entity';
 import { SellerType } from 'src/types/enums';
+import { Photo } from './photo.entity';
 
 
 @Entity()
@@ -27,7 +28,7 @@ export class User {
   @Column({ unique: true, nullable: false })
   username: string;
 
-  @Column({ default: true })
+  @Column({ default: false })
   isActive: boolean;
 
   @Column({generated:"uuid", select: false})
@@ -45,5 +46,9 @@ export class User {
   @OneToOne(type => Location, {nullable:true})
   @JoinColumn()
   location: Location;
+
+  @OneToOne(type => Photo, {nullable:true})
+  @JoinColumn()
+  photo: Photo;
 
 }

@@ -8,7 +8,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { RolesModule } from './roles/roles.module';
 import { MulterModule } from '@nestjs/platform-express';
-// import { VehicleModule } from './vehicle/vehicle.module';
 
 
 @Module({
@@ -18,7 +17,7 @@ import { MulterModule } from '@nestjs/platform-express';
     // VehicleModule,
     AuthModule,
     TypeOrmModule.forRoot(),
-    MulterModule,
+    MulterModule
   ],
   controllers: [AppController, TestProtectedController],
   providers: [AppService],

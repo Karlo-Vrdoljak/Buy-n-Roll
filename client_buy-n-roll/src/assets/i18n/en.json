@@ -95,7 +95,11 @@
   "CANTBEMORETHAN": "cannot be more than",
   "ZNAKOVA_DULJINE": "characters long.",
   "MUSTHAVEMIN": "must be at least",
-  "EMAIL_EXAMPLE": "example: john@doe.com"
+  "EMAIL_EXAMPLE": "example: john@doe.com",
+  "PASS_SAME": "s do not match!",
+  "EMAIL_NOTE": "We will send you a confirmation email as soon as your account is ready to go! The email should arrive within 5 minutes!",
+  "USERNAME_UNIQUE": " must be unique!",
+  "CHOOSE":"CHOOSE"
 
 
 

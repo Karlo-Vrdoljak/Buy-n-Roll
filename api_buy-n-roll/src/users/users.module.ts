@@ -8,6 +8,9 @@ import { UserVehicleModule } from './userVehicle/userVehicle.module';
 import { VehicleModule } from 'src/vehicle/vehicle.module';
 import { OglasModule } from './oglas/oglas.module';
 import { Config } from 'src/config';
+import { RolesModule } from 'src/roles/roles.module';
+import { LocationModule } from './location/location.module';
+import { PhotoModule } from './oglas/photo/photo.module';
 
 @Module({
   imports: [
@@ -15,11 +18,14 @@ import { Config } from 'src/config';
     UserVehicleModule,
     VehicleModule,
     OglasModule,
+    RolesModule,
+    LocationModule,
+    PhotoModule,
   ],
   providers: [
     UsersService,
     DbLogs,
-    Config
+    Config,
   ],
   controllers: [UserController],
   exports: [
@@ -28,7 +34,11 @@ import { Config } from 'src/config';
     UserVehicleModule,
     VehicleModule,
     OglasModule,
-    Config
+    RolesModule,
+    Config,
+    LocationModule,
+    PhotoModule,
+
   ],
 })
 export class UsersModule {}
