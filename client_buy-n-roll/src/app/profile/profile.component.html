@@ -1,0 +1,260 @@
+<app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<div *ngIf="displayAccessories" class="banner mb-4 relative">
+</div>
+
+<div class="p-grid p-nogutter" [ngClass]="{'noAccessories': displayAccessories == false}">
+  <div class="p-col">
+    <div class="flex justify-center items-center relative" [ngsReveal]="{reset: true, origin: 'right'  }">
+      <ng-container [ngTemplateOutlet]="readOnly"></ng-container>
+      <ng-container [ngTemplateOutlet]="edit"></ng-container>
+      <ngx-ui-loader [loaderId]="'profile_loader'"></ngx-ui-loader>
+    </div>
+  </div>
+</div>
+
+<ng-template #edit>
+  <div class="max-w-full w-full xl:mx-8 xxl:mx-16 mx-2 rounded  border border-gray-300  overflow-hidden shadow-md relative z-0" *ngIf="editMode == true">
+    <div class="bg-gray-100 z-10 relative">
+      <div class="bg-gray-100 px-4 py-4 relative">
+        <div [ngsReveal]="{reset: true, origin: 'right', delay: 50  }">
+          <div>
+            <div class="w-9/12 font-oswald font-semibold text-gray-800 text-lg mb-1 flex flex-row flex-wrap">
+              <div style="flex-basis: 50%;" class="relative">
+                <mat-form-field class="px-2 w-full">
+                  <mat-label class="font-oswald">{{ 'NAME' | translate }}</mat-label>
+                  <input required #firstNameInput="ngModel" matInput type="text" [(ngModel)]="userModel.firstName" placeholder="{{ 'NAME_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
+                </mat-form-field>
+                <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('NAME' | translate | titlecase), error: firstNameInput }"></ng-container>
+              </div>
+              <div style="flex-basis: 50%;" class="relative">
+                <mat-form-field class="px-2 w-full">
+                  <mat-label class="font-oswald">{{ 'LASTNAME' | translate }}</mat-label>
+                  <input required #lastNameInput="ngModel" matInput type="text" [(ngModel)]="userModel.lastName" placeholder="{{ 'LASTNAME_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
+                </mat-form-field>
+                <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('LASTNAME' | translate | titlecase), error: lastNameInput }"></ng-container>
+              </div>
+            </div>
+            <div class="w-9/12 font-oswald mb-2 text-lg text-gray-800 flex flex-row flex-wrap">
+              <div style="flex-basis: 50%;" class="relative">
+                <mat-form-field class="px-2 w-full">
+                  <mat-label class="font-oswald">{{ 'USERNAME' | translate }}</mat-label>
+                  <input disabled required (keyup)="keyUpUsername.next($event)" minlength="4" #usernameInput="ngModel" matInput type="text" [(ngModel)]="userModel.username" placeholder="{{ 'USERNAME_PLACEHOLDER' | translate}}" class="cursor-not-allowed overflow-hidden font-oswald">
+                </mat-form-field>
+                <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('USERNAME' | translate | titlecase), error: usernameInput, minlength: 4, useMinlength: true }"></ng-container>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid p-nogutter">
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-7 dynamicDirection dir-1">
+          <div class="bg-gray-100 px-4 pb-2 relative">
+            <div class="bg-gray-100 py-2 relative flex items-center title-hover">
+              <div class="font-mw text-gray-600 py-1 px-2 flex flex-row flex-wrap w-full" [ngsReveal]="{reset: true, origin: 'right', delay: 300 }">
+                <mat-form-field style="flex-basis: 100%">
+                  <mat-label class="font-oswald">{{ 'LOCATIONUSER' | translate }}</mat-label>
+                  <input matInput type="text" (keyup)="keyUp.next($event)" [(ngModel)]="userModel.location.display_name" placeholder="{{ 'LOCATIONUSER_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald" style="font-size: 0.875rem;">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-5 dynamicDirection">
+          <ng-container *ngTemplateOutlet="buttons"></ng-container>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 dynamicDirection dir-2">
+          <div class="bg-gray-100 relative flex flex-wrap justify-center xl:justify-start px-4 p-2 w-full">
+            <div class="font-mw text-gray-600 py-1 flex flex-row flex-wrap justify-between w-full xl:w-10/12">
+              <div class="descItem-edit flex flex-col justify-center xl:justify-start px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 350 }">
+                <div class="w-full font-mw text-base text-gray-700 font-semibold flex flex-col">
+                  <div class="w-full font-mw text-base py-2 text-gray-700 font-semibold">{{ 'VRSTAPRODAVACA' | translate }}</div>
+                  <p-listbox [ngStyle]="{'width': '100%'}" class="shadow-md" [options]="sellerTypes" [(ngModel)]="selectedSellerType" optionLabel="label"></p-listbox>
+                </div>
+              </div>
+              <div class="descItem-edit flex flex-col justify-center xl:justify-start px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 400 }">
+                <div class="w-full font-mw text-base py-2 text-gray-700 font-semibold">{{ 'SINCE' | translate }}</div>
+                <span class="font-oswald text-base cursor-not-allowed inline-block rounded-sm px-2 py-1 font-semibold mr-2 buynroll_bg_yellow opacity-75 text-yellow-800">{{ helperService.date(profileData.createdAt) }}</span>
+              </div>
+              <div class="descItem-edit flex flex-col justify-center text-lg xl:justify-start px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 425 }">
+                <div class="w-full font-mw text-base py-2 text-gray-700 font-semibold">{{ 'EMAIL' | translate | lowercase | titlecase }}</div>
+                <div class="w-full font-mw text-xs pb-2 text-gray-500 font-semibold">{{ 'EMAIL_WARN_EDIT' | translate }}</div>
+                <mat-form-field style="flex-basis: 100%;" class="">
+                  <input required #emailInput="ngModel" email pKeyFilter="email" matInput type="text" [(ngModel)]="userModel.email" placeholder="{{ 'EMAIL_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
+                </mat-form-field>
+                <div>
+                  <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('EMAIL' | translate | titlecase), error: emailInput , useEmail: true}"></ng-container>
+                </div>
+              </div>
+              <div class="descItem-edit flex flex-col justify-center text-lg xl:justify-start px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 425 }">
+                <div class="w-full font-mw text-base py-2 text-gray-700 font-semibold">{{ 'PHONE' | translate | lowercase | titlecase }}</div>
+                <mat-form-field style="flex-basis: 100%;" class="">
+                  <input #phoneInput="ngModel" required matInput type="text" minlength="14" maxlength="14" placeholder="{{ 'PHONE_PLACEHOLDER' | translate}}" [imask]="{mask: '(000)000-00-00', lazy:true, overwrite: true, autofix: true}" [(ngModel)]="userModel.phone" class="overflow-hidden font-oswald">
+                </mat-form-field>
+                <div>
+                  <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('PHONE' | translate | titlecase), error: phoneInput, useMinlength: true, minlength: 14 }"></ng-container>
+                </div>
+              </div>
+            </div>
+            <div class="absolute bottom-0 right-0 mr-4 mb-4">
+              <button *ngIf="checkSubmitReady()" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] mat-raised-button color="accent" class="w-36 transition-colors duration-150 ease-in" [ngClass]="{'bg_error': false}" (click)="saveChanges()">
+                <div class="flex items-center align-middle justify-center w-full">
+                  <i class="fas fa-save pr-2 text-yellow-800 text-xl"></i>
+                  {{ 'SAVE' | translate }}
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngTemplateOutlet="picture"></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<app-location-prop #locationProp (onLocationSelect)="updateSelectedLocation($event)"></app-location-prop>
+
+<ng-template #readOnly>
+  <div class="max-w-full w-full xl:mx-8 xxl:mx-16 mx-2 rounded  border border-gray-300  overflow-hidden shadow-md relative z-0" *ngIf="editMode == false">
+    <div class="bg-gray-100 z-10 relative">
+      <div class="bg-gray-100 px-4 py-4 relative">
+        <div [ngsReveal]="{reset: true, origin: 'right', delay: 50  }">
+          <div>
+            <div class="w-9/12 font-oswald font-semibold text-gray-800 text-2xl mb-1">{{ profileData.lastName }} {{ profileData.firstName }}</div>
+            <div class="w-9/12 font-oswald mb-2 text-xl text-gray-800">{{ (('USERNAME' | translate) | lowercase) | titlecase }} &bull; {{ profileData.username }}</div>
+            <mat-divider></mat-divider>
+            <div class="w-9/12 font-oswald mb-2 text-xl text-gray-800 flex items-center">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid p-nogutter">
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-7 dynamicDirection dir-1">
+          <div class="bg-gray-100 px-4 pb-2 relative">
+            <div class="bg-gray-100 py-2 relative flex items-center title-hover">
+              <div class="text-sm">
+                <div class="font-mw text-gray-600 py-1 px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 300 }">
+                  <div class="w-full text-base py-2 text-gray-700 font-semibold">{{ (('LOCATIONUSER' | translate) | lowercase) | titlecase  }}</div>
+                  <span *ngIf="profileData.location" class="text-xs sm:text-sm">{{ profileData.location.display_name }}</span>
+                  <span *ngIf="!profileData.location" class="text-xs sm:text-sm">{{ 'NO_LOCATION' | translate }}</span>
+                  <div *ngIf="profileData.location" class="showtheway pt-1">
+                    <a [href]="'https://showtheway.io/to/' + profileData.location.lat + ',' + profileData.location.lon" target="_blank" title="{{ 'NAVIGATION_ADDRESS' | translate }}">
+                      {{ 'NAVIGATION_ADDRESS' | translate }}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-5 dynamicDirection">
+          <ng-container *ngTemplateOutlet="buttons"></ng-container>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12 dynamicDirection dir-2">
+          <div class="bg-gray-100 relative flex flex-wrap justify-center xl:justify-start px-4 p-2 w-full">
+            <div class="font-mw text-gray-600 py-1 flex flex-row flex-wrap justify-between w-full xl:w-10/12">
+              <div class="descItem flex flex-col justify-center px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 350 }">
+                <div class="w-full font-mw text-base py-2 text-gray-700 font-semibold">{{ 'VRSTAPRODAVACA' | translate }}</div>
+                <span class="font-oswald text-base cursor-default inline-block rounded-sm px-3 py-1 my-1 font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ (profileData.sellerType | translate) | uppercase }}</span>
+              </div>
+              <div class="descItem flex flex-col justify-center px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 400 }">
+                <div class="w-full font-mw text-base py-2 text-gray-700 font-semibold">{{ 'SINCE' | translate }}</div>
+                <span class="font-oswald text-base cursor-default inline-block rounded-sm px-3 py-1 my-1 font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ helperService.date(profileData.createdAt) }}</span>
+              </div>
+              <div class="descItem flex flex-col justify-center px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 425 }">
+                <div class="w-full font-mw text-base py-2 text-gray-700 font-semibold">{{ 'EMAIL' | translate | lowercase | titlecase }}</div>
+                <span class="font-oswald text-base cursor-default inline-block rounded-sm px-3 py-1 my-1 font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ profileData.email }}</span>
+              </div>
+              <div class="descItem flex flex-col justify-center px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 450 }">
+                <div class="w-full font-mw text-base py-2 text-gray-700 font-semibold">{{ 'PHONE' | translate | lowercase | titlecase }}</div>
+                <span class="font-oswald text-base cursor-default inline-block rounded-sm px-3 py-1 my-1 font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ profileData.phone }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngTemplateOutlet="picture"></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #buttons>
+  <div class="bg-gray-100 relative flex flex-wrap justify-center p-2 w-full">
+    <div class="flex flex-row w-full justify-end mr-0 md:mr-32">
+      <div class="mx-2" [ngsReveal]="{reset: true, origin: 'right', delay: 100 }" *ngIf="config.user && (config.user.username == profileData.username)">
+        <a *ngIf="editMode == false" mat-button color="accent" (click)="toggleEditMode()" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="('EDIT' | translate) | lowercase | titlecase">
+          <div class="flex items-center align-middle">
+            <div class="flex items-center align-middle  mx-auto justify-center"><i class="fas fa-user-edit navIcon pr-2 text-gray-700 text-base leading-8"></i></div>
+            <div class="hideSm" style="flex-basis: 85%;">{{ 'EDIT' | translate }}</div>
+          </div>
+        </a>
+        <a *ngIf="editMode == true" mat-raised-button color="accent" (click)="toggleEditMode()" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full" [title]="('CANCEL' | translate) | lowercase | titlecase">
+          <div class="flex items-center align-middle">
+            <div class="flex items-center align-middle  mx-auto justify-center"><i class="fas fa-user-times navIcon pr-2 text-gray-700 text-base leading-8"></i></div>
+            <div class="hideSm" style="flex-basis: 85%;">{{ 'CANCEL' | translate }}</div>
+          </div>
+        </a>
+
+      </div>
+      <div class="mx-2" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
+        <a mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="((config.user && (config.user.username == profileData.username) ? 'MOJI_OGLASI' : 'USER_OGLASI') | translate) | lowercase | titlecase">
+          <div class="flex items-center align-middle">
+            <div class="flex items-center align-middle  mx-auto justify-center">
+              <i [ngClass]="{'navIcon': config.user && (config.user.username == profileData.username)}" class="fas fa-book-reader pr-2 text-gray-700 text-base leading-8"></i>
+            </div>
+            <div [ngClass]="{'hideSm': config.user && (config.user.username == profileData.username)}" style="flex-basis: 85%;">{{ (config.user && (config.user.username == profileData.username) ? 'MOJI_OGLASI' : 'USER_OGLASI') | translate }}</div>
+          </div>
+        </a>
+      </div>
+      <div class="mx-2" [ngsReveal]="{reset: true, origin: 'right', delay: 300 }" *ngIf="config.user && (config.user.username == profileData.username)">
+        <a mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="('FAVOURITES' | translate) | lowercase | titlecase">
+          <div class="flex items-center align-middle">
+            <div class="flex items-center align-middle mx-auto ">
+              <div class="flex items-center align-middle justify-center"><i class="fas fa-heart navIcon pr-2 text-red-700 text-base leading-8"></i></div>
+              <div class="hideSm" style="flex-basis: 85%;">{{ 'FAVOURITES' | translate }}</div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="mx-2" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }" *ngIf="config.user && (config.user.username != profileData.username)">
+        <a mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="( 'CONTACT' | translate) | lowercase | titlecase">
+          <div class="flex items-center align-middle">
+            <div class="flex items-center align-middle  mx-auto justify-center">
+              <i [ngClass]="{'navIcon': config.user && (config.user.username == profileData.username)}" class="fas fa-comments-dollar pr-2 text-gray-700 text-base leading-8"></i>
+            </div>
+            <div [ngClass]="{'hideSm': config.user && (config.user.username == profileData.username)}" style="flex-basis: 85%;">{{ 'CONTACT' | translate }}</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #picture>
+  <span *ngIf="profileData.photo" class="absolute top-0 mt-4 right-0" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
+    <div class="sm:w-32 sm:h-32 rounded-full mr-4 select-none profile_pic  shadow-md border-b-2 border-gray-500" [style.background-image]="getPhotoUrlCss()"></div>
+  </span>
+  <div *ngIf="profileData.photo && config.user && (config.user.username == profileData.username)" [ngsReveal]="{reset: true, origin: 'right', delay: 300 }" class="fas fa-pen text-base text-gray-700 absolute top-0 right-0 m-2 cursor-pointer"></div>
+</ng-template>
+
+<ng-template #errors let-title='title' let-error='error' let-useEmail='useEmail' let-useEqual='useEqual' let-useMinlength='useMinlength' let-minLength='minLength' let-useMaxlength='useMaxlength' let-maxLength='maxLength'>
+  <div *ngIf="error.invalid && (error.dirty || error.touched)" class="font-mw text-gray-600 text-xs absolute bottom-0" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+    <div *ngIf="error.errors.required" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+      {{ title }} {{ 'REQUIRED' | translate }}
+    </div>
+    <div *ngIf="error.errors.maxLength && useMaxlength == true" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+      {{ title }} {{ 'CANTBEMORETHAN' | translate }} {{ error.errors.maxLength.requiredLength }} {{ 'ZNAKOVA_DULJINE' | translate }}
+    </div>
+    <div *ngIf="error.errors.minlength && useMinlength == true" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+      {{ title }} {{ 'MUSTHAVEMIN' | translate }} {{ error.errors.minlength.requiredLength }} {{ 'ZNAKOVA_DULJINE' | translate }}
+    </div>
+    <div *ngIf="error.errors.email == true && useEmail == true" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+      {{ title }} {{ 'EMAIL_EXAMPLE' | translate }}
+    </div>
+    <div *ngIf="error.errors.uniqueUsername" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+      {{ title }}{{ 'USERNAME_UNIQUE' | translate }}
+    </div>
+  </div>
+</ng-template>

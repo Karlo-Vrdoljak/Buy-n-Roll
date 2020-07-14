@@ -80,6 +80,9 @@ import { PolicyComponent } from './policy/policy.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import {FileUploadModule} from 'primeng/fileupload';
 import { AccConfirmComponent } from './registration/acc-confirm/acc-confirm.component';
+import { ProfileComponent } from './profile/profile.component';
+import { BaseClass } from './_services/base.class';
+import { ProfileResolver } from './_resolvers/profile.resolver';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -115,6 +118,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     LocationPropComponent,
     PolicyComponent,
     AccConfirmComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -201,7 +205,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     UserService,
     LastNavigation,
     CatalogueItemResolver,
-    RegistrationResolver
+    RegistrationResolver,
+    BaseClass,
+    ProfileResolver
   ],
   bootstrap: [AppComponent],
 })

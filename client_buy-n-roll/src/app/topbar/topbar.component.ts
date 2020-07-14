@@ -14,6 +14,7 @@ import { TranslationList } from '../_services/translation.list';
 import { LocalStorageService } from "angular-web-storage";
 import { Config } from 'src/environments/config';
 import { UserService } from '../_services/user.service';
+import { Photo } from '../_types/oglas.interface';
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -39,6 +40,7 @@ export class TopbarComponent implements OnInit {
   index:number = 0;
   translations:any;
   forbiddenIP:boolean = false;
+  profilePhoto:any;
   constructor(
     public router: Router,
     public activatedRoute: ActivatedRoute,
@@ -73,7 +75,7 @@ export class TopbarComponent implements OnInit {
       });
     forkJoin(
       this.vehicleService.manufacturersFindAll(),
-      this.translate.get(this.translateProvider.getLanding())
+      this.translate.get(this.translateProvider.getLanding()),
     ).subscribe(([manufs, t]:[Manufacturer[], any]) => {
       this.translations = t || {};
       this.manufacturers = manufs.map(m => {
@@ -83,8 +85,29 @@ export class TopbarComponent implements OnInit {
       });
     });
     this.searchQuery = '';
+    this.setupLoginObservable();
     // this.infLog();
   }
+  setupLoginObservable() {
+    this.helperService.currentLogin.subscribe(event => {
+      // console.log(this.config.user?.username);
+      if(!this.config.user) {
+        return;
+      }
+      this.userService.getUserPhoto(this.config.user?.username).subscribe(data => {
+        // console.log("dispatched",data);
+        if(!data?.photo) {
+          this.profilePhoto = {
+            PkPhoto: -1,
+            path: "assets/images/misc/noProfile.png"
+          } as Photo;
+        } else {
+          this.profilePhoto = data.photo;
+        }
+      });
+    });
+  }
+
   getSeriesData(event:any) {
     let manufacturer = event.value as Manufacturer;
     
@@ -142,14 +165,14 @@ export class TopbarComponent implements OnInit {
     this.displaySidebar = this.displaySidebar == false? true: false;
   }
   logOff() {
+    if(this.helperService.logOffRerouteUrl() == '/') {
+      this.router.navigateByUrl('/');
+    }
     this.config.user = null;
     this.config.isLoggedIn = false;
     this.storage.remove('auth');
     this.displaySidebar = false;
     this.toast.success(this.translations.SIGNEDOUT_OK,);
-    if(this.helperService.logOffRerouteUrl() == '/') {
-      this.router.navigateByUrl('/');
-    }
   }
   rerouteOglas() {
     this.userService.checkToken().then(result => {
@@ -203,6 +226,10 @@ export class TopbarComponent implements OnInit {
   changeLang(lang:string) {
     this.storage.set("buynroll_lang",lang);
     this.translate.use(lang);
+  }
+
+  navigateProfile() {
+    this.router.navigate(['profile', {username: this.config.user.username}]);
   }
 
 }

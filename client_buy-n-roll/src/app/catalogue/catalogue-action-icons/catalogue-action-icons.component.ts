@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HelperService } from 'src/app/_services/helper.service';
+import { Config } from 'src/environments/config';
 @Component({
   selector: 'app-catalogue-action-icons',
   templateUrl: './catalogue-action-icons.component.html',
@@ -17,7 +18,7 @@ export class CatalogueActionIconsComponent implements OnInit {
   message:string = '';
   messageMaxLength:number = 150;
 
-  constructor(public helperService: HelperService) { }
+  constructor(public helperService: HelperService, public config: Config) { }
 
   ngOnInit(): void { }
 

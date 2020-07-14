@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Request, Res, HttpService, Get, HttpStatus, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, UseGuards, Post, Request, Res, HttpService, Get, HttpStatus, UseInterceptors, UploadedFile, Param } from '@nestjs/common';
 import { Response } from 'express';
 import { Config } from 'src/config';
 import { User } from 'src/entity/user.entity';
@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import * as path from 'path'
 import { PhotoService } from 'src/users/oglas/photo/photo.service';
 import { Photo } from 'src/entity/photo.entity';
-import { PhotoDescriptions } from 'src/types/enums';
+import { PhotoDescriptions, PhotoTypes } from 'src/types/enums';
 import * as nodemailer from 'nodemailer';
 import { Role } from 'src/entity/role.entity';
 @Controller('user')
@@ -41,6 +41,30 @@ export class UserController {
         res.status(500).send(err);
       });
   }
+  @Get('/getPhoto/:query')
+  async findPhotoByUsername(@Param() req) {
+    return this.userService.getUserRepo().createQueryBuilder('u')
+    .leftJoinAndSelect("u.photo","p")
+    .where('u.username = :uname', { uname: req.query})
+    .andWhere('p.photoOpis like :type', { type: `%${PhotoTypes.PROFILE}%` })
+    .getOne();
+  }
+  @Get('/data/:query')
+  async findUserByUsername(@Param() req, @Res() res: Response) {
+    let user = await this.userService.getUserRepo().createQueryBuilder('u')
+    .leftJoinAndSelect("u.roles","r", "r.user")
+    .leftJoinAndSelect("u.photo", "p")
+    .leftJoinAndSelect("u.location", "l")
+    .where('u.username = :uname', { uname: req.query})
+    .andWhere('(p.photoOpis is null or p.photoOpis like :type)', { type: `%${PhotoTypes.PROFILE}%` })
+    .getOne();
+    if(user) {
+      res.status(HttpStatus.OK).send(user);
+    } else {
+      res.status(HttpStatus.EXPECTATION_FAILED).send();
+    }
+  }
+
   @Post('/register')
   async registerUserStepOne(@Request() req, /*@Res() res: Response*/) {
     let user = new User();
@@ -86,6 +110,8 @@ export class UserController {
       } else {
         res.status(HttpStatus.OK).send();
       }
+    }).catch(() => {
+      res.status(HttpStatus.SERVICE_UNAVAILABLE).send();
     });
     // res.sendStatus(200);
   }

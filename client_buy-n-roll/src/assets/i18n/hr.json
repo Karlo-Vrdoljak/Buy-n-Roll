@@ -104,6 +104,18 @@
   "ACC_CONFIRM_MSG": "Kopirajte kôd i zalijepite ga na odgovarajuće mjesto u aplikaciji.",
   "VER_CODE": "Potvrdni kôd",
   "VER_CODE_PLACEHOLDER": "Kopirajte kôd i zalijepite ga ovdje",
-  "BUYNROLL_ERR_USER_NOT_CONFIRMED_ACC": "Izgleda se da niste potvrdili račun prilikom registracije, provjerite e-poštu"
+  "BUYNROLL_ERR_USER_NOT_CONFIRMED_ACC": "Izgleda se da niste potvrdili račun prilikom registracije, provjerite e-poštu",
+  "VERIFY":"POTVRDI",
+  "EDIT":"IZMIJENI",
+  "MOJI_OGLASI": "MOJI OGLASI",
+  "USER_OGLASI": "OGLASI",
+  "FAVOURITES": "FAVORITI",
+  "PROFILE": "PROFIL",
+  "SINCE": "Datum članstva",
+  "NAVIGATION_ADDRESS": "Otvori u kartama",
+  "NO_LOCATION": "Niste odredili svoju lokaciju. Njegova je svrha olakšati pregovaranje o prodaji vašeg vozila s drugim kupcima",
+  "EMAIL_WARN_EDIT": "Oprezno s promjenom adrese e-pošte, možete izgubiti pristup računu!",
+  "SAVE": "SPREMI IZMJENE",
+  "CANCEL": "ODUSTANI"
 
 }

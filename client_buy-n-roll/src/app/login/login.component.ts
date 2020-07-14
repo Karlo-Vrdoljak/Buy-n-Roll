@@ -12,6 +12,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Subscription, fromEvent, Subject, of } from 'rxjs';
 import { debounceTime, map, distinctUntilChanged, mergeMap, delay } from 'rxjs/operators';
 import { AccConfirmComponent } from '../registration/acc-confirm/acc-confirm.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: "app-login",
@@ -49,6 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
     private config:Config,
     private helperService: HelperService,
     public loader: NgxUiLoaderService,
+    public toast:ToastrService
 
 
   ) {}
@@ -93,7 +95,9 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
           if(url.includes('registration')) {
             url = '/';
           }
-          this.router.navigateByUrl(url);
+          setTimeout(() => {
+            this.router.navigateByUrl(url);
+          }, 300);
         }
         this.loader.stopLoader('login_loader');
       });
@@ -118,12 +122,14 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
           this.error = {
             password: err.statusText
           };
+          this.toast.warning(this.translate.instant(err.statusText));
           this.userService.registerUserStepTwo({username: this.username, lang: this.translate.currentLang}).subscribe(data => {
             this.needsActivation = true;
-            this.confirmAcc.displayDlgAcc = true;
+            if(this.confirmAcc) {
+              this.confirmAcc.displayDlgAcc = true;
+            }
           }, err => {
             this.needsActivation = false;
-            this.confirmAcc.displayDlgAcc = false;
             this.error = null;
           });
           break;

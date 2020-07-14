@@ -1,14 +1,22 @@
 <p-dialog [contentStyle]="{'overflow': 'hidden'}" [header]="'ACC_CONFRIM' | translate" closeOnEscape="false" dismissableMask="false" [(visible)]="displayDlgAcc" [closable]="false" position="center" [modal]="true" [baseZIndex]="10001" [draggable]="false" [resizable]="false">
   <div class="flex relative">
     <div class="flex flex-col justify-center my-4">
-      <div class="font-mw font-medium text-base text-gray-600 pt-4 pb-2 px-2">
-        {{ 'ACC_CONFIRM_MSG' | translate }}
-      </div>
-      <div class="font-mw font-medium text-lg text-gray-600">
+      <div class="font-mw font-medium text-lg text-gray-600" (keyup.enter)="checkCode()">
         <mat-form-field style="flex-basis: 90%; width: 20em;" class="px-2">
           <mat-label class="font-oswald">{{ 'VER_CODE' | translate }}</mat-label>
-          <input required #codeInput="ngModel" (keyup)="keyUpCode.next($event)" matInput type="text" [(ngModel)]="code" placeholder="{{ 'VER_CODE_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
+          <input required #codeInput="ngModel" matInput type="text" [(ngModel)]="code" placeholder="{{ 'VER_CODE_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
         </mat-form-field>
+        <div class="sm:mt-0 w-full">
+          <a (click)="checkCode()" mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100">
+            <div class="flex items-center align-middle">
+              <span class="fa-stack" style="flex-basis: 15%;">
+                <i class="fas fa-user pl-2 fa-stack-2x buynroll_deepGray"></i>
+                <i class="fas fa-key fa-stack-1x pl-6 text-lg text-indigo-300"></i>
+              </span>
+              <div style="flex-basis: 85%;">{{ 'VERIFY' | translate }}</div>
+            </div>
+          </a>
+        </div>
       </div>
       <div>
         <ng-container [ngTemplateOutlet]="errorsConfirm" [ngTemplateOutletContext]="{title: ('VER_CODE' | translate | titlecase), error: codeInput }"></ng-container>

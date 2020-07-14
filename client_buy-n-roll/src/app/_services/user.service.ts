@@ -5,6 +5,8 @@ import { retry, catchError } from 'rxjs/operators';
 import { ErrorHandler } from './errorHandler';
 import { LocalStorageService } from 'angular-web-storage';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { of } from 'rxjs';
+import { HelperService } from './helper.service';
 
 
 @Injectable({
@@ -17,6 +19,7 @@ export class UserService {
     public config:Config,
     public errorHandler:ErrorHandler,
     private storage:LocalStorageService,
+    private helperService: HelperService
 
   ) { }
 
@@ -42,6 +45,7 @@ export class UserService {
         this.checkJWT({jwt: auth.access_token}).subscribe(data => {
           this.config.user = data;
           this.config.isLoggedIn = true;
+          this.helperService.dispatchUserLogin();
           resolve(true);
         }, err => {
           this.config.user = null;
@@ -88,6 +92,21 @@ export class UserService {
   }
   checkCodeByUsername(params) {
     return this.http.post(this.config.API_URL_ROOT + 'user/check/code/', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
+  getUserPhoto(username) {
+    if(!username) {
+      return of(null);
+    }
+    return this.http.get(this.config.API_URL_ROOT + 'user/getPhoto/' + username ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
+  findUserByUsername(username) {
+    return this.http.get(this.config.API_URL_ROOT + 'user/data/' + username ).pipe(
       retry(this.config.retryCount),
       catchError(this.errorHandler.handleError)
     );

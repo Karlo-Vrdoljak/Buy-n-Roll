@@ -1,0 +1,70 @@
+@import "../../assets/scss/light_material_override.scss";
+
+.banner {
+  width: 100vw;
+  margin-top: 90px;
+  background-image: url("../../assets/images/catalogue/banner2.jpg");
+  background-size: cover;
+  background-position: bottom;
+  height: 20vh;
+  position: relative;
+}
+.profile_pic {
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+@media (max-width:639px) {
+  .profile_pic {
+    width: 4rem;
+    height: 4rem;
+  }
+  .dynamicDirection {
+    &.dir-1 {
+      order: 1;
+    }
+    &.dir-2 {
+      order: 2;
+    }
+  }
+}
+@media (max-width:1023px) {
+  .hideSm {
+    display: none;
+  }
+  .navIcon {
+    padding-right: 0;
+  }
+}
+.noAccessories {
+  margin-top: 75px;
+}
+:host ::ng-deep .showtheway-app-image {
+  filter: hue-rotate(250deg) brightness(1.5) !important
+}
+.descItem {
+  flex-basis: 50%;
+}
+.descItem-edit {
+  flex-basis: 100%;
+}
+@media (min-width: 640px) {
+  .descItem-edit {
+    flex-basis: 50%;
+  }
+}
+
+@media(min-width: 1280px) {
+  .descItem {
+    flex-basis: 33%;
+  }
+  
+}
+@media(min-width: 1440px) {
+  .descItem {
+    flex-basis: 25%;
+  } 
+  .descItem-edit {
+    flex-basis: 33%;
+  } 
+}

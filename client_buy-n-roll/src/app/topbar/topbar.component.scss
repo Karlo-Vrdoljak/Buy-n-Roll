@@ -59,7 +59,7 @@
   //   background-position: 0em;
   // min-width: 4.5em;
   margin: 0.5em;
-  flex-basis: 15%;
+  // flex-basis: 15%;
 }
 .last {
   text-align: left;
@@ -71,7 +71,7 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position-x: right;
-  margin: 0 1.5em;
+  margin: 0 0.5em;
   cursor: pointer;
   user-select: none;
   transition: 0.25s all ease-in-out;
@@ -99,43 +99,19 @@
 .us0 {
   user-select: none;
 }
-// :host ::ng-deep .ui-button-primary {
-//   background-color: $yellow;
-//   border: 1px solid $yellow;
-// }
-// :host ::ng-deep .ui-button.ui-state-default.ui-button-info {
-//   background-color: $deepGray;
-//   border: 1px solid $deepGray;
-// }
-// :host ::ng-deep .ui-button-primary:enabled:hover {
-//   background-color: $lightYellow;
-//   border: 1px solid $lightYellow;
-// }
-// :host ::ng-deep .ui-button-primary:enabled:active {
-//   background-color: $darkYellow;
-//   border: 1px solid $darkYellow;
-// }
-// :host ::ng-deep .ui-button.ui-state-default.ui-button-info:enabled:hover {
-//   background-color: $deepGray;
-//   border: 1px solid $deepGray;
-// }
-// :host ::ng-deep .ui-button.ui-state-default.ui-button-info:enabled:active {
-//   background-color: $deepGray;
-//   border: 1px solid $deepGray;
-// }
-// :host ::ng-deep .ui-button:enabled:focus {
-//   outline: 0 none;
-//   outline-offset: 0px;
-//   box-shadow: 0 0 0 0.15em lighten($color: $yellow, $amount: 20%);
-// }
-// :host ::ng-deep .ui-button.ui-state-default.ui-button-secondary:enabled:focus {
-//   outline: 0 none;
-//   outline-offset: 0px;
-//   box-shadow: 0 0 0 0.15em #8dcdff;
-// }
-
 .hideSmall {
   display: block;
+}
+.navItemsImg {
+  width: 50px;
+  height: 50px;
+}
+
+.profile_pic {
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+
 }
 
 @media only screen and (max-width: 700px) {

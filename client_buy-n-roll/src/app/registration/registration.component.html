@@ -118,8 +118,8 @@
             <input #phoneInput="ngModel" required matInput type="text" minlength="14" maxlength="14" [imask]="{mask: '(000)000-00-00', lazy:true, overwrite: true, autofix: true}" [(ngModel)]="userModel.phone" class="overflow-hidden font-oswald">
           </mat-form-field>
         </div>
+        
         <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('PHONE' | translate | titlecase), error: phoneInput, useMinlength: true, minlength: 14 }"></ng-container>
-
         <!-- <p *ngIf="phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)" class="font-mw text-red-500 text-xs absolute" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>{{ phone.errors.required }}</p> -->
       </div>
     </div>
@@ -131,8 +131,8 @@
             <input #emailInput="ngModel" required matInput email pKeyFilter="email" [(ngModel)]="userModel.email" placeholder="{{ 'EMAIL_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
           </mat-form-field>
         </div>
-        <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('EMAIL' | translate | titlecase), error: emailInput, useEmail: true }"></ng-container>
       </div>
+      <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('EMAIL' | translate | titlecase), error: emailInput, useEmail: true }"></ng-container>
     </div>
     <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 step-wrap">
       <div class="relative">
@@ -162,8 +162,8 @@
             <input required #usernameInput="ngModel" (keyup)="keyUpUsername.next($event)" minlength="4" matInput type="text" [(ngModel)]="userModel.username" placeholder="{{ 'USERNAME_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald">
           </mat-form-field>
         </div>
+        
         <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('USERNAME' | translate | titlecase), error: usernameInput, minlength: 4, useMinlength: true }"></ng-container>
-
       </div>
       <div class="mb-4 relative">
         <div class="flex">
@@ -175,8 +175,8 @@
             <input #passInput="ngModel" minlength="8" required matInput type="password" (keyup)="checkIfEqual()" [(ngModel)]="userModel.password" placeholder="{{ 'PASSWORD_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
           </mat-form-field>
         </div>
-        <!-- <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('PASSWORD' | translate | titlecase), error: passInput, minlength: 8, useMinlength: true }"></ng-container> -->
       </div>
+      <!-- <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('PASSWORD' | translate | titlecase), error: passInput, minlength: 8, useMinlength: true }"></ng-container> -->
       <div class="mb-4 relative">
         <div class="flex">
           <div class="flex flex-col justify-center items-center">
@@ -187,8 +187,8 @@
             <input #passCheckInput="ngModel" minlength="8" required matInput type="password" (keyup)="checkIfEqual()" [(ngModel)]="userModel.passwordCheck" placeholder="{{ 'PASSWORD_PLACEHOLDER_CONFIRM' | translate }}" class="overflow-hidden font-oswald">
           </mat-form-field>
         </div>
-        <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('PASSWORD' | translate | titlecase), error: passCheckInput, useEqual: true, minlength: 8, useMinlength: true }"></ng-container>
       </div>
+      <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('PASSWORD' | translate | titlecase), error: passCheckInput, useEqual: true, minlength: 8, useMinlength: true }"></ng-container>
       <div *ngIf="checkSubmitReady()" class="flex items-center justify-between flex-row flex-wrap" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
         <button *ngIf="progressVal == null" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] mat-raised-button color="accent" class="w-full lg:w-1/2 transition-colors duration-150 ease-in" (click)="registerUser()">
           <div class="flex items-center align-middle justify-center">

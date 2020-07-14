@@ -30,3 +30,8 @@ export enum PhotoDescriptions {
   USER = 'User\'s profile photo',
   OGLAS = 'Ad image'
 }
+
+export enum PhotoTypes {
+  PROFILE = 'profile',
+  OGLAS = 'advertisement'
+}

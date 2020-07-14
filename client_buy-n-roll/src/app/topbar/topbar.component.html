@@ -1,7 +1,7 @@
 <p-toolbar>
 	<div *ngIf="!forbiddenIP" id="topbar" class="us0" style="z-index: 1000;" [ngClass]="{'topbar': !landing, 'topbar-landing': landing}">
 		<div class="flex" [ngClass]="{'larger': landing}">
-			<div class="flex-1 main-logo">
+			<div class="flex-1">
 				<!-- <button style="width: 3em;" [ngClass]="{'larger': landing}" (click)="openSidebar()" type="button" class="ui-button-warning" pButton icon="pi pi-bars"></button> -->
 				<i class="fas fa-bars menu-bars" [ngClass]="{'larger': landing, 'fa-2x': landing, 'menu-bars-large': landing}" (click)="openSidebar()"></i>
 			</div>
@@ -11,9 +11,12 @@
 			<div class="flex-1 flex-center hideSmall">
 				<button style="width: 7em;" type="button" class="ui-button-raised ui-button-secondary ui-button-rounded" pButton icon="fas fa-user" label="app"></button>
 			</div> -->
-			<div class="flex-1 flex-center hideSmall"></div>
-			<div class="flex-1 flex-center hideSmall"></div>
-			<div class="flex-1 flex-center hideSmall"></div>
+			<!-- [style]="'background-image: url(' + config.STATIC_FILES + config.user.username + '/' + profilePhoto.filename + ')'" -->
+			<div class="flex flex-1 content-center justify-center items-center w-full h-full">
+				<div (click)="navigateProfile()" *ngIf="profilePhoto && config.user" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] class="profile_pic cursor-pointer border-b border-gray-300 shadow-md" [ngClass]="{'w-12 h-12': landing, 'w-8 h-8': !landing }" [ngStyle]="{'background-image': 'url(' + (profilePhoto.filename? config.STATIC_FILES + config.user.username + '/' + profilePhoto.filename : profilePhoto.path) + ')' }"></div>
+			</div>
+			<div class="flex-1 flex-center"></div>
+			<div class="flex-1 flex-center"></div>
 			<div class="flex-1 flex-center hideSmall"></div>
 			<!-- <div class="flex-1 flex-center hideSmall">
 				<mat-form-field>
@@ -32,9 +35,9 @@
 			</div>
 			<div class="flex-1 flex-center hideSmall ">
 			</div>
-			<div class="flex-1 oswald last logo app-logo flex-center">
+			<a [routerLink]="[ '/' ]" class="flex-1 oswald last logo app-logo flex-center">
 				Buy'n'Roll
-			</div>
+			</a>
 		</div>
 	</div>
 </p-toolbar>
@@ -42,7 +45,7 @@
 <p-sidebar [(visible)]="displaySidebar">
 	<div class="sidebar">
 		<div class="p-grid p-dir-col">
-			<div class="sb-top-left logo app-logo"></div>
+			<a [routerLink]="[ '/' ]"  class="sb-top-left logo app-logo"></a>
 			<div class="oswald-top-left">Buy'n'Roll</div>
 			<div class="p-col" style="position: relative;">
 				<p-accordion [activeIndex]="index" (onOpen)="onTabOpen($event)" (onClose)="onTabClose($event)" expandIcon="fas fa-caret-right" collapseIcon="fas fa-caret-down">
@@ -119,7 +122,7 @@
 					</div>
 				</a>
 				<div *ngIf="config.user" class="font-oswald my-1 text-lg">
-					{{ 'LOGGED_AS' | translate }} <span class="font-bold" >{{ config.user.username }}</span>
+					{{ 'LOGGED_AS' | translate }} <span class="font-bold">{{ config.user.username }}</span>
 				</div>
 				<a *ngIf="config.isLoggedIn" (click)="logOff()" style="text-decoration: none;" mat-button color="accent">
 					<div>

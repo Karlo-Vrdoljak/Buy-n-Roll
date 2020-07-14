@@ -1,4 +1,4 @@
-import { SellerType } from './oglas.interface';
+import { SellerType, Photo } from './oglas.interface';
 
 export interface User {
   userId: number;
@@ -14,7 +14,8 @@ export interface User {
   phone: string;
   email: string;
   sellerType:SellerType;
-
+  photo?:Photo;
+  location:any;
 }
 
 export class Role {

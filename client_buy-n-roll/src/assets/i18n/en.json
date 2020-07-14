@@ -104,6 +104,18 @@
   "ACC_CONFIRM_MSG": "Copy the code and paste it in the appropriate place in the application.",
   "VER_CODE": "Verification code",
   "VER_CODE_PLACEHOLDER": "Copy the code and paste it here",
-  "BUYNROLL_ERR_USER_NOT_CONFIRMED_ACC": "Looks like you did not verify your account upon registration, please check you email"
+  "BUYNROLL_ERR_USER_NOT_CONFIRMED_ACC": "Looks like you did not verify your account upon registration, please check you email",
+  "VERIFY":"VERIFY",
+  "EDIT":"EDIT",
+  "MOJI_OGLASI": "MY ADS",
+  "USER_OGLASI": "ADS",
+  "FAVOURITES": "FAVOURITES",
+  "PROFILE": "PROFILE",
+  "SINCE": "Membership date",
+  "NAVIGATION_ADDRESS": "Open in maps",
+  "NO_LOCATION": "You did not specify your location. The purpose of it is to make it easier to negotiate the sale of your vehicle with other customers.",
+  "EMAIL_WARN_EDIT": "Careful with changing your email, you could lose access to your account!",
+  "SAVE": "SAVE CHANGES",
+  "CANCEL": "CANCEL"
 
 }

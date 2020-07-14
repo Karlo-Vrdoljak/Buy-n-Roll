@@ -23,10 +23,18 @@ export interface Oglas {
 
 export class Photo {
   PkPhoto: number;
-  photoTitle: string; // 'Astra f gsi prvi vlasnik'
-  photoOpis: string; // 'free text opis'
-  photoCreatedAt: Date;
-  oglas: Oglas;
+  photoTitle: string; 
+  photoOpis: string; 
+  photoCreatedAt: string;
+  fieldname: string;
+  originalname: string
+  encoding: string;
+  mimetype: string;
+  destination: string
+  filename: string;
+  path: string;
+  size: number;
+  oglasPkOglas?: number;
 }
 export enum SellerType {
   PRIVATNA_OSOBA = 'PRIVATNA_OSOBA',

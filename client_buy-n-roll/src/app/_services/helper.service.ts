@@ -4,12 +4,21 @@ import { Config } from "src/environments/config";
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { ProtectedRoutes } from '../_types/misc';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Injectable({
   providedIn: "root",
 })
 export class HelperService {
+
+  loginSource = new BehaviorSubject(null);
+  currentLogin = this.loginSource.asObservable();
+  
   constructor(public http: HttpClient, public config: Config,public translate: TranslateService, private router:Router) {}
+
+  dispatchUserLogin() {
+    this.loginSource.next(null);
+  }
 
   shuffle(a) {
     var j, x, i;
@@ -70,8 +79,14 @@ export class HelperService {
     }
     return str.slice(0, num) + '...';
   }
-  date(date: string) {
-    let dateObj = new Date(date);
+  date(date: any) {
+    
+    let dateObj = null;
+    if(typeof date == "string") {
+      dateObj = new Date(date);
+    } else if (typeof date == "object"){
+      dateObj = date;
+    }
     if(this.translate.currentLang == 'en') {
       return ('00' + dateObj.getDate()).slice(-2) + '/' + ('00' + (dateObj.getMonth() + 1)).slice(-2) + '/' + dateObj.getFullYear();
     } else {
@@ -103,5 +118,21 @@ export class HelperService {
         d = c < 0 ? c : Math.abs(c), // enforce -0 is 0
         e = d + ['', 'K', 'M', 'B', 'T'][k]; // append power
     return e;
+  }
+  objectEquals( x:any, y:any ) :boolean {
+    if ( x === y ) return true;
+    if ( ! ( x instanceof Object ) || ! ( y instanceof Object ) ) return false;
+    if ( x.constructor !== y.constructor ) return false;
+    for ( var p in x ) {
+      if ( ! x.hasOwnProperty( p ) ) continue;
+      if ( ! y.hasOwnProperty( p ) ) return false;
+      if ( x[ p ] === y[ p ] ) continue;
+      if ( typeof( x[ p ] ) !== "object" ) return false;
+      if ( ! this.objectEquals( x[ p ],  y[ p ] ) ) return false;
+    }
+    for ( p in y )
+      if ( y.hasOwnProperty( p ) && ! x.hasOwnProperty( p ) )
+        return false;
+    return true;
   }
 }

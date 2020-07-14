@@ -169,7 +169,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.userModel.username ?? null,
       this.userModel.passwordCheck ?? null,
       this.userModel.password ?? null,
-      this.userModel.username ?? null,
       this.userModel.username?.length >= 4 ? true: null,
       this.userModel.password == this.userModel.passwordCheck? true : null,
       this.phoneInput?.control.status == 'VALID' ? true : null,
@@ -223,7 +222,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   checkUsername() {
-    if(this.userModel.username.length > 3) {
+    if(this.userModel.username && this.userModel.username.length > 3) {
       this.userService.checkUniqueUsername({username: this.userModel.username}).subscribe(result => {
         this.usernameInput.control.setErrors(null);
         this.loader.stopBackgroundLoader('registration_loader');
@@ -254,9 +253,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     });
   }
   updateSelectedLocation($event) {
+    if(this.locationProp.displayDlgLocations == true) {
+      this.location.selectedLocation = $event;
+      this.location.search = this.location.selectedLocation.display_name;
+    }
     this.locationProp.displayDlgLocations = false;
-    this.location.selectedLocation = $event;
-    this.location.search = this.location.selectedLocation.display_name;
     
   }
   logger(data) {
@@ -294,7 +295,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     console.log(params);
     this.userService.registerUserStepOne(params).subscribe(async resOne => {
       this.progressVal = 50;
-      await this.uploadImageToApi();
+      if(this.payload && this.FileUploader.files?.length > 0) {
+        await this.uploadImageToApi();
+      }
       this.userService.registerUserStepTwo({username:this.userModel.username, lang:this.translate.currentLang}).subscribe(resTwo => {
         this.progressVal = 100;
         this.registrationSuccess = true;

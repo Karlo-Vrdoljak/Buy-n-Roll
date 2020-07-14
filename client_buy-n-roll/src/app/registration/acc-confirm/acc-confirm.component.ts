@@ -36,24 +36,18 @@ export class AccConfirmComponent implements OnInit, OnDestroy {
     private userService:UserService
   ) { }
   ngOnDestroy(): void {
-    this.keyUpCodeSub.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.setupDebounceKeys();
   }
 
-  setupDebounceKeys() {
-    this.keyUpCodeSub = this.keyUpCode.pipe(
-      map(event => event),
-      debounceTime(400),
-    ).subscribe(res => {
-      this.loader.startLoader('acc_confirm_loader');
-      this.checkCode();
-    });
-  }
-
+  
   checkCode() {
+    this.loader.startLoader('acc_confirm_loader');
+    if([undefined,null,''].includes(this.code)){
+      this.loader.stopLoader('acc_confirm_loader');
+      return;
+    }
     if(this.username == null) {
       this.userService.checkToken().then(result => {
         if(result == false) {
@@ -72,10 +66,12 @@ export class AccConfirmComponent implements OnInit, OnDestroy {
     this.userService.checkCodeByUsername({username: username, code: this.code}).subscribe(data => {
       this.displayDlgAcc = false;
       this.loader.stopLoader('acc_confirm_loader');
+      this.code = null;
       this.onConfirm.emit(true);
     }, err => {
       this.displayDlgAcc = false;
       this.loader.stopLoader('acc_confirm_loader');
+      this.code = null;
       this.onConfirm.emit(false);
     });
   }

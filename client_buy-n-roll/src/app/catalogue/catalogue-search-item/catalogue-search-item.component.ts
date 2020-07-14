@@ -29,6 +29,8 @@ export class CatalogueSearchItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log(this.searchItem);
+    
     this.countUpOptions = {
       decimalPlaces: 2,
       suffix: ` ${this.searchItem.currencyName}`
