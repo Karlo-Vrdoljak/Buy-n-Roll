@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Request, Res, HttpService, Get, HttpStatus, UseInterceptors, UploadedFile, Param } from '@nestjs/common';
+import { Controller, UseGuards, Post, Request, Res, HttpService, Get, HttpStatus, UseInterceptors, UploadedFile, Param, Put } from '@nestjs/common';
 import { Response } from 'express';
 import { Config } from 'src/config';
 import { User } from 'src/entity/user.entity';
@@ -51,13 +51,7 @@ export class UserController {
   }
   @Get('/data/:query')
   async findUserByUsername(@Param() req, @Res() res: Response) {
-    let user = await this.userService.getUserRepo().createQueryBuilder('u')
-    .leftJoinAndSelect("u.roles","r", "r.user")
-    .leftJoinAndSelect("u.photo", "p")
-    .leftJoinAndSelect("u.location", "l")
-    .where('u.username = :uname', { uname: req.query})
-    .andWhere('(p.photoOpis is null or p.photoOpis like :type)', { type: `%${PhotoTypes.PROFILE}%` })
-    .getOne();
+    let user = await this.userService.findUserByUsernameFollowRelations(req.query);
     if(user) {
       res.status(HttpStatus.OK).send(user);
     } else {
@@ -78,21 +72,7 @@ export class UserController {
     let roles = [role_user];
     user.roles = roles;
     if(req.body.place_id) {
-      let location = new Location();
-      location.place_id = req.body.place_id;
-      location.boundingbox = req.body.boundingbox;
-      location.class = req.body.class;
-      location.display_name = req.body.display_name;
-      location.lat = req.body.lat;
-      location.lon = req.body.lon;
-      location.type = req.body.type;
-      let dbLocation = await this.locationService.getRepo().createQueryBuilder('l').where("l.place_id = :place_id", { place_id: req.body.place_id }).getOne();
-      if(!dbLocation) {
-        await this.locationService.getRepo().save(location);
-        user.location = location;
-      } else {
-        user.location = dbLocation;
-      }
+      user.location = await this.userService.handleSaveLocation(req.body, user);
     }
     user.password = await this.userService.getHash(req.body.password);
     user.phone = req.body.phone
@@ -178,16 +158,50 @@ export class UserController {
     photo.photoTitle = (req.originalname as string).split('.')[1];
     photo.size = req.size;
     
-    let user = await this.userService.findOne((req.destination as string).split("\\").pop());
+    let user = await this.userService.findUserByUsernameFollowRelations((req.destination as string).split("\\").pop());
     if(user) {
       await this.photoService.getRepo().save(photo);
+      let photoForRemoval = null;
+      if(user.photo) {
+        photoForRemoval = user.photo;
+      }
       user.photo = photo;
       await this.userService.getUserRepo().save(user);
+      if(photoForRemoval) {
+        await this.photoService.getRepo().remove(photoForRemoval);
+      }
       res.status(HttpStatus.CREATED).send();
     } else {
       res.status(HttpStatus.FAILED_DEPENDENCY).send();
     }
   }
+
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles('user')
+  @Put('/save/edit')
+  async saveUserProfileData(@Request() req, @Res() res: Response) {
+    let user = await this.userService.findUserByUsernameFollowRelations(req.body.username);
+    user.firstName = req.body.firstName;
+    user.lastName = req.body.lastName;
+    user.email = req.body.email;
+    user.sellerType = req.body.sellerType;
+    user.phone = req.body.phone;
+    let pkLocation = null;
+    if(req.body.place_id != user.location.place_id) {
+      pkLocation = user.location.PkLocation;
+      user.location = await this.userService.handleSaveLocation(req.body.location, user);
+    }
+    await this.userService.getUserRepo().save(user).catch(err => {
+      console.error(err);
+      res.status(HttpStatus.NOT_ACCEPTABLE).send();
+    });
+    if (pkLocation != null) {
+      await this.userService.deleteOldLocation(pkLocation);
+    }
+    res.status(HttpStatus.OK).send();
+    
+  }
+
 
   public async sendMailToNewUser(user:User,lang:string = 'en'): Promise<void> {
     let msg = {} as any;

@@ -83,6 +83,7 @@ import { AccConfirmComponent } from './registration/acc-confirm/acc-confirm.comp
 import { ProfileComponent } from './profile/profile.component';
 import { BaseClass } from './_services/base.class';
 import { ProfileResolver } from './_resolvers/profile.resolver';
+import { ImageChangerComponent } from './props/image-changer/image-changer.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -119,6 +120,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     PolicyComponent,
     AccConfirmComponent,
     ProfileComponent,
+    ImageChangerComponent,
   ],
   imports: [
     BrowserModule,

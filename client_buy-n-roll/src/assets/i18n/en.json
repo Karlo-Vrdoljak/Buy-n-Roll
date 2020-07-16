@@ -116,6 +116,10 @@
   "NO_LOCATION": "You did not specify your location. The purpose of it is to make it easier to negotiate the sale of your vehicle with other customers.",
   "EMAIL_WARN_EDIT": "Careful with changing your email, you could lose access to your account!",
   "SAVE": "SAVE CHANGES",
-  "CANCEL": "CANCEL"
+  "CANCEL": "CANCEL",
+  "IMAGE_UPLOAD": "Image Upload",
+  "SAVE_IMG": "SAVE PHOTO",
+  "CLOSE": "CLOSE",
+  "PHOTO_SAVED": "Photo saved successfully!"
 
 }

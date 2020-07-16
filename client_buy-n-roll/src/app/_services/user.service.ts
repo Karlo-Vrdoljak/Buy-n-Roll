@@ -111,4 +111,10 @@ export class UserService {
       catchError(this.errorHandler.handleError)
     );
   }
+  saveUserProfileEdit(params) {
+    return this.http.put(this.config.API_URL_ROOT + 'user/save/edit/', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
 }

@@ -29,12 +29,12 @@ export class ErrorHandler {
       );
     }
     if (error.status == 429) {
-      console.log("alo 429");
-
       if (!window.location.href.includes("denied")) {
-        console.log("alo 429!!", window.location.href);
         window.location.replace(window.location.href.split('/#/')[0] + '/#/denied');
       }
+    }
+    if (error.status == 401) {
+      window.location.replace(window.location.href.split('/#/')[0] + '/#/');
     }
     // return an observable with a user-facing error message
     // throw of('Something bad happened; please try again later.');

@@ -23,9 +23,11 @@ import { DrivetrainService } from 'src/vehicle/drivetrain/drivetrain.service';
 import { GasTypeService } from 'src/vehicle/gasType/gasType.service';
 import { TransmissionService } from 'src/vehicle/transmission/transmission.service';
 import { BodyService } from 'src/vehicle/body/body.service';
-import { VehicleState } from 'src/types/enums';
+import { VehicleState, PhotoTypes } from 'src/types/enums';
 import { Photo } from 'src/entity/photo.entity';
 import { RolesService } from 'src/roles/roles.service';
+import { Location } from 'src/entity/location.entity';
+import { LocationService } from './location/location.service';
 
 @Injectable()
 export class UsersService implements OnModuleInit{
@@ -50,6 +52,7 @@ export class UsersService implements OnModuleInit{
     public drivetrainService: DrivetrainService,
     public gasTypeService: GasTypeService,
     public transmissionService: TransmissionService,
+    public locationService: LocationService,
     public bodyService: BodyService,
     public roleService: RolesService,
     private dbLogs: DbLogs
@@ -269,4 +272,31 @@ export class UsersService implements OnModuleInit{
     return bcrypt.compare(password, hash);
   }
   getUserRepo() { return this.usersRepository; }
+
+  findUserByUsernameFollowRelations(username: string) {
+    return this.usersRepository.createQueryBuilder('u')
+    .leftJoinAndSelect("u.roles","r", "r.user")
+    .leftJoinAndSelect("u.photo", "p")
+    .leftJoinAndSelect("u.location", "l")
+    .where('u.username = :uname', { uname: username })
+    .andWhere('(p.photoOpis is null or p.photoOpis like :type)', { type: `%${PhotoTypes.PROFILE}%` })
+    .getOne();
+  }
+  async handleSaveLocation(locationData:Location, user:any) {
+    if(locationData.place_id) {
+      let location = new Location();
+      location.place_id = locationData.place_id;
+      location.boundingbox = locationData.boundingbox;
+      location.class = locationData.class;
+      location.display_name = locationData.display_name;
+      location.lat = locationData.lat;
+      location.lon = locationData.lon;
+      location.type = locationData.type;
+      await this.locationService.getRepo().save(location);
+      return location;
+    }
+  }
+  async deleteOldLocation(PkLocation) {
+    return this.locationService.getRepo().remove(await this.locationService.getRepo().createQueryBuilder('l').where('PkLocation = :pk', { pk: PkLocation }).getOne()); 
+  }
 }

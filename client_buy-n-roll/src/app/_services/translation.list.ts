@@ -11,7 +11,7 @@ export class TranslationList {
   constructor() {
     this.catalogue = ["VEHICLE_SEARCH"];
     this.landing = ["FORM_ERROR_TWOCHAR","SIGNEDOUT_OK"];
-    this.registration = ["PRIVATNA_OSOBA", "PODUZECE"];
+    this.registration = ["PRIVATNA_OSOBA", "PODUZECE", "PHOTO_SAVED"];
   }
 
   getCatalogues() {

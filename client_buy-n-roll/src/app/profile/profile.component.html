@@ -2,15 +2,15 @@
 <div *ngIf="displayAccessories" class="banner mb-4 relative">
 </div>
 
-<div class="p-grid p-nogutter" [ngClass]="{'noAccessories': displayAccessories == false}">
+<div class="p-grid p-nogutter relative" [ngClass]="{'noAccessories': displayAccessories == false}">
   <div class="p-col">
     <div class="flex justify-center items-center relative" [ngsReveal]="{reset: true, origin: 'right'  }">
       <ng-container [ngTemplateOutlet]="readOnly"></ng-container>
       <ng-container [ngTemplateOutlet]="edit"></ng-container>
-      <ngx-ui-loader [loaderId]="'profile_loader'"></ngx-ui-loader>
     </div>
   </div>
 </div>
+<ngx-ui-loader [loaderId]="'profile_loader'"></ngx-ui-loader>
 
 <ng-template #edit>
   <div class="max-w-full w-full xl:mx-8 xxl:mx-16 mx-2 rounded  border border-gray-300  overflow-hidden shadow-md relative z-0" *ngIf="editMode == true">
@@ -192,7 +192,7 @@
         <a *ngIf="editMode == true" mat-raised-button color="accent" (click)="toggleEditMode()" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full" [title]="('CANCEL' | translate) | lowercase | titlecase">
           <div class="flex items-center align-middle">
             <div class="flex items-center align-middle  mx-auto justify-center"><i class="fas fa-user-times navIcon pr-2 text-gray-700 text-base leading-8"></i></div>
-            <div class="hideSm" style="flex-basis: 85%;">{{ 'CANCEL' | translate }}</div>
+            <div class="hideSm" style="flex-basis: 85%;">{{ 'CLOSE' | translate }}</div>
           </div>
         </a>
 
@@ -232,12 +232,7 @@
 </ng-template>
 
 
-<ng-template #picture>
-  <span *ngIf="profileData.photo" class="absolute top-0 mt-4 right-0" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
-    <div class="sm:w-32 sm:h-32 rounded-full mr-4 select-none profile_pic  shadow-md border-b-2 border-gray-500" [style.background-image]="getPhotoUrlCss()"></div>
-  </span>
-  <div *ngIf="profileData.photo && config.user && (config.user.username == profileData.username)" [ngsReveal]="{reset: true, origin: 'right', delay: 300 }" class="fas fa-pen text-base text-gray-700 absolute top-0 right-0 m-2 cursor-pointer"></div>
-</ng-template>
+
 
 <ng-template #errors let-title='title' let-error='error' let-useEmail='useEmail' let-useEqual='useEqual' let-useMinlength='useMinlength' let-minLength='minLength' let-useMaxlength='useMaxlength' let-maxLength='maxLength'>
   <div *ngIf="error.invalid && (error.dirty || error.touched)" class="font-mw text-gray-600 text-xs absolute bottom-0" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
@@ -257,4 +252,13 @@
       {{ title }}{{ 'USERNAME_UNIQUE' | translate }}
     </div>
   </div>
+</ng-template>
+
+<app-image-changer *ngIf="editModeImg == true" [single]="true" [opened]="true" (onImageUpload)="uploadImageToApi($event)"></app-image-changer>
+
+<ng-template #picture>
+  <span *ngIf="profileData.photo" class="absolute top-0 mt-4 right-0" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
+    <div class="sm:w-32 sm:h-32 rounded-full mr-4 select-none profile_pic  shadow-md border-b-2 border-gray-500" [style.background-image]="getPhotoUrlCss()"></div>
+  </span>
+  <div *ngIf="profileData.photo && config.user && (config.user.username == profileData.username) && editMode" (click)="toggleImageEdit()" [ngsReveal]="{reset: true, origin: 'right', delay: 300 }" class="fas fa-pen text-base text-gray-700 absolute top-0 right-0 m-2 cursor-pointer"></div>
 </ng-template>

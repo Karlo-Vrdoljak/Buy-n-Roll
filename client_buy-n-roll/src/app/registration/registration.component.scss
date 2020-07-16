@@ -21,24 +21,6 @@
 :host ::ng-deep .ui-dialog .ui-dialog-content {
   overflow: auto;
 }
-:host ::ng-deep ngx-image-uploader {
-  // width: 200px!important;
-  // height: 100px!important;
-  button {
-    p:not(:first-child) {
-      display: none;
-    }
-  }
-  .image-container {
-    border-radius: 50%;
-    .add-image-btn {
-      transition: all 0.3s ease;
-    }
-    .add-image-btn:hover {
-      border-radius: 50%;
-    }
-  }
-}
 
 .uploaded-image {
   width: 100px;

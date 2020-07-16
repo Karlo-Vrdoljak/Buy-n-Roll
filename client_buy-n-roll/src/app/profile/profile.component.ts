@@ -18,6 +18,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UserService } from '../_services/user.service';
 import { LocationPropComponent } from '../props/location-prop/location-prop.component';
 import { NgModel } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -32,8 +33,8 @@ import { NgModel } from '@angular/forms';
 })
 export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
 
-  routerSubscription$: Subscription;
-  translateSubscription$:Subscription;
+  routerSubscription$: Subscription = null;
+  translateSubscription$:Subscription = null;
 
   breadcrumbs: MenuItem[];
   returnUrl:string;
@@ -42,6 +43,7 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
   userModel:User;
 
   editMode:boolean = false;
+  editModeImg: boolean = false;
 
   keyUp = new Subject<KeyboardEvent>();
   keyUpSub:Subscription;
@@ -69,7 +71,8 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
     private translate:TranslateService,
     public revealService:NgsRevealService,
     private loader: NgxUiLoaderService,
-    private userService:UserService
+    private userService:UserService,
+    private toast:ToastrService
   ) { 
     super(config, helperService);
   }
@@ -119,6 +122,10 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
   private setupUserData() {
     this.handleOptionalPhoto();
     this.handleOptionalLocation();
+    console.log(this.profileData);
+    if (this.routerSubscription$ != null) {
+      return;
+    }
     this.routerSubscription$ = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.profileData = this.route.snapshot.data.pageData[0] || [];
@@ -128,6 +135,9 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
         this.translations = this.route.snapshot.data.pageData[2] || {}; 
         this.handleOptionalPhoto();
         this.handleOptionalLocation();
+        if(this.config.user.username != this.profileData.username) {
+          this.toggleEditMode();
+        }
       }
     });
   }
@@ -162,7 +172,6 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
       map(event => event.keyCode),
       debounceTime(1250),
     ).subscribe(res => {
-      this.loader.startBackgroundLoader('profile_loader');
       this.getLocation();
     });
   }
@@ -208,7 +217,7 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
   }
 
   getLocation() {
-
+    this.loader.startLoader('profile_loader');
     this.userService.getLocation({
       search: this.userModel.location.display_name,
       lang: this.translate.currentLang
@@ -216,21 +225,26 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
       this.locationProp.locationList = data;
       this.locationProp.displayDlgLocations = true;
       
-      this.loader.stopBackgroundLoader('profile_loader');
+      this.loader.stopLoader('profile_loader');
     },err => {
       this.locationProp.displayDlgLocations = false;
-      this.loader.stopBackgroundLoader('profile_loader');
+      this.loader.stopLoader('profile_loader');
     });
   }
 
   updateSelectedLocation($event) {
+    this.loader.stopLoader('profile_loader');
     if(this.locationProp.displayDlgLocations == true) {
       this.userModel.location = $event;
     }
     this.locationProp.displayDlgLocations = false;
   }
+  toggleImageEdit() {
+    this.editModeImg = this.editModeImg == true? false: true;
+  }
 
   checkSubmitReady() : boolean {
+    this.userModel.sellerType = this.selectedSellerType.value;
     return [
       this.helperService.objectEquals(this.userModel, this.profileData) == true? null : true,
       this.userModel.firstName || null,
@@ -243,10 +257,46 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
     ].every(e => e != null);
   }
 
-  saveChanges() { 
-    console.log(this.userModel);
-    console.log(this.selectedSellerType);
+  saveChanges() {
+    this.userModel.sellerType = this.selectedSellerType.value;
+    let params = {
+      ...this.userModel,
+    };
+    this.loader.startLoader('profile_loader');
+    this.userService.saveUserProfileEdit(params).subscribe(data => {
+      this.toggleEditMode();
+      this.syncUserProfile();
+    }, err => {
+      this.toggleEditMode();
+      this.loader.stopLoader('profile_loader');
+    });
     
   }
+  syncUserProfile() {
+    this.userService.findUserByUsername(this.profileData.username).subscribe((profile:any) => {
+      this.profileData = profile;
+      this.setupUserData();
+      this.loader.stopLoader('profile_loader');
+    }, err => {
+      this.loader.stopLoader('profile_loader');
+    });
+  }
 
+  uploadImageToApi(payload) {
+    if(!payload) return;
+    this.loader.startBackgroundLoader('profile_loader');
+    this.userService.checkToken().then(result => {
+      this.userService.uploadImage(payload, this.profileData.username).subscribe(data => {
+        this.loader.stopBackgroundLoader('profile_loader');
+        this.toast.success(this.translations.PHOTO_SAVED);
+        this.syncUserProfile();
+        this.helperService.dispatchUserLogin();
+      },err => {
+        this.loader.stopBackgroundLoader('profile_loader');
+      });
+    }).catch(rej => {
+      this.loader.stopBackgroundLoader('profile_loader');
+    });
+    
+  }
 }

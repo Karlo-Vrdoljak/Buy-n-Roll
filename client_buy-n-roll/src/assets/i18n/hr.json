@@ -116,6 +116,13 @@
   "NO_LOCATION": "Niste odredili svoju lokaciju. Njegova je svrha olakšati pregovaranje o prodaji vašeg vozila s drugim kupcima",
   "EMAIL_WARN_EDIT": "Oprezno s promjenom adrese e-pošte, možete izgubiti pristup računu!",
   "SAVE": "SPREMI IZMJENE",
-  "CANCEL": "ODUSTANI"
+  "CANCEL": "ODUSTANI",
+  "IMAGE_UPLOAD": "Prijenos Fotografije",
+  "SAVE_IMG": "SPREMI FOTOGRAFIJU",
+  "CLOSE": "ZATVORI",
+  "PHOTO_SAVED": "Fotografija je uspješno spremljena!"
+
+
+
 
 }

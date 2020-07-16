@@ -5,8 +5,8 @@ export class Location {
   @PrimaryGeneratedColumn()
   PkLocation: number;
 
-  @Column({ nullable: false, unique:true })
-  place_id: number;
+  @Column({ nullable: false })
+  place_id: string;
 
   @Column("simple-array", { nullable: true })
   boundingbox:string[]; // geografske jedinice 

@@ -1,0 +1,30 @@
+@import "../../../variables.scss";
+
+.image-item {
+  transition: all 0.25s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  &:hover {
+    background: $silver;
+  }
+}
+:host ::ng-deep .ui-dialog {
+  width: 90vw;
+}
+
+
+@media (min-width: 640px) {
+  :host ::ng-deep .ui-dialog {
+    width: 20rem;
+  }
+}
+:host ::ng-deep .ui-dialog .ui-dialog-content {
+  overflow: auto;
+  min-height: 20rem;
+}
+
+.uploaded-image {
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
