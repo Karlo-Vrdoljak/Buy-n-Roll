@@ -11,6 +11,7 @@ import { Config } from 'src/config';
 import { RolesModule } from 'src/roles/roles.module';
 import { LocationModule } from './location/location.module';
 import { PhotoModule } from './oglas/photo/photo.module';
+import { AppService } from 'src/app.service';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { PhotoModule } from './oglas/photo/photo.module';
     UsersService,
     DbLogs,
     Config,
+    AppService
   ],
   controllers: [UserController],
   exports: [

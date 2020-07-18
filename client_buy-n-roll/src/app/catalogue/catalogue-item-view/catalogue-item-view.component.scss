@@ -15,7 +15,11 @@
     margin-top: 50px;
   }
 }
-
+.profile_pic {
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
 .noContentWrap {
   min-height: calc(80vh - 91px);
 }
@@ -40,3 +44,4 @@
     }
   }
 }
+

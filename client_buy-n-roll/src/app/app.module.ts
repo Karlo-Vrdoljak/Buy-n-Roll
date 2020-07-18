@@ -84,6 +84,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { BaseClass } from './_services/base.class';
 import { ProfileResolver } from './_resolvers/profile.resolver';
 import { ImageChangerComponent } from './props/image-changer/image-changer.component';
+import { OglasUserComponent } from './catalogue/oglasi/oglas-user/oglas-user.component';
+import { OglasUserResolver } from './_resolvers/oglas-user.resolver';
+import { OglasEditComponent } from './catalogue/oglasi/oglas-edit/oglas-edit.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -121,6 +124,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AccConfirmComponent,
     ProfileComponent,
     ImageChangerComponent,
+    OglasUserComponent,
+    OglasEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -209,7 +214,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     CatalogueItemResolver,
     RegistrationResolver,
     BaseClass,
-    ProfileResolver
+    ProfileResolver,
+    OglasUserResolver
   ],
   bootstrap: [AppComponent],
 })

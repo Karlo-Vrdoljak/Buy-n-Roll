@@ -135,9 +135,9 @@
               <div class="text-sm">
                 <div class="font-mw text-gray-600 py-1 px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 300 }">
                   <div class="w-full text-base py-2 text-gray-700 font-semibold">{{ (('LOCATIONUSER' | translate) | lowercase) | titlecase  }}</div>
-                  <span *ngIf="profileData.location" class="text-xs sm:text-sm">{{ profileData.location.display_name }}</span>
-                  <span *ngIf="!profileData.location" class="text-xs sm:text-sm">{{ 'NO_LOCATION' | translate }}</span>
-                  <div *ngIf="profileData.location" class="showtheway pt-1">
+                  <span *ngIf="profileData.location.display_name" class="text-xs sm:text-sm">{{ profileData.location.display_name }}</span>
+                  <span *ngIf="!profileData.location.display_name" class="text-xs sm:text-sm">{{ 'NO_LOCATION' | translate }}</span>
+                  <div *ngIf="profileData.location.display_name" class="showtheway pt-1">
                     <a [href]="'https://showtheway.io/to/' + profileData.location.lat + ',' + profileData.location.lon" target="_blank" title="{{ 'NAVIGATION_ADDRESS' | translate }}">
                       {{ 'NAVIGATION_ADDRESS' | translate }}
                     </a>
@@ -198,7 +198,7 @@
 
       </div>
       <div class="mx-2" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
-        <a mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="((config.user && (config.user.username == profileData.username) ? 'MOJI_OGLASI' : 'USER_OGLASI') | translate) | lowercase | titlecase">
+        <a mat-button color="accent" (click)="resolveOglasListPage()" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="((config.user && (config.user.username == profileData.username) ? 'MOJI_OGLASI' : 'USER_OGLASI') | translate) | lowercase | titlecase">
           <div class="flex items-center align-middle">
             <div class="flex items-center align-middle  mx-auto justify-center">
               <i [ngClass]="{'navIcon': config.user && (config.user.username == profileData.username)}" class="fas fa-book-reader pr-2 text-gray-700 text-base leading-8"></i>

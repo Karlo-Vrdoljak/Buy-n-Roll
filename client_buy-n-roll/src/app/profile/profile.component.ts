@@ -19,6 +19,7 @@ import { UserService } from '../_services/user.service';
 import { LocationPropComponent } from '../props/location-prop/location-prop.component';
 import { NgModel } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { TranslationList } from '../_services/translation.list';
 
 @Component({
   selector: 'app-profile',
@@ -56,6 +57,7 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
 
   keyUpUsername = new Subject<KeyboardEvent>();
   keyUpUsernameSub:Subscription;
+  userSub:Subscription;
 
   @ViewChild('firstNameInput') firstNameInput: NgModel;
   @ViewChild('lastNameInput') lastNameInput: NgModel;
@@ -72,7 +74,8 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
     public revealService:NgsRevealService,
     private loader: NgxUiLoaderService,
     private userService:UserService,
-    private toast:ToastrService
+    private toast:ToastrService,
+    private translationProvider: TranslationList
   ) { 
     super(config, helperService);
   }
@@ -82,6 +85,7 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
     this.revealService?.destroy();
     this.keyUpSub?.unsubscribe();
     this.keyUpUsernameSub?.unsubscribe();
+    this.userSub?.unsubscribe();
 
   }
 
@@ -95,13 +99,25 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
     this.setupUserData();
     this.updateOrientationState();
 
+    this.setupLoggedInUserObservable();
+
     this.setupDebounceKeys();
   }
 
+  private setupLoggedInUserObservable() {
+    this.userSub = this.helperService.currentLogin.subscribe(event => {
+      if(this.config.user && this.config.user.username != this.profileData.username || (!this.config.user)) {
+        this.toggleEditMode(true);
+      }
+    });
+  }
   private setupLangObservable() {
     this.translateSubscription$ = this.translate.onLangChange.subscribe(event => {
       this.setupBreadCrumbs();
-      this.sellerTypes = this.defaultSellerType();
+      this.translate.get(this.translationProvider.getRegistration()).subscribe(data => {
+        this.translations = data;
+        this.sellerTypes = this.defaultSellerType();
+      });
     });
   }
 
@@ -135,8 +151,8 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
         this.translations = this.route.snapshot.data.pageData[2] || {}; 
         this.handleOptionalPhoto();
         this.handleOptionalLocation();
-        if(this.config.user.username != this.profileData.username) {
-          this.toggleEditMode();
+        if(this.config.user && this.config.user.username != this.profileData.username || (!this.config.user)) {
+          this.toggleEditMode(true);
         }
       }
     });
@@ -155,15 +171,19 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
   }
   handleOptionalLocation() {
     if(!this.profileData.location?.display_name) {
-      this.profileData.location = { };
+      this.profileData.location = {};
     }
   }
 
-  toggleEditMode() {
+  toggleEditMode(reset = false) {
     this.userModel = rfdc({proto:true})(this.profileData);
     
     this.sellerTypes = this.defaultSellerType(true);
-    this.editMode = this.editMode == false? true: false;
+    if(reset == true) {
+      this.editMode = false;
+    } else {
+      this.editMode = this.editMode == false? true: false;
+    }
     
   }
 
@@ -297,6 +317,9 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
     }).catch(rej => {
       this.loader.stopBackgroundLoader('profile_loader');
     });
-    
+  }
+
+  resolveOglasListPage() {
+    this.router.navigate(['oglasi'], {queryParams: {username: this.profileData.username}});
   }
 }

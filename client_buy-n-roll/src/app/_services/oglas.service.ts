@@ -21,4 +21,10 @@ export class OglasService {
       catchError(this.errorHandler.handleError)
     );
   }
+  findOglasiByUsername(data) {
+    return this.http.get(this.config.API_URL_ROOT + "user/oglasi/username/" + data).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
 }

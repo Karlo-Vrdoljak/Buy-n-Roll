@@ -15,6 +15,8 @@ import { RegistrationResolver } from './_resolvers/registration.resolver';
 import { DeniedPageComponent } from './denied-page/denied-page.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileResolver } from './_resolvers/profile.resolver';
+import { OglasUserComponent } from './catalogue/oglasi/oglas-user/oglas-user.component';
+import { OglasUserResolver } from './_resolvers/oglas-user.resolver';
 
 
 const routes: Routes = [
@@ -25,8 +27,9 @@ const routes: Routes = [
   { path: 'catalogues', component: CatalogueComponent, resolve: { pageData: CatalogueResolver} },
   { path: 'catalogues/:query', component: CatalogueComponent, resolve: { pageData: CatalogueResolver} },
   { path: 'catalogues/item/:query', component: CatalogueItemViewComponent, resolve: { pageData: CatalogueItemResolver} },
-  { path: 'profile', component: ProfileComponent, resolve: { pageData: ProfileResolver}, canActivate: [AuthGuardGuard] },
-  { path: 'profile/:query', component: ProfileComponent, resolve: { pageData: ProfileResolver}, canActivate: [AuthGuardGuard] },
+  { path: 'profile', component: ProfileComponent, resolve: { pageData: ProfileResolver}, /*canActivate: [AuthGuardGuard]*/ },
+  { path: 'profile/:query', component: ProfileComponent, resolve: { pageData: ProfileResolver}, /*canActivate: [AuthGuardGuard]*/ },
+  { path: 'oglasi', component: OglasUserComponent, resolve: { pageData: OglasUserResolver }, /*canActivate: [AuthGuardGuard]*/ },
 
   { path: '', component: LandingComponent, resolve: { pageData:LandingResolver } },
   { path: '**', redirectTo: '' },

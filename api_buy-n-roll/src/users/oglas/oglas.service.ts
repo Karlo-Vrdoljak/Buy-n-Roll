@@ -35,4 +35,22 @@ export class OglasService implements OnModuleInit {
   getRepo() {
     return this.oglasRepository;
   }
+  findOglasiByUsername(username:string) {
+    return this.oglasRepository.createQueryBuilder('o')
+    .leftJoinAndSelect("o.photos","p","p.oglas")
+    .leftJoinAndSelect("o.vehicle","v")
+    .leftJoinAndSelect("o.location","l")
+    .leftJoinAndSelect("v.user","u")
+    .leftJoinAndSelect("v.chassis","ch")
+    .leftJoinAndSelect("ch.color","c")
+    .leftJoinAndSelect("ch.model","ml")
+    .leftJoinAndSelect("ml.drivetrain","dt")
+    .leftJoinAndSelect("ml.transmission","tr")
+    .leftJoinAndSelect("ml.gasType","gt")
+    .leftJoinAndSelect("ml.body","b")
+    .leftJoinAndSelect("ml.series","s")
+    .leftJoinAndSelect("s.manufacturer","m")
+    .where('u.username = :uname', { uname: username })
+    .getMany()
+  }
 }

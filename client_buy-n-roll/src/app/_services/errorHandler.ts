@@ -33,9 +33,9 @@ export class ErrorHandler {
         window.location.replace(window.location.href.split('/#/')[0] + '/#/denied');
       }
     }
-    if (error.status == 401) {
-      window.location.replace(window.location.href.split('/#/')[0] + '/#/');
-    }
+    // if (error.status == 401) {
+    //   window.location.replace(window.location.href.split('/#/')[0] + '/#/');
+    // }
     // return an observable with a user-facing error message
     // throw of('Something bad happened; please try again later.');
     return throwError(error);

@@ -1,0 +1,57 @@
+<app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<div *ngIf="displayAccessories" class="banner relative">
+</div>
+<p-dataView *ngIf="oglasi.length > 0; else noRecords" #dv [value]="oglasi" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both">
+  <p-header>
+    <ng-container *ngTemplateOutlet="header"></ng-container>
+  </p-header>
+  <ng-template let-o pTemplate="listItem">
+      <div class="car-details">
+        <div class="md:mx-4 lg:mx-16 xl:md-32">
+          <div class="p-grid p-nogutter">
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
+              <app-catalogue-search-item [personal]="true" [username]="profileData.username" [item]="o" [size]="'large'"></app-catalogue-search-item>
+            </div>
+          </div>
+        </div>
+      </div>
+  </ng-template>
+</p-dataView>
+
+<ng-template #noRecords>
+  <div class="w-full buynroll_bg_deepGray noContentHeader">
+    <ng-container *ngTemplateOutlet="header"></ng-container>
+  </div>
+  <div class="md:mx-4 lg:mx-16 xl:md-32">
+    <div class="flex flex-col justify-center content-center items-center noContentWrap">
+      <img src="assets/images/catalogue/missing.png" class="w-40 h-40 select-none">
+      <span class="text-4xl text-gray-700 font-oswald flex flex-col justify-center content-center items-center">
+        <div class="text-center select-none">{{ 'OOPS' | translate }}</div>
+        <div class="text-center select-none">{{ 'CATALOGUE_CANT_FIND' | translate }}</div>
+      </span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #header>
+  <div class="ui-helper-clearfix">
+    <div class="p-grid p-nogutter">
+      <div class="p-col-4 np">
+        <div class="mx-2" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
+          <a mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="'asdf'">
+            <div class="flex items-center align-middle">
+              <div class="flex items-center align-middle  mx-auto justify-center">
+                <i class="fas fa-book-reader pr-2 text-gray-700 text-base leading-8"></i>
+              </div>
+              <div style="flex-basis: 85%;">asdfg</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="p-col-4 np filter-container">
+      </div>
+      <div class="p-col-4 np" style="text-align:right">
+      </div>
+    </div>
+  </div>
+</ng-template>

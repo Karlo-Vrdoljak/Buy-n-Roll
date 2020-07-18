@@ -173,6 +173,7 @@ export class TopbarComponent implements OnInit {
     this.storage.remove('auth');
     this.displaySidebar = false;
     this.toast.success(this.translations.SIGNEDOUT_OK,);
+    this.helperService.loginSource.next(null);
   }
   rerouteOglas() {
     this.userService.checkToken().then(result => {

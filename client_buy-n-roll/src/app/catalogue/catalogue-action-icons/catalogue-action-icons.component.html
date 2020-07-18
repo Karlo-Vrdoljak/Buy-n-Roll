@@ -1,13 +1,18 @@
 <div class="absolute z-10 top-0 right-0 select-none" [ngStyle]="{'margin': (offset + 'rem')}">
-  <button *ngIf="external" mat-icon-button color="accent" class="mx-1 mt-2 focus:outline-none" [routerLink]="[ '/catalogues/item/', PkOglas ]" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[3]  }">
+  <a *ngIf="external" mat-icon-button color="accent" class="mx-1 mt-2 focus:outline-none" [routerLink]="[ '/catalogues/item/', PkOglas ]" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[3]  }">
     <i class="fas text-4xl text-yellow-500 fa-external-link-square-alt rounded-md"></i>
-  </button>
-  <button mat-icon-button color="accent" class="mx-1 mt-2 relative focus:outline-none" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[2]  }">
+  </a>
+  <button *ngIf="!ignoreRating" mat-icon-button color="accent" class="mx-1 mt-2 relative focus:outline-none" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[2]  }">
     <i class="fas text-4xl text-red-500 fa-heart rounded-md"></i>
     <div class=" top-0 font-oswald flex items-center justify-center p-1 absolute rounded-full w-full h-full text-sm text-gray-200">{{helperService.abbreviateNumber(rating)}}</div>
   </button>
 </div>
 <div class="absolute z-10 mx-1 my-1 right-0" style="top: 3em;" [ngStyle]="{'margin': (offset + 'rem')}"  [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: delay[4]  }">
+  <a *ngIf="editLink" mat-icon-button color="accent" class="mx-1 mt-2 focus:outline-none" [routerLink]="[ '/catalogues/item/edit', PkOglas ]" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[3]  }">
+    <i class="fas text-4xl text-blue-300 fa-edit rounded-md"></i>
+  </a>
+</div>
+<div *ngIf="!ignoreContact" class="absolute z-10 mx-1 my-1 right-0" style="top: 3em;" [ngStyle]="{'margin': (offset + 'rem')}"  [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: delay[4]  }">
   <div class="popover__trigger">
     <button mat-icon-button color="accent" class="mx-1 mt-2 relative focus:outline-none select-none">
       <i [class]="'fas text-4xl fa-comments-dollar rounded-md text-gray-' + msgShade"></i>

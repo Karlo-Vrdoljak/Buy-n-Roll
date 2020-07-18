@@ -19,6 +19,8 @@ import { Photo } from 'src/entity/photo.entity';
 import { PhotoDescriptions, PhotoTypes } from 'src/types/enums';
 import * as nodemailer from 'nodemailer';
 import { Role } from 'src/entity/role.entity';
+import { OglasService } from 'src/users/oglas/oglas.service';
+import { AppService } from 'src/app.service';
 @Controller('user')
 export class UserController {
 
@@ -28,6 +30,8 @@ export class UserController {
     private userService: UsersService, 
     private locationService: LocationService, 
     private photoService: PhotoService,
+    private oglasService: OglasService,
+    private appService: AppService
     ) {}
 
   @Post('/findLocation/query')
@@ -35,20 +39,18 @@ export class UserController {
 
     this.http.get(encodeURI(`https://eu1.locationiq.com/v1/search.php?key=${this.config.locationIQ_token}&q=${req.body.search}&format=json&normalizeaddress=1&normalizecity=1&accept-language=${req.body.lang}`))
       .subscribe(result => {
-        res.status(200).send(result.data);
+        res.status(HttpStatus.OK).send(result.data);
         
       }, err => {
-        res.status(500).send(err);
+        res.status(HttpStatus.SERVICE_UNAVAILABLE).send(err);
       });
   }
+
   @Get('/getPhoto/:query')
   async findPhotoByUsername(@Param() req) {
-    return this.userService.getUserRepo().createQueryBuilder('u')
-    .leftJoinAndSelect("u.photo","p")
-    .where('u.username = :uname', { uname: req.query})
-    .andWhere('p.photoOpis like :type', { type: `%${PhotoTypes.PROFILE}%` })
-    .getOne();
+    return this.userService.findProfilePhotoByUsername(req.query);
   }
+
   @Get('/data/:query')
   async findUserByUsername(@Param() req, @Res() res: Response) {
     let user = await this.userService.findUserByUsernameFollowRelations(req.query);
@@ -187,7 +189,10 @@ export class UserController {
     user.sellerType = req.body.sellerType;
     user.phone = req.body.phone;
     let pkLocation = null;
-    if(req.body.place_id != user.location.place_id) {
+    if(user.location == null && req.body.location) {
+      user.location = await this.userService.handleSaveLocation(req.body.location, user)
+    }
+    else if(user.location && (req.body.place_id != user.location.place_id)) {
       pkLocation = user.location.PkLocation;
       user.location = await this.userService.handleSaveLocation(req.body.location, user);
     }
@@ -204,40 +209,7 @@ export class UserController {
 
 
   public async sendMailToNewUser(user:User,lang:string = 'en'): Promise<void> {
-    let msg = {} as any;
-    if(lang == 'hr') {
-      msg = {
-        subject: `Poštovani ${user.lastName} ${user.firstName}, dostavljamo vam vaš potvrdni kôd`,
-        text: `Potvrdni kôd: ${user.userCode}`,
-        textHtml:`<div style="width:100%;font-size: 18px;color: #393f4d;">
-        <div style="width:100%;font-size: 16px;">
-          Hvala vam na korištenju <strong>Buy'n'Roll </strong>usluge!</div>
-        <div style="font-size:18px;color:#393f4d;width: 25%;">Potvrdni kôd:</div>
-        <div style="font-size:18px;color:#393f4d;width: 75%;padding: 0.5rem 0;">${user.userCode}</div>
-        <div style="width: 100%;font-size: 16px;">
-          Kopirajte kôd i zalijepite ga na odgovarajuće mjesto u aplikaciji.
-        </div>
-      </div>
-      </div>`
-
-      };
-    } else if(lang == 'en') {
-      msg = {
-        subject: `Dear ${user.lastName} ${user.firstName}, your verification code is delivered`,
-        text: `Verification code: ${user.userCode}`,
-        textHtml:`<div style="width:100%;font-size: 18px;color: #393f4d;">
-        <div style="width:100%;font-size: 16px;">
-          Thank you for using the <strong>Buy'n'Roll </strong>service!</div>
-        <div style="font-size:18px;color:#393f4d;width: 25%;">Verification code:</div>
-        <div style="font-size:18px;color:#393f4d;width: 75%;padding: 0.5rem 0;">${user.userCode}</div>
-        <div style="width: 100%;font-size: 16px;">
-        Copy the code and paste it in the appropriate place in the application.
-        </div>
-      </div>
-      </div>`
-
-      };
-    }
+    let msg = await this.appService.generateEmailRegister(user,lang);
     let transporter = nodemailer.createTransport({
       host: 'smtp.googlemail.com', // Gmail Host
       port: 465, // Port
@@ -258,5 +230,17 @@ export class UserController {
     });
 
   }
+
+  @Get('/oglasi/username/:query')
+  async getOglasiByUsername(@Param() params, @Res() res: Response) {
+    let user = await this.userService.findUserByUsernameFollowRelations(params.query);
+    if(!user) {
+      res.status(HttpStatus.EXPECTATION_FAILED).send();
+    } else { 
+      let oglasi = await this.oglasService.findOglasiByUsername(user.username);
+      res.status(HttpStatus.OK).send(oglasi);
+    }
+  }
+
 }
 

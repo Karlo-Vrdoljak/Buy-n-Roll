@@ -282,6 +282,14 @@ export class UsersService implements OnModuleInit{
     .andWhere('(p.photoOpis is null or p.photoOpis like :type)', { type: `%${PhotoTypes.PROFILE}%` })
     .getOne();
   }
+  findProfilePhotoByUsername(username:string) {
+    return this.usersRepository.createQueryBuilder('u')
+    .leftJoinAndSelect("u.photo","p")
+    .where('u.username = :uname', { uname: username})
+    .andWhere('p.photoOpis like :type', { type: `%${PhotoTypes.PROFILE}%` })
+    .getOne();
+  }
+
   async handleSaveLocation(locationData:Location, user:any) {
     if(locationData.place_id) {
       let location = new Location();

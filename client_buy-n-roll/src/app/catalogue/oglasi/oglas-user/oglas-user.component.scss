@@ -1,0 +1,20 @@
+@import "../../../../assets/scss/light_material_override.scss";
+@import "../../../../assets/scss/dataview.scss";
+@import "../../../../assets/scss/card.scss";
+@import "../../../../variables.scss";
+
+.banner {
+  width: 100vw;
+  margin-top: 90px;
+  background-image: url("../../../../assets/images/catalogue/banner2.jpg");
+  background-size: cover;
+  background-position: bottom;
+  height: 20vh;
+  position: relative;
+}
+.noContentWrap {
+  min-height: calc(80vh - 140px);
+}
+.noContentHeader {
+  padding: 0.571em 1em 0.571em 1em;
+}

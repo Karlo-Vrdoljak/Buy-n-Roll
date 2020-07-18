@@ -14,6 +14,9 @@ export class CatalogueActionIconsComponent implements OnInit {
   delay = [80, 130, 210, 340, 550, 890];
   @Input('msgShade') msgShade:number = 200;
   @Input('offset') offset:number = 0.25;
+  @Input('ignoreRating') ignoreRating :boolean = false;
+  @Input('ignoreContact') ignoreContact :boolean = false;
+  @Input('editLink') editLink:boolean = false;
 
   message:string = '';
   messageMaxLength:number = 150;
@@ -21,5 +24,13 @@ export class CatalogueActionIconsComponent implements OnInit {
   constructor(public helperService: HelperService, public config: Config) { }
 
   ngOnInit(): void { }
+
+  reloadState(contact:boolean = false, edit:boolean = false,rating = false) {
+    this.editLink = contact;
+    this.ignoreContact = edit;
+    this.ignoreRating = rating;
+    console.log(this.editLink, this.ignoreContact);
+    
+  }
 
 }

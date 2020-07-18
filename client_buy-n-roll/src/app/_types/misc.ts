@@ -4,6 +4,5 @@ export enum searchTypes {
 }
 export enum ProtectedRoutes {
   test = 'test',
-  profile = 'profile'
   
 }

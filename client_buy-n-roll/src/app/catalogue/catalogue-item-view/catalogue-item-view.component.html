@@ -11,44 +11,48 @@
 </div>
 
 
-<div class="p-grid p-nogutter">
+<div class="p-grid p-nogutter overflow-hidden mb-4">
   <div class="p-col">
     <div class="flex justify-center items-center " [ngsReveal]="{reset: true, origin: 'right'  }">
-      <div class="max-w-full lg:w-full sm:mx-8 md:mx-24 lg:mx-48 xl:64 mx-2 rounded  border border-gray-300  overflow-hidden shadow-md relative z-0">
+      <div class="max-w-full lg:w-full sm:mx-8 md:mx-24 lg:mx-48 xl:64 mx-2 rounded overflow-hidden border border-gray-300  shadow-md relative z-0">
         <div class="bg-gray-100 z-10 relative">
           <div class="bg-gray-100 px-4 py-4 relative">
             <div [ngsReveal]="{reset: true, origin: 'right', delay: 50  }">
               <div>
                 <div class="w-9/12 font-oswald font-semibold text-gray-800 text-2xl mb-1">{{ oglas.oglasNaziv }}</div>
                 <div class="w-9/12 font-oswald mb-2 text-xl text-gray-800">{{ oglas.vehicle.chassis.model.series.manufacturer.manufacturerName }}&nbsp;{{ oglas.vehicle.chassis.model.series.seriesName }}&nbsp;{{ oglas.vehicle.chassis.model.modelName }}</div>
-                <div class="w-9/12 font-oswald mb-2 text-xl text-gray-800 flex items-center">
-                  <div class="mr-2">VIN &bull;</div>
-                  <div>{{ oglas.vehicle.chassis.VIN? 'W0L0XCE7564000209' : 'W0L0XCE7564000209' }}</div>
+                <div *ngIf="oglas.vehicle.chassis.VIN" class="w-9/12 font-oswald mb-2 text-xl text-gray-800 flex items-center">
+                  <div class="mr-2">{{'VIN' | translate }} &bull;</div>
+                  <div>{{ oglas.vehicle.chassis.VIN }}</div>
                 </div>
               </div>
-              <div class="font-oswald flex flex-row mb-2 text-2xl font-thin">
+              <div class="font-oswald flex flex-col mb-2 text-2xl font-thin">
                 <div class="font-semibold mr-2 text-gray-700 cursor-pointer" [countUp]="price" [options]="countUpOptions">0</div>
+                <div class="w-24 text-center font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-base font-semibold mr-2 bg-gray-300 text-gray-700">{{ oglas.paymentMethod | translate | uppercase }}</div>
               </div>
               <mat-divider class="mb-2"></mat-divider>
             </div>
           </div>
           <div class="p-grid p-nogutter">
-            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-7">
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
               <div class="bg-gray-100 px-4 pb-2 relative">
                 <p class="font-mw text-gray-700 py-2 text-base">
                   <span class="whitespace-pre-line">{{ oglas.oglasOpis }}</span>
                 </p>
-                <div matRipple [ngsReveal]="{reset: true, origin: 'right', delay: 100 }" class="bg-gray-100 py-2 relative flex items-center cursor-pointer title-hover">
-                  <img class="w-16 h-16 rounded-full mr-4 select-none" src="https://www.vhv.rs/dpng/d/256-2569650_men-profile-icon-png-image-free-download-searchpng.png" alt="Avatar of Jonathan Reinink">
-                  <div class="text-sm">
-                    <p class="font-mw text-gray-900 leading-none person">{{ oglas.vehicle.user.lastName }}&nbsp;{{ oglas.vehicle.user.firstName }}</p>
-                    <p class="font-mw text-gray-600">15, Ruđera Boškovića, Smrdečac, Split 3, Split, Grad Split, Split-Dalmatia County, 21000, Croatia</p>
-                    <p class="font-mw text-gray-600">{{ helperService.date(oglas.oglasCreatedAt) }}</p>
+                <div *ngIf="oglas.location" class="font-mw text-gray-600 flex flex-col pt-1 pb-2">
+                  <div class="font-oswald text-xl text-gray-800 font-medium">{{ 'VEHICLE_LOCATION' | translate }}</div>
+                  <div>{{ oglas.location.display_name }}</div>
+                </div>
+                <div (click)="router.navigate([ '/profile', {username: profileData.username} ])" matRipple [ngsReveal]="{reset: true, origin: 'right', delay: 100 }" class="bg-gray-100 py-2 relative flex flex-row items-center cursor-pointer title-hover">
+                  <img *ngIf="profileData && profileData.photo" class="rounded-full object-cover mr-4 select-none w-16 h-16 xl:w-24 xl:h-24" [src]="getPhotoUrlCss()">
+                  <div *ngIf="profileData" class="text-sm flex flex-col">
+                    <a [routerLink]="[ '/profile', {username: profileData.username} ]" class="font-mw text-gray-900 leading-none person">{{ oglas.vehicle.user.lastName }}&nbsp;{{ oglas.vehicle.user.firstName }}</a>
+                    <p class="font-mw text-gray-600">{{ 'OGLAS_CREATED_AT' | translate }} &bull; {{ helperService.date(oglas.oglasCreatedAt) }}</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-5">
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
               <div [ngsReveal]="{reset: true, origin: 'right', delay: 150  }" class="bg-gray-100 relative flex flex-wrap justify-center p-2 w-full">
                 <div class="flex flex-col w-full">
                   <div>
@@ -70,10 +74,84 @@
                 <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'THEFT_SAFETY', items: oglas.theftSafety, bg: 'bg-gray-300', text: 'text-gray-600' }"></ng-container>
               </div>
             </div>
+            <div class="p-col-12" [ngsReveal]="{reset: true, origin: 'right', delay: 180 }">
+              <div class="px-4">
+                <mat-divider class="mb-2"></mat-divider>
+              </div>
+            </div>
+            <div class="p-col-12">
+              <div class="bg-gray-100 px-4 pt-4 pb-2 relative w-full">
+                <div class="relative">
+                  <div class="flex flex-row" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
+                    <div class="font-oswald font-semibold text-gray-800 text-xl pb-2">{{ 'CAR_SPECS' | translate | uppercase}}</div>
+                  </div>
+                  <div class="p-grid">
+                    <div class="p-col-12 p-sm-12 p-md-12 p-xl-6">
+                      <div class="flex flex-row flex-wrap justify-between lg:justify-start">
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-gas-pump pr-2 text-indigo-800', delay: '75', title:'MILEAGE', item: oglas.vehicle.chassis.consumption + ' l/100km', bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-road pr-2 text-indigo-800', delay: '100', title:'KILOMETERS', item: oglas.vehicle.chassis.kilometers + ' km', bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-burn pr-2 text-indigo-800', delay: '275', title:'GAS_TYPE', item: (oglas.vehicle.chassis.model.gasType.gasType | translate ), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="p-col-12 p-sm-12 p-md-12 p-xl-6">
+                      <div class="flex flex-row flex-wrap justify-between lg:justify-start">
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-file-signature pr-2 text-indigo-800', delay: '125', title:'REGISTRATION', item: oglas.vehicle.RegistriranDaNe == true? 'REGISTRIRAN': 'NEREGISTRIRAN', bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-calendar pr-2 text-indigo-800', delay: '150', title:'GODINA_PROIZVODNJE', item: oglas.vehicle.chassis.makeYear, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-wrench pr-2 text-indigo-800', delay: '175', title:'VEHICLE_STATE', item: (oglas.vehicle.chassis.vehicleState | translate), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-calendar-minus pr-2 text-indigo-800', delay: '250', title:'PRODUCTION_END', item: oglas.vehicle.chassis.model.endOfProductionYear, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="p-col-12 p-sm-12 p-md-12 p-xl-6">
+                      <div class="flex flex-row flex-wrap justify-between lg:justify-start">
+                        <div class="pr-2">
+                          <ng-container *ngIf="oglas.vehicle.chassis.color" [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-car pr-2', delay: '50', color: oglas.vehicle.chassis.color.colorCode, title:'COLOR', item: oglas.vehicle.chassis.color.color, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-shapes pr-2 text-indigo-800', delay: '200', title:'BODY', item: (oglas.vehicle.chassis.model.body.bodyName | translate), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-vector-square pr-2 text-indigo-800', delay: '225', title:'DRIVETRAIN', item: oglas.vehicle.chassis.model.drivetrain.drivetrainCode, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-cogs pr-2 text-indigo-800', delay: '300', title:'TRANSMISSION', item: (oglas.vehicle.chassis.model.transmission.transmissionName | translate ), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="p-col-12 p-sm-12 p-md-12 p-xl-6">
+                      <div class="flex flex-row flex-wrap justify-between lg:justify-start">
+                        
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-toolbox pr-2 text-indigo-800', delay: '200', title:'MANUFACTURER', item: oglas.vehicle.chassis.model.series.manufacturer.manufacturerName, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-tools pr-2 text-indigo-800', delay: '225', title:'SERIJA', item: oglas.vehicle.chassis.model.series.seriesName, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                        <div class="pr-2">
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-screwdriver pr-2', delay: '150', title:'MODEL', item: oglas.vehicle.chassis.model.modelName, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <app-catalogue-action-icons [external]="false" [rating]="oglas.rating" [msgShade]="600" [offset]="1"></app-catalogue-action-icons>
-
         </div>
+        <app-catalogue-action-icons #actionIcons [ignoreContact]="hideContact" [editLink]="showEdit" [external]="false" [PkOglas]="oglas.PkOglas" [rating]="oglas.rating" [msgShade]="600" [offset]="1"></app-catalogue-action-icons>
       </div>
     </div>
   </div>
@@ -83,12 +161,11 @@
   yeeeehaw
 </ng-template>
 
-<ng-template #pills let-title='title' let-items='items' let-bg='bg' let-text='text'>
+<ng-template #pills let-title='title' let-items='items' let-item='item' let-bg='bg' let-text='text' let-icon='icon' let-color='color' let-delay='delay'>
   <div *ngIf="items" [ngsRevealSet]="{reset: true, origin: 'right'  }" [ngsInterval]="35" [ngsSelector]="'.revealItem'" class="bg-gray-100 relative flex flex-wrap justify-center py-2 w-full">
     <div class="flex flex-col w-full">
       <div>
         <div class="revealItem font-oswald font-xl text-gray-800 font-medium">{{ ( title | translate) | uppercase }}</div>
-        <!-- <mat-divider class="font-oswald pb-1" style="margin-right: 0.5rem;"></mat-divider> -->
       </div>
       <div class="revealItem font-oswald">
         <ng-container *ngFor="let item of items">
@@ -97,4 +174,19 @@
       </div>
     </div>
   </div>
+  <div *ngIf="item" [ngsReveal]="{reset: true, origin: 'right', delay: delay || 300 }" class="bg-gray-100 relative flex flex-wrap justify-center py-2 w-full">
+    <div class="flex flex-col w-full">
+      <div>
+        <div class="revealItem font-oswald font-2xl text-gray-600 font-thin">{{ ( title | translate) | uppercase }}</div>
+      </div>
+      <div class="revealItem font-oswald">
+        <span [class]="'font-oswald flex flex-row items-center justify-center content-center cursor-default inline-block rounded-sm px-3 py-1 my-1 text-base font-semibold ' + bg + ' ' + text">
+          <i *ngIf="icon && color" [class]="icon" [style.color]="color"></i>
+          <i *ngIf="icon && !color" [class]="icon"></i>
+          {{ item | uppercase }}
+        </span>
+      </div>
+    </div>
+  </div>
+
 </ng-template>

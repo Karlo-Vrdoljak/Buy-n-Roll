@@ -1,29 +1,37 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Res, HttpStatus } from '@nestjs/common';
 import { OglasService } from 'src/users/oglas/oglas.service';
 import { Oglas } from 'src/entity/oglas.entity';
+import { Response } from 'express';
+import * as fs from "fs";
 
 @Controller('api/oglas/')
 export class OglasController {
   constructor(private oglasService:OglasService) { }
   
   @Get(':query')
-  getOglasiBySearchString(@Param() params) {
-    return this.oglasService.getRepo().createQueryBuilder('o')
-        .leftJoinAndSelect("o.photos","p","p.oglas")
-        .leftJoinAndSelect("o.vehicle","v")
-        .leftJoinAndSelect("o.location","l")
-        .leftJoinAndSelect("v.user","u")
-        .leftJoinAndSelect("v.chassis","ch")
-        .leftJoinAndSelect("ch.color","c")
-        .leftJoinAndSelect("ch.model","ml")
-        .leftJoinAndSelect("ml.drivetrain","dt")
-        .leftJoinAndSelect("ml.transmission","tr")
-        .leftJoinAndSelect("ml.gasType","gt")
-        .leftJoinAndSelect("ml.body","b")
-        .leftJoinAndSelect("ml.series","s")
-        .leftJoinAndSelect("s.manufacturer","m")
-        .where('o.PkOglas = :PkOglas', { PkOglas: params.query })
-        .getOne();
+  async getOglasiBySearchString(@Param() params, @Res() res: Response) {
+    let oglas = await this.oglasService.getRepo().createQueryBuilder('o')
+      .leftJoinAndSelect("o.photos","p","p.oglas")
+      .leftJoinAndSelect("o.vehicle","v")
+      .leftJoinAndSelect("o.location","l")
+      .leftJoinAndSelect("v.user","u")
+      .leftJoinAndSelect("u.location","loc")
+      .leftJoinAndSelect("v.chassis","ch")
+      .leftJoinAndSelect("ch.color","c")
+      .leftJoinAndSelect("ch.model","ml")
+      .leftJoinAndSelect("ml.drivetrain","dt")
+      .leftJoinAndSelect("ml.transmission","tr")
+      .leftJoinAndSelect("ml.gasType","gt")
+      .leftJoinAndSelect("ml.body","b")
+      .leftJoinAndSelect("ml.series","s")
+      .leftJoinAndSelect("s.manufacturer","m")
+      .where('o.PkOglas = :PkOglas', { PkOglas: params.query })
+      .getOne();
+    if(oglas) {
+      res.status(HttpStatus.OK).send(oglas);
+    } else {
+      res.status(HttpStatus.FAILED_DEPENDENCY).send();
+    }
   }
 
   @Get()

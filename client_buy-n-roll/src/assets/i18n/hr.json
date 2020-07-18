@@ -33,8 +33,8 @@
   "HIBRID" : "Hibridni pogon",
   "ETANOL" : "Pogon na etanol",
   "DIZEL" : "Dizelaš",
-  "MANUAL": "Ručni mjenjač",
-  "AUTOMATIC": "Automatski mjenjač",
+  "MANUAL": "Ručni",
+  "AUTOMATIC": "Automatski",
   "CVT": "CVT",
   "PRIVATNA_OSOBA": "Fizička osoba",
   "PODUZECE": "Poduzeće",
@@ -113,16 +113,27 @@
   "PROFILE": "PROFIL",
   "SINCE": "Datum članstva",
   "NAVIGATION_ADDRESS": "Otvori u kartama",
-  "NO_LOCATION": "Niste odredili svoju lokaciju. Njegova je svrha olakšati pregovaranje o prodaji vašeg vozila s drugim kupcima",
+  "NO_LOCATION": "Niste odredili svoju lokaciju. Svrha je olakšavanje pregovora o prodaji vašeg vozila s drugim kupcima",
   "EMAIL_WARN_EDIT": "Oprezno s promjenom adrese e-pošte, možete izgubiti pristup računu!",
   "SAVE": "SPREMI IZMJENE",
   "CANCEL": "ODUSTANI",
   "IMAGE_UPLOAD": "Prijenos Fotografije",
   "SAVE_IMG": "SPREMI FOTOGRAFIJU",
   "CLOSE": "ZATVORI",
-  "PHOTO_SAVED": "Fotografija je uspješno spremljena!"
-
-
-
+  "PHOTO_SAVED": "Fotografija je uspješno spremljena!",
+  "VIN" : "Broj Šasije",
+  "OGLAS_CREATED_AT" : "Oglas objavljen",
+  "CAR_SPECS": "Specifikacija Vozila",
+  "MILEAGE": "Potrošnja Goriva",
+  "COLOR": "BOJA",
+  "KILOMETERS": "Kilometraža",
+  "GODINA_PROIZVODNJE": "Godina proizvodnje",
+  "VEHICLE_STATE": "Stanje Vozila",
+  "BODY" : "Oblik Karoserije",
+  "DRIVETRAIN": "Pogon",
+  "PRODUCTION_END": "Zadnja Godina Proizvodnje",
+  "GAS_TYPE": "Vrsta Goriva",
+  "TRANSMISSION": "Prijenos",
+  "VEHICLE_LOCATION": "Vehicle Location"
 
 }

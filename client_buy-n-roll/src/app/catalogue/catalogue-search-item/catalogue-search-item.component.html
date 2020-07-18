@@ -1,8 +1,14 @@
 <div class="flex justify-center" [ngsReveal]="{reset: true, origin: 'right'  }">
-  <div class="max-w-sm lg:max-w-full rounded  border border-gray-300 overflow-hidden shadow-md relative z-0 hoverEffect" [ngClass]="{'backgroundImage': helperService.getScreenY() < 640 }" [style.background-image]="helperService.getScreenY() < 640? 'url(https://www.njuskalo.hr/image-w920x690/auti/opel-astra-gsi-16v-slika-29041039.jpg)': 'none'">
+  <ng-container *ngIf="personalOglas == false" [ngTemplateOutlet]="catalogueItem"></ng-container>
+  <ng-container *ngIf="personalOglas == true" [ngTemplateOutlet]="personal"></ng-container>
+
+</div>
+
+<ng-template #catalogueItem>
+  <div class="max-w-sm lg:max-w-full rounded  border border-gray-300 overflow-hidden shadow-md relative z-0 hoverEffect" style="background-position: center;" [ngClass]="{'backgroundImage': helperService.getScreenY() < 640 }" [style.background-image]="helperService.getScreenY() < 640? getPhotoUrlCssOglas(): 'none'">
     <div *ngIf="helperService.getScreenY() < 640" class="overlay dark"></div>
     <div class="bg-gray-100 z-10 relative">
-      <div class="w-full h-64 backgroundImage select-none hideMobileHorizonatal" style="background-image: url(https://www.njuskalo.hr/image-w920x690/auti/opel-astra-gsi-16v-slika-29041039.jpg)"></div>
+      <div class="w-full h-64 backgroundImage select-none hideMobileHorizonatal" style="background-position: center;"  [style.background-image]="getPhotoUrlCssOglas()"></div>
       <div *ngIf="helperService.getScreenY() >= 640" class="overlay light"></div>
       <div class="bg-gray-100 px-4 py-4 relative">
         <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[1]  }">
@@ -23,8 +29,9 @@
             {{ 'READMORE' | translate }}
           </p>
         </div>
-        <div matRipple [ngsReveal]="{reset: true, origin: 'right', delay: delay[2]  }" class="bg-gray-100 py-2 relative flex items-center cursor-pointer title-hover">
-          <img class="w-16 h-16 rounded-full mr-4 select-none" src="https://www.vhv.rs/dpng/d/256-2569650_men-profile-icon-png-image-free-download-searchpng.png" alt="Avatar of Jonathan Reinink">
+        <div (click)="navigateProfile()" matRipple [ngsReveal]="{reset: true, origin: 'right', delay: delay[2]  }" class="bg-gray-100 py-2 relative flex items-center cursor-pointer title-hover">
+          <!-- <img *ngIf="profileData && profileData.photo" class="rounded-full object-cover mr-4 select-none w-16 h-16 xl:w-24 xl:h-24" [src]="getPhotoUrlCss()"> -->
+          <img class="rounded-full object-cover mr-4 select-none w-16 h-16" [src]="getPhotoUrlCssProfile()" >
           <div class="text-sm">
             <p class="font-mw text-gray-900 leading-none person">{{ searchItem.lastName }}&nbsp;{{ searchItem.firstName }}</p>
             <p class="font-mw text-gray-600 leading-none">{{ helperService.truncateString('15, Ruđera Boškovića, Smrdečac, Split 3, Split, Grad Split, Split-Dalmatia County, 21000, Croatia', 50) }}</p>
@@ -32,18 +39,42 @@
           </div>
         </div>
         <div [ngsRevealSet]="{reset: true, origin: 'right'  }" [ngsInterval]="200" [ngsSelector]="'.revealItem'" class="bg-gray-100 relative flex flex-wrap">
-          <span class="revealItem font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2" [ngClass]="{'buynroll_bg_yellow text-yellow-800': searchItem.RegistriranDaNe == 1, 'buynroll_bg_silver text-gray-600': searchItem.RegistriranDaNe == 0 }" >{{ ((searchItem.RegistriranDaNe == 1? 'REGISTRIRAN' : 'NEREGISTRIRAN' ) | translate) | uppercase }}</span>
+          <span class="revealItem font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2" [ngClass]="{'buynroll_bg_yellow text-yellow-800': searchItem.RegistriranDaNe == 1, 'buynroll_bg_silver text-gray-600': searchItem.RegistriranDaNe == 0 }">{{ ((searchItem.RegistriranDaNe == 1? 'REGISTRIRAN' : 'NEREGISTRIRAN' ) | translate) | uppercase }}</span>
           <span class="revealItem font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ (searchItem.vehicleState | translate ) | uppercase }}</span>
           <span class="revealItem font-oswald cursor-default inline-block buynroll_bg_yellow rounded-sm px-3 py-1 my-1 text-sm font-semibold text-yellow-800 mr-2">{{ searchItem.makeYear }}</span>
         </div>
       </div>
     </div>
     <!-- <ng-container *ngTemplateOutlet="icons"></ng-container> -->
-    <app-catalogue-action-icons [PkOglas]="searchItem.PkOglas" [rating]="searchItem.rating" ></app-catalogue-action-icons>
+    <app-catalogue-action-icons [PkOglas]="searchItem.PkOglas" [rating]="searchItem.rating"></app-catalogue-action-icons>
 
-    
+
   </div>
-</div>
+</ng-template>
+
+
+<ng-template #personal>
+  
+  <div class="max-w-sm lg:max-w-full rounded  border border-gray-300 overflow-hidden shadow-md relative z-0 hoverEffect" style="background-position: center;" [ngClass]="{'backgroundImage': helperService.getScreenY() < 640 }" [style.background-image]="helperService.getScreenY() < 640? getPhotoUrlCssOglas(): 'none'">
+    <div class="bg-gray-100 z-10 relative">
+      <div class="w-full h-64 backgroundImage select-none hideMobileHorizonatal" style="background-position: center;"  [style.background-image]="getPhotoUrlCssOglas()"></div>
+      <div class="overlay light"></div>
+      <div class="bg-gray-100 px-4 py-4 relative">
+        <div [ngsReveal]="{reset: true, origin: 'right', delay: delay[1]  }">
+          <div matRipple class="cursor-pointer title-hover" [routerLink]="[ '/catalogues/item/', searchItem.PkOglas ]">
+            <div class="w-9/12 lg: font-oswald font-semibold text-gray-800 text-2xl mb-1">{{ searchItem.oglasNaziv }}</div>
+            <div class="w-9/12 sm: font-oswald mb-2 text-xl text-gray-800">{{ searchItem.vehicle.chassis.model.series.manufacturer.manufacturerName }}&nbsp;{{ searchItem.vehicle.chassis.model.series.seriesName }}&nbsp;{{ searchItem.vehicle.chassis.model.modelName }}</div>
+          </div>
+          <div class="font-oswald flex flex-row mb-2 text-2xl font-thin">
+            <div class="font-semibold mr-2 text-gray-700 cursor-pointer" [countUp]="price" [options]="countUpOptions">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-catalogue-action-icons #actionIcons [ignoreRating]="ignoreRating" [ignoreContact]="hideContact" [editLink]="showEdit" [PkOglas]="searchItem.PkOglas" [rating]="searchItem.rating"></app-catalogue-action-icons>
+  </div>
+</ng-template>
+
 
 <ng-template #icons>
   <div class="absolute z-10 mx-1 my-1 top-0 right-0 select-none">

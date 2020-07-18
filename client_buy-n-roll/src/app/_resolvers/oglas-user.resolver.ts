@@ -9,29 +9,37 @@ import { TranslationList } from '../_services/translation.list';
 import { SearchService } from '../_services/search.service';
 import { searchTypes } from '../_types/misc';
 import { OglasService } from '../_services/oglas.service';
+import { HelperService } from '../_services/helper.service';
 import { UserService } from '../_services/user.service';
 
 
 @Injectable()
-export class CatalogueItemResolver implements Resolve<unknown>{
+export class OglasUserResolver implements Resolve<unknown>{
 
   constructor(
-    private translate:TranslateService,
     private router:Router,
     private errorHandler: ErrorHandler,
-    private vehicleService: VehicleService,
     private userService: UserService,
+    private helperService: HelperService,
+    private translate:TranslateService,
+    private translationProvider:TranslationList,
     private oglasService: OglasService
   ){ }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-    let prevRoute = null;
-    if(this.router.getCurrentNavigation().previousNavigation?.extractedUrl.toString() != undefined) {
-      prevRoute = this.router.getCurrentNavigation().previousNavigation.extractedUrl.toString();
+
+    if(!route.queryParams?.username) {
+      const state: RouterState = this.router.routerState;
+      this.errorHandler.handleRouterState(state,true);
+      return;
     }
+    
+    let prevRoute = this.helperService.getLastNavigation();
     return forkJoin (
-      this.oglasService.findOglasByPk(route.params.query),
-      of(prevRoute)
+      this.userService.findUserByUsername(route.queryParams.username),
+      of(prevRoute),
+      this.translate.get(this.translationProvider.getRegistration()),
+      this.oglasService.findOglasiByUsername(route.queryParams.username)
     ).pipe(
       catchError(error => {
         const state: RouterState = this.router.routerState;
