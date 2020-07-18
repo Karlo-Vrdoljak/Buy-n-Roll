@@ -17,6 +17,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProfileResolver } from './_resolvers/profile.resolver';
 import { OglasUserComponent } from './catalogue/oglasi/oglas-user/oglas-user.component';
 import { OglasUserResolver } from './_resolvers/oglas-user.resolver';
+import { OglasEditResolver } from './_resolvers/oglas-edit.resolver';
+import { OglasEditComponent } from './catalogue/oglasi/oglas-edit/oglas-edit.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { AppResolver } from './_resolvers/app.resolver';
 
 
 const routes: Routes = [
@@ -24,14 +28,17 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, resolve: {pageData: LastNavigation} },
   { path: 'registration', component: RegistrationComponent, resolve: {pageData: RegistrationResolver} },
   { path: 'denied', component: DeniedPageComponent, resolve: {pageData: LastNavigation} },
-  { path: 'catalogues', component: CatalogueComponent, resolve: { pageData: CatalogueResolver} },
-  { path: 'catalogues/:query', component: CatalogueComponent, resolve: { pageData: CatalogueResolver} },
-  { path: 'catalogues/item/:query', component: CatalogueItemViewComponent, resolve: { pageData: CatalogueItemResolver} },
-  { path: 'profile', component: ProfileComponent, resolve: { pageData: ProfileResolver}, /*canActivate: [AuthGuardGuard]*/ },
-  { path: 'profile/:query', component: ProfileComponent, resolve: { pageData: ProfileResolver}, /*canActivate: [AuthGuardGuard]*/ },
+  { path: 'error', component: ErrorPageComponent, resolve: {pageData: LastNavigation} },
+  { path: 'catalogues', component: CatalogueComponent, resolve: { pageData: CatalogueResolver, initial: AppResolver} },
+  { path: 'catalogues/:query', component: CatalogueComponent, resolve: { pageData: CatalogueResolver, initial: AppResolver} },
+  { path: 'catalogues/item/:query', component: CatalogueItemViewComponent, resolve: { pageData: CatalogueItemResolver, initial: AppResolver} },
+  { path: 'profile', component: ProfileComponent, resolve: { pageData: ProfileResolver, initial: AppResolver}, /*canActivate: [AuthGuardGuard]*/ },
+  { path: 'profile/:query', component: ProfileComponent, resolve: { pageData: ProfileResolver, initial: AppResolver}, /*canActivate: [AuthGuardGuard]*/ },
   { path: 'oglasi', component: OglasUserComponent, resolve: { pageData: OglasUserResolver }, /*canActivate: [AuthGuardGuard]*/ },
+  { path: 'catalogues/item/edit/', component: OglasEditComponent, resolve: { pageData: OglasEditResolver }, canActivate: [AuthGuardGuard] },
+  { path: 'catalogues/item/edit/:query', component: OglasEditComponent, resolve: { pageData: OglasEditResolver }, canActivate: [AuthGuardGuard] },
 
-  { path: '', component: LandingComponent, resolve: { pageData:LandingResolver } },
+  { path: '', component: LandingComponent, resolve: { pageData:LandingResolver, initial: AppResolver } },
   { path: '**', redirectTo: '' },
 ];
 // canActivate: [AuthGuard]

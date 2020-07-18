@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     return SPINNER;
   }
   ngOnInit(): void {
-    this.userService.checkToken();
+    // this.userService.checkToken();
     let lang = this.storage.get("buynroll_lang");
     if (!lang) {
       this.translate.setDefaultLang("hr");

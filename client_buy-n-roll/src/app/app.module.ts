@@ -87,6 +87,8 @@ import { ImageChangerComponent } from './props/image-changer/image-changer.compo
 import { OglasUserComponent } from './catalogue/oglasi/oglas-user/oglas-user.component';
 import { OglasUserResolver } from './_resolvers/oglas-user.resolver';
 import { OglasEditComponent } from './catalogue/oglasi/oglas-edit/oglas-edit.component';
+import { OglasEditResolver } from './_resolvers/oglas-edit.resolver';
+import { AppResolver } from './_resolvers/app.resolver';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -215,7 +217,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     RegistrationResolver,
     BaseClass,
     ProfileResolver,
-    OglasUserResolver
+    OglasUserResolver,
+    OglasEditResolver,
+    AppResolver
   ],
   bootstrap: [AppComponent],
 })

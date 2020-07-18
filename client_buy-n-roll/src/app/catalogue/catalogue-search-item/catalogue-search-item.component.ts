@@ -64,10 +64,10 @@ export class CatalogueSearchItemComponent implements OnInit, OnDestroy {
   }
 
   getPhotoUrlCssOglas() {
-    return 'url(' + (this.searchItem.photos[0]?.PkPhoto != -1? this.config.STATIC_FILES + this.searchItem.username + '/' + this.searchItem.photos[0].filename : this.searchItem.photos[0].path) + ')';
+    return 'url(' + (this.searchItem.photos[0]?.PkPhoto != -1? this.config.STATIC_FILES + (this.searchItem.username ?? this.oglasUsername) + '/' + this.searchItem.photos[0].filename : this.searchItem.photos[0].path) + ')';
   }
   getPhotoUrlCssProfile() {
-    return (this.searchItem.PkPhoto != -1? this.config.STATIC_FILES + this.searchItem.username + '/' + this.searchItem.filename : this.searchItem.path);
+    return (this.searchItem.PkPhoto != -1? this.config.STATIC_FILES + (this.searchItem.username ?? this.oglasUsername) + '/' + this.searchItem.filename : this.searchItem.path);
   }
 
   handleOptionalPhotoOglas() {
@@ -87,9 +87,11 @@ export class CatalogueSearchItemComponent implements OnInit, OnDestroy {
 
   private setupLoggedInUserObservable() {
     this.loginSub = this.helperService.currentLogin.subscribe(event => {
+      console.log('alo',this.config.user);
+      
       if(this.config.user) {
-        this.hideContact = this.config.user.username == this.oglasUsername? true: false;
-        this.showEdit = this.config.user.username == this.oglasUsername? true: false;
+        this.hideContact = this.config.user.username == (this.oglasUsername ?? this.searchItem.username)? true: false;
+        this.showEdit = this.config.user.username == (this.oglasUsername ?? this.searchItem.username)? true: false;
       } else {
         this.hideContact = false;
         this.showEdit = false;

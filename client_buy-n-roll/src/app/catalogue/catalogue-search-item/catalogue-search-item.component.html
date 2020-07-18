@@ -31,7 +31,7 @@
         </div>
         <div (click)="navigateProfile()" matRipple [ngsReveal]="{reset: true, origin: 'right', delay: delay[2]  }" class="bg-gray-100 py-2 relative flex items-center cursor-pointer title-hover">
           <!-- <img *ngIf="profileData && profileData.photo" class="rounded-full object-cover mr-4 select-none w-16 h-16 xl:w-24 xl:h-24" [src]="getPhotoUrlCss()"> -->
-          <img class="rounded-full object-cover mr-4 select-none w-16 h-16" [src]="getPhotoUrlCssProfile()" >
+          <img *ngIf="searchItem.filename" class="rounded-full object-cover mr-4 select-none w-16 h-16" [src]="getPhotoUrlCssProfile()" >
           <div class="text-sm">
             <p class="font-mw text-gray-900 leading-none person">{{ searchItem.lastName }}&nbsp;{{ searchItem.firstName }}</p>
             <p class="font-mw text-gray-600 leading-none">{{ helperService.truncateString('15, Ruđera Boškovića, Smrdečac, Split 3, Split, Grad Split, Split-Dalmatia County, 21000, Croatia', 50) }}</p>
@@ -46,7 +46,7 @@
       </div>
     </div>
     <!-- <ng-container *ngTemplateOutlet="icons"></ng-container> -->
-    <app-catalogue-action-icons [PkOglas]="searchItem.PkOglas" [rating]="searchItem.rating"></app-catalogue-action-icons>
+    <app-catalogue-action-icons [username]="oglasUsername || searchItem.username" [ignoreRating]="ignoreRating" [ignoreContact]="hideContact" [editLink]="showEdit" [PkOglas]="searchItem.PkOglas" [rating]="searchItem.rating"></app-catalogue-action-icons>
 
 
   </div>
@@ -71,7 +71,7 @@
         </div>
       </div>
     </div>
-    <app-catalogue-action-icons #actionIcons [ignoreRating]="ignoreRating" [ignoreContact]="hideContact" [editLink]="showEdit" [PkOglas]="searchItem.PkOglas" [rating]="searchItem.rating"></app-catalogue-action-icons>
+    <app-catalogue-action-icons #actionIcons [username]="oglasUsername || searchItem.vehicle.user.username" [ignoreRating]="ignoreRating" [ignoreContact]="hideContact" [editLink]="showEdit" [PkOglas]="searchItem.PkOglas" [rating]="searchItem.rating"></app-catalogue-action-icons>
   </div>
 </ng-template>
 
