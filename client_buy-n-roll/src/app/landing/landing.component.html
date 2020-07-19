@@ -39,24 +39,23 @@
         </div>
       </div>
       <div class="p-col-12 p-sm-8 p-md-6 p-lg-6 mx bg-svg" style="position: relative; padding: 0!important;">
-        <mat-vertical-stepper id="vstep" [linear]="true" style="height: 100%;" class="matSteps" [ngsReveal]="{reset: true, origin: 'left', delay: 600 }">
+        <mat-vertical-stepper #matStep id="vstep" [linear]="true" style="height: 100%;" class="matSteps" [ngClass]="{'hideStepTwo': !series, 'hideStepThree': !(models && models.length > 0)}" [ngsReveal]="{reset: true, origin: 'left', delay: 600 }">
           <mat-step [label]="'MANUFACTURER' | translate">
             <div class="ui-g" [style.min-height]="(height * 1.25) + 'px'">
               <div class="ui-g-12 ui-sm-8 ui-md-10 ui-lg-10">
                 <app-manufacturer-prop #manufacturerProp (passSelectedManufacturer)="acceptSelectedManufacturer($event)" [manufacturerList]="manufacturers" [height]="height"></app-manufacturer-prop>
-
               </div>
             </div>
           </mat-step>
-          <mat-step *ngIf="series" [label]="'SERIJA' | translate" >
-            <div class="ui-g" [style.min-height]="(height * 1.25) + 'px'">
+          <mat-step [label]="'SERIJA' | translate">
+            <div *ngIf="series" class="ui-g" [style.min-height]="(height * 1.25) + 'px'">
               <div class="ui-g-12 ui-sm-8 ui-md-10 ui-lg-10">
                 <app-series-prop (passSelectedSeries)="acceptSelectedSeries($event)" [seriesList]="series" [height]="height"></app-series-prop>
               </div>
             </div>
           </mat-step>
-          <mat-step *ngIf="models && models.length > 0" [label]="'MODEL' | translate" >
-            <div class="ui-g" [style.min-height]="(height * 1.25) + 'px'">
+          <mat-step [label]="'MODEL' | translate" >
+            <div *ngIf="models && models.length > 0" class="ui-g" [style.min-height]="(height * 1.25) + 'px'">
               <div class="ui-g-12 ui-sm-8 ui-md-10 ui-lg-10">
                 <app-model-prop (passSelectedModel)="acceptSelectedModel($event)" [modelList]="models" [height]="height"></app-model-prop>
               </div>

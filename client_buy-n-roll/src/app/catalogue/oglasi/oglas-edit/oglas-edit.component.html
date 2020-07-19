@@ -1,1 +1,249 @@
-<p>oglas-edit works!</p>
+<app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<div *ngIf="displayAccessories" class="banner relative">
+</div>
+
+
+<div class="noBannerWrap"></div>
+<div class="p-grid p-nogutter overflow-hidden mb-4 pt-4">
+  <div class="p-col">
+    <div class="flex justify-center items-center " [ngsReveal]="{reset: true, origin: 'right'  }">
+      <div class="max-w-full lg:w-full sm:mx-8 md:mx-24 lg:mx-48 xl:64 mx-2 rounded overflow-hidden border border-gray-300  shadow-md relative z-0">
+        <div class="bg-gray-100 z-10 relative p-4 w-full font-oswald font-semibold text-gray-800 text-2xl">
+          <div class="p-grid p-nogutter w-full font-oswald text-gray-800">
+            <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" style="padding-bottom: 0;">
+              <mat-form-field class="px-2 font-base w-full">
+                <mat-label class="font-oswald">{{ 'AD_NAME' | translate | uppercase }}</mat-label>
+                <input matInput [(ngModel)]="oglasModel.oglasNaziv" maxlength="50" placeholder="{{ 'AD_NAME_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+              </mat-form-field>
+            </div>
+            <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" style="padding-top: 0;">
+              <mat-form-field class="px-2 font-base w-full">
+                <mat-label class="font-oswald">{{ 'VIN' | translate | uppercase }}</mat-label>
+                <input matInput minlength="17" maxlength="17" [(ngModel)]="oglasModel.vehicle.chassis.VIN" placeholder="{{ 'VIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="p-grid p-nogutter w-full font-oswald text-gray-800">
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <mat-form-field class="px-2 font-base w-full">
+                <mat-label class="font-oswald">{{ 'CURRENCY_MAIN' | translate | uppercase }}</mat-label>
+                <input [imask]="iMaskMainCurrency" maxlength="15" type="text" matInput [(ngModel)]="oglasModel.priceMainCurrency" placeholder="{{ 'CURRENCY_MAIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+              </mat-form-field>
+            </div>
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <mat-form-field class="px-2 font-base w-full">
+                <mat-label class="font-oswald">{{ 'CURRENCY_SUB' | translate | uppercase }}</mat-label>
+                <input [imask]="iMaskSubCurrency" maxlength="2" type="text" matInput [(ngModel)]="oglasModel.priceSubCurrency" placeholder="{{ 'CURRENCY_SUB_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+              </mat-form-field>
+            </div>
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <div class="p-2 w-full">
+                <p-dropdown appendTo="body" [options]="currencyList" [(ngModel)]="oglasModel.selectedCurrency" [filter]="true" optionLabel="label" [virtualScroll]="true" [itemSize]="25">
+                  <ng-template let-item pTemplate="selectedItem">
+                    <div class="flex flex-no-wrap items-center flex-row">
+                      <div class="text-gray-800 font-normal flex font-oswald text-lg px-2">
+                        {{ item.value.value.symbol }}
+                      </div>
+                      <div class="text-gray-800 font-normal flex font-oswald text-lg px-2">
+                        {{ item.value.value.name }}
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template let-item pTemplate="item">
+                    <div class="flex flex-no-wrap flex-row">
+                      <div class="text-gray-600 font-oswald font-light text-base w-full">
+                        {{ item.label }}
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <div class="p-2 w-full">
+                <p-dropdown appendTo="body" [options]="paymentMethodList" [(ngModel)]="oglasModel.selectedPaymentMethod" [filter]="true" optionLabel="label">
+                  <ng-template let-item pTemplate="selectedItem">
+                    <div class="flex flex-no-wrap items-center justify-between flex-row">
+                      <div class="text-gray-800 font-normal flex justify-start font-oswald text-lg w-full px-2">
+                        {{ item.label }}
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template let-item pTemplate="item">
+                    <div class="flex flex-no-wrap flex-row">
+                      <div class="text-gray-600 font-oswald font-light text-base w-full">
+                        {{ item.label }}
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="p-grid p-nogutter w-full font-oswald text-gray-800">
+            <div class="p-col-12 w-full">
+              <div class="bg-gray-100 px-2 pb-2 relative w-full">
+                <div class="flex items-center justify-end">
+                  <div class="flex flex-col justify-center items-center">
+                    <i class="text-normal fas fa-pen text-blue-800 mr-2 select-none" style="flex-basis: 5%;"></i>
+                    <div class="text-sm text-gray-600" [ngClass]="{'text-red-500': textAreaMaxLength - oglas.oglasOpis.length == 0 , 'text-yellow-500': (textAreaMaxLength - oglas.oglasOpis.length < 50 && textAreaMaxLength - oglas.oglasOpis.length > 0) }">{{ textAreaMaxLength - oglas.oglasOpis.length }}</div>
+                  </div>
+                  <mat-form-field style="flex-basis: 95%;" class="font-mw text-lg">
+                    <mat-label class="font-oswald text-xl">{{ 'OGLAS_OPIS' | translate }}</mat-label>
+                    <textarea [(ngModel)]="oglas.oglasOpis" matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" [maxlength]="textAreaMaxLength" [placeholder]="'OGLAS_OPIS_PLACEHOLDER | translate'" class="overflow-hidden"></textarea>
+                  </mat-form-field>
+                </div>
+                <!-- <div *ngIf="oglas.location" class="font-mw text-gray-600 flex flex-col pt-1 pb-2">
+                    <div class="font-oswald text-xl text-gray-800 font-medium">{{ 'VEHICLE_LOCATION' | translate }}</div>
+                    <div>{{ oglas.location.display_name }}</div>
+                  </div> -->
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-row p-2">
+            <button (click)="logger(oglasModel)" mat-raised-button color="accent" class="w-36 transition-colors duration-150 ease-in" [ngClass]="{'bg_error': false}">
+              <div class="flex items-center align-middle justify-center w-full">
+                <i class="fas fa-save pr-2 text-yellow-800 text-xl"></i>
+                {{ 'NEXT' | translate }}
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #imageViewer>
+  yeeeehaw
+</ng-template>
+
+<ng-template #pills let-title='title' let-items='items' let-item='item' let-bg='bg' let-text='text' let-icon='icon' let-color='color' let-delay='delay'>
+  <div *ngIf="items" [ngsRevealSet]="{reset: true, origin: 'right'  }" [ngsInterval]="35" [ngsSelector]="'.revealItem'" class="bg-gray-100 relative flex flex-wrap justify-center py-2 w-full">
+    <div class="flex flex-col w-full">
+      <div>
+        <div class="revealItem font-oswald font-xl text-gray-800 font-medium">{{ ( title | translate) | uppercase }}</div>
+      </div>
+      <div class="revealItem font-oswald">
+        <ng-container *ngFor="let item of items">
+          <span [class]="'font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 ' + bg + ' ' + text">{{ item | uppercase }}</span>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="item" [ngsReveal]="{reset: true, origin: 'right', delay: delay || 300 }" class="bg-gray-100 relative flex flex-wrap justify-center py-2 w-full">
+    <div class="flex flex-col w-full">
+      <div>
+        <div class="revealItem font-oswald font-2xl text-gray-600 font-thin">{{ ( title | translate) | uppercase }}</div>
+      </div>
+      <div class="revealItem font-oswald">
+        <span [class]="'font-oswald flex flex-row items-center justify-center content-center cursor-default inline-block rounded-sm px-3 py-1 my-1 text-base font-semibold ' + bg + ' ' + text">
+          <i *ngIf="icon && color" [class]="icon" [style.color]="color"></i>
+          <i *ngIf="icon && !color" [class]="icon"></i>
+          {{ item | uppercase }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+
+<!-- 
+  <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+    <div [ngsReveal]="{reset: true, origin: 'right', delay: 150  }" class="bg-gray-100 relative flex flex-wrap justify-center p-2 w-full">
+      <div class="flex flex-col w-full">
+        <div>
+          <div class="font-oswald font-xl text-gray-800 font-medium">{{ ('GENERAL' | translate) | uppercase }}</div>
+</div>
+<div class="font-oswald">
+  <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2" [ngClass]="{'buynroll_bg_yellow text-yellow-800': oglas.vehicle.RegistriranDaNe == 1, 'buynroll_bg_silver text-gray-600': oglas.vehicle.RegistriranDaNe == 0 }">{{ ((oglas.vehicle.RegistriranDaNe == 1? 'REGISTRIRAN' : 'NEREGISTRIRAN' ) | translate) | uppercase }}</span>
+  <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ (oglas.vehicle.chassis.vehicleState | translate) | uppercase }}</span>
+  <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ oglas.vehicle.chassis.makeYear }}</span>
+  <span class="cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_yellow text-yellow-800">{{ (oglas.paymentMethod | translate) | uppercase }}</span>
+</div>
+</div>
+<ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'ACCESSORIES', items: oglas.accessories, bg: 'buynroll_bg_silver', text: 'text-gray-600' }"></ng-container>
+<ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'KLIMA', items: oglas.airConditioning, bg: 'bg-gray-300', text: 'text-gray-600' }"></ng-container>
+<ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'MUZIKA', items: oglas.autoRadioDefs, bg: 'bg-indigo-200', text: 'text-gray-800' }"></ng-container>
+<ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'COMFORT', items: oglas.comfortAccessories, bg: 'bg-orange-200', text: 'text-yellow-600' }"></ng-container>
+<ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'SAFETY', items: oglas.safety, bg: 'buynroll_bg_silver', text: 'text-gray-600' }"></ng-container>
+<ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{title:'THEFT_SAFETY', items: oglas.theftSafety, bg: 'bg-gray-300', text: 'text-gray-600' }"></ng-container>
+</div>
+</div>
+<div class="p-col-12" [ngsReveal]="{reset: true, origin: 'right', delay: 180 }">
+  <div class="px-4">
+    <mat-divider class="mb-2"></mat-divider>
+  </div>
+</div>
+<div class="p-col-12">
+  <div class="bg-gray-100 px-4 pt-4 pb-2 relative w-full">
+    <div class="relative">
+      <div class="flex flex-row" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
+        <div class="font-oswald font-semibold text-gray-800 text-xl pb-2">{{ 'CAR_SPECS' | translate | uppercase}}</div>
+      </div>
+      <div class="p-grid p-nogutter">
+        <div class="p-col-12 p-sm-12 p-md-12 p-xl-6">
+          <div class="flex flex-row flex-wrap justify-between lg:justify-start">
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-gas-pump pr-2 text-indigo-800', delay: '75', title:'MILEAGE', item: oglas.vehicle.chassis.consumption + ' l/100km', bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-road pr-2 text-indigo-800', delay: '100', title:'KILOMETERS', item: oglas.vehicle.chassis.kilometers + ' km', bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-burn pr-2 text-indigo-800', delay: '275', title:'GAS_TYPE', item: (oglas.vehicle.chassis.model.gasType.gasType | translate ), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-12 p-xl-6">
+          <div class="flex flex-row flex-wrap justify-between lg:justify-start">
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-file-signature pr-2 text-indigo-800', delay: '125', title:'REGISTRATION', item: oglas.vehicle.RegistriranDaNe == true? 'REGISTRIRAN': 'NEREGISTRIRAN', bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-calendar pr-2 text-indigo-800', delay: '150', title:'GODINA_PROIZVODNJE', item: oglas.vehicle.chassis.makeYear, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-wrench pr-2 text-indigo-800', delay: '175', title:'VEHICLE_STATE', item: (oglas.vehicle.chassis.vehicleState | translate), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-calendar-minus pr-2 text-indigo-800', delay: '250', title:'PRODUCTION_END', item: oglas.vehicle.chassis.model.endOfProductionYear, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-12 p-xl-6">
+          <div class="flex flex-row flex-wrap justify-between lg:justify-start">
+            <div class="pr-2">
+              <ng-container *ngIf="oglas.vehicle.chassis.color" [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-car pr-2', delay: '50', color: oglas.vehicle.chassis.color.colorCode, title:'COLOR', item: oglas.vehicle.chassis.color.color, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-shapes pr-2 text-indigo-800', delay: '200', title:'BODY', item: (oglas.vehicle.chassis.model.body.bodyName | translate), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-vector-square pr-2 text-indigo-800', delay: '225', title:'DRIVETRAIN', item: oglas.vehicle.chassis.model.drivetrain.drivetrainCode, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-cogs pr-2 text-indigo-800', delay: '300', title:'TRANSMISSION', item: (oglas.vehicle.chassis.model.transmission.transmissionName | translate ), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-md-12 p-xl-6">
+          <div class="flex flex-row flex-wrap justify-between lg:justify-start">
+
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-toolbox pr-2 text-indigo-800', delay: '200', title:'MANUFACTURER', item: oglas.vehicle.chassis.model.series.manufacturer.manufacturerName, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-tools pr-2 text-indigo-800', delay: '225', title:'SERIJA', item: oglas.vehicle.chassis.model.series.seriesName, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+            <div class="pr-2">
+              <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-screwdriver pr-2', delay: '150', title:'MODEL', item: oglas.vehicle.chassis.model.modelName, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+-->

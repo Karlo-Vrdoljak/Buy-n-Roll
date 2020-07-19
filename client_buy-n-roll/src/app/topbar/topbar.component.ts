@@ -181,7 +181,7 @@ export class TopbarComponent implements OnInit {
         this.router.navigate(['/test']);
         this.displaySidebar = false;
       } else {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/login'] , { skipLocationChange: true });
         this.displaySidebar = false;
       }
     });
@@ -231,6 +231,10 @@ export class TopbarComponent implements OnInit {
 
   navigateProfile() {
     this.router.navigate(['profile', {username: this.config.user.username}]);
+  }
+  rerouteLogin() {
+    this.router.navigate(['/login'], {skipLocationChange:true});
+
   }
 
 }

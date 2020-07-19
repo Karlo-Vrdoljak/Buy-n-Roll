@@ -12,6 +12,7 @@ import { OglasService } from '../_services/oglas.service';
 import { HelperService } from '../_services/helper.service';
 import { UserService } from '../_services/user.service';
 import { Config } from 'src/environments/config';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
@@ -25,13 +26,12 @@ export class OglasEditResolver implements Resolve<unknown>{
     private translate:TranslateService,
     private translationProvider:TranslationList,
     private oglasService: OglasService,
-    private config:Config
+    private config:Config,
+    private http:HttpClient
   ){ }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
 
-    console.log(route);
-    
     if(!route.params?.query || !route.queryParams?.username || route.queryParams.username != this.config.user.username) {
       const state: RouterState = this.router.routerState;
       this.errorHandler.handleRouterState(state,true);
@@ -43,7 +43,8 @@ export class OglasEditResolver implements Resolve<unknown>{
       this.userService.findUserByUsername(this.config.user.username),
       of(prevRoute),
       this.translate.get(this.translationProvider.getRegistration()),
-      this.oglasService.findOglasByPk(route.params.query)
+      this.oglasService.findOglasByPk(route.params.query),
+      this.http.get('assets/json/currency.json')
     ).pipe(
       catchError(error => {
         const state: RouterState = this.router.routerState;

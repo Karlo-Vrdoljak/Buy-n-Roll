@@ -35,11 +35,11 @@
           <div class="flex items-center justify-end" *ngIf="config.featureUseChat == true">
             <div class="flex flex-col justify-center items-center">
               <i class="text-normal fas fa-reply text-blue-800 mr-2 select-none" style="flex-basis: 10%;"></i>
-              <div class="text-xs text-gray-600" [ngClass]="{'text-red-500': messageMaxLength - message.length == 0 , 'text-yellow-500': (messageMaxLength - message.length < 50 && messageMaxLength - message.length > 0) }" >{{ messageMaxLength - message.length }}</div>
+              <div class="text-xs text-gray-600" [ngClass]="{'text-red-500': config.textAreaMaxLength - message.length == 0 , 'text-yellow-500': (config.textAreaMaxLength - message.length < 50 && config.textAreaMaxLength - message.length > 0) }" >{{ config.textAreaMaxLength - message.length }}</div>
             </div>
             <mat-form-field style="flex-basis: 90%; width: 20em;" class="px-2">
               <mat-label class="font-oswald">Private message</mat-label>
-              <textarea [(ngModel)]="message" matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" [maxlength]="messageMaxLength" placeholder="Hello! Still available?" class="overflow-hidden font-oswald"></textarea>
+              <textarea [(ngModel)]="message" matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" [maxlength]="config.textAreaMaxLength" placeholder="Hello! Still available?" class="overflow-hidden font-oswald"></textarea>
             </mat-form-field>
           </div>
         </div>

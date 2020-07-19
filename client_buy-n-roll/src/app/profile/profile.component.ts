@@ -122,11 +122,11 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
   }
 
   setupBreadCrumbs() {
-    let prevRoute = this.route.snapshot.data.pageData;
+    let prevRoute = this.route.snapshot.data.pageData[1] || '/';
     this.path = this.router.config.map(c => c.path).find(c => prevRoute.includes(c.split('/')[0]))?.split('/')[0];
     this.returnUrl = prevRoute;
     if(prevRoute != '/' && this.path) {
-      this.breadcrumbs = this.breadcrumbService.basicMenu('PROFILE',this.breadcrumbService.determinePath(this.path,this.returnUrl));
+      this.breadcrumbs = this.breadcrumbService.basicMenu('PROFILE',this.breadcrumbService.determinePath());
     } else {
       this.breadcrumbs = this.breadcrumbService.basicMenu('PROFILE');
     }

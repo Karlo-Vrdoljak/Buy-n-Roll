@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { BaseClass } from 'src/app/_services/base.class';
 import { HelperService } from 'src/app/_services/helper.service';
 import { BreadcrumbService } from 'src/app/_services/breadcrumb.service';
@@ -44,6 +44,7 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy{
   }
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
+    this.translateSub?.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -70,11 +71,11 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy{
   }
 
   setupBreadCrumbs() {
-    let prevRoute = this.route.snapshot.data.pageData;
+    let prevRoute = this.route.snapshot.data.pageData[1] || '/';
     this.path = this.router.config.map(c => c.path).find(c => prevRoute.includes(c.split('/')[0]))?.split('/')[0];
     this.returnUrl = prevRoute;
     if(prevRoute != '/' && this.path) {
-      this.breadcrumbs = this.breadcrumbService.basicMenu(this.config.user?.username == this.profileData.username? 'MOJI_OGLASI' : 'USER_OGLASI',this.breadcrumbService.determinePath(this.path,this.returnUrl));
+      this.breadcrumbs = this.breadcrumbService.basicMenu(this.config.user?.username == this.profileData.username? 'MOJI_OGLASI' : 'USER_OGLASI',this.breadcrumbService.determinePath());
     } else {
       this.breadcrumbs = this.breadcrumbService.basicMenu(this.config.user?.username == this.profileData.username? 'MOJI_OGLASI' : 'USER_OGLASI');
     }

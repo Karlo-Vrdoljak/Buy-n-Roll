@@ -13,6 +13,7 @@ import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angula
 import { searchTypes } from '../_types/misc';
 import { ToastrService } from 'ngx-toastr';
 import { NgsRevealService } from 'ngx-scrollreveal';
+import { MatVerticalStepper } from '@angular/material/stepper';
 
 @Component({
   selector: "app-landing",
@@ -67,6 +68,8 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   height:number;
   width:number;
   translations:any;
+
+  @ViewChild('matStep') matStep : MatVerticalStepper;
 
   constructor(
     public helperService: HelperService, 
@@ -167,6 +170,8 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     this.vehicleService.seriesFindByPkmanufacturer(this.selectedManufacturer.PkManufacturer).subscribe((res:any) => {
       this.series = res.series;
       this.loader.stopBackgroundLoader('vehicle');
+      this.matStep.next();
+      
     }, err => this.loader.stopBackgroundLoader('vehicle'));
     
   }
@@ -185,6 +190,8 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     this.vehicleService.modelFindByPkSeries(this.selectedSeries.PkSeries).subscribe((res:any) => {
       this.models = res.models;
       this.loader.stopBackgroundLoader('vehicle');
+      this.matStep.next();
+
     },err => this.loader.stopBackgroundLoader('vehicle'));
 
   }

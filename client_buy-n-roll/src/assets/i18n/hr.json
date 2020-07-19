@@ -85,8 +85,8 @@
   "LOCATIONUSER_PLACEHOLDER": "Unesite vašu potpunu adresu",
   "IMGUPLOAD": "Prenesite sliku svog profila",
   "CONTACT_INFO": "Kontakt podaci",
-  "PREV": "PRETHODNI",
-  "NEXT": "SLJEDEĆI",
+  "PREV": "PRETHODNA",
+  "NEXT": "SLJEDEĆA",
   "CREDS":"Vjerodajnice",
   "NOTICE": "Napomena",
   "POLICY": "POLITIKA",
@@ -134,6 +134,18 @@
   "PRODUCTION_END": "Zadnja Godina Proizvodnje",
   "GAS_TYPE": "Vrsta Goriva",
   "TRANSMISSION": "Prijenos",
-  "VEHICLE_LOCATION": "Vehicle Location"
+  "VEHICLE_LOCATION": "Vehicle Location",
+  "EMPTY_STRING": "",
+  "AD_NAME": "Naziv oglasa",
+  "AD_NAME_PLACEHOLDER": "Unesite naziv oglasa",
+  "VIN_PLACEHOLDER": "Unesite broj šasije vozila",
+  "CURRENCY_MAIN": "Glavna valuta",
+  "CURRENCY_MAIN_PLACEHOLDER": "Unesite količinu",
+  "CURRENCY_SUB": "Pod valuta",
+  "CURRENCY_SUB_PLACEHOLDER": "Unesite količinu",
+  "OGLAS_OPIS": "Opis",
+  "OGLAS_OPIS_PLACEHOLDER": "Opišite vaš oglas..."
+
+
 
 }

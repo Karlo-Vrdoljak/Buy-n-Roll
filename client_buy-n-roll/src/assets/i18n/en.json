@@ -134,6 +134,18 @@
   "PRODUCTION_END": "Production End Year",
   "GAS_TYPE": "Fuel Type",
   "TRANSMISSION": "Transmission",
-  "VEHICLE_LOCATION": "Vehicle Location"
+  "VEHICLE_LOCATION": "Vehicle Location",
+  "EMPTY_STRING": "",
+  "AD_NAME": "Ad name",
+  "AD_NAME_PLACEHOLDER": "Enter the name for your ad",
+  "VIN_PLACEHOLDER": "Enter your vehicle's VIN",
+  "CURRENCY_MAIN": "Main currency",
+  "CURRENCY_MAIN_PLACEHOLDER": "Enter the amount",
+  "CURRENCY_SUB": "Sub currency",
+  "CURRENCY_SUB_PLACEHOLDER": "Enter the amount",
+  "OGLAS_OPIS": "Description",
+  "OGLAS_OPIS_PLACEHOLDER": "Describe your ad..."
+
+
 
 }

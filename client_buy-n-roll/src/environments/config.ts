@@ -10,4 +10,5 @@ export class Config {
     retryCount = 3;
     user:any;
     featureUseChat:boolean = false;
+    textAreaMaxLength = 150;
 }

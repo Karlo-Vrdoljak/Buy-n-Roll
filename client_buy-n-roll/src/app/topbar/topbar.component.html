@@ -115,7 +115,7 @@
 			<div class="p-col">
 			</div>
 			<div class="p-col">
-				<a *ngIf="!config.isLoggedIn" [routerLink]="[ '/login' ]" (click)="openSidebar()" style="text-decoration: none;" mat-button color="accent">
+				<a *ngIf="!config.isLoggedIn" (click)="rerouteLogin();openSidebar()" style="text-decoration: none;" mat-button color="accent">
 					<div>
 						<i class="fas fa-sign-in-alt"></i>
 						{{ 'SIGNIN' | translate }}

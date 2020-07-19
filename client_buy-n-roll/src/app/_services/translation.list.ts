@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { PaymentMethod } from '../_types/oglas.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class TranslationList {
   constructor() {
     this.catalogue = ["VEHICLE_SEARCH"];
     this.landing = ["FORM_ERROR_TWOCHAR","SIGNEDOUT_OK"];
-    this.registration = ["PRIVATNA_OSOBA", "PODUZECE", "PHOTO_SAVED"];
+    this.registration = ["PRIVATNA_OSOBA", "PODUZECE", "PHOTO_SAVED", "GOTOVINA","KARTICNO","NA_RATE","ZAMJENA"];
   }
 
   getCatalogues() {

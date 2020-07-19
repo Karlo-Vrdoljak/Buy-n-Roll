@@ -21,14 +21,11 @@ export class CatalogueActionIconsComponent implements OnInit {
   @Input('username') username:string = null;
 
   message:string = '';
-  messageMaxLength:number = 150;
 
   constructor(public helperService: HelperService, public config: Config, private router:Router) { }
 
   ngOnInit(): void {
 
-    console.log(this.username);
-    console.log(this.editLink, this.ignoreContact);
 
   }
   
@@ -37,11 +34,8 @@ export class CatalogueActionIconsComponent implements OnInit {
     this.editLink = contact;
     this.ignoreContact = edit;
     this.ignoreRating = rating;
-    console.log(this.editLink, this.ignoreContact);
-    
   }
   rerouteEdit() {
-    console.log(this.PkOglas, this.username);
     
     this.router.navigate(['/catalogues/item/edit/', this.PkOglas], {queryParams: {username: this.username}});
   }

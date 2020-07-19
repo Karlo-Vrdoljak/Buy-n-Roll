@@ -120,7 +120,7 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
     this.returnUrl = prevRoute;
 
     if(prevRoute != '/' && path) {
-      this.breadcrumbs = this.breadcrumbService.catalogueItem(this.oglas.oglasNaziv, this.breadcrumbService.determinePath(path,this.returnUrl));
+      this.breadcrumbs = this.breadcrumbService.catalogueItem(this.oglas.oglasNaziv, this.breadcrumbService.determinePath());
     } else {
       this.breadcrumbs = this.breadcrumbService.catalogueItem(this.oglas.oglasNaziv);
     }

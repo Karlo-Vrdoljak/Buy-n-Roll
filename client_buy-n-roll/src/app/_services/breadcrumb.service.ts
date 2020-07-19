@@ -31,26 +31,20 @@ export class BreadcrumbService {
     return menu;
   }
 
-  basicMenu(activatedPage: string, prevRoute?: MenuItem) {    
+  basicMenu(activatedPage: string, prevRoute?: MenuItem, detail:string = '') {    
     let menu = [] as MenuItem[];
     if (prevRoute) {
       menu.push(prevRoute);
     }
     menu.push({
-      label: this.translate.instant(activatedPage),
+      label: this.translate.instant(activatedPage) + detail,
     });
     return menu;
   }
-  determinePath(route: string, fullPath?:string) {
-    switch (route) {
-      case "catalogues":
-        return {
-          label: this.translate.instant("CATALOGUE"),
-          url: fullPath? `/#${fullPath}`: `/${route}/`
-        } as MenuItem;
-
-      default:
-        return null;
-    }
+  determinePath() {
+    return {
+      label: this.translate.instant("BACK"),
+      command: () => window.history.back()
+    } as MenuItem;
   }
 }

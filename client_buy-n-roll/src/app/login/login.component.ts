@@ -149,7 +149,7 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
     
     
     if(prevRoute != '/' && this.path) {
-      this.breadcrumbs = this.breadcrumbService.basicMenu('LOGIN',this.breadcrumbService.determinePath(this.path,this.returnUrl));
+      this.breadcrumbs = this.breadcrumbService.basicMenu('LOGIN',this.breadcrumbService.determinePath());
     } else {
       this.breadcrumbs = this.breadcrumbService.basicMenu('LOGIN');
     }

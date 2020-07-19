@@ -1,0 +1,23 @@
+@import "../../../../assets/scss/light_material_override.scss";
+
+.banner {
+  width: 100vw;
+  margin-top: 90px;
+  background-image: url("../../../../assets/images/catalogue/unknown.jpg");
+  background-size: cover;
+  background-position: bottom;
+  height: 20vh;
+  position: relative;
+}
+
+@media (max-height: 449px) {
+  .banner {
+    margin-top: 50px;
+  }
+  .noBannerWrap {
+    margin-top: 50px;
+  }
+}
+:host ::ng-deep p-dropdown > div {
+  width: 100%;
+}

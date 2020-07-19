@@ -106,11 +106,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   setupBreadcrumbs() {
-    let prevRoute = this.route.snapshot.data.pageData;
+    let prevRoute = this.route.snapshot.data.pageData[0] || '/';
     this.path = this.router.config.map(c => c.path).find(c => prevRoute.includes(c.split('/')[0]))?.split('/')[0];
     this.returnUrl = prevRoute;
     if(prevRoute != '/' && this.path) {
-      this.breadcrumbs = this.breadcrumbService.basicMenu('REGISTRATION', this.breadcrumbService.determinePath(this.path,this.returnUrl));
+      this.breadcrumbs = this.breadcrumbService.basicMenu('REGISTRATION', this.breadcrumbService.determinePath());
     } else {
       this.breadcrumbs = this.breadcrumbService.basicMenu('REGISTRATION');
     }
@@ -310,7 +310,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
   goToLogin(event){
     setTimeout(() => {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'] , { skipLocationChange: true });
     }, 400);
   }
 
