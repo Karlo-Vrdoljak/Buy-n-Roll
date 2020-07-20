@@ -1,0 +1,73 @@
+@import "../../variables.scss";
+
+:host ::ng-deep p-chips {
+  .ui-chips > ul.ui-inputtext {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid $lightGray;
+    display: flex;
+    flex-wrap: wrap;
+    @media (max-width: 1200px) {
+      justify-content: space-between;
+    }
+    @media (min-width: 1200px) {
+      justify-content: flex-start;
+    }
+    li:last-child {
+      width: 100%;
+    }
+  }
+  .ui-chips > ul.ui-inputtext .ui-chips-input-token input {
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    border-radius: 3px;
+    font-weight: bold;
+  }
+  .ui-chips > ul.ui-inputtext .ui-chips-token {
+    margin: 0.25rem;
+  }
+  .ui-chips > ul.ui-inputtext:not(.ui-state-disabled):hover {
+    border-color: $yellow;
+  }
+  &.chips_buynroll_bg_silver {
+    .ui-chips > ul.ui-inputtext .ui-chips-token {
+      background: $silver;
+      color: $deepGray;
+    }
+    .ui-chips > ul.ui-inputtext .ui-chips-input-token input {
+      color: #718096;
+      background: $silver;
+    }
+  }
+  &.chips-gray-300 {
+    .ui-chips > ul.ui-inputtext .ui-chips-token {
+      background: #e2e8f0;
+      color: #718096;
+    }
+    .ui-chips > ul.ui-inputtext .ui-chips-input-token input {
+      color: #718096;
+      background: #e2e8f0;
+    }
+  }
+  &.chips-indigo-200 {
+    .ui-chips > ul.ui-inputtext .ui-chips-token {
+      background: #c3dafe;
+      color: #2d3748;
+    }
+    .ui-chips > ul.ui-inputtext .ui-chips-input-token input {
+      color: #2d3748;
+      background: #c3dafe;
+    }
+  }
+  &.chips-orange-200 {
+    .ui-chips > ul.ui-inputtext .ui-chips-token {
+      background: #feebc8;
+      color: #d69e2e;
+    }
+    .ui-chips > ul.ui-inputtext .ui-chips-input-token input {
+      color: #d69e2e;
+      background: #feebc8;
+    }
+  }
+}

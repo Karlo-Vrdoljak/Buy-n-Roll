@@ -27,7 +27,8 @@ export class OglasEditResolver implements Resolve<unknown>{
     private translationProvider:TranslationList,
     private oglasService: OglasService,
     private config:Config,
-    private http:HttpClient
+    private http:HttpClient,
+    private vehicleService: VehicleService
   ){ }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
@@ -44,7 +45,12 @@ export class OglasEditResolver implements Resolve<unknown>{
       of(prevRoute),
       this.translate.get(this.translationProvider.getRegistration()),
       this.oglasService.findOglasByPk(route.params.query),
-      this.http.get('assets/json/currency.json')
+      this.http.get('assets/json/currency.json'),
+      this.oglasService.getColors(),
+      this.oglasService.getBody(),
+      this.oglasService.getDriveTrain(),
+      this.oglasService.getTransmission(),
+      this.vehicleService.manufacturersFindAll()
     ).pipe(
       catchError(error => {
         const state: RouterState = this.router.routerState;

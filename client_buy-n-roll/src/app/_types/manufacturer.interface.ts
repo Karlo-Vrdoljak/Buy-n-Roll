@@ -56,7 +56,7 @@ export interface Color {
 
 export interface Body {
   PkBody: number;
-  BodyName: string; // 'sedan, hatchback, limuzina'
+  bodyName: string; // 'sedan, hatchback, limuzina'
 
 } 
 export interface GasType {

@@ -12,7 +12,7 @@ export class ColorController {
   @UseGuards(JwtAuthGuard,RolesGuard)
   @Roles('user')
   @Get()
-  testProtected(@Request() req) {
+  getColors(@Request() req) {
     return this.colorService.findAll();
   }
  }

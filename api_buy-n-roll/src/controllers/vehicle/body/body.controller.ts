@@ -2,6 +2,16 @@ import { Controller, Get, Request, HttpService, UseGuards } from '@nestjs/common
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
+import { BodyService } from 'src/vehicle/body/body.service';
 
-@Controller('api/vehicle/body/')
-export class BodyController { }
+@Controller('vehicle/body/')
+export class BodyController { 
+  constructor(private bodyService: BodyService){ }
+
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles('user')
+  @Get()
+  getBody(@Request() req) {
+    return this.bodyService.findAll();
+  }
+}

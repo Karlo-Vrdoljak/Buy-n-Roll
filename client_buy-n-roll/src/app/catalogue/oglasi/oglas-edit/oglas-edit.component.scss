@@ -1,5 +1,5 @@
 @import "../../../../assets/scss/light_material_override.scss";
-
+@import "../../../../assets/scss/chips.scss";
 .banner {
   width: 100vw;
   margin-top: 90px;
@@ -14,10 +14,34 @@
   .banner {
     margin-top: 50px;
   }
-  .noBannerWrap {
-    margin-top: 50px;
-  }
 }
 :host ::ng-deep p-dropdown > div {
   width: 100%;
+}
+
+.inputPill {
+  border:0;
+  border-bottom: 1px solid $lightGray;
+  transition: all 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  &:focus {
+    border-bottom: 1px solid $lightYellow;
+    outline: none;
+  }
+}
+.consumptionLabel{
+  left: 4.75rem;
+  font-size: 0.875rem;
+}
+
+:host ::ng-deep p-dropdown.specs {
+  .ui-dropdown {
+    background: 0;
+    border: 0;
+    .ui-dropdown-trigger {
+      background: 0;
+    }
+    .ui-inputtext {
+      background: 0;
+    }
+  }
 }

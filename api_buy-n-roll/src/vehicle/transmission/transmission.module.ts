@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DbLogs } from 'src/db.logs';
 import { Transmission } from 'src/entity/transmission.entity';
 import { TransmissionService } from './transmission.service';
-import { TransmissionController } from 'src/controllers/vehicle/transmission/series.controller';
+import { TransmissionController } from 'src/controllers/vehicle/transmission/transmission.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Transmission]), HttpModule],

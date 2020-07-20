@@ -12,7 +12,7 @@ export class TranslationList {
   constructor() {
     this.catalogue = ["VEHICLE_SEARCH"];
     this.landing = ["FORM_ERROR_TWOCHAR","SIGNEDOUT_OK"];
-    this.registration = ["PRIVATNA_OSOBA", "PODUZECE", "PHOTO_SAVED", "GOTOVINA","KARTICNO","NA_RATE","ZAMJENA"];
+    this.registration = ["PRIVATNA_OSOBA", "PODUZECE", "PHOTO_SAVED", "GOTOVINA","KARTICNO","NA_RATE","ZAMJENA", 'BENZIN', 'LPG', 'STRUJA', 'HIBRID', 'ETANOL', 'DIZEL', 'IZVRSNO', 'UREDNO', 'DOBRO', 'RABLJENO', 'LOSIJE', 'DIJELOVI', 'LOSE', 'KARAMBOLIRAN', ];
   }
 
   getCatalogues() {
@@ -25,3 +25,4 @@ export class TranslationList {
     return this.registration;
   }
 }
+

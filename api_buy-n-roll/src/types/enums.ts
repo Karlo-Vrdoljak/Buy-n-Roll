@@ -35,3 +35,11 @@ export enum PhotoTypes {
   PROFILE = 'profile',
   OGLAS = 'advertisement'
 }
+export enum GasTypes {
+  BENZIN = 'BENZIN',
+  LPG = 'LPG',
+  STRUJA = 'STRUJA',
+  HIBRID = 'HIBRID',
+  ETANOL = 'ETANOL',
+  DIZEL = 'DIZEL',
+}

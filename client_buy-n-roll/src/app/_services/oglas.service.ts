@@ -27,4 +27,24 @@ export class OglasService {
       catchError(this.errorHandler.handleError)
     );
   }
+  getColors() {
+    return this.http.get(this.config.API_URL_ROOT + "api/vehicle/color/").pipe(
+      retry(this.config.retryCount),
+    );
+  }
+  getBody() {
+    return this.http.get(this.config.API_URL_ROOT + "vehicle/body/").pipe(
+      retry(this.config.retryCount),
+    );
+  }
+  getDriveTrain() {
+    return this.http.get(this.config.API_URL_ROOT + "vehicle/drivetrain/").pipe(
+      retry(this.config.retryCount),
+    );
+  }
+  getTransmission() {
+    return this.http.get(this.config.API_URL_ROOT + "vehicle/transmission/").pipe(
+      retry(this.config.retryCount),
+    );
+  }
 }

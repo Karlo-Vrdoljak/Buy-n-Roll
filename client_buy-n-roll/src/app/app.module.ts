@@ -89,6 +89,8 @@ import { OglasUserResolver } from './_resolvers/oglas-user.resolver';
 import { OglasEditComponent } from './catalogue/oglasi/oglas-edit/oglas-edit.component';
 import { OglasEditResolver } from './_resolvers/oglas-edit.resolver';
 import { AppResolver } from './_resolvers/app.resolver';
+import {ChipsModule} from 'primeng/chips';
+import {InputSwitchModule} from 'primeng/inputswitch';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -192,7 +194,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     DialogModule,
     IMaskModule,
     ProgressBarModule,
-    FileUploadModule
+    FileUploadModule,
+    ChipsModule,
+    InputSwitchModule,
   ],
   providers: [
     TestService,

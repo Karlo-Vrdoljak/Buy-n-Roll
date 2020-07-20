@@ -58,3 +58,11 @@ export enum PaymentMethod {
   NA_RATE = "NA_RATE",
   ZAMJENA = "ZAMJENA"
 }
+export enum GasTypes {
+  BENZIN = 'BENZIN',
+  LPG = 'LPG',
+  STRUJA = 'STRUJA',
+  HIBRID = 'HIBRID',
+  ETANOL = 'ETANOL',
+  DIZEL = 'DIZEL',
+}
