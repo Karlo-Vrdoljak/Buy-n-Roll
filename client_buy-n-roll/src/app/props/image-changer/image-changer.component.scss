@@ -10,7 +10,6 @@
   width: 90vw;
 }
 
-
 @media (min-width: 640px) {
   :host ::ng-deep .ui-dialog {
     width: 20rem;
@@ -27,4 +26,56 @@
   background-size: cover;
   background-position: center;
   border-radius: 50%;
+}
+
+:host ::ng-deep p-fileupload {
+  width: 100%;
+  .ui-fileupload-buttonbar {
+    display: flex;
+    > span {
+      margin-right: 0.25rem !important;
+      margin-left: 0px;
+      order: 1;
+    }
+    > span + p-button {
+      display: none;
+    }
+    p-button {
+      order: 3;
+    }
+  }
+  .ui-fileupload-content {
+    border: 0;
+    .ui-fileupload-files {
+      display: flex;
+      > div {
+        width: 100%;
+      }
+    }
+    .ui-fileupload-row {
+      display: flex !important;
+      width: 100%;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      div {
+        flex-basis: 25%;
+      }
+      div:last-child {
+        align-items: center;
+        button {
+          max-height: 32px;
+        }
+      }
+      > div {
+        display: flex !important;
+        min-width: 50px;
+        img {
+          object-fit: contain;
+        }
+      }
+    }
+  }
+}
+:host ::ng-deep .ui-dialog .ui-dialog-content {
+  padding: 0;
 }

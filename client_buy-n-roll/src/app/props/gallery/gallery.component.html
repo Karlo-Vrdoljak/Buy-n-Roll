@@ -1,0 +1,18 @@
+<div class="relative">
+  <div class="swiper-container" [swiper]="swiperGalleryConfig">
+    <div class="swiper-wrapper" gallerize>
+      <div matRipple class="swiper-slide" *ngFor="let image of photos">
+        <img src="{{image.thumb}}" [attr.imageSrc]="image.src" [attr.thumbSrc]="image.thumb" class="galImg">
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+  
+  <div class="absolute z-10 top-0 left-0 select-none" [ngStyle]="{'margin': (offset + 'rem')}">
+    <button (click)="openImageUpload()" mat-mini-fab color="accent" class="mx-1 mt-2 focus:outline-none" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: 300  }">
+      <i class="fas text-2xl text-yellow-800 fa-cloud-upload-alt rounded-md"></i>
+    </button>
+  </div>
+</div>
+
+<app-image-changer #ic *ngIf="imgUpload" [multi]="true" [single]="false" [opened]="true" (onImageUpload)="handleImages($event)"></app-image-changer>

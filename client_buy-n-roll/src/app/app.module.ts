@@ -91,6 +91,11 @@ import { OglasEditResolver } from './_resolvers/oglas-edit.resolver';
 import { AppResolver } from './_resolvers/app.resolver';
 import {ChipsModule} from 'primeng/chips';
 import {InputSwitchModule} from 'primeng/inputswitch';
+import { GalleryModule } from  '@ngx-gallery/core';
+import { LightboxModule } from  '@ngx-gallery/lightbox';
+import { GallerizeModule } from  '@ngx-gallery/gallerize';
+import { GalleryComponent } from './props/gallery/gallery.component';
+
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -130,6 +135,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ImageChangerComponent,
     OglasUserComponent,
     OglasEditComponent,
+    GalleryComponent,
   ],
   imports: [
     BrowserModule,
@@ -197,6 +203,17 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FileUploadModule,
     ChipsModule,
     InputSwitchModule,
+    GalleryModule.withConfig({
+      dots:true,
+      imageSize: "contain",
+      autoPlay:true,
+      gestures: true,
+      loop:true
+    }),
+    LightboxModule.withConfig({
+      keyboardShortcuts: true,
+    }),
+    GallerizeModule
   ],
   providers: [
     TestService,

@@ -1,19 +1,51 @@
-<p-dialog *ngIf="single == true" (onHide)="EmitValue()" [header]="'IMAGE_UPLOAD' | translate" closeOnEscape="true"  dismissableMask="true" [(visible)]="displayDlgSingleImg" position="center" [modal]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+<p-dialog (onHide)="EmitValue()" [style]="{width: single == true? 'initial': getWidth()}" [header]="'IMAGE_UPLOAD' | translate" closeOnEscape="true" [(visible)]="displayDlgSingleImg" position="center" [modal]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
   <div class="flex flex-col justify-center content-center items-center p-2">
-    <p-fileUpload #fp mode="basic" [chooseLabel]="'CHOOSE' | translate" accept="image/*" auto="true" customUpload="true" (uploadHandler)="onUpload($event)"></p-fileUpload>
-    <div [hidden]="" class="relative p-2" >
-      <div id="uploaded_img" class="uploaded-image shadow-md" style="background-image: url(assets/images/misc/noProfile.png);"></div>
-      <i [hidden]="!showCancel" class="fas fa-times text-yellow-500 absolute top-0 right-0 cursor-pointer" (click)="cancelUpload()"></i>
-    </div>
-    <div *ngIf="payload" class="sm:mt-0 w-full">
-      <a (click)="setEmitValue()" mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100">
-        <div class="flex items-center align-middle">
-          <div style="flex-basis: 15%;">
-            <i class="fas fa-camera-retro buynroll_deepGray pr-2"></i>
-          </div>
-          <div style="flex-basis: 85%;">{{ 'SAVE_IMG' | translate }}</div>
-        </div>
-      </a>
-    </div>
+    <ng-container *ngIf="multi == true">
+      <ng-container [ngTemplateOutlet]="multiImg"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="single == true">
+      <ng-container [ngTemplateOutlet]="singleImg"></ng-container>
+    </ng-container>
+
   </div>
 </p-dialog>
+
+
+<ng-template #singleImg>
+  <p-fileUpload #fp mode="basic" [chooseLabel]="'CHOOSE' | translate" accept="image/*" auto="true" customUpload="true" (uploadHandler)="onUpload($event)"></p-fileUpload>
+  <div [hidden]="" class="relative p-2">
+    <div id="uploaded_img" class="uploaded-image shadow-md" style="background-image: url(assets/images/misc/noProfile.png);"></div>
+    <i [hidden]="!showCancel" class="fas fa-times text-yellow-500 absolute top-0 right-0 cursor-pointer" (click)="cancelUpload()"></i>
+  </div>
+  <div *ngIf="payload" class="sm:mt-0 w-full">
+    <a (click)="setEmitValue()" mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100">
+      <div class="flex items-center align-middle">
+        <div style="flex-basis: 15%;">
+          <i class="fas fa-camera-retro buynroll_deepGray pr-2"></i>
+        </div>
+        <div style="flex-basis: 85%;">{{ 'SAVE_IMG' | translate }}</div>
+      </div>
+    </a>
+  </div>
+</ng-template>
+
+<ng-template #multiImg>
+  <p-fileUpload #fp multiple="multiple" accept="image/*" maxFileSize="4000000">
+    <ng-template pTemplate="toolbar">
+      <div class="order-2"><button pButton (click)="setEmitValue()" class="ui-button-primary" icon="fas fa-save" [label]="'SAVE' | translate | titlecase"></button></div>
+    </ng-template>
+    <ng-template let-file pTemplate="file">
+      <div class="flex flex-row flex-wrap w-full py-1 justify-between items-center">
+        <img class="w-16 bg-cover" [src]="getImgUri(file)" />
+        <div class="w-1/2 px-1">{{ truncate(file.name) }}</div>
+        <div class="w-1/6 px-1">{{ calcFileSize(file.size) }} MB</div>
+        <button (click)="removeImg(file)" mat-mini-fab color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100">
+          <i class="fas fa-times buynroll_deepGray"></i>
+        </button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <div>Custom UI to manage uploaded files</div>
+    </ng-template>
+  </p-fileUpload>
+</ng-template>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild, ViewChildren, AfterViewInit } from '@angular/core';
 import { BaseClass } from 'src/app/_services/base.class';
 import { Config } from 'src/environments/config';
 import { HelperService } from 'src/app/_services/helper.service';
@@ -19,9 +19,6 @@ import { debounceTime, map } from 'rxjs/operators';
 import { LocationPropComponent } from 'src/app/props/location-prop/location-prop.component';
 import { Color, Body, Drivetrain, Transmission, Manufacturer, Series, Model } from 'src/app/_types/manufacturer.interface';
 import { VehicleService } from 'src/app/_services/vehicle.service';
-import { resolve } from 'dns';
-import { Dropdown } from 'primeng/dropdown';
-
 @Component({
   selector: 'app-oglas-edit',
   templateUrl: './oglas-edit.component.html',
@@ -31,7 +28,7 @@ import { Dropdown } from 'primeng/dropdown';
     fadeOutLeftOnLeaveAnimation()
   ]
 })
-export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy {
+export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, AfterViewInit {
   routerSub: Subscription;
   profileData: any;
   path: string;
@@ -70,6 +67,10 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy {
   manufList: Manufacturer[];
   series: Series[];
   models: Model[];
+  numSlides:number = 5;
+
+  swiperGalleryConfig:any;
+  
 
   constructor(
     public config:Config,
@@ -87,7 +88,8 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy {
   ) { 
     super(config,helperService);
   }
-
+  ngAfterViewInit(): void { }
+  
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
     this.translateSub?.unsubscribe();
@@ -136,8 +138,31 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy {
       });
     });
 
+    this.swiperGalleryConfig = this.initSwiper();
+
     console.log(this.oglasModel);
     
+  }
+
+  initSwiper() {
+    return {
+      spaceBetween: 30,
+      slidesPerView: this.numSlides,
+      slidesPerGroup: this.numSlides,
+      direction: 'horizontal',
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      grabCursor: true,
+      mousewheel: true,
+      speed: 1500,
+      effect: 'slide',
+      observer: true,
+      observeParents: true,
+      updateOnWindowResize: true,
+      initialSlide: 0
+    };
   }
 
   setupLoginTracker() {
@@ -147,9 +172,44 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy {
       }
     });
   }
+  initOglasImages() {
+    return [
+      {
+        src: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
+        thumb: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
+        title: "astra f brale"
+      },
+      {
+        src: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
+        thumb: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
+        title: "astra f brale"
+      },
+      {
+        src: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
+        thumb: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
+        title: "astra f brale"
+      },
+      {
+        src: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
+        thumb: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
+        title: "astra f brale"
+      },
+      {
+        src: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
+        thumb: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
+        title: "astra f brale"
+      },
+      {
+        src: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
+        thumb: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
+        title: "astra f brale"
+      }
+    ];
+  }
   setupOglasModel() {
     this.oglasModel = rfdc({proto:true})(this.oglas);
     this.oglasModel['selectedCurrency'] = this.currencyList.find(el =>  el.value.name.toLowerCase().includes(this.oglas.currencyName.toLowerCase()));
+    this.oglasModel.photos = this.initOglasImages();
   }
 
   initCurrencyList(list:any[]) {

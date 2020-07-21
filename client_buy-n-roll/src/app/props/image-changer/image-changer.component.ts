@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FileUpload } from 'primeng/fileupload';
+import { HelperService } from 'src/app/_services/helper.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-image-changer',
@@ -16,27 +18,47 @@ export class ImageChangerComponent implements OnInit {
   @ViewChild("fp") FileUploader: FileUpload;
 
   payload:any = null;
+
+  payloadMulti:any[] = [];
   
   emitValue:any = null;
   showCancel:boolean = false;
-  constructor() { }
+  constructor(
+    public helperService: HelperService,
+    public domSan: DomSanitizer
+    ) { }
 
   ngOnInit(): void {
-    if(this.single == true) {
-      this.multi = false;
-    } else if(this.multi == true) {
-      this.single = false;
-    }
-  }
-
-  EmitValue() {
-    console.log(this.emitValue);
+    console.log(this);
     
+  }
+  EmitValue() {
     this.onImageUpload.emit(this.emitValue);
   }
   setEmitValue() {
-    this.emitValue = this.payload;
+    if(this.single == true) {
+      this.emitValue = this.payload;
+    }
+    if(this.multi == true) {
+      this.emitValue = this.FileUploader.files;
+    }
     this.displayDlgSingleImg = false;
+  }
+  getWidth(numberic = false) {
+    let width = screen.availWidth;
+    switch (true) {
+      case width > 1200: {
+        return numberic == false? '50vw': 50;
+      }
+      case width > 900 && width <= 1200 : {
+        return numberic == false? '75vw': 75;    
+      }
+      case width <= 900 : {
+        return numberic == false? '100vw': 100;
+      }
+      default:
+        return numberic == false? '50vw': 50;
+    }
   }
 
   cancelUpload() {
@@ -53,6 +75,24 @@ export class ImageChangerComponent implements OnInit {
     let img = document.getElementById('uploaded_img') as HTMLElement;
     img.setAttribute('style', `background-image: url('${URL.createObjectURL(this.payload)}')`);
     this.showCancel = true;
+  }
+  logger(l) {
+    console.log(l);
+  }
+
+  removeImg(file:File) {
+    this.FileUploader.files = this.FileUploader.files.filter((pm:File) => pm.name != file.name);
+
+  }
+  calcFileSize(size:number) {
+    return (size * (Math.pow(10,-6))).toFixed(2)
+  }
+  getImgUri(img) {
+    
+    return this.domSan.bypassSecurityTrustResourceUrl(URL.createObjectURL(img));
+  }
+  truncate(name) {
+    return this.helperService.truncateString(name, Math.round(screen.availWidth/32));
   }
 
 }

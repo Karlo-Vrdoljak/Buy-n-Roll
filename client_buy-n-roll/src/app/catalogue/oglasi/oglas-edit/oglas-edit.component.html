@@ -539,7 +539,11 @@
 <app-location-prop #locationProp (onLocationSelect)="updateSelectedLocation($event)"></app-location-prop>
 
 <ng-template #imageViewer>
-  <div class="banner relative">
-
+  <div class="h-64 banner relative">
+    <div class="buynroll_bg_deepGray shadow-md">
+      <div *ngIf="oglasModel.photos && swiperGalleryConfig" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+        <app-gallery [photos]="oglasModel.photos" [config]="swiperGalleryConfig"></app-gallery>
+      </div>
+    </div>
   </div>
 </ng-template>
