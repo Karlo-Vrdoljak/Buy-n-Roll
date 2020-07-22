@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener, ViewChild, ViewChildren, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild, ViewChildren, AfterViewInit, QueryList } from '@angular/core';
 import { BaseClass } from 'src/app/_services/base.class';
 import { Config } from 'src/environments/config';
 import { HelperService } from 'src/app/_services/helper.service';
@@ -14,18 +14,21 @@ import { Subscription, Subject } from 'rxjs';
 import * as rfdc from 'rfdc';
 import { SelectItem } from 'primeng/api';
 import { PaymentMethod, GasTypes, VehicleState } from 'src/app/_types/oglas.interface';
-import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
+import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation, fadeInAnimation } from 'angular-animations';
 import { debounceTime, map } from 'rxjs/operators';
 import { LocationPropComponent } from 'src/app/props/location-prop/location-prop.component';
 import { Color, Body, Drivetrain, Transmission, Manufacturer, Series, Model } from 'src/app/_types/manufacturer.interface';
 import { VehicleService } from 'src/app/_services/vehicle.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { NgModel } from '@angular/forms';
 @Component({
   selector: 'app-oglas-edit',
   templateUrl: './oglas-edit.component.html',
   styleUrls: ['./oglas-edit.component.scss'],
   animations: [
     fadeInRightOnEnterAnimation(),
-    fadeOutLeftOnLeaveAnimation()
+    fadeOutLeftOnLeaveAnimation(),
+    fadeInAnimation()
   ]
 })
 export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, AfterViewInit {
@@ -71,7 +74,6 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
 
   swiperGalleryConfig:any;
   
-
   constructor(
     public config:Config,
     public helperService: HelperService,
@@ -84,7 +86,8 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
     private userService:UserService,
     private toast:ToastrService,
     private translationProvider: TranslationList,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private domS: DomSanitizer
   ) { 
     super(config,helperService);
   }
@@ -172,44 +175,20 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
       }
     });
   }
-  initOglasImages() {
-    return [
-      {
-        src: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
-        thumb: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
-        title: "astra f brale"
-      },
-      {
-        src: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
-        thumb: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
-        title: "astra f brale"
-      },
-      {
-        src: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
-        thumb: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
-        title: "astra f brale"
-      },
-      {
-        src: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
-        thumb: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
-        title: "astra f brale"
-      },
-      {
-        src: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
-        thumb: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
-        title: "astra f brale"
-      },
-      {
-        src: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
-        thumb: this.config.STATIC_FILES + this.profileData.username + '/1594910927935.4ad66162-8859-44ca-a090-47d355ee9c46..jpg',
-        title: "astra f brale"
+  initOglasImages(photos) {
+    return photos.map(p => {
+      return {
+        ...p,
+        src: this.config.STATIC_FILES + this.profileData.username + '/' + p.filename,
+        thumb: this.config.STATIC_FILES + this.profileData.username + '/' + p.filename,
+        title: p.originalname
       }
-    ];
+    });
   }
   setupOglasModel() {
     this.oglasModel = rfdc({proto:true})(this.oglas);
     this.oglasModel['selectedCurrency'] = this.currencyList.find(el =>  el.value.name.toLowerCase().includes(this.oglas.currencyName.toLowerCase()));
-    this.oglasModel.photos = this.initOglasImages();
+    this.oglasModel.photos = this.initOglasImages(this.oglasModel.photos);
   }
 
   initCurrencyList(list:any[]) {
@@ -265,8 +244,6 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
       
       this.loader.startBackgroundLoader('oglas_edit_loader');
       let sub = this.vehicleService.seriesFindByPkmanufacturer(this.oglasModel.selectedManuf.PkManufacturer).subscribe((res:any) => {
-        console.log(res, this.oglasModel.selectedModel);
-        
         this.series = res.series;
 
         this.loader.stopBackgroundLoader('oglas_edit_loader');
@@ -382,12 +359,53 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
     });
   }
   filterInt(prop:number | string) {
-    console.log(typeof prop, prop, this.oglasModel.vehicle.chassis.consumption === prop);
     if(typeof prop === 'string') {
       prop = prop.replace(/\D/g,'');
-      console.log(prop);
-      
     }
+  }
+  onImageUpload(images:File[]) {
     
+    if(!images) return;
+    this.loader.startLoader('oglas_edit_loader');
+    this.userService.uploadImages(images,this.profileData.username, this.oglasModel.PkOglas).subscribe((data:any) => {
+      this.oglasModel.photos = this.initOglasImages(data.photos);
+      this.loader.stopLoader('oglas_edit_loader');
+    }, err => {
+      this.loader.stopLoader('oglas_edit_loader');
+    });
+  }
+  onImageDelete(pkImage: number) {
+    console.log(pkImage);
+    this.loader.startLoader('oglas_edit_loader');
+    this.userService.deleteImage(pkImage).subscribe((res:any) => {
+      this.oglasModel.photos = this.initOglasImages(res.photos);
+      this.loader.stopLoader('oglas_edit_loader');
+    }, err => {
+      this.loader.stopLoader('oglas_edit_loader');
+    });
+  }
+
+  canSubmit() {
+   
+    return [
+      this.oglasModel.oglasNaziv? true: null,
+      this.oglasModel.priceMainCurrency? true: null,
+      this.oglasModel.priceSubCurrency? true: null,
+      this.oglasModel.selectedCurrency? true: null,
+      this.oglasModel.selectedPaymentMethod? true: null,
+      this.oglasModel.selectedManuf? true: null,
+      this.oglasModel.selectedSeries? true: null,
+      this.oglasModel.selectedModel? true: null,
+      this.oglasModel.vehicle.chassis.consumption? true: null,
+      this.oglasModel.vehicle.chassis.kilometers? true: null,
+      this.oglasModel.selectedGasType? true: null,
+      this.oglasModel.vehicle.RegistriranDaNe? true: null,
+      this.oglasModel.vehicle.chassis.makeYear? true: null,
+      this.oglasModel.selectedVehicleState? true: null,
+      this.oglasModel.selectedColor? true: null,
+      this.oglasModel.selectedBody? true: null,
+      this.oglasModel.selectedDrivetrain? true: null,
+      this.oglasModel.selectedTransmission? true: null,
+    ].every(e => e != null);
   }
 }

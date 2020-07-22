@@ -42,7 +42,7 @@ export class HelperService {
 
   logOffRerouteUrl() {
     if(Object.values(ProtectedRoutes).some(pr => this.router.routerState.snapshot.url.includes(pr))) {
-      return '/'
+      return '/';
     } else {
       return '';
     }

@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Request, Res, HttpService, Get, HttpStatus, UseInterceptors, UploadedFile, Param, Put } from '@nestjs/common';
+import { Controller, UseGuards, Post, Request, Res, HttpService, Get, HttpStatus, UseInterceptors, UploadedFile, Param, Put, Delete, UploadedFiles } from '@nestjs/common';
 import { Response } from 'express';
 import { Config } from 'src/config';
 import { User } from 'src/entity/user.entity';
@@ -8,10 +8,10 @@ import { LocationService } from 'src/users/location/location.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
-import { existsSync, mkdirSync, fstat } from 'fs';
+import { existsSync, mkdirSync, fstat, unlinkSync } from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 import * as path from 'path'
 import { PhotoService } from 'src/users/oglas/photo/photo.service';
@@ -31,7 +31,7 @@ export class UserController {
     private locationService: LocationService, 
     private photoService: PhotoService,
     private oglasService: OglasService,
-    private appService: AppService
+    private appService: AppService,
     ) {}
 
   @Post('/findLocation/query')
@@ -49,6 +49,35 @@ export class UserController {
   @Get('/getPhoto/:query')
   async findPhotoByUsername(@Param() req) {
     return this.userService.findProfilePhotoByUsername(req.query);
+  }
+
+  @Delete('/photo/delete/:query')
+  async deletePhotoByPk(@Param() req, @Res() res: Response) {
+    let photo = await this.photoService.getRepo()
+      .createQueryBuilder('p')
+      .leftJoinAndSelect("p.oglas","o")
+      .leftJoinAndSelect("o.vehicle","v")
+      .leftJoinAndSelect("v.user","u")  
+      .where('p.PkPhoto = :pk', {pk: req.query}).getOne();
+    let pkOglas = photo.oglas.PkOglas;
+    console.log(photo, pkOglas);
+    console.log(path.join(__dirname + '/../../assets/static/uploads/' + photo.oglas.vehicle.user.username + '/' + photo.filename));
+    
+    // res.status(HttpStatus.OK).send();
+    // return;
+    if(photo) {
+      try {
+        unlinkSync(path.join(__dirname + '/../../assets/static/uploads/' + photo.oglas.vehicle.user.username + '/' + photo.filename));
+      } catch(err) {
+        console.error(err);
+      }
+      await this.photoService.getRepo().remove(photo);
+      let photos = await this.oglasService.findOglasPhotosByPkOglas(pkOglas);
+      res.status(HttpStatus.OK).send(photos);
+    }
+    else {
+      res.status(HttpStatus.FAILED_DEPENDENCY).send();
+    }
   }
 
   @Get('/data/:query')
@@ -170,6 +199,11 @@ export class UserController {
       user.photo = photo;
       await this.userService.getUserRepo().save(user);
       if(photoForRemoval) {
+        try {
+          unlinkSync(path.join(__dirname + '/../../assets/static/uploads/' + user.username + '/' + photoForRemoval.filename));
+        } catch(err) {
+          console.error(err);
+        }
         await this.photoService.getRepo().remove(photoForRemoval);
       }
       res.status(HttpStatus.CREATED).send();
@@ -240,6 +274,46 @@ export class UserController {
       let oglasi = await this.oglasService.findOglasiByUsername(user.username);
       res.status(HttpStatus.OK).send(oglasi);
     }
+  }
+
+  @Post('/upload/multi')
+  @UseInterceptors(
+    FilesInterceptor('image', 40, {
+      storage: diskStorage({
+        destination: async (req: Request, file: any, cb: any) => {
+          
+          const uploadPath = path.join(__dirname + '/../../assets/static/uploads');
+          // Create folder if doesn't exist
+          
+          if (!existsSync(uploadPath)) {
+            mkdirSync(uploadPath);
+          }
+          if(!existsSync(path.join(uploadPath + '/' + req.headers['username-value']))) {
+            mkdirSync(path.join(uploadPath + '/' + req.headers['username-value']));
+          }
+          cb(null, path.join(uploadPath + '/' + req.headers['username-value']));
+        },
+        filename: (req, file, callback) => {
+          callback(null, `${Date.now()}.${uuidv4()}.${extname(file.originalname)}`);
+        }
+      }),
+    }),
+  )
+  async uploadFileMulti(@UploadedFiles() files, @Request() request, @Res() res: Response) {
+
+    let pkOglas = request.headers['pk-oglas'];
+    
+    let photos = files.map(f => this.photoService.generatePhotoOglas(f)) as Photo[];
+
+    let oglas = await this.oglasService.getRepo().findOne({ relations: ["photos"] });
+    await Promise.all(photos.map(async p => {
+      await this.photoService.getRepo().save(p);
+    }));
+    oglas.photos.push(...photos);
+    
+    await this.oglasService.getRepo().save(oglas);
+    let result = await this.oglasService.findOglasPhotosByPkOglas(pkOglas);
+    res.status(HttpStatus.CREATED).send(result);
   }
 
 }

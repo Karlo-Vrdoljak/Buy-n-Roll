@@ -148,7 +148,12 @@
   "CHIPS_PLACEHOLDER": "Write here",
   "CHIPS_INFO": "Write down all the info for each category. You can enter multiple key words and separate them with TAB or ENTER. If a category is left out empty then it will not be shown in your ad.",
   "LOCATIONOGLAS": "FULL ADDRESS",
-  "LOCATIONOGLAS_PLACEHOLDER": "Enter your ad's full address"
+  "LOCATIONOGLAS_PLACEHOLDER": "Enter your ad's full address",
+  "NO_PHOTOS": "No photos of your car? Upload some now!",
+  "CONFIRM_DELETE": "Delete confirmation",
+  "YES": "yes",
+  "NO": "no",
+  "DELETE_CONFIRM_MSG": "Are you sure?"
 
 
 

@@ -8,26 +8,34 @@
     <div class="flex justify-center items-center " [ngsReveal]="{ origin: 'right'  }">
       <div class="max-w-full lg:w-full sm:mx-8 md:mx-24 lg:mx-48 xl:64 mx-2 rounded overflow-hidden border border-gray-300  shadow-md relative z-0">
         <div class="bg-gray-100 z-10 relative p-4 w-full font-oswald font-semibold text-gray-800 text-2xl">
-          <div *ngIf="pageIndex == 0" ngsReveal>
+          <div *ngIf="pageIndex == 0">
             <ng-container *ngTemplateOutlet="basicInfo"></ng-container>
           </div>
-          <div *ngIf="pageIndex == 1" ngsReveal>
+          <div *ngIf="pageIndex == 1">
             <ng-container *ngTemplateOutlet="vehEquipment"></ng-container>
           </div>
-          <div *ngIf="pageIndex == 2" ngsReveal>
+          <div *ngIf="pageIndex == 2">
             <ng-container *ngTemplateOutlet="vehSpecs"></ng-container>
           </div>
-          <div class="flex flex-row p-2">
-            <button *ngIf="pageIndex != 0" style="margin-right: 0.5rem;" (click)="DecPage()" mat-raised-button color="accent" class="w-36 transition-colors duration-150 ease-in" [ngClass]="{'bg_error': false}">
-              <div class="flex items-center align-middle justify-center w-full">
-                <i class="fas fa-arrow-circle-left pr-2 text-yellow-800 text-xl"></i>
-                {{ 'PREV' | translate }}
-              </div>
-            </button>
-            <button *ngIf="pageIndex != 2" (click)="IncPage()" mat-raised-button color="accent" class="w-36 transition-colors duration-150 ease-in" [ngClass]="{'bg_error': false}">
-              <div class="flex items-center align-middle justify-center w-full">
-                {{ 'NEXT' | translate }}
-                <i class="fas fa-arrow-circle-right pl-2 text-yellow-800 text-xl"></i>
+          <div class="flex flex-row p-2 justify-between">
+            <div>
+              <button *ngIf="pageIndex != 0" style="margin-right: 0.5rem;" (click)="DecPage()" mat-raised-button color="accent" class="w-36 transition-colors duration-150 ease-in" [ngClass]="{'bg_error': false}">
+                <div class="flex items-center align-middle justify-center w-full">
+                  <i class="fas fa-arrow-circle-left pr-2 text-yellow-800 text-xl"></i>
+                  {{ 'PREV' | translate }}
+                </div>
+              </button>
+              <button *ngIf="pageIndex != 2" (click)="IncPage()" mat-raised-button color="accent" class="w-36 transition-colors duration-150 ease-in" [ngClass]="{'bg_error': false}">
+                <div class="flex items-center align-middle justify-center w-full">
+                  {{ 'NEXT' | translate }}
+                  <i class="fas fa-arrow-circle-right pl-2 text-yellow-800 text-xl"></i>
+                </div>
+              </button>
+            </div>
+            <button *ngIf="canSubmit()" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] mat-raised-button color="accent" class="w-full lg:w-1/2 transition-colors duration-150 ease-in">
+              <div class="flex items-center align-middle justify-center">
+                <i class="fas fa-sign-in-alt pr-2 text-yellow-800 text-xl"></i>
+                {{ 'REGISTERME' | translate }}
               </div>
             </button>
           </div>
@@ -40,36 +48,38 @@
 </div>
 
 <ng-template #basicInfo>
-  <div class="p-grid p-nogutter w-full font-oswald text-gray-800" [ngsReveal]="{ origin: 'right', delay: 100  }">
+  <div class="p-grid p-nogutter w-full font-oswald text-gray-800">
     <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" style="padding-bottom: 0;">
       <mat-form-field class="px-2 font-base w-full">
         <mat-label class="font-oswald">{{ 'AD_NAME' | translate | uppercase }}</mat-label>
-        <input matInput [(ngModel)]="oglasModel.oglasNaziv" maxlength="50" placeholder="{{ 'AD_NAME_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+        <input required matInput #ngModel [(ngModel)]="oglasModel.oglasNaziv" maxlength="50" placeholder="{{ 'AD_NAME_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
       </mat-form-field>
     </div>
     <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" style="padding-top: 0;">
       <mat-form-field class="px-2 font-base w-full">
         <mat-label class="font-oswald">{{ 'VIN' | translate | uppercase }}</mat-label>
-        <input matInput minlength="17" maxlength="17" [(ngModel)]="oglasModel.vehicle.chassis.VIN" placeholder="{{ 'VIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+        <input matInput #vinInput="ngModel" minlength="17" maxlength="17" [(ngModel)]="oglasModel.vehicle.chassis.VIN" placeholder="{{ 'VIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
       </mat-form-field>
+      <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('VIN' | translate | titlecase), error: vinInput, useMinlength: true, minlength: 17 }"></ng-container>
+
     </div>
   </div>
   <div class="p-grid p-nogutter w-full font-oswald text-gray-800">
     <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" [ngsReveal]="{ origin: 'right', delay: 150  }">
       <mat-form-field class="px-2 font-base w-full">
         <mat-label class="font-oswald">{{ 'CURRENCY_MAIN' | translate | uppercase }}</mat-label>
-        <input [imask]="iMaskMainCurrency" maxlength="15" type="text" matInput [(ngModel)]="oglasModel.priceMainCurrency" placeholder="{{ 'CURRENCY_MAIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+        <input required [imask]="iMaskMainCurrency" maxlength="15" type="text" matInput #ngModel [(ngModel)]="oglasModel.priceMainCurrency" placeholder="{{ 'CURRENCY_MAIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
       </mat-form-field>
     </div>
     <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" [ngsReveal]="{ origin: 'right', delay: 150  }">
       <mat-form-field class="px-2 font-base w-full">
         <mat-label class="font-oswald">{{ 'CURRENCY_SUB' | translate | uppercase }}</mat-label>
-        <input [imask]="iMaskSubCurrency" maxlength="2" type="text" matInput [(ngModel)]="oglasModel.priceSubCurrency" placeholder="{{ 'CURRENCY_SUB_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+        <input required [imask]="iMaskSubCurrency" maxlength="2" type="text" matInput #ngModel [(ngModel)]="oglasModel.priceSubCurrency" placeholder="{{ 'CURRENCY_SUB_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
       </mat-form-field>
     </div>
     <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" [ngsReveal]="{ origin: 'right', delay: 200  }">
       <div class="p-2 w-full">
-        <p-dropdown [autoDisplayFirst]="false" appendTo="body" [options]="currencyList" [(ngModel)]="oglasModel.selectedCurrency" [filter]="true" optionLabel="label" [virtualScroll]="true" [itemSize]="36">
+        <p-dropdown required [autoDisplayFirst]="false" appendTo="body" [options]="currencyList" #ngModel [(ngModel)]="oglasModel.selectedCurrency" [filter]="true" optionLabel="label" [virtualScroll]="true" [itemSize]="36">
           <ng-template let-item pTemplate="selectedItem">
             <div class="flex flex-no-wrap items-center flex-row">
               <div class="text-gray-800 font-normal flex font-oswald text-lg px-2">
@@ -92,7 +102,7 @@
     </div>
     <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" [ngsReveal]="{ origin: 'right', delay: 200  }">
       <div class="p-2 w-full">
-        <p-dropdown [autoDisplayFirst]="false" appendTo="body" [options]="paymentMethodList" [(ngModel)]="oglasModel.selectedPaymentMethod" [filter]="true" optionLabel="label">
+        <p-dropdown required [autoDisplayFirst]="false" appendTo="body" [options]="paymentMethodList" #ngModel [(ngModel)]="oglasModel.selectedPaymentMethod" [filter]="true" optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
             <div class="flex flex-no-wrap items-center justify-between flex-row">
               <div class="text-gray-800 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -128,11 +138,11 @@
         <div class="flex items-center justify-end">
           <div class="flex flex-col justify-center items-center">
             <i class="text-normal fas fa-pen text-blue-800 mr-2 select-none" style="flex-basis: 5%;"></i>
-            <div class="text-sm text-gray-600" [ngClass]="{'text-red-500': textAreaMaxLength - oglas.oglasOpis.length == 0 , 'text-yellow-500': (textAreaMaxLength - oglas.oglasOpis.length < 50 && textAreaMaxLength - oglas.oglasOpis.length > 0) }">{{ textAreaMaxLength - oglas.oglasOpis.length }}</div>
+            <div class="text-sm text-gray-600" [ngClass]="{'text-red-500': textAreaMaxLength - oglasModel.oglasOpis.length == 0 , 'text-yellow-500': (textAreaMaxLength - oglasModel.oglasOpis.length < 50 && textAreaMaxLength - oglasModel.oglasOpis.length > 0) }">{{ textAreaMaxLength - oglasModel.oglasOpis.length }}</div>
           </div>
           <mat-form-field style="flex-basis: 95%;" class="font-mw text-lg">
             <mat-label class="font-oswald text-3xl">{{ 'OGLAS_OPIS' | translate | uppercase }}</mat-label>
-            <textarea [(ngModel)]="oglas.oglasOpis" style="margin-top: 0.25rem;" matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" [maxlength]="textAreaMaxLength" [placeholder]="'OGLAS_OPIS_PLACEHOLDER | translate'" class="overflow-hidden"></textarea>
+            <textarea [(ngModel)]="oglasModel.oglasOpis" style="margin-top: 0.25rem;" matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" [maxlength]="textAreaMaxLength" [placeholder]="'OGLAS_OPIS_PLACEHOLDER' | translate" class="overflow-hidden"></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -157,7 +167,7 @@
       <div>
         <div class="font-oswald font-2xl text-gray-600 font-thin">{{ ( 'KLIMA' | translate) | uppercase }}</div>
       </div>
-      <p-chips [max]="20" [placeholder]="'CHIPS_PLACEHOLDER' | translate | uppercase" [(ngModel)]="oglas.airConditioning" [allowDuplicate]="false" [addOnTab]="true" [addOnBlur]="true" class="chips-gray-300">
+      <p-chips [max]="20" [placeholder]="'CHIPS_PLACEHOLDER' | translate | uppercase" [(ngModel)]="oglasModel.airConditioning" [allowDuplicate]="false" [addOnTab]="true" [addOnBlur]="true" class="chips-gray-300">
         <ng-template let-item pTemplate="item">
           <div class="font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-600">{{item | uppercase}}</div>
         </ng-template>
@@ -167,7 +177,7 @@
       <div>
         <div class="font-oswald font-2xl text-gray-600 font-thin">{{ ( 'MUZIKA' | translate) | uppercase }}</div>
       </div>
-      <p-chips [max]="20" [placeholder]="'CHIPS_PLACEHOLDER' | translate | uppercase" [(ngModel)]="oglas.autoRadioDefs" [allowDuplicate]="false" [addOnTab]="true" [addOnBlur]="true" class="chips-indigo-200">
+      <p-chips [max]="20" [placeholder]="'CHIPS_PLACEHOLDER' | translate | uppercase" [(ngModel)]="oglasModel.autoRadioDefs" [allowDuplicate]="false" [addOnTab]="true" [addOnBlur]="true" class="chips-indigo-200">
         <ng-template let-item pTemplate="item">
           <div class="font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 bg-indigo-200 text-gray-800">{{item | uppercase}}</div>
         </ng-template>
@@ -177,7 +187,7 @@
       <div>
         <div class="font-oswald font-2xl text-gray-600 font-thin">{{ ( 'COMFORT' | translate) | uppercase }}</div>
       </div>
-      <p-chips [max]="20" [placeholder]="'CHIPS_PLACEHOLDER' | translate | uppercase" [(ngModel)]="oglas.comfortAccessories" [allowDuplicate]="false" [addOnTab]="true" [addOnBlur]="true" class="chips-orange-200">
+      <p-chips [max]="20" [placeholder]="'CHIPS_PLACEHOLDER' | translate | uppercase" [(ngModel)]="oglasModel.comfortAccessories" [allowDuplicate]="false" [addOnTab]="true" [addOnBlur]="true" class="chips-orange-200">
         <ng-template let-item pTemplate="item">
           <div class="font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 bg-orange-200 text-yellow-600">{{item | uppercase}}</div>
         </ng-template>
@@ -187,7 +197,7 @@
       <div>
         <div class="font-oswald font-2xl text-gray-600 font-thin">{{ ( 'SAFETY' | translate) | uppercase }}</div>
       </div>
-      <p-chips [max]="20" [placeholder]="'CHIPS_PLACEHOLDER' | translate | uppercase" [(ngModel)]="oglas.safety" [allowDuplicate]="false" [addOnTab]="true" [addOnBlur]="true" class="chips_buynroll_bg_silver">
+      <p-chips [max]="20" [placeholder]="'CHIPS_PLACEHOLDER' | translate | uppercase" [(ngModel)]="oglasModel.safety" [allowDuplicate]="false" [addOnTab]="true" [addOnBlur]="true" class="chips_buynroll_bg_silver">
         <ng-template let-item pTemplate="item">
           <div class="font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 buynroll_bg_silver text-gray-600">{{item | uppercase}}</div>
         </ng-template>
@@ -197,7 +207,7 @@
       <div>
         <div class="font-oswald font-2xl text-gray-600 font-thin">{{ ( 'THEFT_SAFETY' | translate) | uppercase }}</div>
       </div>
-      <p-chips [max]="20" [placeholder]="'CHIPS_PLACEHOLDER' | translate | uppercase" [(ngModel)]="oglas.theftSafety" [allowDuplicate]="false" [addOnTab]="true" [addOnBlur]="true" class="chips-gray-300">
+      <p-chips [max]="20" [placeholder]="'CHIPS_PLACEHOLDER' | translate | uppercase" [(ngModel)]="oglasModel.theftSafety" [allowDuplicate]="false" [addOnTab]="true" [addOnBlur]="true" class="chips-gray-300">
         <ng-template let-item pTemplate="item">
           <div class="font-oswald cursor-default inline-block rounded-sm px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-600">{{item | uppercase}}</div>
         </ng-template>
@@ -225,7 +235,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-toolbox px-2 text-indigo-800"></i>
-            <p-dropdown [autoDisplayFirst]="false" #ddManuf appendTo="body" class="specs" [options]="manufList" [(ngModel)]="oglasModel.selectedManuf" (onChange)="getSeries(true)" [filter]="true" optionLabel="manufacturerName" [virtualScroll]="true" [itemSize]="36">
+            <p-dropdown required [autoDisplayFirst]="false" #ddManuf appendTo="body" class="specs" [options]="manufList" [(ngModel)]="oglasModel.selectedManuf" (onChange)="getSeries(true)" [filter]="true" optionLabel="manufacturerName" [virtualScroll]="true" [itemSize]="36">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -249,7 +259,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-tools px-2 text-indigo-800"></i>
-            <p-dropdown [autoDisplayFirst]="false" #ddSeries appendTo="body" class="specs" [options]="series" [(ngModel)]="oglasModel.selectedSeries" (onChange)="getModels(true)" [filter]="true" optionLabel="seriesName" [virtualScroll]="true" [itemSize]="36">
+            <p-dropdown required [autoDisplayFirst]="false" #ddSeries appendTo="body" class="specs" [options]="series" [(ngModel)]="oglasModel.selectedSeries" (onChange)="getModels(true)" [filter]="true" optionLabel="seriesName" [virtualScroll]="true" [itemSize]="36">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -273,7 +283,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-screwdriver px-2 text-indigo-800"></i>
-            <p-dropdown [autoDisplayFirst]="false" #ddModel appendTo="body" class="specs" [options]="models" [(ngModel)]="oglasModel.selectedModel" (onChange)="getSeries()" [filter]="true" optionLabel="modelName" [virtualScroll]="true" [itemSize]="36">
+            <p-dropdown required [autoDisplayFirst]="false" #ddModel appendTo="body" class="specs" [options]="models" [(ngModel)]="oglasModel.selectedModel" (onChange)="getSeries()" [filter]="true" optionLabel="modelName" [virtualScroll]="true" [itemSize]="36">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -301,7 +311,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-gas-pump text-indigo-800 px-2"></i>
-            <input type="text" [(ngModel)]="oglasModel.vehicle.chassis.consumption" pKeyFilter="pint" maxlength="3" class="font-oswald inputPill  inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700">
+            <input required type="text" #ngModel [(ngModel)]="oglasModel.vehicle.chassis.consumption" pKeyFilter="pint" maxlength="3" class="font-oswald inputPill  inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700">
             <div class="absolute text-sm font-light pointer-events-none" style="right: 0.5rem;">L/100KM</div>
           </div>
         </div>
@@ -311,7 +321,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-road text-indigo-800 px-2"></i>
-            <input type="text" [(ngModel)]="oglas.vehicle.chassis.kilometers" pKeyFilter="pint" maxlength="12" class="font-oswald inputPill  inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700">
+            <input required type="text" #ngModel [(ngModel)]="oglasModel.vehicle.chassis.kilometers" pKeyFilter="pint" maxlength="12" class="font-oswald inputPill  inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700">
             <div class="absolute text-sm font-light pointer-events-none" style="right: 0.5rem;">KM</div>
           </div>
         </div>
@@ -321,9 +331,9 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-burn text-indigo-800 px-2"></i>
-            <!-- <input type="text" [(ngModel)]="oglas.vehicle.chassis.model.gasType.gasType" pKeyFilter="pint" maxlength="12" class="font-oswald inputPill cursor-default  px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700"> -->
+            <!-- <input required type="text" #ngModel [(ngModel)]="oglasModel.vehicle.chassis.model.gasType.gasType" pKeyFilter="pint" maxlength="12" class="font-oswald inputPill cursor-default  px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700"> -->
             <!-- <div class="absolute text-sm font-light" style="right: 0.5rem;">KM</div> -->
-            <p-dropdown [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="gasTypeList" [(ngModel)]="oglasModel.selectedGasType" [filter]="true" optionLabel="label">
+            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="gasTypeList" #ngModel [(ngModel)]="oglasModel.selectedGasType" [filter]="true" optionLabel="label">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -340,7 +350,7 @@
               </ng-template>
             </p-dropdown>
           </div>
-          <!-- <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-burn pr-2 text-indigo-800', delay: '275', title:'GAS_TYPE', item: (oglas.vehicle.chassis.model.gasType.gasType | translate ), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container> -->
+          <!-- <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-burn pr-2 text-indigo-800', delay: '275', title:'GAS_TYPE', item: (oglasModel.vehicle.chassis.model.gasType.gasType | translate ), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container> -->
         </div>
       </div>
     </div>
@@ -348,14 +358,14 @@
       <div class="flex flex-row flex-wrap justify-between lg:justify-start">
         <div class="flex flex-col p-2">
           <div>
-            <div class="font-oswald text-lg text-gray-600 font-thin">{{ ((oglas.vehicle.RegistriranDaNe == true? 'REGISTRIRAN': 'NEREGISTRIRAN') | translate) | uppercase }}</div>
+            <div class="font-oswald text-lg text-gray-600 font-thin">{{ ((oglasModel.vehicle.RegistriranDaNe == true? 'REGISTRIRAN': 'NEREGISTRIRAN') | translate) | uppercase }}</div>
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-between content-center relative p-2" style="min-width: 8rem;">
             <i class="fas fa-file-signature text-indigo-800 px-2"></i>
-            <!-- <input type="text" [(ngModel)]="oglasModel.vehicle.chassis.consumption" pKeyFilter="pint" maxlength="3" class="font-oswald inputPill cursor-default  px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700"> -->
-            <p-inputSwitch class="flex" [(ngModel)]="oglas.vehicle.RegistriranDaNe"></p-inputSwitch>
+            <!-- <input required type="text" #ngModel [(ngModel)]="oglasModel.vehicle.chassis.consumption" pKeyFilter="pint" maxlength="3" class="font-oswald inputPill cursor-default  px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700"> -->
+            <p-inputSwitch class="flex" [(ngModel)]="oglasModel.vehicle.RegistriranDaNe"></p-inputSwitch>
             <!-- <div class="absolute text-sm font-light" style="right: 0.5rem;">L/100KM</div> -->
-            <!-- <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-file-signature pr-2 text-indigo-800', delay: '125', title:'REGISTRATION', item: oglas.vehicle.RegistriranDaNe == true? 'REGISTRIRAN': 'NEREGISTRIRAN', bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container> -->
+            <!-- <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-file-signature pr-2 text-indigo-800', delay: '125', title:'REGISTRATION', item: oglasModel.vehicle.RegistriranDaNe == true? 'REGISTRIRAN': 'NEREGISTRIRAN', bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container> -->
           </div>
         </div>
         <div class="flex flex-col p-2">
@@ -364,7 +374,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-calendar text-indigo-800  px-2"></i>
-            <input type="text" [(ngModel)]="oglas.vehicle.chassis.makeYear" pKeyFilter="pint" maxlength="4" class="font-oswald inputPill  inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700">
+            <input required type="text" #ngModel [(ngModel)]="oglasModel.vehicle.chassis.makeYear" pKeyFilter="pint" maxlength="4" class="font-oswald inputPill  inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700">
           </div>
         </div>
         <div class="flex flex-col p-2">
@@ -373,7 +383,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-wrench text-indigo-800 px-2"></i>
-            <p-dropdown [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="vehicleStateList" [(ngModel)]="oglasModel.selectedVehicleState" [filter]="true" optionLabel="label">
+            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="vehicleStateList" #ngModel [(ngModel)]="oglasModel.selectedVehicleState" [filter]="true" optionLabel="label">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -410,7 +420,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-car text-indigo-800 rounded-md shadow-sm px-1 ml-2 mr-1" [style.background]="helperService.invertColor(oglasModel.selectedColor && oglasModel.selectedColor.colorCode? oglasModel.selectedColor.colorCode : '#434190')" [style.color]="oglasModel.selectedColor && oglasModel.selectedColor.colorCode? oglasModel.selectedColor.colorCode : '#434190'"></i>
-            <p-dropdown [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="colorList" [(ngModel)]="oglasModel.selectedColor" [filter]="true" optionLabel="color" [virtualScroll]="true" [itemSize]="36">
+            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="colorList" #ngModel [(ngModel)]="oglasModel.selectedColor" [filter]="true" optionLabel="color" [virtualScroll]="true" [itemSize]="36">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -434,7 +444,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-shapes px-2 text-indigo-800"></i>
-            <p-dropdown [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="bodyList" [(ngModel)]="oglasModel.selectedBody" [filter]="true" optionLabel="bodyName" [virtualScroll]="true" [itemSize]="36">
+            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="bodyList" #ngModel [(ngModel)]="oglasModel.selectedBody" [filter]="true" optionLabel="bodyName" [virtualScroll]="true" [itemSize]="36">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -458,7 +468,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-vector-square px-2 text-indigo-800"></i>
-            <p-dropdown [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="drivetrainList" [(ngModel)]="oglasModel.selectedDrivetrain" [filter]="true" optionLabel="drivetrainCode" [virtualScroll]="true" [itemSize]="36">
+            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="drivetrainList" #ngModel [(ngModel)]="oglasModel.selectedDrivetrain" [filter]="true" optionLabel="drivetrainCode" [virtualScroll]="true" [itemSize]="36">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -482,7 +492,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-cogs px-2 text-indigo-800"></i>
-            <p-dropdown [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="transmissionList" [(ngModel)]="oglasModel.selectedTransmission" [filter]="true" optionLabel="transmissionName" [virtualScroll]="true" [itemSize]="36">
+            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="transmissionList" #ngModel [(ngModel)]="oglasModel.selectedTransmission" [filter]="true" optionLabel="transmissionName" [virtualScroll]="true" [itemSize]="36">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -539,11 +549,26 @@
 <app-location-prop #locationProp (onLocationSelect)="updateSelectedLocation($event)"></app-location-prop>
 
 <ng-template #imageViewer>
-  <div class="h-64 banner relative">
+  <div class="h-64 banner relative" *ngIf="oglasModel.photos && swiperGalleryConfig">
     <div class="buynroll_bg_deepGray shadow-md">
-      <div *ngIf="oglasModel.photos && swiperGalleryConfig" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
-        <app-gallery [photos]="oglasModel.photos" [config]="swiperGalleryConfig"></app-gallery>
+      <div [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+        <app-gallery [photos]="oglasModel.photos" [config]="swiperGalleryConfig" (onImageUpload)="onImageUpload($event)" (onImageDelete)="onImageDelete($event)"></app-gallery>
       </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #errors let-title='title' let-error='error' let-useEmail='useEmail' let-useEqual='useEqual' let-useMinlength='useMinlength' let-minLength='minLength' let-useMaxlength='useMaxlength' let-maxLength='maxLength'>
+  <div *ngIf="error.invalid && (error.dirty || error.touched)" class="font-mw text-gray-600 text-xs absolute" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+    alo
+    <div *ngIf="error.errors.required" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+      {{ title }} {{ 'REQUIRED' | translate }}
+    </div>
+    <div *ngIf="error.errors.maxLength && useMaxlength == true" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+      {{ title }} {{ 'CANTBEMORETHAN' | translate }} {{ error.errors.maxLength.requiredLength }} {{ 'ZNAKOVA_DULJINE' | translate }}
+    </div>
+    <div *ngIf="error.errors.minlength && useMinlength == true" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+      {{ title }} {{ 'MUSTHAVEMIN' | translate }} {{ error.errors.minlength.requiredLength }} {{ 'ZNAKOVA_DULJINE' | translate }}
     </div>
   </div>
 </ng-template>

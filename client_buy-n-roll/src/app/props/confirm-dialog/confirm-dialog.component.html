@@ -1,0 +1,21 @@
+<p-dialog (onHide)="confirmationResolve()" class="confirm" [header]="'CONFIRM_DELETE' | translate" closeOnEscape="true" dismissableMask="true" [(visible)]="displayConfirm" position="center" [modal]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <div class="flex flex-col p-2">
+    <div class="flex flex-row content-center">
+      <div class="font-oswald text-xl font-semibold text-red-900 px-2">
+        {{'DELETE_CONFIRM_MSG' | translate }}
+      </div>
+      <div class="flex flex-row justify-evenly pb-2">
+        <div class="pr-2">
+          <button (click)="confirmationResolve(true)" mat-raised-button color="accent" class="mx-1 mt-2 focus:outline-none bgRed">
+            <i class="fas text-2xl text-red-900 fa-check-circle pr-2"></i>
+            <span class="font-oswald font-bold">{{'YES' | translate | uppercase}}</span>
+          </button>
+        </div>
+        <button (click)="displayConfirm = false;" mat-button color="accent" class="mx-1 mt-2 focus:outline-none">
+          <i class="fas fa-times-circle text-2xl text-yellow-800 pr-2"></i>
+          <span class="font-oswald font-bold">{{'NO' | translate | uppercase}}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</p-dialog>

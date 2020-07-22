@@ -5,6 +5,9 @@
   margin-top: 90px;
   height: 20vh;
   position: relative;
+  &.noImg{
+    background-image: url('../../../../assets/images/catalogue/unknown.jpg');
+  }
 }
 
 @media (max-height: 449px) {

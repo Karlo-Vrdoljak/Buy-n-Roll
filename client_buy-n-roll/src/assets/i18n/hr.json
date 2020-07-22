@@ -148,7 +148,13 @@
   "CHIPS_PLACEHOLDER": "Napišite ovdje",
   "CHIPS_INFO": "Zapišite sve informacije za svaku kategoriju. Možete unijeti više ključnih riječi i odvojiti ih koristeći TAB ili ENTER. Ukoliko se kategorija ostavi prazna, ona se neće prikazati u vašem oglasu.",
   "LOCATIONOGLAS": "PUNA ADRESA",
-  "LOCATIONOGLAS_PLACEHOLDER": "Unesite potpunu adresu vašeg oglasa"
+  "LOCATIONOGLAS_PLACEHOLDER": "Unesite potpunu adresu vašeg oglasa",
+  "NO_PHOTOS": "Nemate fotografija svog automobila? Prenesite ih!",
+  "CONFIRM_DELETE": "Potvrda brisanja",
+  "YES": "da",
+  "NO": "ne",
+  "DELETE_CONFIRM_MSG": "Jeste li sigurni?"
+
 
 
 

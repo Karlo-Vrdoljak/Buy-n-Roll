@@ -166,6 +166,8 @@ export class TopbarComponent implements OnInit {
   }
   logOff() {
     if(this.helperService.logOffRerouteUrl() == '/') {
+      console.log('alo');
+      
       this.router.navigateByUrl('/');
     }
     this.config.user = null;

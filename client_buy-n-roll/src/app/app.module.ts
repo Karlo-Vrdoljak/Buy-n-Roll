@@ -95,7 +95,9 @@ import { GalleryModule } from  '@ngx-gallery/core';
 import { LightboxModule } from  '@ngx-gallery/lightbox';
 import { GallerizeModule } from  '@ngx-gallery/gallerize';
 import { GalleryComponent } from './props/gallery/gallery.component';
-
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
+import { ConfirmDialogComponent } from './props/confirm-dialog/confirm-dialog.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -136,6 +138,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     OglasUserComponent,
     OglasEditComponent,
     GalleryComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -213,7 +216,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     LightboxModule.withConfig({
       keyboardShortcuts: true,
     }),
-    GallerizeModule
+    GallerizeModule,
+    ConfirmDialogModule
+
   ],
   providers: [
     TestService,
@@ -240,7 +245,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ProfileResolver,
     OglasUserResolver,
     OglasEditResolver,
-    AppResolver
+    AppResolver,
+    ConfirmationService
   ],
   bootstrap: [AppComponent],
 })

@@ -4,5 +4,10 @@ export enum searchTypes {
 }
 export enum ProtectedRoutes {
   test = 'test',
+  itemEdit = '/catalogues/item/edit/'
   
+}
+export enum PhotoTypes {
+  PROFILE = 'profile',
+  OGLAS = 'advertisement'
 }

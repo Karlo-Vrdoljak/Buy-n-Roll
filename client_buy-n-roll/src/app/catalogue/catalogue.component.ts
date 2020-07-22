@@ -3,7 +3,7 @@ import { BreadcrumbService } from "../_services/breadcrumb.service";
 import { MenuItem } from "primeng/api/menuitem";
 import { ActivatedRoute, Router, ActivationStart, NavigationEnd } from "@angular/router";
 import { SelectItem } from "primeng/api/selectitem";
-import { Subscription } from 'rxjs';
+import { Subscription, fromEvent } from 'rxjs';
 import { HelperService } from '../_services/helper.service';
 import { TranslateService } from '@ngx-translate/core';
 import ScrollReveal from 'scrollreveal';

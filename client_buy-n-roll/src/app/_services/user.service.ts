@@ -90,6 +90,21 @@ export class UserService {
     formData.append("image", params, params?.name);
     return this.http.post(this.config.API_URL_ROOT + "user/upload/", formData, {headers: headers});
   }
+  uploadImages(params: File[],username:string, pkOglas?:number) {
+    let headers = new HttpHeaders().set('username-value', username);
+    const formData: FormData = new FormData();
+    params.forEach(p => {
+      formData.append("image", p, p?.name);
+    });
+    headers = headers.append('pk-oglas',pkOglas.toString());
+    return this.http.post(this.config.API_URL_ROOT + "user/upload/multi", formData, {headers: headers});
+  }
+  deleteImage(pkImage:number) {
+    return this.http.delete(this.config.API_URL_ROOT + 'user/photo/delete/' + pkImage ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
   checkCodeByUsername(params) {
     return this.http.post(this.config.API_URL_ROOT + 'user/check/code/', params ).pipe(
       retry(this.config.retryCount),

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DbLogs } from 'src/db.logs';
 import { Oglas } from 'src/entity/oglas.entity';
+import { PhotoDescriptions } from 'src/types/enums';
 
 
 @Injectable()
@@ -52,5 +53,12 @@ export class OglasService implements OnModuleInit {
     .leftJoinAndSelect("s.manufacturer","m")
     .where('u.username = :uname', { uname: username })
     .getMany()
+  }
+  
+  findOglasPhotosByPkOglas(pkOglas) {
+    return this.oglasRepository.createQueryBuilder('o')
+      .leftJoinAndSelect("o.photos","p","p.oglas")
+      .where('o.PkOglas = :PkOglas', { PkOglas: pkOglas })
+      .andWhere('p.photoOpis = :key', {key: PhotoDescriptions.OGLAS}).getOne();
   }
 }
