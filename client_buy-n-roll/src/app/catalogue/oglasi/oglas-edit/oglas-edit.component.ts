@@ -397,7 +397,7 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
     
     this.returnUrl = prevRoute;
     if(prevRoute != '/' && this.path) {
-      this.breadcrumbs = this.breadcrumbService.basicMenu('EMPTY_STRING',this.breadcrumbService.determinePath());
+      this.breadcrumbs = this.breadcrumbService.basicMenu('EMPTY_STRING',this.breadcrumbService.determinePath(),this.oglas?.oglasNaziv ? this.oglas.oglasNaziv: this.translations.NOVI_OGLAS);
     } else {
       this.breadcrumbs = this.breadcrumbService.basicMenu('EMPTY_STRING', null, this.oglas?.oglasNaziv ? this.oglas.oglasNaziv: this.translations.NOVI_OGLAS);
     }
