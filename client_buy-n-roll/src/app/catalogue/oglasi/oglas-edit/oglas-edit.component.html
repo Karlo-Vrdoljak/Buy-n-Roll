@@ -73,7 +73,7 @@
     <div class="p-col-12 relative p-sm-12 p-md-12 p-lg-6 p-xl-6" style="padding-top: 0;">
       <mat-form-field class="px-2 font-base w-full">
         <mat-label class="font-oswald">{{ 'VIN' | translate | uppercase }}</mat-label>
-        <input matInput #vinInput="ngModel" minlength="17" maxlength="17" [(ngModel)]="oglasModel.vehicle.chassis.VIN" placeholder="{{ 'VIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+        <input matInput #vinInput="ngModel" minlength="17" maxlength="17" (keyup)="oglasModel.vehicle.chassis.VIN = oglasModel.vehicle.chassis.VIN.toUpperCase()" [(ngModel)]="oglasModel.vehicle.chassis.VIN" placeholder="{{ 'VIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
       </mat-form-field>
       <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('VIN' | translate | titlecase), error: vinInput, useMinlength: true, minlength: 17 }"></ng-container>
 
