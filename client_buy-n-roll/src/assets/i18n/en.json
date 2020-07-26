@@ -153,7 +153,14 @@
   "CONFIRM_DELETE": "Delete confirmation",
   "YES": "yes",
   "NO": "no",
-  "DELETE_CONFIRM_MSG": "Are you sure?"
+  "DELETE_CONFIRM_MSG": "Are you sure?",
+  "BASIC_INFO": "Basic info",
+  "EQUIPMENT": "Equipment",
+  "SPECIFICATION": "Specification",
+  "CHANGES_SAVED": "Changes saved successfully!",
+  "PHOTO_DELETE": "Photo deleted successfully!",
+  "UPLOAD_NOTE": "Use the CHOOSE button above to upload photos. You can drag and drop them onto said button."
+
 
 
 

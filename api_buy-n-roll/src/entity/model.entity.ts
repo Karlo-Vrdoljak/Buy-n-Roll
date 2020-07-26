@@ -19,25 +19,6 @@ export class Model {
   @Column({ nullable: true })
   endOfProductionYear: string;
 
-  @OneToOne(type => Drivetrain, {nullable:true})
-  @JoinColumn()
-  drivetrain: Drivetrain;
-
-  @OneToOne(type => Transmission, {nullable:true})
-  @JoinColumn()
-  transmission: Transmission;
- 
-  @OneToOne(type => GasType, {nullable:true})
-  @JoinColumn()
-  gasType: GasType;
-
-  @OneToOne(type => Body, {nullable:true})
-  @JoinColumn()
-  body: Body;
-
-  @OneToMany(type => Chassis, chassis => chassis.model, {nullable:true})
-  chassisList: Chassis[];
-
   @ManyToOne(type => Series, series => series.models)
   series: Series;
 } 

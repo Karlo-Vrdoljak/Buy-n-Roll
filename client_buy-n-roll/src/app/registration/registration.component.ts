@@ -320,9 +320,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   onUpload(event) {
-    console.log(event);
     this.payload = event.files[0];
-    console.log(this.payload);
     let img = document.getElementById('uploaded_img') as HTMLElement;
     img.setAttribute('style', `background-image: url('${URL.createObjectURL(this.payload)}')`);
   }

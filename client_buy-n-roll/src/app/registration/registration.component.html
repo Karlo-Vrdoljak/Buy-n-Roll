@@ -10,7 +10,7 @@
               <mat-step>
                 <ng-template matStepLabel><span [ngClass]="{'bg_error-text-imp': hasError(firstNameInput, lastNameInput) == false }">{{ 'PERSONAL_INFO' | translate }}</span></ng-template>
                 <ng-container *ngTemplateOutlet="stepInfo"></ng-container>
-                <div class="pb-2 pt-6">
+                <div class="pb-2 pt-6 flex navButtonsPages">
                   <button mat-raised-button matStepperNext color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent bg-orange-100">
                     <div class="flex items-center align-middle">
                       <div style="flex-basis: 85%;" class="mr-2 text-sm">{{ 'NEXT' | translate }}</div>
@@ -22,7 +22,7 @@
               <mat-step>
                 <ng-template matStepLabel><span [ngClass]="{'bg_error-text-imp': hasError(phoneInput, emailInput) == false }">{{ 'CONTACT_INFO' | translate }}</span></ng-template>
                 <ng-container *ngTemplateOutlet="stepKontakt"></ng-container>
-                <div class="pb-2 pt-6 flex items-center">
+                <div class="pb-2 pt-6 flex items-center navButtonsPages">
                   <div class="mr-2">
                     <button mat-raised-button matStepperPrevious color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent bg-orange-100">
                       <div class="flex items-center align-middle">
@@ -31,12 +31,14 @@
                       </div>
                     </button>
                   </div>
-                  <button mat-raised-button matStepperNext color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent bg-orange-100">
-                    <div class="flex items-center align-middle">
-                      <div style="flex-basis: 85%;" class="mr-2 text-sm">{{ 'NEXT' | translate }}</div>
-                      <i class="fas fa-arrow-circle-right text-yellow-800 text-sm" style="flex-basis: 15%;"></i>
-                    </div>
-                  </button>
+                  <div>
+                    <button mat-raised-button matStepperNext color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent bg-orange-100">
+                      <div class="flex items-center align-middle">
+                        <div style="flex-basis: 85%;" class="mr-2 text-sm">{{ 'NEXT' | translate }}</div>
+                        <i class="fas fa-arrow-circle-right text-yellow-800 text-sm" style="flex-basis: 15%;"></i>
+                      </div>
+                    </button>
+                  </div>
                 </div>
               </mat-step>
               <mat-step>

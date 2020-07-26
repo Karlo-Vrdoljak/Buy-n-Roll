@@ -50,3 +50,14 @@
   background: $lightYellow;
 
 }
+
+:host ::ng-deep .mat-vertical-stepper-header {
+  border-bottom: 2px solid lighten($color: $yellow, $amount: 20%);
+  background: lighten($color: #f7fafc, $amount: 2%);
+  border-radius: 6px;
+  margin: 0.25rem 0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+:host ::ng-deep .ui-dialog .ui-dialog-content {
+  overflow: auto;
+}

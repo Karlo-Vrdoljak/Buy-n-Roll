@@ -2,6 +2,10 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn
 import { Color } from './color.entity';
 import { Model } from './model.entity';
 import { VehicleState } from 'src/types/enums';
+import { Drivetrain } from './drivetrain.entity';
+import { Transmission } from './transmission.entity';
+import { GasType } from './gasType.entity';
+import { Body } from './body.entity';
 
 @Entity()
 export class Chassis {
@@ -17,8 +21,24 @@ export class Chassis {
   @ManyToOne(type => Color, color => color.chassisList)
   color: Color;
 
+  @OneToOne(type => Drivetrain, {nullable:true})
+  @JoinColumn()
+  drivetrain: Drivetrain;
 
-  @ManyToOne(type => Model, model => model.chassisList)
+  @OneToOne(type => Transmission, {nullable:true})
+  @JoinColumn()
+  transmission: Transmission;
+ 
+  @OneToOne(type => GasType, {nullable:true})
+  @JoinColumn()
+  gasType: GasType;
+
+  @OneToOne(type => Body, {nullable:true})
+  @JoinColumn()
+  body: Body;
+
+  @OneToOne(type => Model, {nullable:true})
+  @JoinColumn()
   model: Model;
 
   @Column({ default: '0' })

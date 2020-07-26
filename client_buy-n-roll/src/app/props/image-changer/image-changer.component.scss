@@ -9,6 +9,20 @@
 :host ::ng-deep .ui-dialog {
   width: 90vw;
 }
+:host ::ng-deep p-dialog {
+  &.multi {
+    .ui-dialog-content {
+      border: 0;
+      border-radius: 0;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+      .ui-fileupload-buttonbar {
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+      }
+    }
+  }
+}
 
 @media (min-width: 640px) {
   :host ::ng-deep .ui-dialog {

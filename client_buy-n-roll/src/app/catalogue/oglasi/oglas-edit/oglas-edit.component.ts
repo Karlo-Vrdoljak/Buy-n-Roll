@@ -14,13 +14,14 @@ import { Subscription, Subject } from 'rxjs';
 import * as rfdc from 'rfdc';
 import { SelectItem } from 'primeng/api';
 import { PaymentMethod, GasTypes, VehicleState } from 'src/app/_types/oglas.interface';
-import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation, fadeInAnimation } from 'angular-animations';
+import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
 import { debounceTime, map } from 'rxjs/operators';
 import { LocationPropComponent } from 'src/app/props/location-prop/location-prop.component';
 import { Color, Body, Drivetrain, Transmission, Manufacturer, Series, Model } from 'src/app/_types/manufacturer.interface';
 import { VehicleService } from 'src/app/_services/vehicle.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgModel } from '@angular/forms';
+import { OglasService } from 'src/app/_services/oglas.service';
 @Component({
   selector: 'app-oglas-edit',
   templateUrl: './oglas-edit.component.html',
@@ -28,7 +29,6 @@ import { NgModel } from '@angular/forms';
   animations: [
     fadeInRightOnEnterAnimation(),
     fadeOutLeftOnLeaveAnimation(),
-    fadeInAnimation()
   ]
 })
 export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, AfterViewInit {
@@ -73,6 +73,23 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
   numSlides:number = 5;
 
   swiperGalleryConfig:any;
+
+
+  @ViewChild('oglasNazivInput') oglasNazivInput: NgModel;
+  @ViewChild('vinInput') vinInput: NgModel;
+  @ViewChild('priceMainCurrencyInput') priceMainCurrencyInput: NgModel;
+  @ViewChild('priceSubCurrencyInput') priceSubCurrencyInput: NgModel;
+  @ViewChild('selectedCurrencyInput') selectedCurrencyInput: NgModel;
+  @ViewChild('selectedPaymentMethodInput') selectedPaymentMethodInput: NgModel;
+  @ViewChild('consumptionInput') consumptionInput: NgModel;
+  @ViewChild('kilometersInput') kilometersInput: NgModel;
+  @ViewChild('selectedGasTypeInput') selectedGasTypeInput: NgModel;
+  @ViewChild('makeYearInput') makeYearInput: NgModel;
+  @ViewChild('selectedVehicleStateInput') selectedVehicleStateInput: NgModel;
+  @ViewChild('selectedColorInput') selectedColorInput: NgModel;
+  @ViewChild('selectedBodyInput') selectedBodyInput: NgModel;
+  @ViewChild('selectedDrivetrainInput') selectedDrivetrainInput: NgModel; 
+  @ViewChild('selectedTransmissionInput') selectedTransmissionInput: NgModel;
   
   constructor(
     public config:Config,
@@ -87,7 +104,8 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
     private toast:ToastrService,
     private translationProvider: TranslationList,
     private vehicleService: VehicleService,
-    private domS: DomSanitizer
+    private domS: DomSanitizer,
+    private oglasService: OglasService
   ) { 
     super(config,helperService);
   }
@@ -128,9 +146,9 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
     this.setupDebounceKeys();
 
     this.oglasModel.selectedColor = this.oglasModel.vehicle.chassis.color ? this.colorList.find(cl => cl.PkColor == this.oglasModel.vehicle.chassis.color.PkColor) : null; 
-    this.oglasModel.selectedBody = this.oglasModel.vehicle.chassis.model.body ? this.bodyList.find(b => b.PkBody == this.oglasModel.vehicle.chassis.model.body.PkBody) : null; 
-    this.oglasModel.selectedDrivetrain = this.oglasModel.vehicle.chassis.model.drivetrain ? this.drivetrainList.find(d => d.PkDrivetrain == this.oglasModel.vehicle.chassis.model.drivetrain.PkDrivetrain) : null; 
-    this.oglasModel.selectedTransmission = this.oglasModel.vehicle.chassis.model.transmission ? this.transmissionList.find(t=> t.PkTransmission == this.oglasModel.vehicle.chassis.model.transmission.PkTransmission) : null; 
+    this.oglasModel.selectedBody = this.oglasModel.vehicle.chassis.body ? this.bodyList.find(b => b.PkBody == this.oglasModel.vehicle.chassis.body.PkBody) : null; 
+    this.oglasModel.selectedDrivetrain = this.oglasModel.vehicle.chassis.drivetrain ? this.drivetrainList.find(d => d.PkDrivetrain == this.oglasModel.vehicle.chassis.drivetrain.PkDrivetrain) : null; 
+    this.oglasModel.selectedTransmission = this.oglasModel.vehicle.chassis.transmission ? this.transmissionList.find(t=> t.PkTransmission == this.oglasModel.vehicle.chassis.transmission.PkTransmission) : null; 
     this.oglasModel.selectedManuf = this.oglasModel.vehicle.chassis.model.series.manufacturer ? this.manufList.find(m => m.PkManufacturer == this.oglasModel.vehicle.chassis.model.series.manufacturer.PkManufacturer) : null; 
 
     this.getSeries().then(() => {
@@ -142,9 +160,6 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
     });
 
     this.swiperGalleryConfig = this.initSwiper();
-
-    console.log(this.oglasModel);
-    
   }
 
   initSwiper() {
@@ -218,8 +233,8 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
         value: gt
       } as SelectItem;
     });
-    if(!this.oglasModel.selectedGasType && this.oglasModel.vehicle.chassis.model.gasType?.gasType) {
-      this.oglasModel.selectedGasType = this.gasTypeList.find(gt => gt.value == this.oglasModel.vehicle.chassis.model.gasType.gasType);
+    if(!this.oglasModel.selectedGasType && this.oglasModel.vehicle.chassis.gasType?.gasType) {
+      this.oglasModel.selectedGasType = this.gasTypeList.find(gt => gt.value == this.oglasModel.vehicle.chassis.gasType.gasType);
     }
   }
   initVehStateList() {
@@ -369,43 +384,70 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
     this.loader.startLoader('oglas_edit_loader');
     this.userService.uploadImages(images,this.profileData.username, this.oglasModel.PkOglas).subscribe((data:any) => {
       this.oglasModel.photos = this.initOglasImages(data.photos);
+      this.toast.success(this.translations.PHOTO_SAVED);
       this.loader.stopLoader('oglas_edit_loader');
     }, err => {
       this.loader.stopLoader('oglas_edit_loader');
     });
   }
   onImageDelete(pkImage: number) {
-    console.log(pkImage);
     this.loader.startLoader('oglas_edit_loader');
     this.userService.deleteImage(pkImage).subscribe((res:any) => {
       this.oglasModel.photos = this.initOglasImages(res.photos);
       this.loader.stopLoader('oglas_edit_loader');
+      this.toast.success(this.translations.PHOTO_DELETE);
     }, err => {
       this.loader.stopLoader('oglas_edit_loader');
     });
   }
 
   canSubmit() {
-   
     return [
-      this.oglasModel.oglasNaziv? true: null,
-      this.oglasModel.priceMainCurrency? true: null,
-      this.oglasModel.priceSubCurrency? true: null,
-      this.oglasModel.selectedCurrency? true: null,
-      this.oglasModel.selectedPaymentMethod? true: null,
-      this.oglasModel.selectedManuf? true: null,
-      this.oglasModel.selectedSeries? true: null,
-      this.oglasModel.selectedModel? true: null,
-      this.oglasModel.vehicle.chassis.consumption? true: null,
-      this.oglasModel.vehicle.chassis.kilometers? true: null,
-      this.oglasModel.selectedGasType? true: null,
-      this.oglasModel.vehicle.RegistriranDaNe? true: null,
-      this.oglasModel.vehicle.chassis.makeYear? true: null,
-      this.oglasModel.selectedVehicleState? true: null,
-      this.oglasModel.selectedColor? true: null,
-      this.oglasModel.selectedBody? true: null,
-      this.oglasModel.selectedDrivetrain? true: null,
-      this.oglasModel.selectedTransmission? true: null,
-    ].every(e => e != null);
+      this.helperService.hasError(this.oglasNazivInput, this.vinInput, this.priceMainCurrencyInput, this.priceSubCurrencyInput, this.selectedCurrencyInput, this.selectedPaymentMethodInput,this.consumptionInput, this.kilometersInput, this.selectedGasTypeInput, this.makeYearInput, this.selectedVehicleStateInput, this.selectedColorInput, this.selectedBodyInput, this.selectedDrivetrainInput, this.selectedTransmissionInput),
+      this.helperService.falsyCheck(this.oglasModel.oglasNaziv, this.oglasModel.priceMainCurrency, this.oglasModel.priceSubCurrency, this.oglasModel.selectedCurrency, this.oglasModel.selectedPaymentMethod, this.oglasModel.selectedManuf, this.oglasModel.selectedSeries, this.oglasModel.selectedModel, this.oglasModel.vehicle.chassis.consumption, this.oglasModel.vehicle.chassis.kilometers, this.oglasModel.selectedGasType, this.oglasModel.vehicle.chassis.makeYear, this.oglasModel.selectedVehicleState, this.oglasModel.selectedColor, this.oglasModel.selectedBody, this.oglasModel.selectedDrivetrain, this.oglasModel.selectedTransmission),
+    ].every(e => e != false);
+  }
+  submitValues() {
+    let params = {
+      accessories: this.oglasModel.accessories ?? null,
+      airConditioning: this.oglasModel.airConditioning ?? null,
+      autoRadioDefs: this.oglasModel.autoRadioDefs ?? null,
+      comfortAccessories: this.oglasModel.comfortAccessories ?? null,
+      currencyName: this.oglasModel.selectedCurrency.value,
+      oglasNaziv: this.oglasModel.oglasNaziv,
+      oglasOpis: this.oglasModel.oglasOpis,
+      paymentMethod: this.oglasModel.selectedPaymentMethod.value,
+      priceMainCurrency: this.oglasModel.priceMainCurrency || '0',
+      priceSubCurrency: this.oglasModel.priceSubCurrency || '0',
+      safety: this.oglasModel.safety ?? null,
+      theftSafety: this.oglasModel.theftSafety ?? null,
+      selectedBody: this.oglasModel.selectedBody,
+      selectedColor: this.oglasModel.selectedColor,
+      selectedDrivetrain: this.oglasModel.selectedDrivetrain,
+      selectedGasType: this.oglasModel.selectedGasType,
+      selectedManuf: this.oglasModel.selectedManuf,
+      selectedModel: this.oglasModel.selectedModel,
+      selectedSeries: this.oglasModel.selectedSeries,
+      selectedTransmission: this.oglasModel.selectedTransmission,
+      vehicleState: this.oglasModel.selectedVehicleState.value,
+      vin: this.oglasModel.vehicle.chassis.VIN || null,
+      registriranDaNe: this.oglasModel.vehicle.RegistriranDaNe ?? false,
+      consumption: this.oglasModel.vehicle.chassis.consumption || 0,
+      kilometers: this.oglasModel.vehicle.chassis.kilometers || '0',
+      makeYear: this.oglasModel.vehicle.chassis.makeYear || '0',
+      location: this.oglasModel.location?.display_name? this.oglasModel.location: null,
+      PkOglas: this.oglasModel.PkOglas,
+      PkVehicle: this.oglasModel.vehicle.PkUserVehicle,
+      PkChassis: this.oglasModel.vehicle.chassis.PkChassis
+    };
+    this.loader.startBackgroundLoader('oglas_edit_loader');
+    
+    this.oglasService.saveOglasEditData(params).subscribe(data => {
+      this.loader.stopBackgroundLoader('oglas_edit_loader');
+      this.toast.success(this.translations.CHANGES_SAVED);
+      this.router.navigate(['/catalogues/item/', this.oglasModel.PkOglas]);
+    }, err => {
+      this.loader.stopBackgroundLoader('oglas_edit_loader');
+    });
   }
 }

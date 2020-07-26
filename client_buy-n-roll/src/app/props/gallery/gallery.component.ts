@@ -19,6 +19,8 @@ export class GalleryComponent extends BaseClass implements OnInit {
   numSlides:number;
   @Input('config') swiperGalleryConfig: any;
   @Input('photos') photos:any[] = [];
+  @Input('useUpload') useUpload:boolean = true;
+  @Input('useDelete') useDelete:boolean = true;
   @Output() photosChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onImageUpload = new EventEmitter<any>();
   @Output() onImageDelete = new EventEmitter<number>();

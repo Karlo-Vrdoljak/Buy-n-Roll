@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { ProtectedRoutes } from '../_types/misc';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { NgModel } from '@angular/forms';
 
 @Injectable({
   providedIn: "root",
@@ -177,5 +178,18 @@ export class HelperService {
     let bStr = (255 - b).toString(16);
     // pad each with zeros and return
     return "#" + this.padZero(rStr) + this.padZero(gStr) + this.padZero(bStr);
-}
+  }
+  hasError(...items:NgModel[]) {
+    if (items.every(i => i == undefined)) {
+      return true;
+    } 
+    return items.map(i => i?.control.status == 'VALID' || i?.control.pristine == true ? true : null).every(e => e != null);
+  }
+  falsyCheck(...items:any[]) {
+    if (items.every(i => i == undefined)) {
+      return true;
+    } 
+    return items.map(i => i? true : null).every(e => e != null);
+  }
+
 }

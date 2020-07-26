@@ -1,41 +1,56 @@
 <app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 <ng-container *ngTemplateOutlet="imageViewer"></ng-container>
 
-
-
 <div class="p-grid p-nogutter overflow-hidden mb-4 pt-4">
   <div class="p-col">
     <div class="flex justify-center items-center " [ngsReveal]="{ origin: 'right'  }">
       <div class="max-w-full lg:w-full sm:mx-8 md:mx-24 lg:mx-48 xl:64 mx-2 rounded overflow-hidden border border-gray-300  shadow-md relative z-0">
         <div class="bg-gray-100 z-10 relative p-4 w-full font-oswald font-semibold text-gray-800 text-2xl">
-          <div *ngIf="pageIndex == 0">
-            <ng-container *ngTemplateOutlet="basicInfo"></ng-container>
-          </div>
-          <div *ngIf="pageIndex == 1">
-            <ng-container *ngTemplateOutlet="vehEquipment"></ng-container>
-          </div>
-          <div *ngIf="pageIndex == 2">
-            <ng-container *ngTemplateOutlet="vehSpecs"></ng-container>
-          </div>
-          <div class="flex flex-row p-2 justify-between">
-            <div>
-              <button *ngIf="pageIndex != 0" style="margin-right: 0.5rem;" (click)="DecPage()" mat-raised-button color="accent" class="w-36 transition-colors duration-150 ease-in" [ngClass]="{'bg_error': false}">
-                <div class="flex items-center align-middle justify-center w-full">
-                  <i class="fas fa-arrow-circle-left pr-2 text-yellow-800 text-xl"></i>
-                  {{ 'PREV' | translate }}
+          <mat-vertical-stepper>
+            <mat-step>
+              <ng-template matStepLabel><span [ngClass]="{'bg_error-text-imp': helperService.hasError(oglasNazivInput, vinInput, priceMainCurrencyInput, priceSubCurrencyInput, selectedCurrencyInput, selectedPaymentMethodInput) == false }">{{ 'BASIC_INFO' | translate }}</span></ng-template>
+              <ng-container *ngTemplateOutlet="basicInfo"></ng-container>
+              <div class="pb-2 pt-6 navButtonsPages">
+                <button mat-raised-button matStepperNext color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent bg-orange-100">
+                  <div class="flex items-center align-middle">
+                    <div style="flex-basis: 85%;" class="mr-2 text-sm">{{ 'NEXT' | translate }}</div>
+                    <i class="fas fa-arrow-circle-right text-yellow-800 text-sm" style="flex-basis: 15%;"></i>
+                  </div>
+                </button>
+              </div>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel><span>{{ 'EQUIPMENT' | translate }}</span></ng-template>
+              <ng-container *ngTemplateOutlet="vehEquipment"></ng-container>
+              <div class="pb-2 pt-6 flex items-center navButtonsPages">
+                <div class="mr-2">
+                  <button mat-raised-button matStepperPrevious color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent bg-orange-100">
+                    <div class="flex items-center align-middle">
+                      <i class="fas fa-arrow-circle-left text-yellow-800 text-sm mr-2" style="flex-basis: 15%;"></i>
+                      <div style="flex-basis: 85%;" class="text-sm">{{'PREV' | translate}}</div>
+                    </div>
+                  </button>
                 </div>
-              </button>
-              <button *ngIf="pageIndex != 2" (click)="IncPage()" mat-raised-button color="accent" class="w-36 transition-colors duration-150 ease-in" [ngClass]="{'bg_error': false}">
-                <div class="flex items-center align-middle justify-center w-full">
-                  {{ 'NEXT' | translate }}
-                  <i class="fas fa-arrow-circle-right pl-2 text-yellow-800 text-xl"></i>
+                <div>
+                  <button mat-raised-button matStepperNext color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent bg-orange-100">
+                    <div class="flex items-center align-middle">
+                      <div style="flex-basis: 85%;" class="mr-2 text-sm">{{ 'NEXT' | translate }}</div>
+                      <i class="fas fa-arrow-circle-right text-yellow-800 text-sm" style="flex-basis: 15%;"></i>
+                    </div>
+                  </button>
                 </div>
-              </button>
-            </div>
-            <button *ngIf="canSubmit()" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] mat-raised-button color="accent" class="w-full lg:w-1/2 transition-colors duration-150 ease-in">
+              </div>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel><span [ngClass]="{'bg_error-text-imp': helperService.hasError(consumptionInput, kilometersInput, selectedGasTypeInput, makeYearInput, selectedVehicleStateInput, selectedColorInput, selectedBodyInput, selectedDrivetrainInput, selectedTransmissionInput) == false }"></span>{{ 'SPECIFICATION' | translate }}</ng-template>
+              <ng-container *ngTemplateOutlet="vehSpecs"></ng-container>
+            </mat-step>
+          </mat-vertical-stepper>
+          <div class="flex flex-row flex-no-wrap items-center justify-center px-4 pt-4 pb-2">
+            <button *ngIf="canSubmit()" (click)="submitValues()" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] mat-raised-button color="accent" class="w-64 transition-colors duration-150 ease-in">
               <div class="flex items-center align-middle justify-center">
                 <i class="fas fa-sign-in-alt pr-2 text-yellow-800 text-xl"></i>
-                {{ 'REGISTERME' | translate }}
+                {{ 'SAVE' | translate }}
               </div>
             </button>
           </div>
@@ -49,13 +64,13 @@
 
 <ng-template #basicInfo>
   <div class="p-grid p-nogutter w-full font-oswald text-gray-800">
-    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" style="padding-bottom: 0;">
+    <div class="p-col-12 relative p-sm-12 p-md-12 p-lg-6 p-xl-6" style="padding-bottom: 0;">
       <mat-form-field class="px-2 font-base w-full">
         <mat-label class="font-oswald">{{ 'AD_NAME' | translate | uppercase }}</mat-label>
-        <input required matInput #ngModel [(ngModel)]="oglasModel.oglasNaziv" maxlength="50" placeholder="{{ 'AD_NAME_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+        <input required matInput #oglasNazivInput="ngModel" [(ngModel)]="oglasModel.oglasNaziv" maxlength="50" placeholder="{{ 'AD_NAME_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
       </mat-form-field>
     </div>
-    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6" style="padding-top: 0;">
+    <div class="p-col-12 relative p-sm-12 p-md-12 p-lg-6 p-xl-6" style="padding-top: 0;">
       <mat-form-field class="px-2 font-base w-full">
         <mat-label class="font-oswald">{{ 'VIN' | translate | uppercase }}</mat-label>
         <input matInput #vinInput="ngModel" minlength="17" maxlength="17" [(ngModel)]="oglasModel.vehicle.chassis.VIN" placeholder="{{ 'VIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
@@ -65,21 +80,21 @@
     </div>
   </div>
   <div class="p-grid p-nogutter w-full font-oswald text-gray-800">
-    <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" [ngsReveal]="{ origin: 'right', delay: 150  }">
+    <div class="p-col-12 relative p-sm-12 p-md-6 p-lg-6 p-xl-6">
       <mat-form-field class="px-2 font-base w-full">
         <mat-label class="font-oswald">{{ 'CURRENCY_MAIN' | translate | uppercase }}</mat-label>
-        <input required [imask]="iMaskMainCurrency" maxlength="15" type="text" matInput #ngModel [(ngModel)]="oglasModel.priceMainCurrency" placeholder="{{ 'CURRENCY_MAIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+        <input required [imask]="iMaskMainCurrency" maxlength="15" type="text" matInput #priceMainCurrencyInput="ngModel" [(ngModel)]="oglasModel.priceMainCurrency" placeholder="{{ 'CURRENCY_MAIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
       </mat-form-field>
     </div>
-    <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" [ngsReveal]="{ origin: 'right', delay: 150  }">
+    <div class="p-col-12 relative p-sm-12 p-md-6 p-lg-6 p-xl-6">
       <mat-form-field class="px-2 font-base w-full">
         <mat-label class="font-oswald">{{ 'CURRENCY_SUB' | translate | uppercase }}</mat-label>
-        <input required [imask]="iMaskSubCurrency" maxlength="2" type="text" matInput #ngModel [(ngModel)]="oglasModel.priceSubCurrency" placeholder="{{ 'CURRENCY_SUB_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+        <input required [imask]="iMaskSubCurrency" maxlength="2" type="text" matInput #priceSubCurrencyInput="ngModel" [(ngModel)]="oglasModel.priceSubCurrency" placeholder="{{ 'CURRENCY_SUB_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
       </mat-form-field>
     </div>
-    <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" [ngsReveal]="{ origin: 'right', delay: 200  }">
+    <div class="p-col-12 relative p-sm-12 p-md-6 p-lg-6 p-xl-6">
       <div class="p-2 w-full">
-        <p-dropdown required [autoDisplayFirst]="false" appendTo="body" [options]="currencyList" #ngModel [(ngModel)]="oglasModel.selectedCurrency" [filter]="true" optionLabel="label" [virtualScroll]="true" [itemSize]="36">
+        <p-dropdown required [autoDisplayFirst]="false" appendTo="body" [options]="currencyList" #selectedCurrencyInput="ngModel" [(ngModel)]="oglasModel.selectedCurrency" [filter]="true" optionLabel="label" [virtualScroll]="true" [itemSize]="36">
           <ng-template let-item pTemplate="selectedItem">
             <div class="flex flex-no-wrap items-center flex-row">
               <div class="text-gray-800 font-normal flex font-oswald text-lg px-2">
@@ -100,9 +115,9 @@
         </p-dropdown>
       </div>
     </div>
-    <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6" [ngsReveal]="{ origin: 'right', delay: 200  }">
+    <div class="p-col-12 relative p-sm-12 p-md-6 p-lg-6 p-xl-6">
       <div class="p-2 w-full">
-        <p-dropdown required [autoDisplayFirst]="false" appendTo="body" [options]="paymentMethodList" #ngModel [(ngModel)]="oglasModel.selectedPaymentMethod" [filter]="true" optionLabel="label">
+        <p-dropdown required [autoDisplayFirst]="false" appendTo="body" [options]="paymentMethodList" #selectedPaymentMethodInput="ngModel" [(ngModel)]="oglasModel.selectedPaymentMethod" [filter]="true" optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
             <div class="flex flex-no-wrap items-center justify-between flex-row">
               <div class="text-gray-800 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -121,8 +136,8 @@
       </div>
     </div>
   </div>
-  <div class="p-grid p-nogutter w-full font-oswald text-gray-800" [ngsReveal]="{ origin: 'right', delay: 250  }">
-    <div class="p-col-12 w-full">
+  <div class="p-grid p-nogutter w-full font-oswald text-gray-800">
+    <div class="p-col-12 relative w-full">
       <div class="font-mw text-gray-600 py-1 px-2 flex flex-row flex-wrap w-full">
         <mat-form-field style="flex-basis: 100%">
           <mat-label class="font-oswald">{{ 'LOCATIONOGLAS' | translate }}</mat-label>
@@ -132,8 +147,8 @@
     </div>
   </div>
 
-  <div class="p-grid p-nogutter w-full font-oswald text-gray-800" [ngsReveal]="{ origin: 'right', delay: 250  }">
-    <div class="p-col-12 w-full">
+  <div class="p-grid p-nogutter w-full font-oswald text-gray-800">
+    <div class="p-col-12 relative w-full">
       <div class="bg-gray-100 px-2 pb-2 relative w-full">
         <div class="flex items-center justify-end">
           <div class="flex flex-col justify-center items-center">
@@ -153,7 +168,7 @@
 <ng-template #vehEquipment>
   <div class="font-mw text-base text-gray-600 font-thin w-full pb-2">{{ ( 'CHIPS_INFO' | translate) }}</div>
   <div class="flex flex-col w-full">
-    <div [ngsReveal]="{ origin: 'right', delay: 150  }" class="bg-gray-100 relative flex flex-col flex-wrap justify-center p-2 w-full">
+    <div class="bg-gray-100 relative flex flex-col flex-wrap justify-center p-2 w-full">
       <div>
         <div class="font-oswald font-2xl text-gray-600 font-thin">{{ ( 'ACCESSORIES' | translate) | uppercase }}</div>
       </div>
@@ -163,7 +178,7 @@
         </ng-template>
       </p-chips>
     </div>
-    <div [ngsReveal]="{ origin: 'right', delay: 200  }" class="bg-gray-100 relative flex flex-col flex-wrap justify-center p-2 w-full">
+    <div class="bg-gray-100 relative flex flex-col flex-wrap justify-center p-2 w-full">
       <div>
         <div class="font-oswald font-2xl text-gray-600 font-thin">{{ ( 'KLIMA' | translate) | uppercase }}</div>
       </div>
@@ -173,7 +188,7 @@
         </ng-template>
       </p-chips>
     </div>
-    <div [ngsReveal]="{ origin: 'right', delay: 250  }" class="bg-gray-100 relative flex flex-col flex-wrap justify-center p-2 w-full">
+    <div class="bg-gray-100 relative flex flex-col flex-wrap justify-center p-2 w-full">
       <div>
         <div class="font-oswald font-2xl text-gray-600 font-thin">{{ ( 'MUZIKA' | translate) | uppercase }}</div>
       </div>
@@ -183,7 +198,7 @@
         </ng-template>
       </p-chips>
     </div>
-    <div [ngsReveal]="{ origin: 'right', delay: 300  }" class="bg-gray-100 relative flex flex-col flex-wrap justify-center p-2 w-full">
+    <div class="bg-gray-100 relative flex flex-col flex-wrap justify-center p-2 w-full">
       <div>
         <div class="font-oswald font-2xl text-gray-600 font-thin">{{ ( 'COMFORT' | translate) | uppercase }}</div>
       </div>
@@ -193,7 +208,7 @@
         </ng-template>
       </p-chips>
     </div>
-    <div [ngsReveal]="{ origin: 'right', delay: 350  }" class="bg-gray-100 relative flex flex-col flex-wrap justify-center p-2 w-full">
+    <div class="bg-gray-100 relative flex flex-col flex-wrap justify-center p-2 w-full">
       <div>
         <div class="font-oswald font-2xl text-gray-600 font-thin">{{ ( 'SAFETY' | translate) | uppercase }}</div>
       </div>
@@ -203,7 +218,7 @@
         </ng-template>
       </p-chips>
     </div>
-    <div [ngsReveal]="{ origin: 'right', delay: 400  }" class="bg-gray-100 relative flex flex-col flex-wrap justify-center p-2 w-full">
+    <div class="bg-gray-100 relative flex flex-col flex-wrap justify-center p-2 w-full">
       <div>
         <div class="font-oswald font-2xl text-gray-600 font-thin">{{ ( 'THEFT_SAFETY' | translate) | uppercase }}</div>
       </div>
@@ -220,14 +235,14 @@
 
 <ng-template #vehSpecs>
   <div class="p-grid p-nogutter w-full">
-    <div class="p-col-12">
-      <div class="flex flex-row p-2" [ngsReveal]="{ origin: 'right', delay: 200 }">
+    <div class="p-col-12 relative">
+      <div class="flex flex-row p-2">
         <div class="font-oswald font-semibold text-gray-800 text-xl pb-2">{{ 'CAR_SPECS' | translate | uppercase }}</div>
       </div>
     </div>
   </div>
   <div class="p-grid p-nogutter w-full">
-    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+    <div class="p-col-12 relative p-sm-12 p-md-12 p-lg-6 p-xl-6">
       <div class="flex flex-row flex-wrap justify-between lg:justify-start">
         <div class="flex flex-col p-2">
           <div>
@@ -303,7 +318,7 @@
         </div>
       </div>
     </div>
-    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+    <div class="p-col-12 relative p-sm-12 p-md-12 p-lg-6 p-xl-6">
       <div class="flex flex-row flex-wrap justify-between lg:justify-start">
         <div class="flex flex-col p-2">
           <div>
@@ -311,7 +326,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-gas-pump text-indigo-800 px-2"></i>
-            <input required type="text" #ngModel [(ngModel)]="oglasModel.vehicle.chassis.consumption" pKeyFilter="pint" maxlength="3" class="font-oswald inputPill  inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700">
+            <input required type="text" #consumptionInput="ngModel" [(ngModel)]="oglasModel.vehicle.chassis.consumption" pKeyFilter="pint" maxlength="3" class="font-oswald inputPill  inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700">
             <div class="absolute text-sm font-light pointer-events-none" style="right: 0.5rem;">L/100KM</div>
           </div>
         </div>
@@ -321,7 +336,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-road text-indigo-800 px-2"></i>
-            <input required type="text" #ngModel [(ngModel)]="oglasModel.vehicle.chassis.kilometers" pKeyFilter="pint" maxlength="12" class="font-oswald inputPill  inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700">
+            <input required type="text" #kilometersInput="ngModel" [(ngModel)]="oglasModel.vehicle.chassis.kilometers" pKeyFilter="pint" maxlength="12" class="font-oswald inputPill  inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700">
             <div class="absolute text-sm font-light pointer-events-none" style="right: 0.5rem;">KM</div>
           </div>
         </div>
@@ -331,9 +346,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-burn text-indigo-800 px-2"></i>
-            <!-- <input required type="text" #ngModel [(ngModel)]="oglasModel.vehicle.chassis.model.gasType.gasType" pKeyFilter="pint" maxlength="12" class="font-oswald inputPill cursor-default  px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700"> -->
-            <!-- <div class="absolute text-sm font-light" style="right: 0.5rem;">KM</div> -->
-            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="gasTypeList" #ngModel [(ngModel)]="oglasModel.selectedGasType" [filter]="true" optionLabel="label">
+            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="gasTypeList" #selectedGasTypeInput="ngModel" [(ngModel)]="oglasModel.selectedGasType" [filter]="true" optionLabel="label">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -350,11 +363,10 @@
               </ng-template>
             </p-dropdown>
           </div>
-          <!-- <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-burn pr-2 text-indigo-800', delay: '275', title:'GAS_TYPE', item: (oglasModel.vehicle.chassis.model.gasType.gasType | translate ), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container> -->
         </div>
       </div>
     </div>
-    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+    <div class="p-col-12 relative p-sm-12 p-md-12 p-lg-6 p-xl-6">
       <div class="flex flex-row flex-wrap justify-between lg:justify-start">
         <div class="flex flex-col p-2">
           <div>
@@ -362,7 +374,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-between content-center relative p-2" style="min-width: 8rem;">
             <i class="fas fa-file-signature text-indigo-800 px-2"></i>
-            <!-- <input required type="text" #ngModel [(ngModel)]="oglasModel.vehicle.chassis.consumption" pKeyFilter="pint" maxlength="3" class="font-oswald inputPill cursor-default  px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700"> -->
+            <!-- <input required type="text" #prominime="ngModel" [(ngModel)]="oglasModel.vehicle.chassis.consumption" pKeyFilter="pint" maxlength="3" class="font-oswald inputPill cursor-default  px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700"> -->
             <p-inputSwitch class="flex" [(ngModel)]="oglasModel.vehicle.RegistriranDaNe"></p-inputSwitch>
             <!-- <div class="absolute text-sm font-light" style="right: 0.5rem;">L/100KM</div> -->
             <!-- <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-file-signature pr-2 text-indigo-800', delay: '125', title:'REGISTRATION', item: oglasModel.vehicle.RegistriranDaNe == true? 'REGISTRIRAN': 'NEREGISTRIRAN', bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container> -->
@@ -374,7 +386,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-calendar text-indigo-800  px-2"></i>
-            <input required type="text" #ngModel [(ngModel)]="oglasModel.vehicle.chassis.makeYear" pKeyFilter="pint" maxlength="4" class="font-oswald inputPill  inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700">
+            <input required type="text" #makeYearInput="ngModel" [(ngModel)]="oglasModel.vehicle.chassis.makeYear" pKeyFilter="pint" maxlength="4" class="font-oswald inputPill  inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-300 text-gray-700">
           </div>
         </div>
         <div class="flex flex-col p-2">
@@ -383,7 +395,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-wrench text-indigo-800 px-2"></i>
-            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="vehicleStateList" #ngModel [(ngModel)]="oglasModel.selectedVehicleState" [filter]="true" optionLabel="label">
+            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="vehicleStateList" #selectedVehicleStateInput="ngModel" [(ngModel)]="oglasModel.selectedVehicleState" [filter]="true" optionLabel="label">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -401,18 +413,9 @@
             </p-dropdown>
           </div>
         </div>
-        <div class="flex flex-col p-2">
-          <div>
-            <div class="font-oswald text-lg text-gray-600 font-thin">{{ ( 'PRODUCTION_END' | translate) | uppercase }}</div>
-          </div>
-          <div style="min-height: 40px;" class="flex flex-row items-center bg-gray-200 rounded justify-start content-center relative select-none">
-            <i class="fas fa-calendar-minus opacity-75 text-indigo-800  px-2"></i>
-            <input *ngIf="oglasModel.selectedModel" disabled type="text" [(ngModel)]="oglasModel.selectedModel.endOfProductionYear" pKeyFilter="pint" maxlength="4" class="font-oswald inputPill cursor-default inline-block px-3 py-1 my-1 text-sm font-semibold mr-2 bg-gray-200 text-gray-600">
-          </div>
-        </div>
       </div>
     </div>
-    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+    <div class="p-col-12 relative p-sm-12 p-md-12 p-lg-6 p-xl-6">
       <div class="flex flex-row flex-wrap justify-between lg:justify-start">
         <div class="flex flex-col p-2">
           <div>
@@ -420,7 +423,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-car text-indigo-800 rounded-md shadow-sm px-1 ml-2 mr-1" [style.background]="helperService.invertColor(oglasModel.selectedColor && oglasModel.selectedColor.colorCode? oglasModel.selectedColor.colorCode : '#434190')" [style.color]="oglasModel.selectedColor && oglasModel.selectedColor.colorCode? oglasModel.selectedColor.colorCode : '#434190'"></i>
-            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="colorList" #ngModel [(ngModel)]="oglasModel.selectedColor" [filter]="true" optionLabel="color" [virtualScroll]="true" [itemSize]="36">
+            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="colorList" #selectedColorInput="ngModel" [(ngModel)]="oglasModel.selectedColor" [filter]="true" optionLabel="color" [virtualScroll]="true" [itemSize]="36">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -444,7 +447,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-shapes px-2 text-indigo-800"></i>
-            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="bodyList" #ngModel [(ngModel)]="oglasModel.selectedBody" [filter]="true" optionLabel="bodyName" [virtualScroll]="true" [itemSize]="36">
+            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="bodyList" #selectedBodyInput="ngModel" [(ngModel)]="oglasModel.selectedBody" [filter]="true" optionLabel="bodyName" [virtualScroll]="true" [itemSize]="36">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -468,7 +471,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-vector-square px-2 text-indigo-800"></i>
-            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="drivetrainList" #ngModel [(ngModel)]="oglasModel.selectedDrivetrain" [filter]="true" optionLabel="drivetrainCode" [virtualScroll]="true" [itemSize]="36">
+            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="drivetrainList" #selectedDrivetrainInput="ngModel" [(ngModel)]="oglasModel.selectedDrivetrain" [filter]="true" optionLabel="drivetrainCode" [virtualScroll]="true" [itemSize]="36">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -492,7 +495,7 @@
           </div>
           <div class="flex flex-row items-center bg-gray-300 rounded justify-start content-center relative">
             <i class="fas fa-cogs px-2 text-indigo-800"></i>
-            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="transmissionList" #ngModel [(ngModel)]="oglasModel.selectedTransmission" [filter]="true" optionLabel="transmissionName" [virtualScroll]="true" [itemSize]="36">
+            <p-dropdown required [autoDisplayFirst]="false" appendTo="body" class="specs" [options]="transmissionList" #selectedTransmissionInput="ngModel" [(ngModel)]="oglasModel.selectedTransmission" [filter]="true" optionLabel="transmissionName" [virtualScroll]="true" [itemSize]="36">
               <ng-template let-item pTemplate="selectedItem">
                 <div class="flex flex-no-wrap items-center justify-between flex-row">
                   <div class="text-gray-800 border-b border-gray-700 font-normal flex justify-start font-oswald text-lg w-full px-2">
@@ -559,8 +562,7 @@
 </ng-template>
 
 <ng-template #errors let-title='title' let-error='error' let-useEmail='useEmail' let-useEqual='useEqual' let-useMinlength='useMinlength' let-minLength='minLength' let-useMaxlength='useMaxlength' let-maxLength='maxLength'>
-  <div *ngIf="error.invalid && (error.dirty || error.touched)" class="font-mw text-gray-600 text-xs absolute" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
-    alo
+  <div *ngIf="error.invalid && (error.dirty || error.touched)" class="font-mw text-gray-600 text-xs absolute bottom-0 right-0" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
     <div *ngIf="error.errors.required" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
       {{ title }} {{ 'REQUIRED' | translate }}
     </div>

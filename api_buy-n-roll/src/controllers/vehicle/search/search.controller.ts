@@ -12,16 +12,18 @@ export class SearchController {
   @Get('detailed')
   async getOglasiByManufSerieModel(@Request() req, @Res() res: Response) {
     let oglasi = await this.vehicleService.findOglasiBySimpleProps(req.query);    
-    this.fillOglasPhotos(oglasi).then(oglasi => {
-      res.status(HttpStatus.OK).send(oglasi);
+    this.fillOglasPhotos(oglasi).then(ret => {
+      
+      res.status(HttpStatus.OK).send(ret);
     });    
   }
 
   @Get(':query')
   async getOglasiBySearchString(@Param() params, @Res() res: Response) {
     let oglasi = await this.vehicleService.findOglasiBySearchString(params.query);
-    this.fillOglasPhotos(oglasi).then(oglasi => {
-      res.status(HttpStatus.OK).send(oglasi);
+    this.fillOglasPhotos(oglasi).then(ret => {
+      console.log(ret);
+      res.status(HttpStatus.OK).send(ret);
     });
 
   }
@@ -30,7 +32,7 @@ export class SearchController {
     if(oglasi) {  
       oglasi = await Promise.all(oglasi.map(async (o:any) => {
         o['photos'] = (await this.vehicleService.oglasService.getRepo().createQueryBuilder('o')
-        .leftJoinAndSelect('o.photos', 'p', 'p.oglas').getMany()).map(data => data.photos);
+        .leftJoinAndSelect('o.photos', 'p', 'p.oglas').where('o.PkOglas = :pk', {pk: o.PkOglas}).getOne()).photos;
         return o;
       }));
       return oglasi;

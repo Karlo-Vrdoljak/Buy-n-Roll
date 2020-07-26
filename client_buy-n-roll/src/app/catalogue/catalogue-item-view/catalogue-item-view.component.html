@@ -1,14 +1,5 @@
 <app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
-<div *ngIf="oglas.photos.length == 0; else imageViewer" class="banner mb-4 relative">
-  <!-- <div class="absolute text-2xl top-0 right-0">
-    <div class="w-full">
-      <span class="fa-stack px-4">
-        <i class="fas fa-fw fa-camera-retro fa-stack-2x buynroll_deepGray"></i>
-        <i class="fas fa-fw buynroll_lightYellow pl-2 fa-times fa-stack-1x fa-2x pr-2 fa-inverse"></i>
-      </span>
-    </div>
-  </div> -->
-</div>
+<ng-container *ngTemplateOutlet="imageViewer"></ng-container>
 
 
 <div class="p-grid p-nogutter overflow-hidden mb-4">
@@ -95,7 +86,7 @@
                           <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-road pr-2 text-indigo-800', delay: '100', title:'KILOMETERS', item: oglas.vehicle.chassis.kilometers + ' km', bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
                         </div>
                         <div class="pr-2">
-                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-burn pr-2 text-indigo-800', delay: '275', title:'GAS_TYPE', item: (oglas.vehicle.chassis.model.gasType.gasType | translate ), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-burn pr-2 text-indigo-800', delay: '275', title:'GAS_TYPE', item: (oglas.vehicle.chassis.gasType.gasType | translate ), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
                         </div>
                       </div>
                     </div>
@@ -110,9 +101,6 @@
                         <div class="pr-2">
                           <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-wrench pr-2 text-indigo-800', delay: '175', title:'VEHICLE_STATE', item: (oglas.vehicle.chassis.vehicleState | translate), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
                         </div>
-                        <div class="pr-2">
-                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-calendar-minus pr-2 text-indigo-800', delay: '250', title:'PRODUCTION_END', item: oglas.vehicle.chassis.model.endOfProductionYear, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
-                        </div>
                       </div>
                     </div>
                     <div class="p-col-12 p-sm-12 p-md-12 p-xl-6">
@@ -121,13 +109,13 @@
                           <ng-container *ngIf="oglas.vehicle.chassis.color" [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-car pr-2', delay: '50', color: oglas.vehicle.chassis.color.colorCode, title:'COLOR', item: oglas.vehicle.chassis.color.color, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
                         </div>
                         <div class="pr-2">
-                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-shapes pr-2 text-indigo-800', delay: '200', title:'BODY', item: (oglas.vehicle.chassis.model.body.bodyName | translate), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-shapes pr-2 text-indigo-800', delay: '200', title:'BODY', item: (oglas.vehicle.chassis.body.bodyName | translate), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
                         </div>
                         <div class="pr-2">
-                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-vector-square pr-2 text-indigo-800', delay: '225', title:'DRIVETRAIN', item: oglas.vehicle.chassis.model.drivetrain.drivetrainCode, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-vector-square pr-2 text-indigo-800', delay: '225', title:'DRIVETRAIN', item: oglas.vehicle.chassis.drivetrain.drivetrainCode, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
                         </div>
                         <div class="pr-2">
-                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-cogs pr-2 text-indigo-800', delay: '300', title:'TRANSMISSION', item: (oglas.vehicle.chassis.model.transmission.transmissionName | translate ), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
+                          <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-cogs pr-2 text-indigo-800', delay: '300', title:'TRANSMISSION', item: (oglas.vehicle.chassis.transmission.transmissionName | translate ), bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
                         </div>
                       </div>
                     </div>
@@ -158,8 +146,15 @@
 </div>
 
 <ng-template #imageViewer>
-  yeeeehaw
+  <div class="h-64 banner relative" *ngIf="oglas.photos && swiperGalleryConfig">
+    <div class="buynroll_bg_deepGray shadow-md">
+      <div [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
+        <app-gallery [photos]="oglas.photos" [config]="swiperGalleryConfig" [useUpload]="false" [useDelete]="false"></app-gallery>
+      </div>
+    </div>
+  </div>
 </ng-template>
+
 
 <ng-template #pills let-title='title' let-items='items' let-item='item' let-bg='bg' let-text='text' let-icon='icon' let-color='color' let-delay='delay'>
   <div *ngIf="items" [ngsRevealSet]="{reset: true, origin: 'right'  }" [ngsInterval]="35" [ngsSelector]="'.revealItem'" class="bg-gray-100 relative flex flex-wrap justify-center py-2 w-full">

@@ -44,6 +44,8 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.breadcrumbs = this.breadcrumbService.catalogue();
     this.catalogList = this.route.snapshot.data.pageData[0] || [];
+    console.log(this.catalogList);
+    
     this.routerSubscription$ = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.catalogList = [];

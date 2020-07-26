@@ -59,27 +59,29 @@ export class UsersService implements OnModuleInit{
   ) { }
 
   onModuleInit() {
-    this.usersRepository.count().then((count) => {
-      if (count == 0) {
-        this.initUsers().then(()=> {
-          this.dbLogs.successInit('Users & Roles');
-          this.userVehicleRepository.count().then((count) => {
-            if (count == 0) {
-              this.initVehicleForUser().then(() => {
-                this.dbLogs.successInit('Admin user\'s vehicle');
-                this.oglasService.getRepo().count().then(count => {
-                  if (count == 0) {
-                    this.initOglas().then(() => {
-                      this.dbLogs.successInit('1st Oglas');
-                    });
-                  } 
+    setTimeout(() => {
+      this.usersRepository.count().then((count) => {
+        if (count == 0) {
+          this.initUsers().then(()=> {
+            this.dbLogs.successInit('Users & Roles');
+            this.userVehicleRepository.count().then((count) => {
+              if (count == 0) {
+                this.initVehicleForUser().then(() => {
+                  this.dbLogs.successInit('Admin user\'s vehicle');
+                  this.oglasService.getRepo().count().then(count => {
+                    if (count == 0) {
+                      this.initOglas().then(() => {
+                        this.dbLogs.successInit('1st Oglas');
+                      });
+                    } 
+                  });
                 });
-              });
-            }
+              }
+            });
           });
-        });
-      }
-    });
+        }
+      });
+    }, 30000);
 
     // this.userVehicleRepository.count().then((count) => {
     //   if (count > 0) {
@@ -160,19 +162,20 @@ export class UsersService implements OnModuleInit{
         .where('b.bodyName = :bname', { bname: 'HATCHBACK' })
         .getOne();
 
-      model.drivetrain = drivetrain;
-      model.gasType = gas;
-      model.transmission = transmission;
-      model.body = body;
-
-      await manager.save(model);
+      chassis.drivetrain = drivetrain;
+      chassis.gasType = gas;
+      chassis.transmission = transmission;
+      chassis.body = body;
+      chassis.model = model;
+      console.log(model);
+      
+      await manager.save(chassis);
 
       let color = await this.colorService.getRepo()
       .createQueryBuilder('c')
       .where('c.color = :color', { color: 'midnight blue' })
       .getOne();
 
-      chassis.model = model;
       chassis.makeYear = '1991';
       chassis.color = color;
       chassis.kilometers = '210000';
@@ -214,6 +217,7 @@ export class UsersService implements OnModuleInit{
       userAdmin.firstName = "Karlo";
       userAdmin.lastName = "Vrdoljak";
       userAdmin.username = "admin";
+      userAdmin.isActive = true;
       userAdmin.password = await this.getHash("admin");
       // userAdmin.roles = [roleAdmin, roleUser];
 

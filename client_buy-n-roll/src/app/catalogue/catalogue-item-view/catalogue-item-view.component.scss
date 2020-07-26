@@ -3,11 +3,11 @@
 .banner {
   width: 100vw;
   margin-top: 90px;
-  background-image: url("../../../assets/images/catalogue/unknown.jpg");
-  background-size: cover;
-  background-position: bottom;
   height: 20vh;
   position: relative;
+  &.noImg {
+    background-image: url("../../../assets/images/catalogue/unknown.jpg");
+  }
 }
 
 @media (max-height: 449px) {
@@ -45,3 +45,6 @@
   }
 }
 
+:host ::ng-deep .swiper-pagination-bullet-active {
+  background: $lightYellow;
+}

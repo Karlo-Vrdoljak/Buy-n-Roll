@@ -12,4 +12,4 @@ import { PhotoModule } from './photo/photo.module';
   controllers: [OglasController],
   exports: [OglasService, TypeOrmModule, PhotoModule],
 })
-export class OglasModule {}
+export class OglasModule { }

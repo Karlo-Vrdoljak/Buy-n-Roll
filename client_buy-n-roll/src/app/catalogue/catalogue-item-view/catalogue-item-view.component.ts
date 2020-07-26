@@ -11,10 +11,15 @@ import { Photo } from 'src/app/_types/oglas.interface';
 import { UserService } from 'src/app/_services/user.service';
 import { Config } from 'src/environments/config';
 import { CatalogueActionIconsComponent } from '../catalogue-action-icons/catalogue-action-icons.component';
+import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
 @Component({
   selector: 'app-catalogue-item-view',
   templateUrl: './catalogue-item-view.component.html',
-  styleUrls: ['./catalogue-item-view.component.scss']
+  styleUrls: ['./catalogue-item-view.component.scss'],
+  animations: [
+    fadeInRightOnEnterAnimation(),
+    fadeOutLeftOnLeaveAnimation(),
+  ]
 })
 export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
   breadcrumbs: MenuItem[];
@@ -30,6 +35,8 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
   hideContact:boolean = false;
   showEdit: boolean = false;
   loginSub: Subscription;
+  numSlides:number = 5;
+  swiperGalleryConfig:any;
   @ViewChild('actionIcons') actionIcons: CatalogueActionIconsComponent;
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -72,6 +79,22 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
     this.setupLangObservable();
     
     this.updateOrientationState();
+
+    this.swiperGalleryConfig = this.initSwiper();
+
+    this.oglas.photos = this.initOglasImages(this.oglas.photos);
+
+  }
+
+  private initOglasImages(photos) {
+    return photos.map(p => {
+      return {
+        ...p,
+        src: this.config.STATIC_FILES + this.profileData.username + '/' + p.filename,
+        thumb: this.config.STATIC_FILES + this.profileData.username + '/' + p.filename,
+        title: p.originalname
+      }
+    });
   }
 
   private setupLoggedInUserObservable() {
@@ -141,6 +164,27 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
     this.price = Number(this.oglas.priceMainCurrency + '.' +  this.oglas.priceSubCurrency);
     
     this.delay = [80, 130, 210, 340, 550, 890];
+  }
+
+  initSwiper() {
+    return {
+      spaceBetween: 30,
+      slidesPerView: this.numSlides,
+      slidesPerGroup: this.numSlides,
+      direction: 'horizontal',
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      grabCursor: true,
+      mousewheel: true,
+      speed: 1500,
+      effect: 'slide',
+      observer: true,
+      observeParents: true,
+      updateOnWindowResize: true,
+      initialSlide: 0
+    };
   }
 
 }

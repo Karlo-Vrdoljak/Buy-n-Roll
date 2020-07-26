@@ -153,7 +153,16 @@
   "CONFIRM_DELETE": "Potvrda brisanja",
   "YES": "da",
   "NO": "ne",
-  "DELETE_CONFIRM_MSG": "Jeste li sigurni?"
+  "DELETE_CONFIRM_MSG": "Jeste li sigurni?",
+  "BASIC_INFO": "Osnovne informacije",
+  "EQUIPMENT": "Oprema",
+  "SPECIFICATION": "Specifikacija",
+  "CHANGES_SAVED": "Promjene su uspješno spremljene!",
+  "PHOTO_DELETE": "Fotografija je uspješno izbrisana!",
+  "UPLOAD_NOTE": "Za prijenos fotografija upotrijebite gornji gumb ODABERITE. Možete ih povući i baciti na navedeni gumb."
+
+
+
 
 
 
