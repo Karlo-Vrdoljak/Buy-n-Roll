@@ -1,37 +1,17 @@
 <app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 <ng-container *ngTemplateOutlet="imageViewer"></ng-container>
 
-<div class="p-grid p-nogutter overflow-hidden mb-4 pt-4">
+<div class="p-grid p-nogutter overflow-hidden mb-4 pt-4 transition-opacity ease-out duration-500" [ngClass]="{'pointer-events-none select-none opacity-50': displayForm == false}">
   <div class="p-col">
     <div class="flex justify-center items-center " [ngsReveal]="{ origin: 'right'  }">
-      <div class="max-w-full lg:w-full sm:mx-8 md:mx-24 lg:mx-48 xl:64 mx-2 rounded overflow-hidden border border-gray-300  shadow-md relative z-0">
+      <div class="max-w-full lg:w-full sm:mx-8 md:mx-24 lg:mx-48 xl:64 mx-2 rounded overflow-hidden border border-gray-300  shadow-md relative z-0" style="min-width: 50vw;">
         <div class="bg-gray-100 z-10 relative p-4 w-full font-oswald font-semibold text-gray-800 text-2xl">
           <mat-vertical-stepper>
             <mat-step>
-              <ng-template matStepLabel><span [ngClass]="{'bg_error-text-imp': helperService.hasError(oglasNazivInput, vinInput, priceMainCurrencyInput, priceSubCurrencyInput, selectedCurrencyInput, selectedPaymentMethodInput) == false }">{{ 'BASIC_INFO' | translate }}</span></ng-template>
-              <ng-container *ngTemplateOutlet="basicInfo"></ng-container>
-              <div class="pb-2 pt-6 navButtonsPages">
-                <button mat-raised-button matStepperNext color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent bg-orange-100">
-                  <div class="flex items-center align-middle">
-                    <div style="flex-basis: 85%;" class="mr-2 text-sm">{{ 'NEXT' | translate }}</div>
-                    <i class="fas fa-arrow-circle-right text-yellow-800 text-sm" style="flex-basis: 15%;"></i>
-                  </div>
-                </button>
-              </div>
-            </mat-step>
-            <mat-step>
-              <ng-template matStepLabel><span>{{ 'EQUIPMENT' | translate }}</span></ng-template>
-              <ng-container *ngTemplateOutlet="vehEquipment"></ng-container>
-              <div class="pb-2 pt-6 flex items-center navButtonsPages">
-                <div class="mr-2">
-                  <button mat-raised-button matStepperPrevious color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent bg-orange-100">
-                    <div class="flex items-center align-middle">
-                      <i class="fas fa-arrow-circle-left text-yellow-800 text-sm mr-2" style="flex-basis: 15%;"></i>
-                      <div style="flex-basis: 85%;" class="text-sm">{{'PREV' | translate}}</div>
-                    </div>
-                  </button>
-                </div>
-                <div>
+              <div *ngIf="displayForm == true" [@fadeOutUpOnLeave]>
+                <ng-template matStepLabel><span [ngClass]="{'bg_error-text-imp': helperService.hasError(oglasNazivInput, vinInput, priceMainCurrencyInput, priceSubCurrencyInput, selectedCurrencyInput, selectedPaymentMethodInput) == false }">{{ 'BASIC_INFO' | translate }}</span></ng-template>
+                <ng-container *ngTemplateOutlet="basicInfo"></ng-container>
+                <div class="pb-2 pt-6 navButtonsPages">
                   <button mat-raised-button matStepperNext color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent bg-orange-100">
                     <div class="flex items-center align-middle">
                       <div style="flex-basis: 85%;" class="mr-2 text-sm">{{ 'NEXT' | translate }}</div>
@@ -42,14 +22,40 @@
               </div>
             </mat-step>
             <mat-step>
-              <ng-template matStepLabel><span [ngClass]="{'bg_error-text-imp': helperService.hasError(consumptionInput, kilometersInput, selectedGasTypeInput, makeYearInput, selectedVehicleStateInput, selectedColorInput, selectedBodyInput, selectedDrivetrainInput, selectedTransmissionInput) == false }"></span>{{ 'SPECIFICATION' | translate }}</ng-template>
-              <ng-container *ngTemplateOutlet="vehSpecs"></ng-container>
+              <div *ngIf="displayForm == true" [@fadeOutUpOnLeave]>
+                <ng-template matStepLabel><span>{{ 'EQUIPMENT' | translate }}</span></ng-template>
+                <ng-container *ngTemplateOutlet="vehEquipment"></ng-container>
+                <div class="pb-2 pt-6 flex items-center navButtonsPages">
+                  <div class="mr-2">
+                    <button mat-raised-button matStepperPrevious color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent bg-orange-100">
+                      <div class="flex items-center align-middle">
+                        <i class="fas fa-arrow-circle-left text-yellow-800 text-sm mr-2" style="flex-basis: 15%;"></i>
+                        <div style="flex-basis: 85%;" class="text-sm">{{'PREV' | translate}}</div>
+                      </div>
+                    </button>
+                  </div>
+                  <div>
+                    <button mat-raised-button matStepperNext color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent bg-orange-100">
+                      <div class="flex items-center align-middle">
+                        <div style="flex-basis: 85%;" class="mr-2 text-sm">{{ 'NEXT' | translate }}</div>
+                        <i class="fas fa-arrow-circle-right text-yellow-800 text-sm" style="flex-basis: 15%;"></i>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </mat-step>
+            <mat-step>
+              <div *ngIf="displayForm == true" [@fadeOutUpOnLeave]>
+                <ng-template matStepLabel><span [ngClass]="{'bg_error-text-imp': helperService.hasError(consumptionInput, kilometersInput, selectedGasTypeInput, makeYearInput, selectedVehicleStateInput, selectedColorInput, selectedBodyInput, selectedDrivetrainInput, selectedTransmissionInput) == false }"></span>{{ 'SPECIFICATION' | translate }}</ng-template>
+                <ng-container *ngTemplateOutlet="vehSpecs"></ng-container>
+              </div>
             </mat-step>
           </mat-vertical-stepper>
           <div class="flex flex-row flex-no-wrap items-center justify-center px-4 pt-4 pb-2">
-            <button *ngIf="canSubmit()" (click)="submitValues()" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] mat-raised-button color="accent" class="w-64 transition-colors duration-150 ease-in">
+            <button *ngIf="canSubmit() && displayForm == true" (click)="submitValues()" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] mat-raised-button color="accent" class="w-64 transition-colors duration-150 ease-in">
               <div class="flex items-center align-middle justify-center">
-                <i class="fas fa-sign-in-alt pr-2 text-yellow-800 text-xl"></i>
+                <i class="fas fa-file-export pr-2 text-yellow-800 text-xl"></i>
                 {{ 'SAVE' | translate }}
               </div>
             </button>
@@ -60,6 +66,15 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="flex flex-row w-full flex-no-wrap items-center justify-center px-4 pt-4 pb-2">
+  <button *ngIf="displayForm == false" (click)="finishOglasCreation()" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] mat-raised-button color="accent" class="w-64 transition-colors duration-150 ease-in">
+    <div class="flex items-center align-middle justify-center">
+      <i class="fas fa-check-circle pr-2 text-yellow-800 text-xl"></i>
+      {{ 'FINISH_OGLAS' | translate | uppercase }}
+    </div>
+  </button>
 </div>
 
 <ng-template #basicInfo>
@@ -73,7 +88,7 @@
     <div class="p-col-12 relative p-sm-12 p-md-12 p-lg-6 p-xl-6" style="padding-top: 0;">
       <mat-form-field class="px-2 font-base w-full">
         <mat-label class="font-oswald">{{ 'VIN' | translate | uppercase }}</mat-label>
-        <input matInput #vinInput="ngModel" minlength="17" maxlength="17" (keyup)="oglasModel.vehicle.chassis.VIN = oglasModel.vehicle.chassis.VIN.toUpperCase()" [(ngModel)]="oglasModel.vehicle.chassis.VIN" placeholder="{{ 'VIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
+        <input matInput #vinInput="ngModel" minlength="17" maxlength="17" (keyup)="capitalizeString()" [(ngModel)]="oglasModel.vehicle.chassis.VIN" placeholder="{{ 'VIN_PLACEHOLDER' | translate }}" class="overflow-hidden font-oswald">
       </mat-form-field>
       <ng-container [ngTemplateOutlet]="errors" [ngTemplateOutletContext]="{title: ('VIN' | translate | titlecase), error: vinInput, useMinlength: true, minlength: 17 }"></ng-container>
 
@@ -141,7 +156,7 @@
       <div class="font-mw text-gray-600 py-1 px-2 flex flex-row flex-wrap w-full">
         <mat-form-field style="flex-basis: 100%">
           <mat-label class="font-oswald">{{ 'LOCATIONOGLAS' | translate }}</mat-label>
-          <input matInput type="text" (keyup)="keyUp.next($event)" [(ngModel)]="oglasModel.location.display_name" placeholder="{{ 'LOCATIONOGLAS_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald" style="font-size: 0.875rem;">
+          <input matInput type="text" (keyup)="keyUp.next($event)" [(ngModel)]="oglasModel.location.display_name" placeholder="{{ 'LOCATIONOGLAS_PLACEHOLDER' | translate}}" class="overflow-hidden font-oswald" style="font-size: 1rem;">
         </mat-form-field>
       </div>
     </div>
@@ -156,7 +171,7 @@
             <div class="text-sm text-gray-600" [ngClass]="{'text-red-500': textAreaMaxLength - oglasModel.oglasOpis.length == 0 , 'text-yellow-500': (textAreaMaxLength - oglasModel.oglasOpis.length < 50 && textAreaMaxLength - oglasModel.oglasOpis.length > 0) }">{{ textAreaMaxLength - oglasModel.oglasOpis.length }}</div>
           </div>
           <mat-form-field style="flex-basis: 95%;" class="font-mw text-lg">
-            <mat-label class="font-oswald text-3xl">{{ 'OGLAS_OPIS' | translate | uppercase }}</mat-label>
+            <mat-label class="font-oswald text-2xl">{{ 'OGLAS_OPIS' | translate | uppercase }}</mat-label>
             <textarea [(ngModel)]="oglasModel.oglasOpis" style="margin-top: 0.25rem;" matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" [maxlength]="textAreaMaxLength" [placeholder]="'OGLAS_OPIS_PLACEHOLDER' | translate" class="overflow-hidden"></textarea>
           </mat-form-field>
         </div>

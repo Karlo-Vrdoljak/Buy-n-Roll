@@ -49,11 +49,18 @@ export class OglasController {
 
   @UseGuards(JwtAuthGuard,RolesGuard)
   @Roles('user')
+  @Post('insert')
+  async insertNewOglas(@Request() req, @Res() res: Response) {
+    console.log(req.body);
+    res.status(HttpStatus.OK).send();
+    
+  }
+
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles('user')
   @Post('edit/saveChanges')
   async saveChanges(@Request() req, @Res() res: Response) {
     let oglas = await this.oglasService.findOglasByPk(req.body.PkOglas);
-    console.log("DB_OGLAS", oglas);
-    console.log("REQ_BODY",req.body);
     
     oglas.oglasNaziv = req.body.oglasNaziv;
     oglas.oglasOpis = req.body.oglasOpis;

@@ -1,0 +1,6 @@
+<div *ngIf="displayAccessories && showBanner" class="banner mb-2 relative"></div>
+<div [ngClass]="{'mt-50': !displayAccessories && showBanner }">
+  <app-oglas-edit [editMode]="false" (onOglasCreateSuccess)="handleCreatedOglas($event)" [profileData]="profileData" [path]="path" [translations]="translations" [oglas]="oglas" [currencyList]="currencyList" [colorList]="colorList" [bodyList]="bodyList" [drivetrainList]="drivetrainList" [transmissionList]="transmissionList" [manufList]="manufList" ></app-oglas-edit>
+</div>
+
+

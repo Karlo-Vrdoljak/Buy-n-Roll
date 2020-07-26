@@ -238,5 +238,8 @@ export class TopbarComponent implements OnInit {
     this.router.navigate(['/login'], {skipLocationChange:true});
 
   }
+  rerouteMojiOglasi() {
+    this.router.navigate(['oglasi'], {queryParams: {username: this.config.user.username}});
+  }
 
 }

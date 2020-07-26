@@ -53,4 +53,10 @@ export class OglasService {
       catchError(this.errorHandler.handleError)
     );
   }
+  saveNewOglas(params) {
+    return this.http.post(this.config.API_URL_ROOT + 'api/oglas/insert/', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
 }

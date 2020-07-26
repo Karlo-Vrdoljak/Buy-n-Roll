@@ -21,6 +21,8 @@ import { OglasEditResolver } from './_resolvers/oglas-edit.resolver';
 import { OglasEditComponent } from './catalogue/oglasi/oglas-edit/oglas-edit.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { AppResolver } from './_resolvers/app.resolver';
+import { OglasNewComponent } from './catalogue/oglasi/oglas-new/oglas-new.component';
+import { OglasNewResolver } from './_resolvers/oglas-new.resolver';
 
 
 const routes: Routes = [
@@ -37,6 +39,7 @@ const routes: Routes = [
   { path: 'oglasi', component: OglasUserComponent, resolve: { pageData: OglasUserResolver, initial: AppResolver }, /*canActivate: [AuthGuardGuard]*/ },
   { path: 'catalogues/item/edit/', component: OglasEditComponent, resolve: { pageData: OglasEditResolver }, canActivate: [AuthGuardGuard] },
   { path: 'catalogues/item/edit/:query', component: OglasEditComponent, resolve: { pageData: OglasEditResolver }, canActivate: [AuthGuardGuard] },
+  { path: 'catalogues/oglas/new', component: OglasNewComponent, resolve: { pageData: OglasNewResolver} , canActivate: [AuthGuardGuard] },
 
   { path: '', component: LandingComponent, resolve: { pageData:LandingResolver, initial: AppResolver } },
   { path: '**', redirectTo: '' },

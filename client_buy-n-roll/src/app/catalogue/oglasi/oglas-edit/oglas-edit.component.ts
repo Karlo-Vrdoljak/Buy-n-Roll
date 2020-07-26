@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener, ViewChild, ViewChildren, AfterViewInit, QueryList } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild, ViewChildren, AfterViewInit, QueryList, Input, Output, EventEmitter } from '@angular/core';
 import { BaseClass } from 'src/app/_services/base.class';
 import { Config } from 'src/environments/config';
 import { HelperService } from 'src/app/_services/helper.service';
@@ -14,7 +14,7 @@ import { Subscription, Subject } from 'rxjs';
 import * as rfdc from 'rfdc';
 import { SelectItem } from 'primeng/api';
 import { PaymentMethod, GasTypes, VehicleState } from 'src/app/_types/oglas.interface';
-import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
+import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation, fadeOutUpOnLeaveAnimation } from 'angular-animations';
 import { debounceTime, map } from 'rxjs/operators';
 import { LocationPropComponent } from 'src/app/props/location-prop/location-prop.component';
 import { Color, Body, Drivetrain, Transmission, Manufacturer, Series, Model } from 'src/app/_types/manufacturer.interface';
@@ -29,19 +29,27 @@ import { OglasService } from 'src/app/_services/oglas.service';
   animations: [
     fadeInRightOnEnterAnimation(),
     fadeOutLeftOnLeaveAnimation(),
+    fadeOutUpOnLeaveAnimation()
   ]
 })
 export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, AfterViewInit {
   routerSub: Subscription;
-  profileData: any;
-  path: string;
-  translations: any;
-  oglas: any;
+
+  @Input('profileData') profileData: any;
+  @Input('path') path: any;
+  @Input('translations') translations: any;
+  @Input('oglas') oglas: any;
+  @Input('currencyList') currencyList:SelectItem[];
+  @Input('colorList') colorList:Color[];
+  @Input('bodyList') bodyList: Body[];
+  @Input('drivetrainList') drivetrainList: Drivetrain[];
+  @Input('transmissionList') transmissionList: Transmission[];
+  @Input('manufList') manufList: Manufacturer[];
+
   returnUrl: string;
   breadcrumbs: any;
   translateSub: Subscription;
   oglasModel: any;
-  currencyList:SelectItem[];
   iMaskMainCurrency = {
     mask: '000000000000000'
 
@@ -63,11 +71,6 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
   keyUpSub: Subscription;
   vehicleStateList: SelectItem[];
 
-  colorList:Color[];
-  bodyList: Body[];
-  drivetrainList: Drivetrain[];
-  transmissionList: Transmission[];
-  manufList: Manufacturer[];
   series: Series[];
   models: Model[];
   numSlides:number = 5;
@@ -90,6 +93,11 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
   @ViewChild('selectedBodyInput') selectedBodyInput: NgModel;
   @ViewChild('selectedDrivetrainInput') selectedDrivetrainInput: NgModel; 
   @ViewChild('selectedTransmissionInput') selectedTransmissionInput: NgModel;
+
+  @Input('editMode') editMode:boolean = true;
+  @Output() onOglasCreateSuccess = new EventEmitter<boolean>();
+
+  displayForm = true;
   
   constructor(
     public config:Config,
@@ -104,7 +112,6 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
     private toast:ToastrService,
     private translationProvider: TranslationList,
     private vehicleService: VehicleService,
-    private domS: DomSanitizer,
     private oglasService: OglasService
   ) { 
     super(config,helperService);
@@ -119,19 +126,20 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
   }
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.data.pageData);
-    
-    this.profileData = this.route.snapshot.data.pageData[0] || [];
-    this.path = this.route.snapshot.data.pageData[1] || '';
-    this.translations = this.route.snapshot.data.pageData[2] || {}; 
-    this.oglas = this.route.snapshot.data.pageData[3] || [];
-    this.currencyList = this.initCurrencyList(this.route.snapshot.data.pageData[4] || []);
-    this.colorList = this.route.snapshot.data.pageData[5] || [];
-    this.bodyList = this.route.snapshot.data.pageData[6] || [];
-    this.drivetrainList = this.route.snapshot.data.pageData[7] || [];
-    this.transmissionList = this.route.snapshot.data.pageData[8] || [];
-    this.manufList = this.route.snapshot.data.pageData[9] || [];
 
+    if(this.editMode == true) {
+      this.profileData = this.route.snapshot.data.pageData[0] || [];
+      this.path = this.route.snapshot.data.pageData[1] || '';
+      this.translations = this.route.snapshot.data.pageData[2] || {}; 
+      this.oglas = this.route.snapshot.data.pageData[3] || [];
+      this.currencyList = this.initCurrencyList(this.route.snapshot.data.pageData[4] || []);
+      this.colorList = this.route.snapshot.data.pageData[5] || [];
+      this.bodyList = this.route.snapshot.data.pageData[6] || [];
+      this.drivetrainList = this.route.snapshot.data.pageData[7] || [];
+      this.transmissionList = this.route.snapshot.data.pageData[8] || [];
+      this.manufList = this.route.snapshot.data.pageData[9] || [];
+    }
+    
     this.setupOglasModel();
     this.setupLoginTracker();
     
@@ -151,13 +159,15 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
     this.oglasModel.selectedTransmission = this.oglasModel.vehicle.chassis.transmission ? this.transmissionList.find(t=> t.PkTransmission == this.oglasModel.vehicle.chassis.transmission.PkTransmission) : null; 
     this.oglasModel.selectedManuf = this.oglasModel.vehicle.chassis.model.series.manufacturer ? this.manufList.find(m => m.PkManufacturer == this.oglasModel.vehicle.chassis.model.series.manufacturer.PkManufacturer) : null; 
 
-    this.getSeries().then(() => {
-      this.oglasModel.selectedSeries = this.oglasModel.vehicle.chassis.model.series ? this.series.find(s => s.PkSeries == this.oglasModel.vehicle.chassis.model.series.PkSeries) : null; 
-    }).then(() => {
-      this.getModels().then(() => {
-        this.oglasModel.selectedModel = this.oglasModel.vehicle.chassis.model ? this.models.find(m => m.PkModel == this.oglasModel.vehicle.chassis.model.PkModel) : null; 
+    if(this.oglasModel.vehicle.chassis.model.series.manufacturer.PkManufacturer) {
+      this.getSeries().then(() => {
+        this.oglasModel.selectedSeries = this.oglasModel.vehicle.chassis.model.series ? this.series.find(s => s.PkSeries == this.oglasModel.vehicle.chassis.model.series.PkSeries) : null; 
+      }).then(() => {
+        this.getModels().then(() => {
+          this.oglasModel.selectedModel = this.oglasModel.vehicle.chassis.model ? this.models.find(m => m.PkModel == this.oglasModel.vehicle.chassis.model.PkModel) : null; 
+        });
       });
-    });
+    }
 
     this.swiperGalleryConfig = this.initSwiper();
   }
@@ -200,10 +210,90 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
       }
     });
   }
+  initDefaultOglasModel() {
+    return {
+      PkOglas: null,
+      oglasNaziv: '',
+      oglasOpis: '',
+      oglasCreatedAt: null,
+      lastModified: null,
+      rating: 0,
+      views: 0,
+      priceMainCurrency: '',
+      priceSubCurrency: '',
+      currencyName: null,
+      paymentMethod: null,
+      autoRadioDefs: null,
+      safety: null,
+      accessories: null,
+      theftSafety: null,
+      airConditioning: null,
+      comfortAccessories: null,
+      photos: null,
+      vehicle: {
+        PkUserVehicle: null,
+        RegistriranDaNe: false,
+        user: null,
+        chassis: {
+          PkChassis: null,
+          makeYear: null,
+          VIN: null,
+          kilometers: null,
+          vehicleState: null,
+          consumption: null,
+          color: null,
+          model: {
+            PkModel: null,
+            modelName: null,
+            endOfProductionYear: null,
+            series: {
+              PkSeries: null,
+              seriesName: null,
+              manufacturer: {
+                PkManufacturer: null,
+                manufacturerName: null
+              }
+            }
+          },
+          drivetrain: {
+            PkDrivetrain: null,
+            drivetrainCode: null
+          },
+          transmission: {
+            PkTransmission: null,
+            transmissionName: null
+          },
+          gasType: {
+            PkGasType: null,
+            gasType: null
+          },
+          body: {
+            PkBody: null,
+            bodyName: null
+          }
+        }
+      },
+      location: {
+        PkLocation: null,
+        boundingbox: [],
+        class: "",
+        display_name: "",
+        lat: "",
+        lon: "",
+        place_id: "",
+        type: "",
+      }
+    };
+  }
   setupOglasModel() {
-    this.oglasModel = rfdc({proto:true})(this.oglas);
-    this.oglasModel['selectedCurrency'] = this.currencyList.find(el =>  el.value.name.toLowerCase().includes(this.oglas.currencyName.toLowerCase()));
-    this.oglasModel.photos = this.initOglasImages(this.oglasModel.photos);
+    if(this.editMode == true) {
+      this.oglasModel = rfdc({proto:true})(this.oglas);
+      this.oglasModel['selectedCurrency'] = this.currencyList.find(el =>  el.value.name.toLowerCase().includes(this.oglas.currencyName.toLowerCase()));
+      this.oglasModel.photos = this.initOglasImages(this.oglasModel.photos);
+    } else {
+      this.oglasModel = this.initDefaultOglasModel();
+    }
+    console.log(this.oglasModel);
   }
 
   initCurrencyList(list:any[]) {
@@ -224,7 +314,9 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
         value: pm
       } as SelectItem;
     });
-    this.oglasModel.selectedPaymentMethod = this.paymentMethodList.find(pm => pm.value == this.oglasModel.paymentMethod);
+    if(!this.oglasModel.selectedPaymentMethod && this.oglasModel.paymentMethod ) {
+      this.oglasModel.selectedPaymentMethod = this.paymentMethodList.find(pm => pm.value == this.oglasModel.paymentMethod);
+    }
   }
   initGasTypeList() {
     this.gasTypeList = Object.values(GasTypes).map(gt => {
@@ -307,7 +399,7 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
     if(prevRoute != '/' && this.path) {
       this.breadcrumbs = this.breadcrumbService.basicMenu('EMPTY_STRING',this.breadcrumbService.determinePath());
     } else {
-      this.breadcrumbs = this.breadcrumbService.basicMenu('EMPTY_STRING', null, this.oglas.oglasNaziv);
+      this.breadcrumbs = this.breadcrumbService.basicMenu('EMPTY_STRING', null, this.oglas?.oglasNaziv ? this.oglas.oglasNaziv: this.translations.NOVI_OGLAS);
     }
   }
 
@@ -316,16 +408,20 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
       this.setupBreadCrumbs();
       this.translate.get(this.translationProvider.getRegistration()).subscribe(data => {
         this.translations = data;
-        this.initPaymentMethod();
-        this.applyProp('selectedPaymentMethod',this.paymentMethodList.find(pm => pm.value == this.oglasModel.selectedPaymentMethod.value));
+        console.log(this.oglasModel);
         
-        this.initGasTypeList();
-        this.applyProp('selectedGasType',this.gasTypeList.find(gt => gt.value == this.oglasModel.selectedGasType.value));
-
-        this.initVehStateList();
-        this.applyProp('selectedVehicleState',this.vehicleStateList.find(vs => vs.value == this.oglasModel.selectedVehicleState.value));
-
-
+        if(this.oglasModel.selectedPaymentMethod) {
+          this.initPaymentMethod();
+          this.applyProp('selectedPaymentMethod',this.paymentMethodList.find(pm => pm.value == this.oglasModel.selectedPaymentMethod.value));
+        }
+        if(this.oglasModel.selectedGasType) {
+          this.initGasTypeList();
+          this.applyProp('selectedGasType',this.gasTypeList.find(gt => gt.value == this.oglasModel.selectedGasType.value));
+        }
+        if(this.oglasModel.selectedVehicleState) {
+          this.initVehStateList();
+          this.applyProp('selectedVehicleState',this.vehicleStateList.find(vs => vs.value == this.oglasModel.selectedVehicleState.value));
+        }
       });
     });
   }
@@ -334,6 +430,13 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
   }
   DecPage() {
     this.pageIndex -=1;
+  }
+  capitalizeString() {
+    if(this.oglasModel.vehicle.chassis.VIN) {
+      this.oglasModel.vehicle.chassis.VIN = this.oglasModel.vehicle.chassis.VIN.toUpperCase();
+    } else {
+      return;
+    }
   }
 
   handleOptionalLocation() {
@@ -440,14 +543,31 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
       PkVehicle: this.oglasModel.vehicle.PkUserVehicle,
       PkChassis: this.oglasModel.vehicle.chassis.PkChassis
     };
-    this.loader.startBackgroundLoader('oglas_edit_loader');
-    
-    this.oglasService.saveOglasEditData(params).subscribe(data => {
-      this.loader.stopBackgroundLoader('oglas_edit_loader');
-      this.toast.success(this.translations.CHANGES_SAVED);
-      this.router.navigate(['/catalogues/item/', this.oglasModel.PkOglas]);
-    }, err => {
-      this.loader.stopBackgroundLoader('oglas_edit_loader');
-    });
+    if(this.editMode == true) {
+      this.loader.startBackgroundLoader('oglas_edit_loader');
+      this.oglasService.saveOglasEditData(params).subscribe(data => {
+        this.loader.stopBackgroundLoader('oglas_edit_loader');
+        this.toast.success(this.translations.CHANGES_SAVED);
+        this.router.navigate(['/catalogues/item/', this.oglasModel.PkOglas]);
+      }, err => {
+        this.loader.stopBackgroundLoader('oglas_edit_loader');
+      });
+    } else {
+      this.loader.startLoader('oglas_edit_loader')
+      this.oglasService.saveNewOglas(params).subscribe(data => {
+        console.log(data);
+        
+        this.displayForm = false;
+        this.onOglasCreateSuccess.emit(true);
+        this.oglasModel.photos = [];
+        this.loader.stopLoader('oglas_edit_loader');
+      }, err => {
+        this.loader.stopLoader('oglas_edit_loader');
+      });    
+    }
+  }
+
+  finishOglasCreation() {
+    this.router.navigate(['oglasi'], {queryParams: {username: this.config.user.username}});
   }
 }

@@ -159,9 +159,8 @@
   "SPECIFICATION": "Specification",
   "CHANGES_SAVED": "Changes saved successfully!",
   "PHOTO_DELETE": "Photo deleted successfully!",
-  "UPLOAD_NOTE": "Use the CHOOSE button above to upload photos. You can drag and drop them onto said button."
-
-
-
+  "UPLOAD_NOTE": "Use the CHOOSE button above to upload photos. You can drag and drop them onto said button.",
+  "NOVI_OGLAS": "NEW AD",
+  "FINISH_OGLAS": "Complete ad creation"
 
 }

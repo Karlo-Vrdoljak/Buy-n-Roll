@@ -38,12 +38,12 @@
     <div class="p-grid p-nogutter">
       <div class="p-col-4 np">
         <div class="mx-2" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
-          <a mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="'asdf'">
+          <a [routerLink]="['/catalogues/oglas/new']" mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="'asdf'">
             <div class="flex items-center align-middle">
               <div class="flex items-center align-middle  mx-auto justify-center">
-                <i class="fas fa-book-reader pr-2 text-gray-700 text-base leading-8"></i>
+                <i class="fas fa-paper-plane pr-2 text-gray-700 text-base leading-8"></i>
               </div>
-              <div style="flex-basis: 85%;">asdfg</div>
+              <div class="hideSm" style="flex-basis: 85%;">{{ 'FREE_OGLAS' | translate }}</div>
             </div>
           </a>
         </div>

@@ -159,15 +159,9 @@
   "SPECIFICATION": "Specifikacija",
   "CHANGES_SAVED": "Promjene su uspješno spremljene!",
   "PHOTO_DELETE": "Fotografija je uspješno izbrisana!",
-  "UPLOAD_NOTE": "Za prijenos fotografija upotrijebite gornji gumb ODABERITE. Možete ih povući i baciti na navedeni gumb."
-
-
-
-
-
-
-
-
+  "UPLOAD_NOTE": "Za prijenos fotografija upotrijebite gornji gumb ODABERITE. Možete ih povući i baciti na navedeni gumb.",
+  "NOVI_OGLAS": "NOVI OGLAS",
+  "FINISH_OGLAS": "Završi kreiranje oglasa"
 
 
 }
