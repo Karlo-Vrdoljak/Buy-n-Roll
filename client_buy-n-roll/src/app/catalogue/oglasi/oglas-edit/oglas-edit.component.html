@@ -570,7 +570,7 @@
   <div class="h-64 banner relative" *ngIf="oglasModel.photos && swiperGalleryConfig">
     <div class="buynroll_bg_deepGray shadow-md">
       <div [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
-        <app-gallery [photos]="oglasModel.photos" [config]="swiperGalleryConfig" (onImageUpload)="onImageUpload($event)" (onImageDelete)="onImageDelete($event)"></app-gallery>
+        <app-gallery [showHint]="true" [photos]="oglasModel.photos" [config]="swiperGalleryConfig" (onImageUpload)="onImageUpload($event)" (onImageDelete)="onImageDelete($event)"></app-gallery>
       </div>
     </div>
   </div>

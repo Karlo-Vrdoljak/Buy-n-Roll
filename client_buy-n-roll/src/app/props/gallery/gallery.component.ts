@@ -30,6 +30,7 @@ export class GalleryComponent extends BaseClass implements OnInit {
   @ViewChild('cd') confirm:ConfirmDialogComponent;
   imgUpload:boolean = false;
   displayConfirm:boolean = false;
+  @Input('showHint') showHint:boolean = false;
   constructor(
     public config:Config,
     public helperService: HelperService,

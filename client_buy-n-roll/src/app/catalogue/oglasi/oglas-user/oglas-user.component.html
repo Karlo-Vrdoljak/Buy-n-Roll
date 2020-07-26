@@ -1,20 +1,15 @@
 <app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 <div *ngIf="displayAccessories" class="banner relative">
 </div>
+
 <p-dataView *ngIf="oglasi.length > 0; else noRecords" #dv [value]="oglasi" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both">
   <p-header>
     <ng-container *ngTemplateOutlet="header"></ng-container>
   </p-header>
   <ng-template let-o pTemplate="listItem">
-      <div class="car-details">
-        <div class="md:mx-4 lg:mx-16 xl:md-32">
-          <div class="p-grid p-nogutter">
-            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-4">
-              <app-catalogue-search-item [personal]="true" [username]="profileData.username" [item]="o" [size]="'large'"></app-catalogue-search-item>
-            </div>
-          </div>
-        </div>
-      </div>
+    <span class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-4 ui-xl-3 px-2 md:px-4 lg:px-16 xl:px-32">
+      <app-catalogue-search-item [personal]="true" [username]="profileData.username" [item]="o" [size]="'large'"></app-catalogue-search-item>
+    </span>
   </ng-template>
 </p-dataView>
 

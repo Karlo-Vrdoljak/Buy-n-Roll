@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Oglas } from './oglas.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Location {
@@ -25,5 +27,11 @@ export class Location {
   
   @Column({ nullable: true, default:'house' })
   type:string // tip adrese
+
+  @OneToMany(type => Oglas, oglas => oglas.location)
+  oglasi: Oglas[];
+  
+  @OneToMany(type => User, user => user.location)
+  users: User[];
   
 }

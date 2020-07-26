@@ -305,12 +305,16 @@ export class UserController {
     
     let photos = files.map(f => this.photoService.generatePhotoOglas(f)) as Photo[];
 
-    let oglas = await this.oglasService.getRepo().findOne({ relations: ["photos"] });
+    let oglas = await this.oglasService.getRepo()
+    .createQueryBuilder('o')
+    .leftJoinAndSelect("o.photos","p","p.oglas")
+    .where('o.PkOglas = :PkOglas', { PkOglas: pkOglas }).getOne();
+    
     await Promise.all(photos.map(async p => {
       await this.photoService.getRepo().save(p);
     }));
     oglas.photos.push(...photos);
-    
+
     await this.oglasService.getRepo().save(oglas);
     let result = await this.oglasService.findOglasPhotosByPkOglas(pkOglas);
     res.status(HttpStatus.CREATED).send(result);

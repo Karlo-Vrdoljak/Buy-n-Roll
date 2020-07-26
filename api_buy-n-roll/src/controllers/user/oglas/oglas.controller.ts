@@ -108,7 +108,6 @@ export class OglasController {
     chassis.vehicleState = req.body.vehicleState;
     chassis.VIN = req.body.vin;
 
-    console.log(chassis);
     
     await this.oglasService.getConnection().getRepository(Chassis).save(chassis);
 

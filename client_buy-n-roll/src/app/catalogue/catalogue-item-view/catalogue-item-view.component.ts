@@ -115,7 +115,7 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
   private async setupOglasUserData() {
     this.profileData = this.oglas.vehicle.user;
     this.userService.getUserPhoto(this.oglas.vehicle.user.username).subscribe(data => {
-      this.profileData.photo = data.photo;
+      this.profileData.photo = data?.photo;
       this.handleProfilePicture();
     });
   }

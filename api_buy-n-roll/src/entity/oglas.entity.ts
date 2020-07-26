@@ -29,12 +29,10 @@ export class Oglas {
   @OneToMany(type => Photo, photo => photo.oglas)
   photos: Photo[];
 
-  @OneToOne(type => UserVehicle, {nullable:true})
-  @JoinColumn()
+  @ManyToOne(type => UserVehicle, {nullable:true})
   vehicle: UserVehicle;
 
-  @OneToOne(type => Location, {nullable:true})
-  @JoinColumn()
+  @ManyToOne(type => Location, {nullable:true})
   location: Location;
 
   @Column({default: 0})

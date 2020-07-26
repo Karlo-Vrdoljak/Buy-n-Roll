@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn, ManyToOne, Index } from 'typeorm';
 import { Model } from './model.entity';
+import { Chassis } from './chassis.entity';
 
 @Entity()
 export class Drivetrain {
@@ -10,4 +11,6 @@ export class Drivetrain {
   @Column({ nullable: false })
   drivetrainCode: string; // 'FWD | AWD | RWD' 
 
+  @OneToMany(type => Chassis, chassis => chassis.drivetrain, {nullable:true})
+  chassisList: Chassis[];
 } 

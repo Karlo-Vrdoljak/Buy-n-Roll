@@ -1,8 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 import { Role } from './role.entity';
 import { Location } from './location.entity';
 import { SellerType } from 'src/types/enums';
 import { Photo } from './photo.entity';
+import { UserVehicle } from './userVehicle.entity';
 
 
 @Entity()
@@ -43,9 +44,11 @@ export class User {
   @Column({ type: "enum",enum: SellerType,default: SellerType.PRIVATNA_OSOBA })
   sellerType:SellerType;
 
-  @OneToOne(type => Location, {nullable:true})
-  @JoinColumn()
+  @ManyToOne(type => Location, {nullable:true})
   location: Location;
+
+  @OneToMany(type => UserVehicle, UserVehicle => UserVehicle.user)
+  vehicles: UserVehicle[];
 
   @OneToOne(type => Photo, {nullable:true})
   @JoinColumn()

@@ -1,3 +1,10 @@
+:host ::ng-deep p-dataview {
+  width: 100%;
+  .ui-dataview.ui-dataview-list>.ui-dataview-content>div.ui-g>div {
+    width: inherit;
+  }
+}
+
 :host ::ng-deep .ui-dataview .ui-paginator-top {
   border: 0;
 }

@@ -554,12 +554,13 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
       });
     } else {
       this.loader.startLoader('oglas_edit_loader')
-      this.oglasService.saveNewOglas(params).subscribe(data => {
+      this.oglasService.saveNewOglas(params).subscribe((data:any) => {
         console.log(data);
         
         this.displayForm = false;
         this.onOglasCreateSuccess.emit(true);
         this.oglasModel.photos = [];
+        this.oglasModel.PkOglas = data.PkOglas;
         this.loader.stopLoader('oglas_edit_loader');
       }, err => {
         this.loader.stopLoader('oglas_edit_loader');

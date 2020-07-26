@@ -21,4 +21,7 @@ export class Model {
 
   @ManyToOne(type => Series, series => series.models)
   series: Series;
+
+  @OneToMany(type => Chassis, chassis => chassis.model, {nullable:true})
+  chassisList: Chassis[];
 } 

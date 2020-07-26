@@ -60,6 +60,8 @@ export class CatalogueSearchItemComponent implements OnInit, OnDestroy {
     if(this.personalOglas == false) {
       this.handleOptionalPhotoProfile();
     }
+    console.log(this.searchItem);
+    
   }
 
   getPhotoUrlCssOglas() {
@@ -86,7 +88,6 @@ export class CatalogueSearchItemComponent implements OnInit, OnDestroy {
 
   private setupLoggedInUserObservable() {
     this.loginSub = this.helperService.currentLogin.subscribe(event => {
-      console.log('alo',this.config.user);
       
       if(this.config.user) {
         this.hideContact = this.config.user.username == (this.oglasUsername ?? this.searchItem.username)? true: false;

@@ -95,7 +95,7 @@ export class VehicleService implements OnModuleInit {
 
               this._getAllManufacturerSeries().then(result => {
 								this._saveModelsToSeries(result[0]); // manufacturerSeries
-								this.dbLogs.initializing(100);
+								this.dbLogs.initializing(87);
 
               });
             });
@@ -203,12 +203,14 @@ export class VehicleService implements OnModuleInit {
   }
 
   findOglasiBySearchString(searchString:string) {
-    return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), new Array(14).fill(searchString));
+    return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), new Array(18).fill(searchString));
   }
   // findOglasiAll() {
   //   return this.oglasService.getRepo().query(this.dbAccess.getOglasAll());
   // }
   findOglasiBySimpleProps(props: Manufacturer & Series & Model) {
-    return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), [props.manufacturerName, props.manufacturerName, props.seriesName, props.seriesName, props.modelName, props.modelName, null, null, null, null, null, null, null, null]);
+    return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), [props.seriesName, props.manufacturerName, null, null, props.modelName, null, null, null, null, props.seriesName, props.manufacturerName, null, null, props.modelName, null, null, null, null]);
   }
 }
+
+// [props.seriesName, props.seriesName, props.manufacturerName, props.manufacturerName, null, null, null, null, props.modelName, props.modelName, null, null, null, null, null, null, null, null]

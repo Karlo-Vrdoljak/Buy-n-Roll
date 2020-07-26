@@ -5,7 +5,7 @@
 </div>
 
 <ng-template #catalogueItem>
-  <div class="max-w-sm lg:max-w-full rounded  border border-gray-300 overflow-hidden shadow-md relative z-0 hoverEffect" style="background-position: center;" [ngClass]="{'backgroundImage': helperService.getScreenY() < 640 }" [style.background-image]="helperService.getScreenY() < 640? getPhotoUrlCssOglas(): 'none'">
+  <div class="max-w-sm lg:max-w-full rounded  border border-gray-300 overflow-hidden shadow-md relative z-0 hoverEffect min-width: 80%;" style="background-position: center;" [ngClass]="{'backgroundImage': helperService.getScreenY() < 640 }" [style.background-image]="helperService.getScreenY() < 640? getPhotoUrlCssOglas(): 'none'">
     <div *ngIf="helperService.getScreenY() < 640" class="overlay dark"></div>
     <div class="bg-gray-100 z-10 relative">
       <div class="w-full h-64 backgroundImage select-none hideMobileHorizonatal" style="background-position: center;"  [style.background-image]="getPhotoUrlCssOglas()"></div>
@@ -55,7 +55,7 @@
 
 <ng-template #personal>
   
-  <div class="max-w-sm lg:max-w-full rounded  border border-gray-300 overflow-hidden shadow-md relative z-0 hoverEffect" style="background-position: center;" [ngClass]="{'backgroundImage': helperService.getScreenY() < 640 }" [style.background-image]="helperService.getScreenY() < 640? getPhotoUrlCssOglas(): 'none'">
+  <div class="max-w-sm lg:max-w-full rounded  border border-gray-300 overflow-hidden shadow-md relative z-0 hoverEffect" style="min-width: 80%; background-position: center;" [ngClass]="{'backgroundImage': helperService.getScreenY() < 640 }" [style.background-image]="helperService.getScreenY() < 640? getPhotoUrlCssOglas(): 'none'">
     <div class="bg-gray-100 z-10 relative">
       <div class="w-full h-64 backgroundImage select-none hideMobileHorizonatal" style="background-position: center;"  [style.background-image]="getPhotoUrlCssOglas()"></div>
       <div class="overlay light"></div>

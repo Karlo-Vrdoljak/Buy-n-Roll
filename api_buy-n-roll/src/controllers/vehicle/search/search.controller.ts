@@ -11,7 +11,8 @@ export class SearchController {
 
   @Get('detailed')
   async getOglasiByManufSerieModel(@Request() req, @Res() res: Response) {
-    let oglasi = await this.vehicleService.findOglasiBySimpleProps(req.query);    
+    let oglasi = await this.vehicleService.findOglasiBySimpleProps(req.query);
+    console.log(oglasi);
     this.fillOglasPhotos(oglasi).then(ret => {
       
       res.status(HttpStatus.OK).send(ret);

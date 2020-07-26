@@ -59,6 +59,11 @@ export class UsersService implements OnModuleInit{
   ) { }
 
   onModuleInit() {
+    this.usersRepository.count().then((count) => {
+      if (count == 0) {
+        this.dbLogs.queryLog('Please wait until you get a message indicating app installation is done!');
+      }
+    });
     setTimeout(() => {
       this.usersRepository.count().then((count) => {
         if (count == 0) {
@@ -72,6 +77,8 @@ export class UsersService implements OnModuleInit{
                     if (count == 0) {
                       this.initOglas().then(() => {
                         this.dbLogs.successInit('1st Oglas');
+        								this.dbLogs.initializing(100);
+                        this.dbLogs.done();
                       });
                     } 
                   });
