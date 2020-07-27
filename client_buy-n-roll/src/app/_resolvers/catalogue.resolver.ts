@@ -8,6 +8,7 @@ import { VehicleService } from '../_services/vehicle.service';
 import { TranslationList } from '../_services/translation.list';
 import { SearchService } from '../_services/search.service';
 import { searchTypes } from '../_types/misc';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
@@ -19,7 +20,8 @@ export class CatalogueResolver implements Resolve<unknown>{
     private errorHandler: ErrorHandler,
     private vehicleService: VehicleService,
     private translationList: TranslationList,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private http: HttpClient
   ){ }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
@@ -27,7 +29,8 @@ export class CatalogueResolver implements Resolve<unknown>{
     if(route.queryParams.searchType == searchTypes.text) {
       return forkJoin (
         this.searchService.findOglasiBySearchQuery(route.params.query),
-        this.translate.get(this.translationList.getCatalogues())
+        this.translate.get(this.translationList.getCatalogues()),
+        this.http.get('assets/json/currency.json'),
       ).pipe(
         catchError(error => {
           const state: RouterState = this.router.routerState;

@@ -161,7 +161,15 @@
   "PHOTO_DELETE": "Fotografija je uspješno izbrisana!",
   "UPLOAD_NOTE": "Za prijenos fotografija upotrijebite gornji gumb ODABERITE. Možete ih povući i baciti na navedeni gumb.",
   "NOVI_OGLAS": "NOVI OGLAS",
-  "FINISH_OGLAS": "Završi kreiranje oglasa"
+  "FINISH_OGLAS": "Završi kreiranje oglasa",
+  "SORT_NEW_FIRST": "Najnoviji",
+  "SORT_OLD_FIRST": "najstariji",
+  "SORT_SKUP_FIRST": "Najskuplji",
+  "SORT_JEFTIN_FIRST": "najjeftiniji",
+  "SORT_POPULARAN_FIRST": "Najpopularniji",
+  "SORT_NEPOPULARAN_FIRST": "Nepopularni",
+  "SORT_RELEVANT": "Relevantnost"
+
 
 
 }

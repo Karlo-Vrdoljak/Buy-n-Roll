@@ -161,6 +161,13 @@
   "PHOTO_DELETE": "Photo deleted successfully!",
   "UPLOAD_NOTE": "Use the CHOOSE button above to upload photos. You can drag and drop them onto said button.",
   "NOVI_OGLAS": "NEW AD",
-  "FINISH_OGLAS": "Complete ad creation"
+  "FINISH_OGLAS": "Complete ad creation",
+  "SORT_NEW_FIRST": "Newest",
+  "SORT_OLD_FIRST": "Oldest",
+  "SORT_SKUP_FIRST": "Most expensive",
+  "SORT_JEFTIN_FIRST": "Cheapest",
+  "SORT_POPULARAN_FIRST": "Most popular",
+  "SORT_NEPOPULARAN_FIRST": "Most unpopular",
+  "SORT_RELEVANT": "Relevance"
 
 }

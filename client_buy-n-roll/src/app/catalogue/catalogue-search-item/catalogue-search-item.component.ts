@@ -7,7 +7,6 @@ import { Config } from 'src/environments/config';
 import { CatalogueActionIconsComponent } from '../catalogue-action-icons/catalogue-action-icons.component';
 import { OglasService } from 'src/app/_services/oglas.service';
 import { Router } from '@angular/router';
-
 interface DisplayType {
   large:"large";
   small:"small";
@@ -62,6 +61,10 @@ export class CatalogueSearchItemComponent implements OnInit, OnDestroy {
     }
     console.log(this.searchItem);
     
+  }
+
+  syncScrollReveal() {
+    this.revealService.sync();
   }
 
   getPhotoUrlCssOglas() {

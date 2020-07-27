@@ -1,15 +1,18 @@
 <app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 <div *ngIf="displayAccessories" class="banner"></div>
-<p-dataView *ngIf="catalogList.length > 0; else noRecords" #dv [value]="catalogList" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both" filterBy="brand" [sortField]="sortField" [sortOrder]="sortOrder">
+<p-dataView #dv *ngIf="catalogList.length > 0; else noRecords" #dv [value]="catalogList" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both" [sortField]="sortField" [sortOrder]="sortOrder">
   <p-header>
     <div class="ui-helper-clearfix">
-      <div class="p-grid p-nogutter">
-        <div class="p-col-4 np">
-          <p-dropdown [options]="sortOptions" placeholder="Sort By" (onChange)="onSortChange($event)" [style]="{'min-width':'140px'}"></p-dropdown>
-        </div>
-        <div class="p-col-4 np filter-container">
-        </div>
-        <div class="p-col-4 np" style="text-align:right">
+      <div class="flex flex-row">
+        <div class="pr-2">
+          <p-dropdown [options]="sortOptions" placeholder="" [(ngModel)]="selectedSortOption" (onChange)="onSortChange($event)" [style]="{'min-width':'180px'}" optionLabel="label">
+            <ng-template let-item pTemplate="selectedItem">
+              {{ item.value.label | translate | titlecase }}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+              {{ item.label | translate | titlecase }}
+            </ng-template>
+          </p-dropdown>
         </div>
       </div>
     </div>
@@ -32,3 +35,5 @@
     </div>
   </div>
 </ng-template>
+
+<ngx-ui-loader [loaderId]="'catalogue_loader'"></ngx-ui-loader>

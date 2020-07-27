@@ -59,4 +59,10 @@ export class OglasService {
       catchError(this.errorHandler.handleError)
     );
   }
+  getExchangeRate(params) {
+    return this.http.post(this.config.API_URL_ROOT + 'api/vehicle/search/exchangeRate/', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    ).toPromise();
+  }
 }
