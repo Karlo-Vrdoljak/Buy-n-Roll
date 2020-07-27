@@ -2,7 +2,7 @@
 <div *ngIf="displayAccessories" class="banner relative">
 </div>
 
-<p-dataView *ngIf="oglasi.length > 0; else noRecords" #dv [value]="oglasi" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both">
+<p-dataView *ngIf="oglasi.length > 0; else noRecords" #dv [value]="oglasi" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both" [sortField]="sortField" [sortOrder]="sortOrder">
   <p-header>
     <ng-container *ngTemplateOutlet="header"></ng-container>
   </p-header>
@@ -30,22 +30,26 @@
 
 <ng-template #header>
   <div class="ui-helper-clearfix">
-    <div class="p-grid p-nogutter">
-      <div class="p-col-4 np">
-        <div class="mx-2" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
-          <a [routerLink]="['/catalogues/oglas/new']" mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="'asdf'">
-            <div class="flex items-center align-middle">
-              <div class="flex items-center align-middle  mx-auto justify-center">
-                <i class="fas fa-paper-plane pr-2 text-gray-700 text-base leading-8"></i>
-              </div>
-              <div class="hideSm" style="flex-basis: 85%;">{{ 'FREE_OGLAS' | translate }}</div>
+    <div class="flex flex-row">
+      <div class="pr-2">
+        <p-dropdown [options]="sortOptions" placeholder="" [(ngModel)]="selectedSortOption" (onChange)="onSortChange($event)" [style]="{'min-width':'180px'}" optionLabel="label">
+          <ng-template let-item pTemplate="selectedItem">
+            {{ item.value.label | translate | titlecase }}
+          </ng-template>
+          <ng-template let-item pTemplate="item">
+            {{ item.label | translate | titlecase }}
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
+        <a [routerLink]="['/catalogues/oglas/new']" mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="'asdf'">
+          <div class="flex items-center align-middle">
+            <div class="flex items-center align-middle  mx-auto justify-center">
+              <i class="fas fa-paper-plane pr-2 text-gray-700 text-base leading-8"></i>
             </div>
-          </a>
-        </div>
-      </div>
-      <div class="p-col-4 np filter-container">
-      </div>
-      <div class="p-col-4 np" style="text-align:right">
+            <div class="hideSm" style="flex-basis: 85%;">{{ 'FREE_OGLAS' | translate }}</div>
+          </div>
+        </a>
       </div>
     </div>
   </div>

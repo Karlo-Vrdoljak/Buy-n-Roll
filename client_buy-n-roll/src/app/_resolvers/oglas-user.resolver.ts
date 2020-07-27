@@ -11,6 +11,7 @@ import { searchTypes } from '../_types/misc';
 import { OglasService } from '../_services/oglas.service';
 import { HelperService } from '../_services/helper.service';
 import { UserService } from '../_services/user.service';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
@@ -23,7 +24,9 @@ export class OglasUserResolver implements Resolve<unknown>{
     private helperService: HelperService,
     private translate:TranslateService,
     private translationProvider:TranslationList,
-    private oglasService: OglasService
+    private oglasService: OglasService,
+    private http: HttpClient
+
   ){ }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
@@ -39,7 +42,8 @@ export class OglasUserResolver implements Resolve<unknown>{
       this.userService.findUserByUsername(route.queryParams.username),
       of(prevRoute),
       this.translate.get(this.translationProvider.getRegistration()),
-      this.oglasService.findOglasiByUsername(route.queryParams.username)
+      this.oglasService.findOglasiByUsername(route.queryParams.username),
+      this.http.get('assets/json/currency.json'),
     ).pipe(
       catchError(error => {
         const state: RouterState = this.router.routerState;
