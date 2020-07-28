@@ -207,8 +207,8 @@
           </div>
         </a>
       </div>
-      <div class="mx-2" [ngsReveal]="{reset: true, origin: 'right', delay: 300 }" *ngIf="config.user && (config.user.username == profileData.username)">
-        <a mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="('FAVOURITES' | translate) | lowercase | titlecase">
+      <div class="mx-2" [ngsReveal]="{reset: true, origin: 'right', delay: 300 }">
+        <a (click)="resolveFavourites()" mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="('FAVOURITES' | translate) | lowercase | titlecase">
           <div class="flex items-center align-middle">
             <div class="flex items-center align-middle mx-auto ">
               <div class="flex items-center align-middle justify-center"><i class="fas fa-heart navIcon pr-2 text-red-700 text-base leading-8"></i></div>

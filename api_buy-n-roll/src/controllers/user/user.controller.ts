@@ -21,6 +21,7 @@ import * as nodemailer from 'nodemailer';
 import { Role } from 'src/entity/role.entity';
 import { OglasService } from 'src/users/oglas/oglas.service';
 import { AppService } from 'src/app.service';
+import { Favourites } from 'src/entity/favourites.entity';
 @Controller('user')
 export class UserController {
 
@@ -60,8 +61,6 @@ export class UserController {
       .leftJoinAndSelect("v.user","u")  
       .where('p.PkPhoto = :pk', {pk: req.query}).getOne();
     let pkOglas = photo.oglas.PkOglas;
-    console.log(photo, pkOglas);
-    console.log(path.join(__dirname + '/../../assets/static/uploads/' + photo.oglas.vehicle.user.username + '/' + photo.filename));
     
     // res.status(HttpStatus.OK).send();
     // return;
@@ -89,6 +88,72 @@ export class UserController {
       res.status(HttpStatus.EXPECTATION_FAILED).send();
     }
   }
+
+  @Get('/favourites/:query')
+  async findUsersFavouritedOglas(@Param() req, @Res() res: Response) {
+    let users = await this.userService.getUserRepo()
+      .createQueryBuilder('u')
+      .innerJoinAndSelect('u.favourites','f')
+      .leftJoinAndSelect('u.photo','p')
+      .leftJoinAndSelect('f.oglas','o')
+      .where('f.oglasPkOglas = :pk', {pk: req.query})
+      .andWhere('(p.photoOpis is null or p.photoOpis = :opis)', { opis: PhotoDescriptions.USER })
+      .getMany();
+      
+    if(users) {
+      res.status(HttpStatus.OK).send(users);
+    } else {
+      res.status(HttpStatus.EXPECTATION_FAILED).send();
+    }
+  }
+  @Get('/favourites/all/:query')
+  async findUsersFavouritedAll(@Param() req, @Res() res: Response) {
+    let favs = await this.userService.getUserRepo()
+      .createQueryBuilder('u')
+      .innerJoinAndSelect('u.favourites','f')
+      .leftJoinAndSelect('u.photo','p')
+      .leftJoinAndSelect('f.oglas','o')
+      .where('f.userUserId = :pk', {pk: req.query})
+      .getRawMany();
+    if(favs) {
+      
+      let oglasi = await Promise.all(favs.map(async (f:any) => {
+        return await this.oglasService.findOglasByPk(f.f_oglasPkOglas);
+      }));
+      if(oglasi) {
+        oglasi =  await this.userService.checkFavourite(oglasi, req.query);
+      }
+      res.status(HttpStatus.OK).send(oglasi || []);
+    } else {
+      res.status(HttpStatus.OK).send([]);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles('user')
+  @Post('/add/favourite')
+  async toggleToFav(@Request() req, @Res() res: Response) {
+    let fav = await this.userService.oglasService.getConnection().createQueryBuilder(Favourites,'f')
+          .where('f.userUserId = :id', {id : req.user.userId})
+          .andWhere('f.oglasPkOglas = :pkOglas', {pkOglas: req.body.PkOglas}).getOne();
+    if(!fav) {
+      let favourite = new Favourites();
+      favourite.oglas = await this.oglasService.findOglasByPk(req.body.PkOglas);
+      favourite.user = await this.userService.findOne(req.user.username);
+      let result = await this.userService.oglasService.getConnection().createQueryBuilder()
+        .insert().into(Favourites)
+        .values(favourite).execute();
+      if(result) {
+        res.status(HttpStatus.OK).send(true);
+      } else {
+        res.status(HttpStatus.EXPECTATION_FAILED).send();
+      }
+    } else {
+      await this.userService.favService.getRepo().remove(fav);
+      res.status(HttpStatus.OK).send(false);
+    }
+  }
+
 
   @Post('/register')
   async registerUserStepOne(@Request() req, /*@Res() res: Response*/) {
@@ -272,6 +337,9 @@ export class UserController {
       res.status(HttpStatus.EXPECTATION_FAILED).send();
     } else { 
       let oglasi = await this.oglasService.findOglasiByUsername(user.username);
+      if(oglasi) {
+        oglasi =  await this.userService.checkFavourite(oglasi, user.userId);
+      }
       res.status(HttpStatus.OK).send(oglasi);
     }
   }

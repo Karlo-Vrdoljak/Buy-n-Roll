@@ -5,6 +5,7 @@ import { Photo } from './photo.entity';
 import { UserVehicle } from './userVehicle.entity';
 import { PaymentMethod } from 'src/types/enums';
 import { Location } from './location.entity';
+import { Favourites } from './favourites.entity';
 
 
 @Entity()
@@ -70,4 +71,7 @@ export class Oglas {
 
   @Column("simple-array", { nullable: true })
   comfortAccessories:string[];  //podizaci stakala, grijaci siceva itd, senzori razni
+
+  @OneToMany(type => Favourites, favourites => favourites.oglas)
+  favourites: Favourites[];
 } 

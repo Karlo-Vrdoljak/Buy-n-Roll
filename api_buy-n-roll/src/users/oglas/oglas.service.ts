@@ -5,6 +5,7 @@ import { DbLogs } from 'src/db.logs';
 import { Oglas } from 'src/entity/oglas.entity';
 import { PhotoDescriptions } from 'src/types/enums';
 import { Location } from 'src/entity/location.entity';
+import { Favourites } from 'src/entity/favourites.entity';
 
 
 
@@ -100,6 +101,26 @@ export class OglasService implements OnModuleInit {
       location.type = locationData.type;
       await this.connection.getRepository(Location).save(location);
       return location;
+    }
+  }
+
+  async checkFavourite(oglas:Oglas, pkUser) {
+    if(oglas) {
+      let userFavourite = await this.getConnection().createQueryBuilder(Favourites,'f')
+        .where('f.userUserId = :id', {id : pkUser})
+        .andWhere('f.oglasPkOglas = :pkOglas', {pkOglas: oglas.PkOglas}).getRawOne();
+      if(userFavourite) {
+        oglas['alreadyFavourited'] = true;
+      } else {
+        oglas['alreadyFavourited'] = false;
+      }
+      let rating = await this.getConnection().createQueryBuilder(Favourites, 'f')
+        .where('f.oglasPkOglas = :pk', {pk: oglas.PkOglas})
+        .getCount();
+      oglas.rating = rating ?? 0; 
+      return oglas;
+    } else {
+      return null;
     }
   }
 }

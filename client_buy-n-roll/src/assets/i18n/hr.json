@@ -168,7 +168,12 @@
   "SORT_JEFTIN_FIRST": "najjeftiniji",
   "SORT_POPULARAN_FIRST": "Najpopularniji",
   "SORT_NEPOPULARAN_FIRST": "Nepopularni",
-  "SORT_RELEVANT": "Relevantnost"
+  "SORT_RELEVANT": "Relevantnost",
+  "MOJI_FAV": "MOJI FAVORITI",
+  "USER_FAV": "FAVORITI",
+  "FAV_ERR_LOGIN": "Morate biti prijavljeni da biste dodali ovaj oglas među svoje omiljene!"
+
+
 
 
 

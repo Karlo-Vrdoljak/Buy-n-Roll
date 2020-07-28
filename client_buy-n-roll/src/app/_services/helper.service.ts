@@ -118,6 +118,7 @@ export class HelperService {
   abbreviateNumber(num, fixed = 0) {
     if (num === null) { return null; } // terminate early
     if (num === 0) { return '0'; } // terminate early
+    if (typeof num == "string") num = parseInt(num)
     fixed = (!fixed || fixed < 0) ? 0 : fixed; // number of decimal places to show
     var b = (num).toPrecision(2).split("e"), // get power
         k = b.length === 1 ? 0 : Math.floor(Math.min(b[1].slice(1), 14) / 3), // floor at decimals, ceiling at trillions

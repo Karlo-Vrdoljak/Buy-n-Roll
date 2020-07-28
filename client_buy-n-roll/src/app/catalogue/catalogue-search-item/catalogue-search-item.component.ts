@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, NgZone, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, NgZone, HostListener, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
 import { HelperService } from 'src/app/_services/helper.service';
 import { Oglas, Photo } from 'src/app/_types/oglas.interface';
 import { NgsRevealService } from 'ngx-scrollreveal';
@@ -29,6 +29,7 @@ export class CatalogueSearchItemComponent implements OnInit, OnDestroy {
   hideContact: boolean = false;
   showEdit: boolean = false;
   ignoreRating:boolean = false;
+  @Output() onRemoveOglasFavourite = new EventEmitter<boolean>();
 
   loginSub:Subscription;
   @ViewChild('actionIcons') actionIcons :CatalogueActionIconsComponent;
@@ -107,6 +108,8 @@ export class CatalogueSearchItemComponent implements OnInit, OnDestroy {
   navigateProfile() {
     this.router.navigate([ '/profile', {username: this.searchItem.username} ]);
   }
+
+  handleRemovedFavourite(event) { this.onRemoveOglasFavourite.emit(event);}
   
 
   @HostListener("window:resize") updateOrientationState() { } // for ngCheckChanges cycle 

@@ -17,48 +17,36 @@ import { Chassis } from 'src/entity/chassis.entity';
 import { VehicleState } from 'src/types/enums';
 import { Like } from 'typeorm';
 import { User } from 'src/entity/user.entity';
+import { ModuleRef } from '@nestjs/core';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('api/oglas/')
 export class OglasController {
-  constructor(private oglasService:OglasService) { }
-  
+  constructor(private oglasService:OglasService, private moduleRef:ModuleRef) { }
+  auth: AuthService;
+  onModuleInit() {
+    this.auth = this.moduleRef.get(AuthService, {strict:false});
+  }
   @Get(':query')
-  async getOglasiBySearchString(@Param() params, @Res() res: Response) {
+  async getOglasiBySearchString(@Param() params, @Request() req, @Res() res: Response) {
     let oglas = await this.oglasService.findOglasByPk(params.query);
     if(oglas) {
+      if(req.headers?.authorization?.split('Bearer ')) {
+        let token = req.headers.authorization.split('Bearer ')[1];
+        let user = this.auth.decodeToken(token);
+        oglas = await this.oglasService.checkFavourite(oglas, user.sub);
+      }
+
       res.status(HttpStatus.OK).send(oglas);
     } else {
       res.status(HttpStatus.FAILED_DEPENDENCY).send();
     }
   }
 
-  @Get()
-  async get(): Promise<Oglas> {
-    let oglas = await this.oglasService.getRepo().findOne(1);
-    console.log(oglas);
-    oglas.oglasOpis = `Prodaje se Opel Astra 1.8 16V
-    cijena je ta zbog odlaska u inozemstvo...
-    sportsko podvozje
-    atestirani branici
-    atestiran plin
-    zadnja slika te felge su trenutno na njemu
-    Astra nije registrirana,papiri uredni
-    limarija u osrednjem stanju trebalo bi malo uložiti u nju...
-    Najbitnije pali i vozi
-    `;
-    await this.oglasService.getRepo().save(oglas);
-    return this.oglasService.getRepo().findOne(1);
-  }
-
   @UseGuards(JwtAuthGuard,RolesGuard)
   @Roles('user')
   @Post('insert')
   async insertNewOglas(@Request() req, @Res() res: Response) {
-    console.log(req.body,"_______USER_______",req.user);
-    
-    // res.status(HttpStatus.OK).send();
-    // return;
-
     const dbUserVehicle = new UserVehicle();
     
     dbUserVehicle.RegistriranDaNe = req.body.registriranDaNe;
@@ -221,12 +209,6 @@ export class OglasController {
     chassis.model = model;
 
     await this.oglasService.getConnection().getRepository(Chassis).save(chassis);
-
-    // oglas.vehicle.chassis.model = model;
-
-    // await this.oglasService.getRepo().save(oglas);
-
-    // let result = await this.oglasService.findOglasByPk(req.body.PkOglas);
 
     res.status(HttpStatus.OK).send(chassis);
     

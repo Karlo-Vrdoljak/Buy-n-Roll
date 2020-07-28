@@ -23,6 +23,9 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { AppResolver } from './_resolvers/app.resolver';
 import { OglasNewComponent } from './catalogue/oglasi/oglas-new/oglas-new.component';
 import { OglasNewResolver } from './_resolvers/oglas-new.resolver';
+import { FavouritesComponent } from './catalogue/favourites/favourites.component';
+import { FavouritesResolver } from './_resolvers/favourites.resolver';
+import { FavouritesAdsResolver } from './_resolvers/favourites.ads.resolver';
 
 
 const routes: Routes = [
@@ -40,6 +43,8 @@ const routes: Routes = [
   { path: 'catalogues/item/edit/', component: OglasEditComponent, resolve: { pageData: OglasEditResolver }, canActivate: [AuthGuardGuard] },
   { path: 'catalogues/item/edit/:query', component: OglasEditComponent, resolve: { pageData: OglasEditResolver }, canActivate: [AuthGuardGuard] },
   { path: 'catalogues/oglas/new', component: OglasNewComponent, resolve: { pageData: OglasNewResolver} , canActivate: [AuthGuardGuard] },
+  { path: 'catalogues/favourites/:query', component: FavouritesComponent, resolve: { pageData: FavouritesResolver, initial: AppResolver } },
+  { path: 'catalogues/favourites/ads/:query', component: FavouritesComponent, resolve: { pageData: FavouritesAdsResolver, initial: AppResolver } },
 
   { path: '', component: LandingComponent, resolve: { pageData:LandingResolver, initial: AppResolver } },
   { path: '**', redirectTo: '' },

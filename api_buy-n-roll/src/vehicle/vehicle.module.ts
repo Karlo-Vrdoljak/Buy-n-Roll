@@ -15,6 +15,7 @@ import { SearchController } from 'src/controllers/vehicle/search/search.controll
 import { DBAccess } from 'src/types/db.access';
 import { OglasModule } from 'src/users/oglas/oglas.module';
 import { Config } from 'src/config';
+import { FavouritesModule } from 'src/users/oglas/favourites/favourites.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { Config } from 'src/config';
     SeriesModule,
     TransmissionModule,
     HttpModule,
-    OglasModule
+    OglasModule,
+    FavouritesModule
   ],
   exports: [
     BodyModule,
@@ -43,7 +45,8 @@ import { Config } from 'src/config';
     HttpModule,
     DbLogs,
     VehicleService,
-    OglasModule
+    OglasModule,
+    FavouritesModule
   ],
   controllers: [SearchController],
   providers: [

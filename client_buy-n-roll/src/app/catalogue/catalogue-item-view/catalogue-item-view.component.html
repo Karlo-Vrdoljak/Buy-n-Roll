@@ -139,7 +139,7 @@
             </div>
           </div>
         </div>
-        <app-catalogue-action-icons #actionIcons [username]="profileData.username" [ignoreContact]="hideContact" [editLink]="showEdit" [external]="false" [PkOglas]="oglas.PkOglas" [rating]="oglas.rating" [msgShade]="600" [offset]="1"></app-catalogue-action-icons>
+        <app-catalogue-action-icons #actionIcons [alreadyFav]="oglas.alreadyFavourited"  [username]="profileData.username" [ignoreContact]="hideContact" [editLink]="showEdit" [external]="false" [PkOglas]="oglas.PkOglas" [rating]="oglas.rating" [allFavs]="true" [msgShade]="600" [offset]="1"></app-catalogue-action-icons>
       </div>
     </div>
   </div>

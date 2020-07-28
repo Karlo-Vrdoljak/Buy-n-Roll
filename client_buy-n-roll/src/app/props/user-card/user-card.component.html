@@ -1,0 +1,14 @@
+<div class="max-w-sm lg:max-w-full rounded  border border-gray-300 overflow-hidden shadow-md relative z-0 hoverEffect min-width: 80%;">
+  <div class="bg-gray-100 z-10 relative">
+    <div class="bg-gray-100 px-4 py-4 relative">
+      <div (click)="navigateProfile()" matRipple [ngsReveal]="{reset: true}" class="bg-gray-100 py-2 relative flex items-center cursor-pointer title-hover">
+        <img *ngIf="user.photo" class="rounded-full object-cover mr-4 select-none w-16 h-16" [src]="getPhotoUrlCssProfile()">
+        <div class="text-sm">
+          <p class="font-mw text-gray-900 leading-none person">{{ user.lastName }}&nbsp;{{ user.firstName }}</p>
+          <p class="font-mw text-gray-600 leading-none">{{ helperService.truncateString('15, Ruđera Boškovića, Smrdečac, Split 3, Split, Grad Split, Split-Dalmatia County, 21000, Croatia', 50) }}</p>
+          <p class="font-mw text-gray-600">{{ helperService.date(user.createdAt) }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -28,6 +28,8 @@ import { Photo } from 'src/entity/photo.entity';
 import { RolesService } from 'src/roles/roles.service';
 import { Location } from 'src/entity/location.entity';
 import { LocationService } from './location/location.service';
+import { FavouritesService } from './oglas/favourites/favourites.service';
+import { Favourites } from 'src/entity/favourites.entity';
 
 @Injectable()
 export class UsersService implements OnModuleInit{
@@ -55,6 +57,7 @@ export class UsersService implements OnModuleInit{
     public locationService: LocationService,
     public bodyService: BodyService,
     public roleService: RolesService,
+    public favService: FavouritesService,
     private dbLogs: DbLogs
   ) { }
 
@@ -318,4 +321,28 @@ export class UsersService implements OnModuleInit{
   async deleteOldLocation(PkLocation) {
     return this.locationService.getRepo().remove(await this.locationService.getRepo().createQueryBuilder('l').where('PkLocation = :pk', { pk: PkLocation }).getOne()); 
   }
+  async checkFavourite(oglasi:Oglas[], pkUser) {
+    if(oglasi) {
+      oglasi = await Promise.all(oglasi.map(async (o:Oglas) => {
+        let userFavourite = await this.oglasService.getConnection().createQueryBuilder(Favourites,'f')
+          .where('f.userUserId = :id', {id : pkUser})
+          .andWhere('f.oglasPkOglas = :pkOglas', {pkOglas: o.PkOglas}).getRawOne();
+          console.log(userFavourite);
+        if(userFavourite) {
+          o['alreadyFavourited'] = true;
+        } else {
+          o['alreadyFavourited'] = false;
+        }
+        let rating = await this.oglasService.getConnection().createQueryBuilder(Favourites, 'f')
+          .where('f.oglasPkOglas = :pk', {pk: o.PkOglas})
+          .getCount();
+        o.rating = rating ?? 0; 
+        return o;
+      }));
+      return oglasi;
+    } else {
+      return null;
+    }
+  }
+
 }

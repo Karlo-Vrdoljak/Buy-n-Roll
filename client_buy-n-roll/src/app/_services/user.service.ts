@@ -132,4 +132,22 @@ export class UserService {
       catchError(this.errorHandler.handleError)
     );
   }
+  findUsersFavouritedOglas(params) {
+    return this.http.get(this.config.API_URL_ROOT + 'user/favourites/' + params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
+  toggleToFav(params) {
+    return this.http.post(this.config.API_URL_ROOT + 'user/add/favourite', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
+  findFavouritedOglasiByUser(params) {
+    return this.http.get(this.config.API_URL_ROOT + 'user/favourites/all/' + params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
 }

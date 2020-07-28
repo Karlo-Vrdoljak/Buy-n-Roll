@@ -168,6 +168,9 @@
   "SORT_JEFTIN_FIRST": "Cheapest",
   "SORT_POPULARAN_FIRST": "Most popular",
   "SORT_NEPOPULARAN_FIRST": "Most unpopular",
-  "SORT_RELEVANT": "Relevance"
+  "SORT_RELEVANT": "Relevance",
+  "MOJI_FAV": "MY FAVOURITES",
+  "USER_FAV": "FAVOURITES",
+  "FAV_ERR_LOGIN": "You must be logged in to add this ad to your favourites!"
 
 }

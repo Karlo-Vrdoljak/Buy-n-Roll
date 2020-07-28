@@ -100,6 +100,10 @@ import {ConfirmationService} from 'primeng/api';
 import { ConfirmDialogComponent } from './props/confirm-dialog/confirm-dialog.component';
 import { OglasNewComponent } from './catalogue/oglasi/oglas-new/oglas-new.component';
 import { OglasNewResolver } from './_resolvers/oglas-new.resolver';
+import { FavouritesComponent } from './catalogue/favourites/favourites.component';
+import { FavouritesResolver } from './_resolvers/favourites.resolver';
+import { UserCardComponent } from './props/user-card/user-card.component';
+import { FavouritesAdsResolver } from './_resolvers/favourites.ads.resolver';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -142,6 +146,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     GalleryComponent,
     ConfirmDialogComponent,
     OglasNewComponent,
+    FavouritesComponent,
+    UserCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -250,7 +256,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     OglasEditResolver,
     AppResolver,
     ConfirmationService,
-    OglasNewResolver
+    OglasNewResolver,
+    FavouritesResolver,
+    FavouritesAdsResolver
   ],
   bootstrap: [AppComponent],
 })

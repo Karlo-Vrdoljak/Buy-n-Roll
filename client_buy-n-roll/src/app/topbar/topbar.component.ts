@@ -166,8 +166,6 @@ export class TopbarComponent implements OnInit {
   }
   logOff() {
     if(this.helperService.logOffRerouteUrl() == '/') {
-      console.log('alo');
-      
       this.router.navigateByUrl('/');
     }
     this.config.user = null;
@@ -180,7 +178,7 @@ export class TopbarComponent implements OnInit {
   rerouteOglas() {
     this.userService.checkToken().then(result => {
       if(result == true) {
-        this.router.navigate(['/test']);
+        this.router.navigate(['/catalogues/oglas/new']);
         this.displaySidebar = false;
       } else {
         this.router.navigate(['/login'] , { skipLocationChange: true });

@@ -50,7 +50,8 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
 
   ) { }
   ngAfterViewInit(): void {
-
+    console.log(this.oglas);
+    
   }
   
 

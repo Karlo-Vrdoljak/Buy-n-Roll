@@ -322,4 +322,7 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
   resolveOglasListPage() {
     this.router.navigate(['oglasi'], {queryParams: {username: this.profileData.username}});
   }
+  resolveFavourites() {
+    this.router.navigate(['/catalogues/favourites/ads/', this.profileData.userId]);
+  }
 }

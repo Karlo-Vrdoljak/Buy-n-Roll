@@ -2,17 +2,25 @@
   <a *ngIf="external" mat-icon-button color="accent" class="mx-1 mt-2 focus:outline-none" [routerLink]="[ '/catalogues/item/' , PkOglas ]" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[3]  }">
     <i class="fas text-4xl text-yellow-500 fa-external-link-square-alt rounded-md"></i>
   </a>
-  <button *ngIf="!ignoreRating" mat-icon-button color="accent" class="mx-1 mt-2 relative focus:outline-none" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[2]  }">
-    <i class="fas text-4xl text-red-500 fa-heart rounded-md"></i>
-    <div class=" top-0 font-oswald flex items-center justify-center p-1 absolute rounded-full w-full h-full text-sm text-gray-200">{{helperService.abbreviateNumber(rating)}}</div>
+  <button [disabled]="rating == 0 && config.user.username == username" (click)="handleAddToFav()" *ngIf="!ignoreRating" mat-icon-button color="accent" class="mx-1 mt-2 relative focus:outline-none" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[2]  }">
+    <i [ngClass]="{'fas': alreadyFav == true , 'far': alreadyFav == false }" class="text-4xl fa-heart rounded-md text-red-600"></i>
+    <div class=" top-0 font-oswald flex items-center justify-center p-1 absolute rounded-full w-full h-full text-sm" [ngClass]="{'text-gray-200': external || (!external && alreadyFav), 'text-gray-800': !external && !alreadyFav}">{{helperService.abbreviateNumber(rating)}}</div>
   </button>
 </div>
-<div class="absolute z-10 mx-1 my-1 right-0" style="top: 3em;" [ngStyle]="{'margin': (offset + 'rem')}"  [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: delay[4]  }">
+<div *ngIf="rating > 1 && config.user.username != username" class="absolute z-10 mx-1 my-1 right-0" style="top: 6em;" [ngStyle]="{'margin': (offset + 'rem')}" [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: delay[4]  }">
+  <button [routerLink]="[ '/catalogues/favourites/', PkOglas ]" *ngIf="!ignoreRating && allFavs == true" mat-icon-button color="accent" class="red mx-1 mt-4 relative focus:outline-none" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[2]  }">
+    <span class="fa-stack">
+      <i class="text-4xl fas fa-heart fa-stack-2x pr-2 text-red-700"></i>
+      <i class="text-4xl fas fa-link fa-stack-1x text-red-500"></i>
+    </span>
+  </button>
+</div>
+<div class="absolute z-10 mx-1 my-1 right-0" style="top: 3em;" [ngStyle]="{'margin': (offset + 'rem')}" [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: delay[4]  }">
   <a *ngIf="editLink" mat-icon-button color="accent" class="mx-1 mt-2 focus:outline-none" (click)="rerouteEdit()">
     <i class="fas text-4xl text-blue-300 fa-edit rounded-md"></i>
   </a>
 </div>
-<div *ngIf="!ignoreContact" class="absolute z-10 mx-1 my-1 right-0" style="top: 3em;" [ngStyle]="{'margin': (offset + 'rem')}"  [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: delay[4]  }">
+<div *ngIf="!ignoreContact" class="absolute z-10 mx-1 my-1 right-0" style="top: 3em;" [ngStyle]="{'margin': (offset + 'rem')}" [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: delay[4]  }">
   <div class="popover__trigger">
     <button mat-icon-button color="accent" class="mx-1 mt-2 relative focus:outline-none select-none">
       <i [class]="'fas text-4xl fa-comments-dollar rounded-md text-gray-' + msgShade"></i>
@@ -35,7 +43,7 @@
           <div class="flex items-center justify-end" *ngIf="config.featureUseChat == true">
             <div class="flex flex-col justify-center items-center">
               <i class="text-normal fas fa-reply text-blue-800 mr-2 select-none" style="flex-basis: 10%;"></i>
-              <div class="text-xs text-gray-600" [ngClass]="{'text-red-500': config.textAreaMaxLength - message.length == 0 , 'text-yellow-500': (config.textAreaMaxLength - message.length < 50 && config.textAreaMaxLength - message.length > 0) }" >{{ config.textAreaMaxLength - message.length }}</div>
+              <div class="text-xs text-gray-600" [ngClass]="{'text-red-500': config.textAreaMaxLength - message.length == 0 , 'text-yellow-500': (config.textAreaMaxLength - message.length < 50 && config.textAreaMaxLength - message.length > 0) }">{{ config.textAreaMaxLength - message.length }}</div>
             </div>
             <mat-form-field style="flex-basis: 90%; width: 20em;" class="px-2">
               <mat-label class="font-oswald">Private message</mat-label>

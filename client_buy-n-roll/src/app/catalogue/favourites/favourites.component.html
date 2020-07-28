@@ -1,18 +1,23 @@
 <app-breadcrumbs *ngIf="displayAccessories" [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
-<div *ngIf="displayAccessories" class="banner"></div>
-<p-dataView #dv *ngIf="catalogList.length > 0; else noRecords" #dv [value]="catalogList" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both" [sortField]="sortField" [sortOrder]="sortOrder">
+<div *ngIf="displayAccessories" class="banner relative">
+</div>
+
+<p-dataView #dv *ngIf="(users && users.length > 0) || (oglasi && oglasi.length > 0); else noRecords" #dv [value]="users || oglasi" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both" [sortField]="sortField" [sortOrder]="sortOrder">
   <p-header>
     <ng-container *ngTemplateOutlet="header"></ng-container>
-    
   </p-header>
-  <ng-template let-o pTemplate="listItem">
+  <ng-template let-item pTemplate="listItem">
     <span class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-4 ui-xl-3 px-2 md:px-4 lg:px-16 xl:px-32">
-      <app-catalogue-search-item [item]="o" [size]="'large'"></app-catalogue-search-item>
+      <app-user-card *ngIf="users" [user]="item"></app-user-card>
+      <app-catalogue-search-item *ngIf="oglasi" (onRemoveOglasFavourite)="removeOglasFromList($event)" [personal]="true" [username]="item.vehicle.user.username" [item]="item"></app-catalogue-search-item>
     </span>
   </ng-template>
 </p-dataView>
 
 <ng-template #noRecords>
+  <div class="w-full buynroll_bg_deepGray noContentHeader">
+    <ng-container *ngTemplateOutlet="header"></ng-container>
+  </div>
   <div class="md:mx-4 lg:mx-16 xl:md-32">
     <div class="flex flex-col justify-center content-center items-center noContentWrap">
       <img src="assets/images/catalogue/missing.png" class="w-40 h-40 select-none">
@@ -23,8 +28,6 @@
     </div>
   </div>
 </ng-template>
-
-<ngx-ui-loader [loaderId]="'catalogue_loader'"></ngx-ui-loader>
 
 <ng-template #header>
   <div class="ui-helper-clearfix">

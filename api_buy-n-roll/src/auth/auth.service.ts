@@ -23,6 +23,9 @@ export class AuthService {
     } 
     return null;
   }
+  decodeToken(token:string) {
+    return this.jwtService.decode(token);
+  }
 
   async login(user: User) {
     let dbUser = await this.usersService.getUserRepo()

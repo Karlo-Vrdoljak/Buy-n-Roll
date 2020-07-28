@@ -11,6 +11,7 @@ import { TranslationList } from '../_services/translation.list';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { DataView } from 'primeng/dataview';
 import { OglasService } from '../_services/oglas.service';
+import * as rfdc from 'rfdc';
 
 @Component({
   selector: "app-catalogue",
@@ -59,9 +60,10 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
     
     this.routerSubscription$ = this.router.events.subscribe(async event => {
       if (event instanceof NavigationEnd) {
-        this.catalogList = [];
         this.catalogList = this.route.snapshot.data.pageData[0] || [];
         this.currencyList = this.route.snapshot.data.pageData[2] || [];
+        this.catalog._value = this.catalogList;
+        this.catalog.value = this.catalogList;
         await this.calculateExchangeRateForSort();
       }
     });
@@ -90,7 +92,7 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   async calculateExchangeRateForSort() {
-    this.catalog.value = await Promise.all(this.catalog._value = this.catalog.value.map(async e => {
+    let result = await Promise.all(this.catalog.value.map(async e => {
       if(e.currencyName != "Euro") {
         let ex = await this.oglasService.getExchangeRate(Object.values(this.currencyList).find((cl:any) => cl.name == e.currencyName));
         e['priceEurSort'] = (Number.parseInt(e.priceMainCurrency) + (Number.parseInt(e.priceSubCurrency) / 100)) * (1 / (Object.values(ex)[0]));
@@ -100,6 +102,8 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       return e;
     }));
+    this.catalog.value = result;
+    this.catalog._value = result;
   }
   setupSortOptions() {
     this.sortOptions = [

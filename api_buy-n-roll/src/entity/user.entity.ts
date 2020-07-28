@@ -4,6 +4,7 @@ import { Location } from './location.entity';
 import { SellerType } from 'src/types/enums';
 import { Photo } from './photo.entity';
 import { UserVehicle } from './userVehicle.entity';
+import { Favourites } from './favourites.entity';
 
 
 @Entity()
@@ -53,5 +54,8 @@ export class User {
   @OneToOne(type => Photo, {nullable:true})
   @JoinColumn()
   photo: Photo;
+
+  @OneToMany(type => Favourites, favourites => favourites.user)
+  favourites: Favourites[];
 
 }
