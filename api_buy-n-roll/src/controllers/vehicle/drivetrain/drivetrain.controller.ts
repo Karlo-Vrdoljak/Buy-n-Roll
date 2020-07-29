@@ -8,8 +8,6 @@ import { DrivetrainService } from 'src/vehicle/drivetrain/drivetrain.service';
 export class DrivetrainController { 
   constructor(public drivetrainService:DrivetrainService) { }
 
-  @UseGuards(JwtAuthGuard,RolesGuard)
-  @Roles('user')
   @Get()
   getColors(@Request() req) {
     return this.drivetrainService.findAll();

@@ -27,4 +27,10 @@ export class SearchService {
       catchError(this.errorHandler.handleError)
     );
   }
+  findOglasiAdvancedQuery(data) {
+    return this.http.get(this.config.API_URL_ROOT + "api/vehicle/search/advanced", { params: data }).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
 }

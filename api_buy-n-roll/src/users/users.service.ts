@@ -324,14 +324,15 @@ export class UsersService implements OnModuleInit{
   async checkFavourite(oglasi:Oglas[], pkUser) {
     if(oglasi) {
       oglasi = await Promise.all(oglasi.map(async (o:Oglas) => {
-        let userFavourite = await this.oglasService.getConnection().createQueryBuilder(Favourites,'f')
-          .where('f.userUserId = :id', {id : pkUser})
-          .andWhere('f.oglasPkOglas = :pkOglas', {pkOglas: o.PkOglas}).getRawOne();
-          console.log(userFavourite);
-        if(userFavourite) {
-          o['alreadyFavourited'] = true;
-        } else {
-          o['alreadyFavourited'] = false;
+        if(pkUser) {
+          let userFavourite = await this.oglasService.getConnection().createQueryBuilder(Favourites,'f')
+            .where('f.userUserId = :id', {id : pkUser})
+            .andWhere('f.oglasPkOglas = :pkOglas', {pkOglas: o.PkOglas}).getRawOne();
+          if(userFavourite) {
+            o['alreadyFavourited'] = true;
+          } else {
+            o['alreadyFavourited'] = false;
+          }
         }
         let rating = await this.oglasService.getConnection().createQueryBuilder(Favourites, 'f')
           .where('f.oglasPkOglas = :pk', {pk: o.PkOglas})

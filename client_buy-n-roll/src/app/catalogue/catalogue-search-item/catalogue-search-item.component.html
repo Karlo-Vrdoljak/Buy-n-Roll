@@ -46,8 +46,7 @@
       </div>
     </div>
     <!-- <ng-container *ngTemplateOutlet="icons"></ng-container> -->
-    <app-catalogue-action-icons [alreadyFav]="searchItem.alreadyFavourited" [username]="oglasUsername || searchItem.username" [ignoreRating]="ignoreRating" [ignoreContact]="hideContact" [editLink]="showEdit" [PkOglas]="searchItem.PkOglas" [rating]="searchItem.rating"></app-catalogue-action-icons>
-
+    <app-catalogue-action-icons [phone]="searchItem.phone" [email]="searchItem.email" [alreadyFav]="searchItem.alreadyFavourited" [username]="oglasUsername || searchItem.username" [ignoreRating]="ignoreRating" [ignoreContact]="hideContact" [editLink]="showEdit" [PkOglas]="searchItem.PkOglas" [rating]="searchItem.rating"></app-catalogue-action-icons>
 
   </div>
 </ng-template>

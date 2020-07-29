@@ -171,6 +171,7 @@
   "SORT_RELEVANT": "Relevance",
   "MOJI_FAV": "MY FAVOURITES",
   "USER_FAV": "FAVOURITES",
-  "FAV_ERR_LOGIN": "You must be logged in to add this ad to your favourites!"
+  "FAV_ERR_LOGIN": "You must be logged in to add this ad to your favourites!",
+  "ADVANCED_SEARCH":"Advanced Search"
 
 }

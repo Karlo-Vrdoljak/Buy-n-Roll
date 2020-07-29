@@ -24,6 +24,25 @@ export class SearchController implements OnModuleInit{
       if(req.headers?.authorization?.split('Bearer ')) {
         let token = req.headers.authorization.split('Bearer ')[1];
         ret = await this.checkFavourite(ret,token);
+      } else {
+        ret = await this.checkFavourite(ret,null);
+
+      }
+      res.status(HttpStatus.OK).send(ret);
+    });    
+  }
+
+  @Get('advanced')
+  async getOglasiAdvancedQuery(@Request() req, @Res() res: Response) {
+    let oglasi = await this.vehicleService.findOglasiByAllProps(req.query);
+    
+    this.fillOglasPhotos(oglasi).then(async ret => {
+      if(req.headers?.authorization?.split('Bearer ')) {
+        let token = req.headers.authorization.split('Bearer ')[1];
+        ret = await this.checkFavourite(ret,token);
+      } else {
+        ret = await this.checkFavourite(ret,null);
+
       }
       res.status(HttpStatus.OK).send(ret);
     });    
@@ -36,6 +55,9 @@ export class SearchController implements OnModuleInit{
       if(req.headers?.authorization?.split('Bearer ')) {
         let token = req.headers.authorization.split('Bearer ')[1];
         ret = await this.checkFavourite(ret,token);
+      } else {
+        ret = await this.checkFavourite(ret,null);
+
       }
       
       res.status(HttpStatus.OK).send(ret);
@@ -58,13 +80,15 @@ export class SearchController implements OnModuleInit{
     if(oglasi) {
       let user = this.auth.decodeToken(token);
       oglasi = await Promise.all(oglasi.map(async (o:any) => {
-        let userFavourite = await this.vehicleService.oglasService.getConnection().createQueryBuilder(Favourites,'f')
-          .where('f.userUserId = :id', {id : user.sub})
-          .andWhere('f.oglasPkOglas = :pkOglas', {pkOglas: o.PkOglas}).getOne();
-        if(userFavourite) {
-          o['alreadyFavourited'] = true;
-        } else {
-          o['alreadyFavourited'] = false;
+        if(token) {
+          let userFavourite = await this.vehicleService.oglasService.getConnection().createQueryBuilder(Favourites,'f')
+            .where('f.userUserId = :id', {id : user.sub})
+            .andWhere('f.oglasPkOglas = :pkOglas', {pkOglas: o.PkOglas}).getOne();
+          if(userFavourite) {
+            o['alreadyFavourited'] = true;
+          } else {
+            o['alreadyFavourited'] = false;
+          }
         }
         return o;
       }));

@@ -1,0 +1,35 @@
+@import "../../../variables.scss";
+@import "../../../assets/scss/light_material_override.scss";
+
+:host ::ng-deep p-dialog.advSearch {
+  .ui-dialog-content {
+    min-height: 50vh;
+    background: $deepGray;
+    border: $deepGray;
+    color: $silver;
+    overflow-x: hidden;
+    @media (max-height: 900px) and (max-width: 440px) {
+      min-height: 90vh;
+    }
+  }
+  .ui-dialog-wrapper.ui-dialog-mask {
+    z-index: 100000;
+  }
+  .ui-dialog-titlebar {
+    background: darken($color: $deepGray, $amount: 5%);
+    > span {
+      font-family: "oswald";
+      color: $silver;
+    }
+  }
+}
+:host ::ng-deep .ui-dialog {
+  @media (max-height: 900px) and (max-width: 440px) {
+    min-height: 90vh;
+  }
+}
+
+:host ::ng-deep .ui-dropdown-clear-icon {
+  font-size: 1.25rem;
+  right: 1.75rem;
+}

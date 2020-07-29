@@ -35,6 +35,8 @@ export class OglasController {
         let token = req.headers.authorization.split('Bearer ')[1];
         let user = this.auth.decodeToken(token);
         oglas = await this.oglasService.checkFavourite(oglas, user.sub);
+      } else {
+        oglas = await this.oglasService.checkFavourite(oglas, null);
       }
 
       res.status(HttpStatus.OK).send(oglas);

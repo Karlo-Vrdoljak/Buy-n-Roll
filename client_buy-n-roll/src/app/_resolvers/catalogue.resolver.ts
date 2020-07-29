@@ -42,7 +42,21 @@ export class CatalogueResolver implements Resolve<unknown>{
       
       return forkJoin(
         this.searchService.findOglasiByManufSerieModel(route.params),
-        this.translate.get(this.translationList.getCatalogues())
+        this.translate.get(this.translationList.getCatalogues()),
+        this.http.get('assets/json/currency.json'),
+
+      ).pipe(
+        catchError(error => {
+          const state: RouterState = this.router.routerState;
+          this.errorHandler.handleRouterState(state);
+          return this.errorHandler.handleError;
+      }));
+    } else if (route.queryParams.searchType == searchTypes.advanced) {
+      return forkJoin(
+        this.searchService.findOglasiAdvancedQuery(route.params),
+        this.translate.get(this.translationList.getCatalogues()),
+        this.http.get('assets/json/currency.json'),
+
       ).pipe(
         catchError(error => {
           const state: RouterState = this.router.routerState;

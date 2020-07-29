@@ -9,8 +9,6 @@ export class ColorController {
 
   constructor(public colorService:ColorService) { }
 
-  @UseGuards(JwtAuthGuard,RolesGuard)
-  @Roles('user')
   @Get()
   getColors(@Request() req) {
     return this.colorService.findAll();

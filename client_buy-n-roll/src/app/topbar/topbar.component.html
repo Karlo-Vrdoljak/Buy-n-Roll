@@ -50,7 +50,7 @@
 	<div class="sidebar">
 		<div class="p-grid p-dir-col">
 			<a [routerLink]="[ '/' ]" class="sb-top-left logo app-logo"></a>
-			<div class="oswald-top-left">Buy'n'Roll</div>
+			<div class="oswald-top-left"><a class="text-gray-200" [routerLink]="[ '/' ]">Buy'n'Roll</a></div>
 			<div class="p-col" style="position: relative;">
 				<p-accordion [activeIndex]="index" (onOpen)="onTabOpen($event)" (onClose)="onTabClose($event)" expandIcon="fas fa-caret-right" collapseIcon="fas fa-caret-down">
 					<p-accordionTab [header]="'PRETRAZI' | translate">
@@ -110,13 +110,19 @@
 							</div>
 						</div>
 					</p-accordionTab>
-					<p-accordionTab header="Header 3">
+					<!-- <p-accordionTab header="Header 3">
 						Content 3
-					</p-accordionTab>
+					</p-accordionTab> -->
 				</p-accordion>
 				<ngx-ui-loader [loaderId]="'vehicleTopbar'"></ngx-ui-loader>
 			</div>
 			<div class="p-col">
+				<a (click)="openAdvancedSearch()" style="text-decoration: none;" mat-button color="accent">
+					<div>
+						<i class="fab fa-searchengin"></i>
+						{{ 'ADVANCED_SEARCH' | translate | uppercase }}
+					</div>
+				</a>
 			</div>
 			<div class="p-col">
 				<a *ngIf="!config.isLoggedIn" (click)="rerouteLogin();openSidebar()" style="text-decoration: none;" mat-button color="accent">
@@ -155,3 +161,5 @@
 <ng-template #placeholder>
 	<div class="flex-1 flex-center"></div>
 </ng-template>
+
+<app-advanced-search (onAdvancedSearch)="onAdvancedSearch($event)" [advancedSearchProps]="advancedSearchProps" [manufacturers]="manufacturers" *ngIf="displayAdvancedSearch"></app-advanced-search>

@@ -49,22 +49,25 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.routerSubscription$.unsubscribe();
-    this.translateSubscription$.unsubscribe();
+    this.routerSubscription$?.unsubscribe();
+    this.translateSubscription$?.unsubscribe();
   }
 
   ngOnInit(): void {
+    console.log(this.route.snapshot);
+    
     this.breadcrumbs = this.breadcrumbService.catalogue();
     this.catalogList = this.route.snapshot.data.pageData[0] || [];
     this.currencyList = this.route.snapshot.data.pageData[2] || [];
-    
+    console.log(this.catalogList);
+
     this.routerSubscription$ = this.router.events.subscribe(async event => {
       if (event instanceof NavigationEnd) {
         this.catalogList = this.route.snapshot.data.pageData[0] || [];
         this.currencyList = this.route.snapshot.data.pageData[2] || [];
         this.catalog._value = this.catalogList;
         this.catalog.value = this.catalogList;
-        await this.calculateExchangeRateForSort();
+        if(this.catalogList.length) await this.calculateExchangeRateForSort();
       }
     });
 
@@ -94,6 +97,8 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
   async calculateExchangeRateForSort() {
     let result = await Promise.all(this.catalog.value.map(async e => {
       if(e.currencyName != "Euro") {
+        console.log(this.currencyList);
+        
         let ex = await this.oglasService.getExchangeRate(Object.values(this.currencyList).find((cl:any) => cl.name == e.currencyName));
         e['priceEurSort'] = (Number.parseInt(e.priceMainCurrency) + (Number.parseInt(e.priceSubCurrency) / 100)) * (1 / (Object.values(ex)[0]));
       }
@@ -123,5 +128,8 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
     this.translateSubscription$ = this.translate.onLangChange.subscribe(event => {
       this.breadcrumbs = this.breadcrumbService.catalogue();
     });
+  }
+  openAdvancedSearch() {
+    this.helperService.dispatchOpenAdvancedSearch(true);
   }
 }

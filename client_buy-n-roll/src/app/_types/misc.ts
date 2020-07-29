@@ -1,6 +1,7 @@
 export enum searchTypes {
   text = 0,
-  pickList = 1
+  pickList = 1,
+  advanced = 2
 }
 export enum ProtectedRoutes {
   test = 'test',

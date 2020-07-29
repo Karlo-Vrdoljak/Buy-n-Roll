@@ -8,8 +8,6 @@ import { BodyService } from 'src/vehicle/body/body.service';
 export class BodyController { 
   constructor(private bodyService: BodyService){ }
 
-  @UseGuards(JwtAuthGuard,RolesGuard)
-  @Roles('user')
   @Get()
   getBody(@Request() req) {
     return this.bodyService.findAll();

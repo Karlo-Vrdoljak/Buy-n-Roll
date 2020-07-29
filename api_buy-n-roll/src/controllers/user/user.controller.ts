@@ -22,8 +22,12 @@ import { Role } from 'src/entity/role.entity';
 import { OglasService } from 'src/users/oglas/oglas.service';
 import { AppService } from 'src/app.service';
 import { Favourites } from 'src/entity/favourites.entity';
+import { AuthService } from 'src/auth/auth.service';
+import { ModuleRef } from '@nestjs/core';
+import { request } from 'http';
 @Controller('user')
 export class UserController {
+  private auth:AuthService
 
   constructor(
     private http: HttpService,
@@ -33,7 +37,11 @@ export class UserController {
     private photoService: PhotoService,
     private oglasService: OglasService,
     private appService: AppService,
-    ) {}
+    private moduleRef: ModuleRef
+    ) {
+    this.auth = this.moduleRef.get(AuthService, {strict:false});
+
+    }
 
   @Post('/findLocation/query')
   async findLocationByQuery(@Request() req, @Res() res: Response) {
@@ -107,7 +115,7 @@ export class UserController {
     }
   }
   @Get('/favourites/all/:query')
-  async findUsersFavouritedAll(@Param() req, @Res() res: Response) {
+  async findUsersFavouritedAll(@Param() req, @Request() request, @Res() res: Response) {
     let favs = await this.userService.getUserRepo()
       .createQueryBuilder('u')
       .innerJoinAndSelect('u.favourites','f')
@@ -121,7 +129,14 @@ export class UserController {
         return await this.oglasService.findOglasByPk(f.f_oglasPkOglas);
       }));
       if(oglasi) {
-        oglasi =  await this.userService.checkFavourite(oglasi, req.query);
+        if(request.headers?.authorization?.split('Bearer ')) {
+          let token = request.headers.authorization.split('Bearer ')[1];
+          let user = this.auth.decodeToken(token);
+          oglasi =  await this.userService.checkFavourite(oglasi, user.sub);
+        } else {
+          oglasi =  await this.userService.checkFavourite(oglasi, null);
+
+        }
       }
       res.status(HttpStatus.OK).send(oglasi || []);
     } else {

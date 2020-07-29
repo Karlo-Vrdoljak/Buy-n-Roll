@@ -31,7 +31,7 @@
 
 <ng-template #header>
   <div class="ui-helper-clearfix">
-    <div class="flex flex-row h-12 items-center content-center justify-start pl-4">
+    <div class="flex flex-row h-12 items-center content-center justify-start pl-0 sm:pl-4">
       <div class="pr-2">
         <p-dropdown [options]="sortOptions" placeholder="" [(ngModel)]="selectedSortOption" (onChange)="onSortChange($event)" [style]="{'min-width':'180px'}" optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
@@ -46,7 +46,7 @@
         <a [routerLink]="['/catalogues/oglas/new']" mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="'asdf'">
           <div class="flex items-center align-middle">
             <div class="flex items-center align-middle  mx-auto justify-center">
-              <i class="fas fa-paper-plane pr-2 text-gray-700 text-base leading-8"></i>
+              <i class="fas fa-paper-plane pr-0 sm:pr-2 text-gray-700 text-base leading-8"></i>
             </div>
             <div class="hideSm" style="flex-basis: 85%;">{{ 'FREE_OGLAS' | translate }}</div>
           </div>

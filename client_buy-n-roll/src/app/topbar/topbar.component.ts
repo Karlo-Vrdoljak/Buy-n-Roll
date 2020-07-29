@@ -1,20 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { Manufacturer, Series, Model } from '../_types/manufacturer.interface';
+import { Manufacturer, Series, Model, Color, Drivetrain, Transmission } from '../_types/manufacturer.interface';
 import { VehicleService } from '../_services/vehicle.service';
 import { fadeInUpOnEnterAnimation, fadeOutDownOnLeaveAnimation, fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { HelperService } from '../_services/helper.service';
 import { searchTypes } from '../_types/misc';
 import { ToastrService } from 'ngx-toastr';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslationList } from '../_services/translation.list';
 import { LocalStorageService } from "angular-web-storage";
 import { Config } from 'src/environments/config';
 import { UserService } from '../_services/user.service';
-import { Photo } from '../_types/oglas.interface';
+import { Photo, VehicleState, GasTypes, SellerType } from '../_types/oglas.interface';
+import { OglasService } from '../_services/oglas.service';
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -26,7 +27,7 @@ import { Photo } from '../_types/oglas.interface';
     fadeOutLeftOnLeaveAnimation()
   ]
 })
-export class TopbarComponent implements OnInit {
+export class TopbarComponent implements OnInit, OnDestroy {
   displaySidebar:boolean = false;
   val = "asdf";
   landing:boolean = false;
@@ -41,6 +42,14 @@ export class TopbarComponent implements OnInit {
   translations:any;
   forbiddenIP:boolean = false;
   profilePhoto:any;
+  displayAdvancedSearch: boolean = false;
+  colors: any[];
+  body: any[];
+  drivetrain: any[];
+  transmission: any[];
+  advancedSearchProps: { Colors: any[]; Body: any[]; DriveTrain: any[]; Transmission: any[]; VehicleState: VehicleState[]; GasType: GasTypes[]; };
+  loginSub: Subscription;
+  searchSub: Subscription;
   constructor(
     public router: Router,
     public activatedRoute: ActivatedRoute,
@@ -52,9 +61,14 @@ export class TopbarComponent implements OnInit {
     public translateProvider: TranslationList,
     public storage: LocalStorageService,
     public config:Config,
-    public userService:UserService
+    public userService:UserService,
+    public oglasService:OglasService
 
   ) { }
+  ngOnDestroy(): void {
+    this.loginSub?.unsubscribe();
+    this.searchSub?.unsubscribe();
+  }
   ngOnInit(): void {
     this.selectedManufacturer = null;
     this.selectedSeries = null;
@@ -76,20 +90,29 @@ export class TopbarComponent implements OnInit {
     forkJoin(
       this.vehicleService.manufacturersFindAll(),
       this.translate.get(this.translateProvider.getLanding()),
-    ).subscribe(([manufs, t]:[Manufacturer[], any]) => {
+      this.oglasService.getColors(),
+      this.oglasService.getBody(),
+      this.oglasService.getDriveTrain(),
+      this.oglasService.getTransmission()
+    ).subscribe(([manufs, t, c, b, dt, tr]:[Manufacturer[], any, any[], any[], any[], any[]]) => {
       this.translations = t || {};
       this.manufacturers = manufs.map(m => {
         m.manufacturerName = m.manufacturerName.toLocaleLowerCase();
         m.manufacturerName = m.manufacturerName.charAt(0).toUpperCase() + m.manufacturerName.slice(1); 
         return m;
       });
+      this.colors = c;
+      this.body = b;
+      this.drivetrain = dt;
+      this.transmission = tr;
     });
     this.searchQuery = '';
     this.setupLoginObservable();
+    this.setupAdvancedSearchObservable();
     // this.infLog();
   }
   setupLoginObservable() {
-    this.helperService.currentLogin.subscribe(event => {
+    this.loginSub = this.helperService.currentLogin.subscribe(event => {
       // console.log(this.config.user?.username);
       if(!this.config.user) {
         return;
@@ -105,6 +128,13 @@ export class TopbarComponent implements OnInit {
           this.profilePhoto = data.photo;
         }
       });
+    });
+  }
+  setupAdvancedSearchObservable() {
+    this.searchSub = this.helperService.advancedSearchObservable.subscribe(event => {
+      if(event) {
+        this.openAdvancedSearch();
+      }
     });
   }
 
@@ -238,6 +268,27 @@ export class TopbarComponent implements OnInit {
   }
   rerouteMojiOglasi() {
     this.router.navigate(['oglasi'], {queryParams: {username: this.config.user.username}});
+  }
+
+  openAdvancedSearch() {
+    this.displayAdvancedSearch = true;
+    this.advancedSearchProps = {
+      Colors: this.colors,
+      Body: this.body,
+      DriveTrain: this.drivetrain,
+      Transmission: this.transmission,
+      VehicleState: Object.values(VehicleState),
+      GasType: Object.values(GasTypes)
+    };
+  }
+  onAdvancedSearch(event) {
+    this.displayAdvancedSearch = false;
+    this.advancedSearchProps = null;
+    console.log(event);
+    if(event) {
+      this.router.navigate(["catalogues", event], {queryParams: {searchType: searchTypes.advanced}});
+      this.displaySidebar = false;
+    }
   }
 
 }

@@ -1,16 +1,17 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
 import { HelperService } from "src/app/_services/helper.service";
 import { Config } from "src/environments/config";
 import { Router } from "@angular/router";
 import { UserService } from "src/app/_services/user.service";
 import { ToastrService } from "ngx-toastr";
 import { TranslateService } from "@ngx-translate/core";
+import { Subscription } from 'rxjs';
 @Component({
   selector: "app-catalogue-action-icons",
   templateUrl: "./catalogue-action-icons.component.html",
   styleUrls: ["./catalogue-action-icons.component.scss"],
 })
-export class CatalogueActionIconsComponent implements OnInit {
+export class CatalogueActionIconsComponent implements OnInit, OnDestroy {
   @Input("external") external: boolean = true;
   @Input("PkOglas") PkOglas: number;
   @Input("rating") rating: number;
@@ -22,10 +23,12 @@ export class CatalogueActionIconsComponent implements OnInit {
   @Input("editLink") editLink: boolean = false;
   @Input("username") username: string = null;
   @Input("allFavs") allFavs: boolean = false;
-  @Input("alreadyFav") alreadyFav: boolean = false;
+  @Input("alreadyFav") alreadyFav: boolean = undefined;
   @Output() onRemoveOglasFavourite = new EventEmitter<number>();
+  @Input('phone') phone: string;
+  @Input('email') email: string;
 
-
+  loginSub: Subscription;
   message: string = "";
 
   constructor(
@@ -36,10 +39,15 @@ export class CatalogueActionIconsComponent implements OnInit {
     private userService: UserService,
     private toast: ToastrService
   ) {}
+  ngOnDestroy(): void {
+    this.loginSub.unsubscribe();
+  }
 
   ngOnInit(): void {
-    console.log(this.rating);
-    
+    this.loginSub = this.helperService.currentLogin.subscribe(data => {
+      this.alreadyFav = this.config.user?.username? this.alreadyFav : undefined;
+    });
+
   }
 
   reloadState(contact: boolean = false, edit: boolean = false, rating = false) {
@@ -54,7 +62,8 @@ export class CatalogueActionIconsComponent implements OnInit {
   }
 
   handleAddToFav() {
-    if(this.config.user.username == this.username) {
+    
+    if(this.config.user?.username == this.username) {
       if(this.rating > 0) this.router.navigate([ '/catalogues/favourites/', this.PkOglas ]);
       return;
     }
@@ -71,7 +80,7 @@ export class CatalogueActionIconsComponent implements OnInit {
           }
         });
       } else {
-        this.toast.warning(this.translate.instant('FAV_ERR_LOGIN'), null, {timeOut: 5000});
+        this.toast.info(this.translate.instant('FAV_ERR_LOGIN'), null, {timeOut: 5000});
       }
     });
   }

@@ -14,11 +14,17 @@ export class HelperService {
 
   loginSource = new BehaviorSubject(null);
   currentLogin = this.loginSource.asObservable();
+
+  advancedSearchSource = new BehaviorSubject(null);
+  advancedSearchObservable = this.advancedSearchSource.asObservable();
   
   constructor(public http: HttpClient, public config: Config,public translate: TranslateService, private router:Router) {}
 
   dispatchUserLogin() {
     this.loginSource.next(null);
+  }
+  dispatchOpenAdvancedSearch(event:boolean) {
+    this.advancedSearchSource.next(event);
   }
 
   shuffle(a) {

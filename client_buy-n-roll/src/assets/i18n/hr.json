@@ -171,7 +171,9 @@
   "SORT_RELEVANT": "Relevantnost",
   "MOJI_FAV": "MOJI FAVORITI",
   "USER_FAV": "FAVORITI",
-  "FAV_ERR_LOGIN": "Morate biti prijavljeni da biste dodali ovaj oglas među svoje omiljene!"
+  "FAV_ERR_LOGIN": "Morate biti prijavljeni da biste dodali ovaj oglas među svoje omiljene!",
+  "ADVANCED_SEARCH":"Napredne Pretrage"
+
 
 
 

@@ -2,17 +2,9 @@
   <a *ngIf="external" mat-icon-button color="accent" class="mx-1 mt-2 focus:outline-none" [routerLink]="[ '/catalogues/item/' , PkOglas ]" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[3]  }">
     <i class="fas text-4xl text-yellow-500 fa-external-link-square-alt rounded-md"></i>
   </a>
-  <button [disabled]="rating == 0 && config.user.username == username" (click)="handleAddToFav()" *ngIf="!ignoreRating" mat-icon-button color="accent" class="mx-1 mt-2 relative focus:outline-none" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[2]  }">
-    <i [ngClass]="{'fas': alreadyFav == true , 'far': alreadyFav == false }" class="text-4xl fa-heart rounded-md text-red-600"></i>
-    <div class=" top-0 font-oswald flex items-center justify-center p-1 absolute rounded-full w-full h-full text-sm" [ngClass]="{'text-gray-200': external || (!external && alreadyFav), 'text-gray-800': !external && !alreadyFav}">{{helperService.abbreviateNumber(rating)}}</div>
-  </button>
-</div>
-<div *ngIf="rating > 1 && config.user.username != username" class="absolute z-10 mx-1 my-1 right-0" style="top: 6em;" [ngStyle]="{'margin': (offset + 'rem')}" [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: delay[4]  }">
-  <button [routerLink]="[ '/catalogues/favourites/', PkOglas ]" *ngIf="!ignoreRating && allFavs == true" mat-icon-button color="accent" class="red mx-1 mt-4 relative focus:outline-none" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[2]  }">
-    <span class="fa-stack">
-      <i class="text-4xl fas fa-heart fa-stack-2x pr-2 text-red-700"></i>
-      <i class="text-4xl fas fa-link fa-stack-1x text-red-500"></i>
-    </span>
+  <button [disabled]="rating == 0 && (config.user && config.user.username == username)" (click)="handleAddToFav()" *ngIf="!ignoreRating" mat-icon-button color="accent" class="mx-1 mt-2 relative focus:outline-none" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: delay[2]  }">
+    <i [ngClass]="{'fas': alreadyFav == true || alreadyFav == undefined, 'far': alreadyFav == false }" class="text-4xl fa-heart rounded-md text-red-600"></i>
+    <div class=" top-0 font-oswald flex items-center justify-center p-1 absolute rounded-full w-full h-full text-sm" [ngClass]="{'text-gray-200': external || (!external && (alreadyFav || alreadyFav == undefined)), 'text-gray-800': !external && alreadyFav == false}">{{helperService.abbreviateNumber(rating)}}</div>
   </button>
 </div>
 <div class="absolute z-10 mx-1 my-1 right-0" style="top: 3em;" [ngStyle]="{'margin': (offset + 'rem')}" [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: delay[4]  }">
@@ -34,11 +26,11 @@
           </div>
           <div class="flex items-center justify-end">
             <i class="text-normal fas fa-phone text-blue-800 mr-2 select-none" style="flex-basis: 10%;"></i>
-            <a href="tel:095-894-7680" class="text-normal text-gray-800" style="flex-basis: 90%;">095-894-7680</a>
+            <a [href]="'tel:' + phone" class="text-normal text-gray-800" style="flex-basis: 90%;">{{phone}}</a>
           </div>
           <div class="flex items-center justify-end">
             <i class="text-normal fas fa-at text-blue-800 mr-2 select-none" style="flex-basis: 10%;"></i>
-            <a href="mailto:1karlo.vrdoljak@gmail.com" class="text-normal text-gray-800 cursor-pointer" style="flex-basis: 90%;">1karlo.vrdoljak@gmail.com</a>
+            <a [href]="'mailto:' + email" class="text-normal text-gray-800 cursor-pointer" style="flex-basis: 90%;">{{email}}</a>
           </div>
           <div class="flex items-center justify-end" *ngIf="config.featureUseChat == true">
             <div class="flex flex-col justify-center items-center">

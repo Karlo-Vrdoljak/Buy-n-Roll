@@ -106,17 +106,21 @@ export class OglasService implements OnModuleInit {
 
   async checkFavourite(oglas:Oglas, pkUser) {
     if(oglas) {
-      let userFavourite = await this.getConnection().createQueryBuilder(Favourites,'f')
-        .where('f.userUserId = :id', {id : pkUser})
-        .andWhere('f.oglasPkOglas = :pkOglas', {pkOglas: oglas.PkOglas}).getRawOne();
-      if(userFavourite) {
-        oglas['alreadyFavourited'] = true;
-      } else {
-        oglas['alreadyFavourited'] = false;
+      if(pkUser) {
+        let userFavourite = await this.getConnection().createQueryBuilder(Favourites,'f')
+          .where('f.userUserId = :id', {id : pkUser})
+          .andWhere('f.oglasPkOglas = :pkOglas', {pkOglas: oglas.PkOglas}).getRawOne();
+        if(userFavourite) {
+          oglas['alreadyFavourited'] = true;
+        } else {
+          oglas['alreadyFavourited'] = false;
+        }
       }
       let rating = await this.getConnection().createQueryBuilder(Favourites, 'f')
         .where('f.oglasPkOglas = :pk', {pk: oglas.PkOglas})
         .getCount();
+      console.log(rating);
+      
       oglas.rating = rating ?? 0; 
       return oglas;
     } else {

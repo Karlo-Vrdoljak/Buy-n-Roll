@@ -8,8 +8,7 @@ import { TransmissionService } from 'src/vehicle/transmission/transmission.servi
 export class TransmissionController {
   constructor(public tranService:TransmissionService) { }
 
-  @UseGuards(JwtAuthGuard,RolesGuard)
-  @Roles('user')
+
   @Get()
   getColors(@Request() req) {
     return this.tranService.findAll();

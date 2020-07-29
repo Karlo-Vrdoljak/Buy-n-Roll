@@ -112,12 +112,9 @@ export class VehicleService implements OnModuleInit {
 			}
 		}));
 		
-		// console.log(modelList.find(x => x["VOLKSWAGEN"])["VOLKSWAGEN"]["Tiguan"]);
     manufacturerSeries.map(ms => {
 			ms.series.map(async (s: Series) => {
-				// console.log( ms.manufacturerName, s.seriesName);
 				
-				// // if(modelList.find) {
 					let models = modelList.find(m => m[ms.manufacturerName])[ms.manufacturerName][s.seriesName].map(model => {
 						return {
 							series: s,
@@ -211,6 +208,38 @@ export class VehicleService implements OnModuleInit {
   findOglasiBySimpleProps(props: Manufacturer & Series & Model) {
     return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchByString(), [props.seriesName, props.manufacturerName, null, null, props.modelName, null, null, null, null, props.seriesName, props.manufacturerName, null, null, props.modelName, null, null, null, null]);
   }
+  findOglasiByAllProps(props:any) {
+    for (const [key, value] of Object.entries(props)) {
+      props[key] = props[key] == 'null' ? null : props[key];
+    }
+    return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchAdvanced(), [
+      props.seriesName,
+      props.manufacturerName,
+      props.modelName,
+      props.bodyName,
+      props.gasType,
+      props.transmissionName,
+      props.drivetrainCode,
+      props.seriesName,
+      props.seriesName,
+      props.manufacturerName,
+      props.manufacturerName,
+      props.modelName,
+      props.modelName,
+      props.bodyName,
+      props.bodyName,
+      props.gasType,
+      props.gasType,
+      props.transmissionName,
+      props.transmissionName,
+      props.drivetrainCode,
+      props.drivetrainCode,
+      props.color,
+      props.color,
+      props.vehicleState,
+      props.vehicleState
+    ]);
+    
+  }
 }
 
-// [props.seriesName, props.seriesName, props.manufacturerName, props.manufacturerName, null, null, null, null, props.modelName, props.modelName, null, null, null, null, null, null, null, null]
