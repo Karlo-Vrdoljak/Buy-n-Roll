@@ -127,6 +127,7 @@
   "MILEAGE": "Gas Consumption",
   "COLOR": "COLOR",
   "KILOMETERS": "Kilometers",
+  "KILOMETERS_PLACEHOLDER": "Enter the range of kilometers",
   "GODINA_PROIZVODNJE": "Make Year",
   "VEHICLE_STATE": "Vehicle State",
   "BODY" : "Body Shape",

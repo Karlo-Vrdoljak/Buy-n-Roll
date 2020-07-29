@@ -212,6 +212,19 @@ export class VehicleService implements OnModuleInit {
     for (const [key, value] of Object.entries(props)) {
       props[key] = props[key] == 'null' ? null : props[key];
     }
+    let kilometri = [];
+    if(props.kilometri) {
+      kilometri = props.kilometri.split(',');
+    }
+    let godina = [];
+    if(props.godina) {
+      godina = props.godina.split(',');
+    }
+    let potrosnja = [];
+    if(props.potrosnja) {
+      potrosnja = props.potrosnja.split(',');
+    }
+    
     return this.oglasService.getRepo().query(this.dbAccess.getOglasSearchAdvanced(), [
       props.seriesName,
       props.manufacturerName,
@@ -237,7 +250,16 @@ export class VehicleService implements OnModuleInit {
       props.color,
       props.color,
       props.vehicleState,
-      props.vehicleState
+      props.vehicleState,
+      potrosnja[0],
+      potrosnja[0],
+      potrosnja[1],
+      kilometri[0],
+      kilometri[0],
+      kilometri[1],
+      godina[0],
+      godina[0],
+      godina[1]
     ]);
     
   }

@@ -1,4 +1,4 @@
-<p-dialog  #pdialog *ngIf="dialog == true" class="advSearch" [style]="{'min-width': '50vw'}" (onHide)="EmitValue()" [header]="'ADVANCED_SEARCH' | translate | uppercase" closeOnEscape="true" [(visible)]="displayDlg" position="center" [modal]="true" [dismissableMask]="true" [baseZIndex]="999999" [autoZIndex]="false"  [draggable]="false" [resizable]="false">
+<p-dialog  #pdialog *ngIf="dialog == true" class="advSearch" [style]="{'min-width': '50vw'}" (onHide)="EmitValue()" [header]="'ADVANCED_SEARCH' | translate | uppercase" closeOnEscape="true" [(visible)]="displayDlg" position="center" [modal]="true" [baseZIndex]="999999" [autoZIndex]="false"  [draggable]="false" [resizable]="false">
   <div class="flex flex-col justify-center content-center items-center relative">
     <ng-container [ngTemplateOutlet]="advancedSearch"></ng-container>
     <ngx-ui-loader [loaderId]="'advancedSearch'"></ngx-ui-loader>
@@ -13,7 +13,7 @@
 </ng-container>
 
 <ng-template #advancedSearch>
-  <div class="absolute right-0">
+  <div class="absolute" style="right: -0.5rem;">
     <button *ngIf="checkCanSubmit()" (click)="setSearchValues()" mat-fab color="accent" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave]>
       <span class="fa-stack">
         <i class="fas fa-car pl-1 fa-stack-2x buynroll_deepGray"></i>
@@ -22,13 +22,35 @@
     </button>
   </div>
   <div class="flex flex-row items-center w-full content-center justify-center text-2xl font-semibold font-oswald relative">
-    {{ 'SPECIFICATION' | translate | titlecase}}
+    {{ 'CHOOSE' | translate | titlecase}}
   </div>
   <div class="divider div-light w-full pb-2"></div>
+  <div class="flex flex-row w-full">
+    <div class="search_item">
+      <h6>{{ 'CIJENA' | translate | titlecase }} &bull; Euro</h6>
+      <div class="flex flex-row w-full justify-between items-center content-center pb-1">
+        <div class="font-oswald text-base text-gray-200 flex justify-start" style="flex-basis: 20%;">{{ helperService.abbreviateNumber(searchModel.cijena[0]) }}</div>
+        <div class="font-oswald text-base text-gray-200 flex flex-row" style="flex-basis: 30%;"><i class="fas cursor-pointer select-none fa-arrow-circle-left pr-4 lg:pr-2 text-xl lg:text-base" (click)="decrementValue('cijena', 250, 0, 0)"></i><i class="fas cursor-pointer select-none text-xl lg:text-base fa-arrow-circle-right" (click)="incrementValue('cijena', 250, 50000, 0)"></i></div>
+        <div class="font-oswald text-base text-gray-200 flex flex-row justify-end" style="flex-basis: 30%;"><i class="fas cursor-pointer select-none fa-arrow-circle-left pr-4 lg:pr-2 text-xl lg:text-base" (click)="decrementValue('cijena', 250, 0, 1)" ></i><i class="fas cursor-pointer select-none text-xl lg:text-base fa-arrow-circle-right" (click)="incrementValue('cijena', 250, 50000, 1)"></i></div>
+        <div class="font-oswald text-base text-gray-200 flex justify-end" style="flex-basis: 20%;">{{ helperService.abbreviateNumber(searchModel.cijena[1]) }}</div>
+      </div>
+      <p-slider [(ngModel)]="searchModel.cijena" [animate]="true" [step]="250" [min]="0" [range]="true" [max]="50000"></p-slider>
+    </div>
+  </div>
   <div class="p-grid p-nogutter w-full">
     <div class="p-col-12 p-sm-12 p-md-12 p-xl-6 w-full">
       <div class="w-full flex flex-col items-center content-center justify-center">
-        <div class="pb-2">
+        <div class="search_item">
+          <h6>{{ 'KILOMETERS' | translate | titlecase }} &bull; km</h6>
+          <div class="flex flex-row w-full justify-between items-center content-center pb-1">
+            <div class="font-oswald text-base text-gray-200 flex justify-start" style="flex-basis: 20%;">{{ helperService.abbreviateNumber(searchModel.kilometri[0]) }}</div>
+            <div class="font-oswald text-base text-gray-200 flex flex-row" style="flex-basis: 30%;"><i class="fas cursor-pointer select-none fa-arrow-circle-left pr-4 lg:pr-2 text-xl lg:text-base" (click)="decrementValue('kilometri', 10000, 0, 0)"></i><i class="fas cursor-pointer select-none text-xl lg:text-base fa-arrow-circle-right"  (click)="incrementValue('kilometri', 10000, 3000000, 0)"></i></div>
+            <div class="font-oswald text-base text-gray-200 flex flex-row justify-end" style="flex-basis: 30%;"><i class="fas cursor-pointer select-none fa-arrow-circle-left pr-4 lg:pr-2 text-xl lg:text-base" (click)="decrementValue('kilometri', 10000, 0, 1)"></i><i class="fas cursor-pointer select-none text-xl lg:text-base fa-arrow-circle-right" (click)="incrementValue('kilometri', 10000, 3000000, 1)"></i></div>
+            <div class="font-oswald text-base text-gray-200 flex justify-end" style="flex-basis: 20%;">{{ helperService.abbreviateNumber(searchModel.kilometri[1]) }}</div>
+          </div>
+          <p-slider [(ngModel)]="searchModel.kilometri" [animate]="true" [step]="10000" [min]="0" [range]="true" [max]="3000000"></p-slider>
+        </div>
+        <div class="search_item">
           <h6>{{ 'COLOR' | translate | titlecase }}</h6>
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" [virtualScroll]="true" itemSize="20" [options]="advancedSearchProps.Colors" [(ngModel)]="searchModel.Colors" optionLabel="color">
             <ng-template let-item pTemplate="selectedItem">
@@ -45,12 +67,12 @@
             </ng-template>
           </p-dropdown>
         </div>
-        <div class="pb-2">
+        <div class="search_item">
           <h6>{{ 'BODY' | translate | titlecase }}</h6>
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" [virtualScroll]="true" itemSize="20" [options]="advancedSearchProps.Body" [(ngModel)]="searchModel.Body" optionLabel="bodyName">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate | titlecase ),15) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate | titlecase ),12) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -62,12 +84,12 @@
             </ng-template>
           </p-dropdown>
         </div>
-        <div class="pb-2">
+        <div class="search_item">
           <h6>{{ 'DRIVETRAIN' | translate | titlecase }}</h6>
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" [virtualScroll]="true" itemSize="20" [options]="advancedSearchProps.DriveTrain" [(ngModel)]="searchModel.DriveTrain" optionLabel="drivetrainCode">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString((item.label | uppercase ),15) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString((item.label | uppercase ),12) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -79,12 +101,12 @@
             </ng-template>
           </p-dropdown>
         </div>
-        <div class="pb-2">
+        <div class="search_item">
           <h6>{{ 'GAS_TYPE' | translate | titlecase }}</h6>
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" [virtualScroll]="true" itemSize="20" [options]="advancedSearchProps.GasType" [(ngModel)]="searchModel.GasType" optionLabel="gasType">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate ),15) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate ),12) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -96,12 +118,12 @@
             </ng-template>
           </p-dropdown>
         </div>
-        <div class="pb-2">
+        <div class="search_item">
           <h6>{{ 'TRANSMISSION' | translate | titlecase }}</h6>
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" [virtualScroll]="true" itemSize="20" [options]="advancedSearchProps.Transmission" [(ngModel)]="searchModel.Transmission" optionLabel="transmissionName">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate ),15) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate ),12) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -117,12 +139,33 @@
     </div>
     <div class="p-col-12 p-sm-12 p-md-12 p-xl-6 w-full" style="min-height: 16rem;">
       <div class="w-full flex flex-col items-center content-center justify-center">
-        <div class="pb-2">
+        <div class="search_item">
+          <h6>{{ 'GODINA_PROIZVODNJE' | translate | titlecase }}</h6>
+          <div class="flex flex-row w-full justify-between items-center content-center pb-1">
+            <div class="font-oswald text-base text-gray-200 flex justify-start" style="flex-basis: 20%;">{{ searchModel.godina[0] }}</div>
+            <div class="font-oswald text-base text-gray-200 flex flex-row" style="flex-basis: 30%;"><i class="fas cursor-pointer select-none fa-arrow-circle-left pr-4 lg:pr-2 text-xl lg:text-base" (click)="decrementValue('godina', 10, 1900, 0)"></i><i class="fas cursor-pointer select-none text-xl lg:text-base fa-arrow-circle-right" (click)="incrementValue('godina', 10, maxYear, 0)"></i></div>
+            <div class="font-oswald text-base text-gray-200 flex flex-row justify-end" style="flex-basis: 30%;"><i class="fas cursor-pointer select-none fa-arrow-circle-left pr-4 lg:pr-2 text-xl lg:text-base" (click)="decrementValue('godina', 10, 1900, 1)"></i><i class="fas cursor-pointer select-none text-xl lg:text-base fa-arrow-circle-right" (click)="incrementValue('godina', 10, maxYear, 1)"></i></div>
+
+            <div class="font-oswald text-base text-gray-200 flex justify-end" style="flex-basis: 20%;">{{ searchModel.godina[1] }}</div>
+          </div>
+          <p-slider [(ngModel)]="searchModel.godina" [animate]="true" [step]="10" [min]="1900" [range]="true" [max]="maxYear"></p-slider>
+        </div>
+        <div class="search_item">
+          <h6>{{ 'MILEAGE' | translate | titlecase }} &bull; l/100km</h6>
+          <div class="flex flex-row w-full justify-between items-center content-center pb-1">
+            <div class="font-oswald text-base text-gray-200 flex justify-start" style="flex-basis: 20%;">{{ searchModel.potrosnja[0] }}</div>
+            <div class="font-oswald text-base text-gray-200 flex flex-row" style="flex-basis: 30%;"><i class="fas cursor-pointer select-none fa-arrow-circle-left pr-4 lg:pr-2 text-xl lg:text-base" (click)="decrementValue('potrosnja', 1, 0, 0)"></i><i class="fas cursor-pointer select-none text-xl lg:text-base fa-arrow-circle-right"  (click)="incrementValue('potrosnja', 1, 50, 0)"></i></div>
+            <div class="font-oswald text-base text-gray-200 flex flex-row justify-end" style="flex-basis: 30%;"><i class="fas cursor-pointer select-none fa-arrow-circle-left pr-4 lg:pr-2 text-xl lg:text-base" (click)="decrementValue('potrosnja', 1, 0, 1)"></i><i class="fas cursor-pointer select-none text-xl lg:text-base fa-arrow-circle-right" (click)="incrementValue('potrosnja', 1, 50, 1)"></i></div>
+            <div class="font-oswald text-base text-gray-200 flex justify-end" style="flex-basis: 20%;">{{ searchModel.potrosnja[1] }}</div>
+          </div>
+          <p-slider [(ngModel)]="searchModel.potrosnja" [animate]="true" [step]="1" [min]="0" [range]="true" [max]="50"></p-slider>
+        </div>
+        <div class="search_item">
           <h6>{{ 'VEHICLE_STATE' | translate | titlecase }}</h6>
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" [virtualScroll]="true" itemSize="20" [options]="advancedSearchProps.VehicleState" [(ngModel)]="searchModel.VehicleState" optionLabel="vehicleState">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate | titlecase ),15) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate | titlecase ),12) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -134,7 +177,7 @@
             </ng-template>
           </p-dropdown>
         </div>
-        <div class="pb-2">
+        <div class="search_item">
           <h6>{{ 'MANUFACTURER' | translate | titlecase }}</h6>
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" (onChange)="getSeriesData($event)" *ngIf="manufacturers" [virtualScroll]="true" itemSize="20" [options]="manufacturers" [(ngModel)]="selectedManufacturer" optionLabel="manufacturerName">
             <ng-template let-item pTemplate="selectedItem">

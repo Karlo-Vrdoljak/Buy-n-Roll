@@ -127,6 +127,7 @@
   "MILEAGE": "Potrošnja Goriva",
   "COLOR": "BOJA",
   "KILOMETERS": "Kilometraža",
+  "KILOMETERS_PLACEHOLDER": "Unesite raspon kilometraže",
   "GODINA_PROIZVODNJE": "Godina proizvodnje",
   "VEHICLE_STATE": "Stanje Vozila",
   "BODY" : "Oblik Karoserije",

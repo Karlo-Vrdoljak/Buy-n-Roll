@@ -42,7 +42,14 @@ export class SearchController implements OnModuleInit{
         ret = await this.checkFavourite(ret,token);
       } else {
         ret = await this.checkFavourite(ret,null);
-
+      }
+      if(req.query.cijena) {
+        let cijena = req.query.cijena.split(',');
+        ret = ret.map(e => {
+          e['filterCijenaMin'] = parseInt(cijena[0]);
+          e['filterCijenaMax'] = parseInt(cijena[1]);
+          return e;
+        });
       }
       res.status(HttpStatus.OK).send(ret);
     });    

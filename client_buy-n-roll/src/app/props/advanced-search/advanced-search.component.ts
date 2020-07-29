@@ -13,6 +13,7 @@ import { Config } from 'src/environments/config';
 import { fadeInUpOnEnterAnimation, fadeOutDownOnLeaveAnimation, fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
 import { VehicleState, GasTypes } from 'src/app/_types/oglas.interface';
 import { SelectItem } from 'primeng/api';
+import * as rfdc from 'rfdc';
 
 @Component({
   selector: "app-advanced-search",
@@ -38,7 +39,7 @@ export class AdvancedSearchComponent implements OnInit {
   searchModel:any = null;
   params:any = null;
   @Output() onAdvancedSearch = new EventEmitter<any>();
-
+  maxYear:number;
   constructor(
     public router: Router,
     public activatedRoute: ActivatedRoute,
@@ -55,6 +56,7 @@ export class AdvancedSearchComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.advancedSearchProps);
+    this.maxYear = (new Date()).getFullYear();
     this.advancedSearchProps.GasType = this.advancedSearchProps.GasType.map(gt => {
       return {
         gasType:gt
@@ -69,10 +71,22 @@ export class AdvancedSearchComponent implements OnInit {
   }
   checkCanSubmit() {
     return [
-      ...Object.values(this.searchModel),
+      this.searchModel.Colors ?? null,
+      this.searchModel.Body ?? null,
+      this.searchModel.DriveTrain ?? null,
+      this.searchModel.Transmission ?? null,
+      this.searchModel.VehicleState ?? null,
+      this.searchModel.GasType ?? null,
+      this.searchModel.Manufacturer ?? null,
+      this.searchModel.Series ?? null,
+      this.searchModel.Model ??null,
       this.selectedManufacturer ?? null,
       this.selectedSeries ?? null,
       this.selectedModel ?? null,
+      this.handleSlider(this.searchModel.kilometri, 'kilometri'),
+      this.handleSlider(this.searchModel.godina, 'godina'),
+      this.handleSlider(this.searchModel.potrosnja, 'potrosnja'),
+      this.handleSlider(this.searchModel.cijena, 'cijena'),
     ].some(sm => sm != null);
   }
 
@@ -88,12 +102,52 @@ export class AdvancedSearchComponent implements OnInit {
       gasType: this.searchModel.GasType?.gasType ? this.searchModel.GasType.gasType : null,
       transmissionName: this.searchModel.Transmission?.transmissionName ? this.searchModel.Transmission.transmissionName : null,
       vehicleState: this.searchModel.VehicleState?.vehicleState ? this.searchModel.VehicleState.vehicleState : null,
-      manufacturerName: this.searchModel.selectedManufacturer?.manufacturerName ? this.searchModel.selectedManufacturer.manufacturerName : null,
-      modelName: this.searchModel.selectedModel?.modelName ? this.searchModel.selectedModel.modelName : null,
-      seriesName: this.searchModel.selectedSeries?.seriesName ? this.searchModel.selectedSeries.seriesName : null,
+      manufacturerName: this.selectedManufacturer?.manufacturerName ? this.selectedManufacturer.manufacturerName : null,
+      modelName: this.selectedModel?.modelName ? this.selectedModel.modelName : null,
+      seriesName: this.selectedSeries?.seriesName ? this.selectedSeries.seriesName : null,
+      kilometri: this.handleSlider(this.searchModel.kilometri, 'kilometri'),
+      godina: this.handleSlider(this.searchModel.godina, 'godina'),
+      potrosnja: this.handleSlider(this.searchModel.potrosnja, 'potrosnja'),
+      cijena: this.handleSlider(this.searchModel.cijena, 'cijena'),
     };
     if(this.dialog) {
       this.displayDlg = false;
+    }
+  }
+  checkPropSlider(min,max,...value) {
+    if(value[0] == min && value[1] == max) {
+      return null;
+    }
+    return `${value[0]},${value[1]}`;
+  }
+  decrementValue(key, step, min, index) {
+    if(this.searchModel[key][index] - step > min) {
+      this.searchModel[key][index] = this.searchModel[key][index] - step;
+    }
+  }
+  incrementValue(key, step, max, index) {
+    if(this.searchModel[key][index] + step < max) {
+      this.searchModel[key][index] = this.searchModel[key][index] + step;
+    }
+  }
+
+  handleSlider(prop,key) {
+    
+    switch (key) {
+      case 'kilometri':{
+        return this.checkPropSlider(0, 3000000, prop[0], prop[1]);
+      }
+      case 'godina':{
+        return this.checkPropSlider(1880, this.maxYear, prop[0], prop[1]);
+      }
+      case 'potrosnja':{
+        return this.checkPropSlider(0, 50, prop[0], prop[1]);
+      }
+      case 'cijena':{
+        return this.checkPropSlider(0, 50000, prop[0], prop[1]);
+      }
+      default:
+        break;
     }
   }
 
@@ -108,12 +162,15 @@ export class AdvancedSearchComponent implements OnInit {
       Manufacturer: null,
       Series: null,
       Model:null,
+      kilometri: [0,3000000],
+      godina: [1880, this.maxYear],
+      potrosnja: [0,50],
+      cijena: [0, 50000]
     }
   }
 
   getSeriesData(event:any) {
     let manufacturer = event.value as Manufacturer;
-    console.log(manufacturer);
     
     if(manufacturer == null) {
       this.selectedManufacturer = null;

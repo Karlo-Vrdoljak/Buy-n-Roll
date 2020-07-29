@@ -105,6 +105,7 @@ import { FavouritesResolver } from './_resolvers/favourites.resolver';
 import { UserCardComponent } from './props/user-card/user-card.component';
 import { FavouritesAdsResolver } from './_resolvers/favourites.ads.resolver';
 import { AdvancedSearchComponent } from './props/advanced-search/advanced-search.component';
+import {SliderModule} from 'primeng/slider';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -228,8 +229,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
       keyboardShortcuts: true,
     }),
     GallerizeModule,
-    ConfirmDialogModule
-
+    ConfirmDialogModule,
+    SliderModule
   ],
   providers: [
     TestService,

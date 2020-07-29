@@ -3,7 +3,7 @@
 
 :host ::ng-deep p-dialog.advSearch {
   .ui-dialog-content {
-    min-height: 50vh;
+    min-height: 60vh;
     background: $deepGray;
     border: $deepGray;
     color: $silver;
@@ -32,4 +32,12 @@
 :host ::ng-deep .ui-dropdown-clear-icon {
   font-size: 1.25rem;
   right: 1.75rem;
+}
+
+:host ::ng-deep .search_item {
+  width: 100%;
+  padding: 0 4rem 0 2rem;
+  .ui-dropdown{
+    width: 100%;
+  }
 }

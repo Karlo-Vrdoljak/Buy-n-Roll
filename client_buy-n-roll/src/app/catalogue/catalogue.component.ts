@@ -42,7 +42,11 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
     private loader: NgxUiLoaderService,
     private oglasService: OglasService
   ) {}
-  async ngAfterViewInit() { await this.calculateExchangeRateForSort(); }
+  async ngAfterViewInit() { 
+    await this.calculateExchangeRateForSort(); 
+    this.setupCatalogList();
+
+  }
 
   @HostListener("window:resize") updateOrientationState() {
     this.displayAccessories = this.helperService.getScreenY() < 450? false: true;
@@ -62,12 +66,15 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(this.catalogList);
 
     this.routerSubscription$ = this.router.events.subscribe(async event => {
+      console.log('alo');
+      
       if (event instanceof NavigationEnd) {
         this.catalogList = this.route.snapshot.data.pageData[0] || [];
         this.currencyList = this.route.snapshot.data.pageData[2] || [];
-        this.catalog._value = this.catalogList;
-        this.catalog.value = this.catalogList;
+        if(this.catalog) this.catalog._value = this.catalogList;
+        if(this.catalog) this.catalog.value = this.catalogList;
         if(this.catalogList.length) await this.calculateExchangeRateForSort();
+        this.setupCatalogList();
       }
     });
 
@@ -75,6 +82,20 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.setupLangObservable();
     this.updateOrientationState();
+  }
+  setupCatalogList() {
+    if(!this.catalogList.length) return;
+    
+    this.catalogList = this.catalogList.filter(item => {
+      if(![undefined, null].includes(item['filterCijenaMin'])) {
+        
+        if (item['priceEurSort'] >= item['filterCijenaMin'] && item['priceEurSort'] <= item['filterCijenaMax']) {
+          return item;
+        }
+      } else {
+        return item;
+      }
+    });
   }
 
   onSortChange(event, syncReaveal = true) {
