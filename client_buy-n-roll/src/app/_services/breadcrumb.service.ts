@@ -26,7 +26,7 @@ export class BreadcrumbService {
       menu.push(prevRoute);
     }
     menu.push({
-        label: oglasNaziv,
+        label: (this.helperService.getScreenX() < 450 ? this.helperService.truncateString(oglasNaziv,40) : oglasNaziv),
     });
     return menu;
   }
@@ -37,7 +37,7 @@ export class BreadcrumbService {
       menu.push(prevRoute);
     }
     menu.push({
-      label: this.translate.instant(activatedPage) + detail,
+      label: this.translate.instant(activatedPage) + (this.helperService.getScreenX() < 450 ? this.helperService.truncateString(detail,40) : detail),
     });
     return menu;
   }
