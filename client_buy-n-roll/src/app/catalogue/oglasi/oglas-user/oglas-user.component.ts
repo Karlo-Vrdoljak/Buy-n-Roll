@@ -37,6 +37,7 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
   @ViewChild('dv') catalog:DataView;
   sortOptions: { label: string; value: string; }[];
   selectedSortOption: any;
+  currencyList: any;
 
   constructor(
     public config:Config,
@@ -136,6 +137,7 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
   }
 
   async calculateExchangeRateForSort() {
+    if(!this.catalog?.value) return;
     this.catalog.value = await Promise.all(this.catalog._value = this.catalog.value.map(async e => {
       if(e.currencyName != "Euro") {
         let ex = await this.oglasService.getExchangeRate(Object.values(this.currencyList).find((cl:any) => cl.name == e.currencyName));
@@ -147,9 +149,7 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
       return e;
     }));
   }
-  currencyList(currencyList: any) {
-    throw new Error("Method not implemented.");
-  }
+
   setupSortOptions() {
     this.sortOptions = [
       { label: 'SORT_NEW_FIRST', value: "!oglasCreatedAt" },
@@ -163,6 +163,10 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
     this.onSortChange({value: this.selectedSortOption}, false);
   }
 
+  
+  navigateProfile() {
+    this.router.navigate(['profile', {username: this.profileData.username}]);
+  }
 
 }
 

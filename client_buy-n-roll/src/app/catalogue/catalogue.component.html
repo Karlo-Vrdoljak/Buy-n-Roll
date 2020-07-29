@@ -2,17 +2,19 @@
 <div *ngIf="displayAccessories" class="banner"></div>
 <p-dataView #dv *ngIf="catalogList.length > 0; else noRecords" #dv [value]="catalogList" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both" [sortField]="sortField" [sortOrder]="sortOrder">
   <p-header>
-    <ng-container *ngTemplateOutlet="header"></ng-container>
-    
+    <ng-container [ngTemplateOutlet]="header"  [ngTemplateOutletContext]="{ showSort: true }"></ng-container>
   </p-header>
   <ng-template let-o pTemplate="listItem">
-    <span class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-4 ui-xl-3 px-2 md:px-4 lg:px-16 xl:px-32">
+    <span class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-4 ui-xl-3 px-2 md:px-4 lg:px-16 xl:px-32 z-0">
       <app-catalogue-search-item [item]="o" [size]="'large'"></app-catalogue-search-item>
     </span>
   </ng-template>
 </p-dataView>
 
 <ng-template #noRecords>
+  <div class="w-full buynroll_bg_deepGray">
+    <ng-container [ngTemplateOutlet]="header"  [ngTemplateOutletContext]="{ showSort: false}"></ng-container>
+  </div>
   <div class="md:mx-4 lg:mx-16 xl:md-32">
     <div class="flex flex-col justify-center content-center items-center noContentWrap">
       <img src="assets/images/catalogue/missing.png" class="w-40 h-40 select-none">
@@ -26,10 +28,10 @@
 
 <ngx-ui-loader [loaderId]="'catalogue_loader'"></ngx-ui-loader>
 
-<ng-template #header>
+<ng-template #header let-showSort="showSort">
   <div class="ui-helper-clearfix">
     <div class="flex flex-row h-12 items-center content-center justify-start pl-0 sm:pl-2">
-      <div class="pr-2">
+      <div *ngIf="showSort" class="pr-2">
         <p-dropdown [options]="sortOptions" placeholder="" [(ngModel)]="selectedSortOption" (onChange)="onSortChange($event)" [style]="{'min-width':'180px'}" optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
             {{ item.value.label | translate | titlecase }}
@@ -49,7 +51,7 @@
           </div>
         </a>
       </div>
-      <div class="px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
+      <div class="px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 300 }">
         <a (click)="openAdvancedSearch()" mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="'ADVANCED_SEARCH' | translate | titlecase">
           <div class="flex items-center align-middle">
             <div class="flex items-center align-middle  mx-auto justify-center">

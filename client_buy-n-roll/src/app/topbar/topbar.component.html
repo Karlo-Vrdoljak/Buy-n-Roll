@@ -16,20 +16,20 @@
 				<div (click)="navigateProfile()" *ngIf="profilePhoto && config.user" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] class="profile_pic cursor-pointer border-2 border-gray-700 shadow-md" [ngClass]="{'w-12 h-12': landing, 'w-8 h-8': !landing }" [ngStyle]="{'background-image': 'url(' + (profilePhoto.filename? config.STATIC_FILES + config.user.username + '/' + profilePhoto.filename : profilePhoto.path) + ')' }"></div>
 			</div>
 			<div class="flex-1 flex-center">
-				<a *ngIf="config.user" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] [title]="'MOJI_OGLASI' | translate | titlecase" (click)="rerouteMojiOglasi()" class="mx-1 mt-2 focus:outline-none text-yellow-500 cursor-pointer navButton">
+				<a *ngIf="profilePhoto && config.user" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] [title]="'MOJI_OGLASI' | translate | titlecase" (click)="rerouteMojiOglasi()" class="mx-1 mt-2 focus:outline-none text-yellow-500 cursor-pointer navButton">
 					<div class="flex flex-row items-center content-center justify-center">
 						<i class="fas fa-book-reader text-gray-100 text-xl pr-0 lg:pr-2"></i>
-						<div class="hideSm">
+						<div class="hideSm font-oswald">
 							{{ 'MOJI_OGLASI' | translate | uppercase }}
 						</div>
 					</div>
 				</a>
 			</div>
 			<div class="flex-1 flex-center">
-				<a *ngIf="config.user" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] [title]="'FAVOURITES' | translate | titlecase" (click)="rerouteFavourites()" class="mx-1 mt-2 focus:outline-none text-yellow-500 cursor-pointer navButton">
+				<a *ngIf="profilePhoto && config.user" [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] [title]="'FAVOURITES' | translate | titlecase" (click)="rerouteFavourites()" class="mx-1 mt-2 focus:outline-none text-yellow-500 cursor-pointer navButton">
 					<div class="flex flex-row items-center content-center justify-center">
 						<i class="fas fa-heart text-gray-100 text-xl pr-0 lg:pr-2"></i>
-						<div class="hideSm">
+						<div class="hideSm font-oswald">
 							{{ 'FAVOURITES' | translate | uppercase }}
 						</div>
 					</div>

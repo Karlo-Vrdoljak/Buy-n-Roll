@@ -123,6 +123,7 @@ export class UserController {
       .leftJoinAndSelect('f.oglas','o')
       .where('f.userUserId = :pk', {pk: req.query})
       .getRawMany();
+    let user = await this.userService.getUserRepo().createQueryBuilder('u').where('u.userId = :pk', {pk:req.query}).getOne();
     if(favs) {
       
       let oglasi = await Promise.all(favs.map(async (f:any) => {
@@ -138,9 +139,15 @@ export class UserController {
 
         }
       }
-      res.status(HttpStatus.OK).send(oglasi || []);
+      res.status(HttpStatus.OK).send({
+        oglasi: oglasi || null,
+        username: user.username
+      });
     } else {
-      res.status(HttpStatus.OK).send([]);
+      res.status(HttpStatus.OK).send({
+        oglasi: null,
+        username: user.username
+      });
     }
   }
 

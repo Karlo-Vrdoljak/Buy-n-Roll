@@ -37,6 +37,7 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
   sortField: string;
   sortOptions: { label: string; value: string; }[];
   selectedSortOption: any;
+  usersProfileUsername: string;
 
   constructor(
     public config:Config,
@@ -63,12 +64,13 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
 
   ngOnInit(): void {
     console.log(
-      this.route.snapshot.data.pageData
+      this.route.snapshot
     );
     this.users = this.route.snapshot.data.pageData[0] || null;
     this.path = this.route.snapshot.data.pageData[1] || '';
     this.translations = this.route.snapshot.data.pageData[2] || {};
-    this.oglasi = this.route.snapshot.data.pageData[3] || null;
+    this.oglasi = this.route.snapshot.data.pageData[3].oglasi || null;
+    this.usersProfileUsername = this.route.snapshot.data.pageData[3].username || null;
 
     this.setupBreadCrumbs();
 
@@ -86,6 +88,8 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
         this.users = this.route.snapshot.data.pageData[0] || [];
         this.path = this.route.snapshot.data.pageData[1] || '';
         this.translations = this.route.snapshot.data.pageData[2] || {};
+        this.oglasi = this.route.snapshot.data.pageData[3].oglasi || null;
+        this.usersProfileUsername = this.route.snapshot.data.pageData[3].username || null;
         this.setupBreadCrumbs();
       }
     });
@@ -95,9 +99,7 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
     this.oglasi = this.oglasi.filter(o => o.PkOglas != pkOglas);
     this.dataView._value = this.oglasi;
     this.dataView.value = this.oglasi;
-    // this.searchOglasi.map(item => {
-    //   item.syncScrollReveal();
-    // });
+
   }
   
   setupBreadCrumbs() {
@@ -138,5 +140,8 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
     this.onSortChange({value: this.selectedSortOption}, false);
   }
 
+  navigateProfile() {
+    this.router.navigate(['profile', {username: this.usersProfileUsername}]);
+  }
 
 }
