@@ -79,7 +79,7 @@ export class AdvancedSearchComponent implements OnInit {
       this.searchModel.GasType ?? null,
       this.searchModel.Manufacturer ?? null,
       this.searchModel.Series ?? null,
-      this.searchModel.Model ??null,
+      this.searchModel.Model ?? null,
       this.selectedManufacturer ?? null,
       this.selectedSeries ?? null,
       this.selectedModel ?? null,
@@ -121,12 +121,12 @@ export class AdvancedSearchComponent implements OnInit {
     return `${value[0]},${value[1]}`;
   }
   decrementValue(key, step, min, index) {
-    if(this.searchModel[key][index] - step > min) {
+    if(this.searchModel[key][index] - step >= min) {
       this.searchModel[key][index] = this.searchModel[key][index] - step;
     }
   }
   incrementValue(key, step, max, index) {
-    if(this.searchModel[key][index] + step < max) {
+    if(this.searchModel[key][index] + step <= max) {
       this.searchModel[key][index] = this.searchModel[key][index] + step;
     }
   }

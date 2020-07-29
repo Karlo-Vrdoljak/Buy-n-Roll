@@ -55,7 +55,7 @@
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" [virtualScroll]="true" itemSize="20" [options]="advancedSearchProps.Colors" [(ngModel)]="searchModel.Colors" optionLabel="color">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString(item.label,15) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString(item.label,30) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -72,7 +72,7 @@
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" [virtualScroll]="true" itemSize="20" [options]="advancedSearchProps.Body" [(ngModel)]="searchModel.Body" optionLabel="bodyName">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate | titlecase ),12) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate | titlecase ),30) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -89,7 +89,7 @@
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" [virtualScroll]="true" itemSize="20" [options]="advancedSearchProps.DriveTrain" [(ngModel)]="searchModel.DriveTrain" optionLabel="drivetrainCode">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString((item.label | uppercase ),12) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString((item.label | uppercase ),30) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -106,7 +106,7 @@
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" [virtualScroll]="true" itemSize="20" [options]="advancedSearchProps.GasType" [(ngModel)]="searchModel.GasType" optionLabel="gasType">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate ),12) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate ),30) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -123,7 +123,7 @@
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" [virtualScroll]="true" itemSize="20" [options]="advancedSearchProps.Transmission" [(ngModel)]="searchModel.Transmission" optionLabel="transmissionName">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate ),12) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate ),30) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -165,7 +165,7 @@
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" [virtualScroll]="true" itemSize="20" [options]="advancedSearchProps.VehicleState" [(ngModel)]="searchModel.VehicleState" optionLabel="vehicleState">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate | titlecase ),12) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString((item.label | translate | titlecase ),30) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -182,7 +182,7 @@
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" (onChange)="getSeriesData($event)" *ngIf="manufacturers" [virtualScroll]="true" itemSize="20" [options]="manufacturers" [(ngModel)]="selectedManufacturer" optionLabel="manufacturerName">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString(item.label,15) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString(item.label,30) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -194,12 +194,12 @@
             </ng-template>
           </p-dropdown>
         </div>
-        <div class="pb-2" [@fadeInUpOnEnter] *ngIf="series">
+        <div class="search_item" [@fadeInUpOnEnter] *ngIf="series">
           <h6>{{ 'SERIJA' | translate | titlecase }}</h6>
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" (onChange)="getModelData($event)" [virtualScroll]="true" itemSize="20" [options]="series" [(ngModel)]="selectedSeries" optionLabel="seriesName">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString(item.label,15) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString(item.label,30) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
@@ -211,12 +211,12 @@
             </ng-template>
           </p-dropdown>
         </div>
-        <div class="pb-2" [@fadeInUpOnEnter] *ngIf="models">
+        <div class="search_item" [@fadeInUpOnEnter] *ngIf="models">
           <h6>{{ 'MODEL' | translate | titlecase }}</h6>
           <p-dropdown [showClear]="true" appendTo="body"  [placeholder]="'ODABERITE' | translate" filter="true" (onChange)="selectModel($event)" [virtualScroll]="true" itemSize="20" [options]="models" [(ngModel)]="selectedModel" optionLabel="modelName">
             <ng-template let-item pTemplate="selectedItem">
               <div class="flex flex-row items-center justify-start content-center">
-                <span *ngIf="item.label">{{ helperService.truncateString(item.label,15) }}</span>
+                <span *ngIf="item.label">{{ helperService.truncateString(item.label,30) }}</span>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
