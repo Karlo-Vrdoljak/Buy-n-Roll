@@ -14,7 +14,6 @@
   background: linear-gradient(to bottom, #363636bd, #ff000000);
   position: fixed;
   width: 100vw;
-
 }
 .menu-bars {
   color: #fff;
@@ -71,7 +70,6 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position-x: right;
-  margin: 0 0.5em;
   cursor: pointer;
   user-select: none;
   transition: 0.25s all ease-in-out;
@@ -83,7 +81,7 @@
 .oswald {
   font-family: "Oswald", sans-serif;
   color: $silver;
-  flex: 0 0 9em;
+  flex: 0 0 7.5em;
   font-size: 1.3em;
 }
 .oswald:hover {
@@ -111,9 +109,12 @@
   background-size: cover;
   background-position: center;
   border-radius: 50%;
-
 }
-
+@media only screen and (min-width: 600px) {
+  .navLinkItem {
+    min-width: 8rem;
+  }
+}
 @media only screen and (max-width: 700px) {
   .hideSmall {
     display: none;

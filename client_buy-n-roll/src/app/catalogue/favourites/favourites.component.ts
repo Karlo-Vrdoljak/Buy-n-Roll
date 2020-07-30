@@ -69,8 +69,8 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
     this.users = this.route.snapshot.data.pageData[0] || null;
     this.path = this.route.snapshot.data.pageData[1] || '';
     this.translations = this.route.snapshot.data.pageData[2] || {};
-    this.oglasi = this.route.snapshot.data.pageData[3].oglasi || null;
-    this.usersProfileUsername = this.route.snapshot.data.pageData[3].username || null;
+    this.oglasi = this.route.snapshot.data.pageData[3]?.oglasi || null;
+    this.usersProfileUsername = this.route.snapshot.data.pageData[3]?.username || null;
 
     this.setupBreadCrumbs();
 
@@ -85,12 +85,14 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
     }
     this.routerSub = this.router.events.subscribe(async event => {
       if (event instanceof NavigationEnd) {
-        this.users = this.route.snapshot.data.pageData[0] || [];
+        this.users = this.route.snapshot.data.pageData[0] || null;
         this.path = this.route.snapshot.data.pageData[1] || '';
         this.translations = this.route.snapshot.data.pageData[2] || {};
-        this.oglasi = this.route.snapshot.data.pageData[3].oglasi || null;
-        this.usersProfileUsername = this.route.snapshot.data.pageData[3].username || null;
+        this.oglasi = this.route.snapshot.data.pageData[3]?.oglasi || null;
+        this.usersProfileUsername = this.route.snapshot.data.pageData[3]?.username || null;
         this.setupBreadCrumbs();
+        this.setupSortOptions();
+
       }
     });
   }
@@ -133,8 +135,8 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
 
   setupSortOptions() {
     this.sortOptions = [
-      { label: 'SORT_NEW_FIRST', value:  this.oglasi == null? "!createdAt" : "!oglasCreatedAt" },
-      { label: 'SORT_OLD_FIRST', value: this.oglasi == null?  "createdAt" :  "oglasCreatedAt" },
+      { label: 'SORT_NEW_FIRST', value:  this.oglasi == null? "!createdAt" : "!favouritedAt" },
+      { label: 'SORT_OLD_FIRST', value: this.oglasi == null?  "createdAt" :  "favouritedAt" },
     ];
     this.selectedSortOption = this.sortOptions[0];
     this.onSortChange({value: this.selectedSortOption}, false);

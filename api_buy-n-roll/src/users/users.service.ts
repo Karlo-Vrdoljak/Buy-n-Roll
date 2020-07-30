@@ -330,6 +330,7 @@ export class UsersService implements OnModuleInit{
             .andWhere('f.oglasPkOglas = :pkOglas', {pkOglas: o.PkOglas}).getRawOne();
           if(userFavourite) {
             o['alreadyFavourited'] = true;
+            o['favouritedAt'] = userFavourite.f_createdAt;
           } else {
             o['alreadyFavourited'] = false;
           }
