@@ -267,11 +267,9 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   }
   rerouteMojiOglasi() {
-    this.router.navigate(['oglasi'], {queryParams: {username: this.config.user.username}});
+    this.router.navigate(['/oglasi/', {username: this.config.user.username}]);
   }
   rerouteFavourites() {
-    console.log(this.config.user);
-    
     this.router.navigate(['/catalogues/favourites/ads/', this.config.user.sub]);
     
   }

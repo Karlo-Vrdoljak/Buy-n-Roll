@@ -353,14 +353,20 @@ export class UserController {
   }
 
   @Get('/oglasi/username/:query')
-  async getOglasiByUsername(@Param() params, @Res() res: Response) {
+  async getOglasiByUsername(@Param() params, @Request() request, @Res() res: Response) {
     let user = await this.userService.findUserByUsernameFollowRelations(params.query);
     if(!user) {
       res.status(HttpStatus.EXPECTATION_FAILED).send();
     } else { 
       let oglasi = await this.oglasService.findOglasiByUsername(user.username);
       if(oglasi) {
-        oglasi =  await this.userService.checkFavourite(oglasi, user.userId);
+        if(request.headers?.authorization?.split('Bearer ')) {
+          let token = request.headers.authorization.split('Bearer ')[1];
+          let user = this.auth.decodeToken(token);
+          oglasi =  await this.userService.checkFavourite(oglasi, user.sub);
+        } else {
+          oglasi =  await this.userService.checkFavourite(oglasi, null);
+        }
       }
       res.status(HttpStatus.OK).send(oglasi);
     }

@@ -40,6 +40,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, resolve: { pageData: ProfileResolver, initial: AppResolver}, /*canActivate: [AuthGuardGuard]*/ },
   { path: 'profile/:query', component: ProfileComponent, resolve: { pageData: ProfileResolver, initial: AppResolver}, /*canActivate: [AuthGuardGuard]*/ },
   { path: 'oglasi', component: OglasUserComponent, resolve: { pageData: OglasUserResolver, initial: AppResolver }, /*canActivate: [AuthGuardGuard]*/ },
+  { path: 'oglasi/:query', component: OglasUserComponent, resolve: { pageData: OglasUserResolver, initial: AppResolver }, /*canActivate: [AuthGuardGuard]*/ },
   { path: 'catalogues/item/edit/', component: OglasEditComponent, resolve: { pageData: OglasEditResolver }, canActivate: [AuthGuardGuard] },
   { path: 'catalogues/item/edit/:query', component: OglasEditComponent, resolve: { pageData: OglasEditResolver }, canActivate: [AuthGuardGuard] },
   { path: 'catalogues/oglas/new', component: OglasNewComponent, resolve: { pageData: OglasNewResolver} , canActivate: [AuthGuardGuard] },

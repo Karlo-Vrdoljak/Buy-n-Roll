@@ -107,12 +107,21 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
     }
     this.routerSub = this.router.events.subscribe(async event => {
       if (event instanceof NavigationEnd) {
+        
         this.profileData = this.route.snapshot.data.pageData[0] || [];
-        this.setupBreadCrumbs();
         this.path = this.route.snapshot.data.pageData[1] || '';
         this.translations = this.route.snapshot.data.pageData[2] || {}; 
         this.oglasi = this.route.snapshot.data.pageData[3] || []; 
         this.currencyList = this.route.snapshot.data.pageData[4] || [];
+        this.catalog.value = this.oglasi;
+        this.catalog._value = this.oglasi;
+    
+        this.setupBreadCrumbs();
+        this.setupLangObservable();
+        this.updateOrientationState();
+    
+        this.setupSortOptions();
+    
         await this.calculateExchangeRateForSort();
 
       }

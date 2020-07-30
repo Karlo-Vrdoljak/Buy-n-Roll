@@ -31,18 +31,17 @@ export class OglasUserResolver implements Resolve<unknown>{
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
 
-    if(!route.queryParams?.username) {
+    if(!route.params?.username) {
       const state: RouterState = this.router.routerState;
       this.errorHandler.handleRouterState(state,true);
       return;
     }
-    
     let prevRoute = this.helperService.getLastNavigation();
     return forkJoin (
-      this.userService.findUserByUsername(route.queryParams.username),
+      this.userService.findUserByUsername(route.params.username),
       of(prevRoute),
       this.translate.get(this.translationProvider.getRegistration()),
-      this.oglasService.findOglasiByUsername(route.queryParams.username),
+      this.oglasService.findOglasiByUsername(route.params.username),
       this.http.get('assets/json/currency.json'),
     ).pipe(
       catchError(error => {

@@ -73,6 +73,7 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
     this.usersProfileUsername = this.route.snapshot.data.pageData[3]?.username || null;
 
     this.setupBreadCrumbs();
+    this.updateOrientationState();
 
     this.setupRouterSub();
     this.setupSortOptions();
@@ -92,6 +93,7 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
         this.usersProfileUsername = this.route.snapshot.data.pageData[3]?.username || null;
         this.setupBreadCrumbs();
         this.setupSortOptions();
+        this.updateOrientationState();
 
       }
     });

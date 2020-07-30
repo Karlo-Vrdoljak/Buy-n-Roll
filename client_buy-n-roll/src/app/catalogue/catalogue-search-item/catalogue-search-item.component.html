@@ -70,7 +70,7 @@
         </div>
       </div>
     </div>
-    <app-catalogue-action-icons (onRemoveOglasFavourite)="handleRemovedFavourite($event)" #actionIcons [alreadyFav]="searchItem.alreadyFavourited" [username]="oglasUsername || searchItem.vehicle.user.username" [ignoreRating]="ignoreRating" [ignoreContact]="hideContact" [editLink]="showEdit" [PkOglas]="searchItem.PkOglas" [rating]="searchItem.rating"></app-catalogue-action-icons>
+    <app-catalogue-action-icons (onRemoveOglasFavourite)="handleRemovedFavourite($event)" #actionIcons [alreadyFav]="searchItem.alreadyFavourited" [username]="oglasUsername || searchItem.vehicle.user.username" [phone]="searchItem.vehicle.user.phone" [email]="searchItem.vehicle.user.email" [ignoreRating]="ignoreRating" [ignoreContact]="hideContact" [editLink]="showEdit" [PkOglas]="searchItem.PkOglas" [rating]="searchItem.rating"></app-catalogue-action-icons>
   </div>
 </ng-template>
 

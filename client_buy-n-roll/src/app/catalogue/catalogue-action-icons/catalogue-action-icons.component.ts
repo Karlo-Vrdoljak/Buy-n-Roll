@@ -45,8 +45,6 @@ export class CatalogueActionIconsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loginSub = this.helperService.currentLogin.subscribe(data => {
-      console.log('aloe favs');
-      
       this.alreadyFav = this.config.user?.username? this.alreadyFav : undefined;
     });
 
