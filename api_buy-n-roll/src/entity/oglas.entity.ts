@@ -6,6 +6,7 @@ import { UserVehicle } from './userVehicle.entity';
 import { PaymentMethod } from 'src/types/enums';
 import { Location } from './location.entity';
 import { Favourites } from './favourites.entity';
+import { Comments } from './comments.entity';
 
 
 @Entity()
@@ -74,4 +75,7 @@ export class Oglas {
 
   @OneToMany(type => Favourites, favourites => favourites.oglas)
   favourites: Favourites[];
+
+  @OneToMany(type => Comments, comments => comments.oglas)
+  comments: Comments[];
 } 

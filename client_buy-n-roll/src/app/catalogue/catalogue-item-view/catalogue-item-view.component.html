@@ -4,7 +4,7 @@
 
 <div class="p-grid p-nogutter overflow-hidden mb-4">
   <div class="p-col">
-    <div class="flex justify-center items-center " [ngsReveal]="{reset: true, origin: 'right'  }">
+    <div class="flex justify-center items-center">
       <div class="max-w-full lg:w-full sm:mx-8 md:mx-24 lg:mx-48 xl:64 mx-2 rounded overflow-hidden border border-gray-300  shadow-md relative z-0">
         <div class="bg-gray-100 z-10 relative">
           <div class="bg-gray-100 px-4 py-4 relative">
@@ -121,7 +121,7 @@
                     </div>
                     <div class="p-col-12 p-sm-12 p-md-12 p-xl-6">
                       <div class="flex flex-row flex-wrap justify-between lg:justify-start">
-                        
+
                         <div class="pr-2">
                           <ng-container [ngTemplateOutlet]="pills" [ngTemplateOutletContext]="{ icon:'fas fa-toolbox pr-2 text-indigo-800', delay: '200', title:'MANUFACTURER', item: oglas.vehicle.chassis.model.series.manufacturer.manufacturerName, bg: 'bg-gray-300', text: 'text-gray-700' }"></ng-container>
                         </div>
@@ -137,9 +137,24 @@
                 </div>
               </div>
             </div>
+            <div class="p-col-12" [ngsReveal]="{reset: true, origin: 'right', delay: 180 }">
+              <div class="px-4">
+                <mat-divider class="mb-2"></mat-divider>
+              </div>
+            </div>
+            <div class="p-col-12">
+              <div class="px-4 pb-4 pt-2">
+                <div class="flex flex-row">
+                  <div class="font-oswald font-semibold text-gray-800 text-xl pb-2">{{ 'COMMENTS' | translate | uppercase}}</div>
+                </div>
+                <div class="flex flex-col relative">
+                  <ng-container *ngTemplateOutlet="comments"></ng-container>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <app-catalogue-action-icons #actionIcons [phone]="profileData.phone" [email]="profileData.email" [alreadyFav]="oglas.alreadyFavourited"  [username]="profileData.username" [ignoreContact]="hideContact" [editLink]="showEdit" [external]="false" [PkOglas]="oglas.PkOglas" [rating]="oglas.rating" [allFavs]="true" [msgShade]="600" [offset]="1"></app-catalogue-action-icons>
+        <app-catalogue-action-icons #actionIcons [phone]="profileData.phone" [email]="profileData.email" [alreadyFav]="oglas.alreadyFavourited" [username]="profileData.username" [ignoreContact]="hideContact" [editLink]="showEdit" [external]="false" [PkOglas]="oglas.PkOglas" [rating]="oglas.rating" [allFavs]="true" [msgShade]="600" [offset]="1"></app-catalogue-action-icons>
       </div>
     </div>
   </div>
@@ -185,3 +200,68 @@
   </div>
 
 </ng-template>
+
+
+
+<ng-template #comments>
+  <ul class="flex flex-col w-full border-t border-l border-r shadow-sm border-gray-300 bg-gray-200">
+    <ng-template #recursiveList let-list>
+      <li *ngFor="let item of list" [ngClass]="{'border-l-4 bg-gray-200 rounded-sm border-yellow-300': !item.root, 'border-b-2 bg-gray-200 border-gray-300': item.root }" class="py-4 px-0 lg:px-2 w-full flex flex-col relative">
+        <div class="flex flex-row relative items-center content-center font-mw text-gray-700 bg-gray-100 p-2 border-l-4 border-yellow-300 shadow-sm rounded-r-sm">
+          <div style="min-width: 3.25rem;" *ngIf="item.comment != 'deleted.'"><a [routerLink]="[ '/profile', {username: item.user.username} ]"><img class="rounded-full cursor-pointer shadow-md h-12 w-12 mr-2" [src]="item.user.photo.PkPhoto != -1? (config.STATIC_FILES + item.user.username + '/' + item.user.photo.filename) : item.user.photo.filename"></a></div>
+          <div class="pt-2" [ngClass]="{'select-none font-semibold text-gray-500 font-oswald': item.comment == 'deleted.'}">
+            <span *ngIf="item.comment == 'deleted.'">{{item.comment | uppercase}}</span>
+            <span *ngIf="item.comment != 'deleted.'">{{item.comment}}</span>
+          </div>
+          <div class=" cursor-pointer font-oswald absolute top-0 text-sm text-gray-600 ml-12" *ngIf="item.comment != 'deleted.'"><a class="buynroll_lightGray hoverYlw" [routerLink]="[ '/profile', {username: item.user.username} ]">{{ item.user.lastName }}&nbsp;{{ item.user.firstName }}&nbsp;&bull;&nbsp;{{ helperService.date(item.createdAt) }}</a></div>
+        </div>
+        <div class="flex flex-row items-center content-center absolute top-0 right-0">
+          <a *ngIf="config.user && item.comment != 'deleted.'" mat-icon-button color="accent" class="mx-1 mt-2 focus:outline-none" (click)="op.toggle($event); setCommentTarget(item)">
+            <i class="fas text-2xl text-yellow-400 fa-reply rounded-md"></i>
+          </a>
+          <a *ngIf="item.hideChild && item.children.length > 0" mat-icon-button color="accent" class="mx-1 mt-2 focus:outline-none" (click)="item.hideChild = false">
+            <i class="fas text-2xl text-blue-300 fa-level-down-alt rounded-md"></i>
+          </a>
+          <a *ngIf="config.user && ( profileData.username == config.user.username || item.user.username == config.user.username) && (item.comment != 'deleted.')" mat-icon-button color="accent" class="mx-1 mt-2 focus:outline-none" (click)="deleteNode(item)">
+            <i class="fas text-2xl text-red-800 fa-trash rounded-md"></i>
+          </a>
+        </div>
+        <ul *ngIf="item.children.length > 0 && !item.hideChild" [@fadeInUpOnEnter] [@fadeOutDownOnLeave]>
+          <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: item.children }"></ng-container>
+        </ul>
+      </li>
+    </ng-template>
+    <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: oglas.commentTree }"></ng-container>
+  </ul>
+  <div class="flex flex-col w-full border-b border-r shadow-sm border-gray-300 bg-gray-200">
+    <div (click)="toastNoLogin()" class="flex flex-col flex-no-wrap relative">
+      <div>
+        <input [disabled]="!config.user" type="text" maxlength="250" [(ngModel)]="rootKomentar" (keyup.enter)="postComment(true)" [placeholder]="('COMMENT' | translate) + ' on ' + oglas.oglasNaziv" style="background: #fefefe;" class="font-mw border-l-4 rounded-sm border-yellow-300 py-4 px-4 w-full flex flex-col relative commentFlatInput" />
+      </div>
+      <div class="absolute right-0" style="top: 0.4rem;">
+        <button [disabled]="!rootKomentar.length" (click)="postComment(true)" mat-icon-button color="accent" class="w-64 transition-colors duration-150 ease-in">
+          <i class="fas fa-feather-alt pr-2 text-yellow-800 text-3xl"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <ngx-ui-loader [loaderId]="'comment_loader'"></ngx-ui-loader>
+</ng-template>
+
+
+<p-overlayPanel #op [dismissable]="true" (onHide)="clearComment()" [showCloseIcon]="true">
+  <div class="flex flex-col w-screen md:w-64">
+    <mat-form-field class="font-mw text-base px-2 w-full">
+      <mat-label class="font-oswald text-xl">{{ 'COMMENT' | translate | uppercase }}</mat-label>
+      <textarea [(ngModel)]="komentar" matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" [maxlength]="250" [placeholder]="'COMMENT' | translate" class="overflow-hidden"></textarea>
+    </mat-form-field>
+    <button [disabled]="!komentar.length" (click)="postComment()" mat-raised-button color="accent" class="w-64 transition-colors duration-150 ease-in">
+      <div class="flex items-center align-middle justify-center">
+        <i class="fas fa-feather-alt pr-2 text-yellow-800 text-xl"></i>
+        {{ 'SEND_COMMENT' | translate | uppercase}}
+      </div>
+    </button>
+  </div>
+</p-overlayPanel>
+
+<app-confirm-dialog #cd (onConfirm)="confirmationResolve($event)"></app-confirm-dialog>

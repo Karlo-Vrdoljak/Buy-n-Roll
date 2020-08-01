@@ -7,6 +7,8 @@ import { HttpStatus } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { ModuleRef } from '@nestjs/core';
 import { Favourites } from 'src/entity/favourites.entity';
+import { Comments } from 'src/entity/comments.entity';
+import { User } from 'src/entity/user.entity';
 
 
 @Controller('api/vehicle/search/')

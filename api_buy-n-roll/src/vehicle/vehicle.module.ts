@@ -16,6 +16,7 @@ import { DBAccess } from 'src/types/db.access';
 import { OglasModule } from 'src/users/oglas/oglas.module';
 import { Config } from 'src/config';
 import { FavouritesModule } from 'src/users/oglas/favourites/favourites.module';
+import { CommentsModule } from 'src/users/oglas/comments/comments.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { FavouritesModule } from 'src/users/oglas/favourites/favourites.module';
     TransmissionModule,
     HttpModule,
     OglasModule,
-    FavouritesModule
+    FavouritesModule,
+    CommentsModule
   ],
   exports: [
     BodyModule,
@@ -46,7 +48,8 @@ import { FavouritesModule } from 'src/users/oglas/favourites/favourites.module';
     DbLogs,
     VehicleService,
     OglasModule,
-    FavouritesModule
+    FavouritesModule,
+    CommentsModule
   ],
   controllers: [SearchController],
   providers: [

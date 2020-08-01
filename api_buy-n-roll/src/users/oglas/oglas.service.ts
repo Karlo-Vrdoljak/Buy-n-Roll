@@ -6,7 +6,14 @@ import { Oglas } from 'src/entity/oglas.entity';
 import { PhotoDescriptions } from 'src/types/enums';
 import { Location } from 'src/entity/location.entity';
 import { Favourites } from 'src/entity/favourites.entity';
+import { Comments } from 'src/entity/comments.entity';
+import { User } from 'src/entity/user.entity';
+import { Photo } from 'src/entity/photo.entity';
 
+import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import {readFile, readFileSync} from 'fs';
+import * as fontkit from '@pdf-lib/fontkit';
+import path = require('path');
 
 
 @Injectable()
@@ -119,12 +126,93 @@ export class OglasService implements OnModuleInit {
       let rating = await this.getConnection().createQueryBuilder(Favourites, 'f')
         .where('f.oglasPkOglas = :pk', {pk: oglas.PkOglas})
         .getCount();
-      console.log(rating);
       
       oglas.rating = rating ?? 0; 
       return oglas;
     } else {
       return null;
     }
+  }
+  async findOglasComments(pkOglas) {
+    let roots = await this.getConnection().getRepository(Comments).createQueryBuilder('c')
+    .where('c.oglasPkOglas = :pk and c.parentId is null', {pk: pkOglas})
+    .getMany();
+    let comments = await Promise.all(roots.map(async root => {
+      let tree = await this.getConnection().getTreeRepository(Comments).findDescendantsTree(root);
+      tree = await this.traverse(tree);
+      return tree;
+    }));
+    return comments;
+  }
+
+  async traverse(current:Comments) {
+    //process current node here
+    current.user = await this.getConnection().createQueryBuilder(User, 'u')
+    .leftJoinAndSelect('u.photo','p')
+    .where('u.userId = :pk', {pk: current.userId}).getOne();
+    if(!current.user.photo?.filename) {
+      current.user.photo = {
+        PkPhoto: -1,
+        filename: "assets/images/misc/noProfile.png"
+      } as Photo;
+    }
+    //visit children of current
+    for (var i in current.children) {
+        await this.traverse(current.children[i]);
+    }
+    return current;
+  }
+
+  toTitleCase(str) {
+    return str.replace(
+        /\w\S*/g, (txt) => {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        }
+    );
+  }
+
+  async generateKupoprodajni(data: any) {
+    let prodavac = await this.getConnection().createQueryBuilder(User,'u').where('u.userId = :pkp', { pkp: data.prodavacId })
+      .leftJoinAndSelect('u.location', 'l')
+      .getOne();
+    let kupac = await this.getConnection().createQueryBuilder(User,'u').where('u.userId = :pkk', { pkk: data.kupacId })
+      .leftJoinAndSelect('u.location', 'l')
+      .getOne();
+    let oglas = await this.findOglasByPk(data.PkOglas);
+    let original = readFileSync(path.join(__dirname , '/../../assets/static/ugovor.pdf'));
+
+    const pdfDoc = await PDFDocument.load(original);
+    pdfDoc.registerFontkit(fontkit);
+    console.log(path.join(__dirname , '/../../assets/static/mw.ttf'));
+    
+    const helveticaFont = await pdfDoc.embedFont(readFileSync(path.join(__dirname , '/../../assets/static/mw.ttf')));
+
+    // const supportedCharacters = helveticaFont
+    // .getCharacterSet()
+    // .map((codePoint) => String.fromCodePoint(codePoint))
+    // .join('');
+    // console.log(`Characters supported by font: ${supportedCharacters}\n`);
+
+    const pages = pdfDoc.getPages();
+    const firstPage = pages[0];
+    
+    const addText = (text:string, x:number, y:number, size = 12) => {
+      firstPage.drawText(text || '', {x, y, size, font: helveticaFont});
+    }
+
+    addText(`${prodavac.firstName} ${prodavac.lastName}` , 40, 800);
+    addText(prodavac.location?.display_name , 40, 770, 10);
+    addText(`${kupac.firstName} ${kupac.lastName}`, 40, 713);
+    addText(kupac.location?.display_name, 40, 683, 10);
+    addText('Osobno vozilo', 260, 565);
+    addText(this.toTitleCase(oglas.vehicle.chassis.model.series.manufacturer.manufacturerName), 442, 565);
+    addText(oglas.vehicle.chassis.color.color, 442, 542, 9);
+    addText(oglas.vehicle.chassis.model.modelName, 258, 542, 9);
+    addText(oglas.vehicle.chassis.model.series.seriesName, 94, 542, 9);
+    addText(oglas.vehicle.chassis.VIN, 94, 515);
+    addText(this.toTitleCase(oglas.vehicle.chassis.body.bodyName), 442, 515);
+    addText(oglas.vehicle.chassis.makeYear, 316, 493);
+
+    return await pdfDoc.save()
   }
 }

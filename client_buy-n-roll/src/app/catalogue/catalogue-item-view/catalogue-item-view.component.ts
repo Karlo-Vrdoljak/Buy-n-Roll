@@ -11,7 +11,13 @@ import { Photo } from 'src/app/_types/oglas.interface';
 import { UserService } from 'src/app/_services/user.service';
 import { Config } from 'src/environments/config';
 import { CatalogueActionIconsComponent } from '../catalogue-action-icons/catalogue-action-icons.component';
-import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angular-animations';
+import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation, fadeInUpOnEnterAnimation, fadeOutDownOnLeaveAnimation } from 'angular-animations';
+import { ToastrService } from 'ngx-toastr';
+import * as rfdc from 'rfdc';
+import { OglasService } from 'src/app/_services/oglas.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { OverlayPanel } from 'primeng/overlaypanel';
+import { ConfirmDialogComponent } from 'src/app/props/confirm-dialog/confirm-dialog.component';
 @Component({
   selector: 'app-catalogue-item-view',
   templateUrl: './catalogue-item-view.component.html',
@@ -19,6 +25,9 @@ import { fadeInRightOnEnterAnimation, fadeOutLeftOnLeaveAnimation } from 'angula
   animations: [
     fadeInRightOnEnterAnimation(),
     fadeOutLeftOnLeaveAnimation(),
+    fadeInUpOnEnterAnimation(),
+    fadeOutDownOnLeaveAnimation(),
+
   ]
 })
 export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
@@ -37,7 +46,15 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
   loginSub: Subscription;
   numSlides:number = 5;
   swiperGalleryConfig:any;
+
+  komentar:string = '';
+  rootKomentar:string = '';
+  komentarNode = null;
+
+  @ViewChild('cd') confirm: ConfirmDialogComponent;
+  @ViewChild('op') commentPanel: OverlayPanel;
   @ViewChild('actionIcons') actionIcons: CatalogueActionIconsComponent;
+  markNodeDelete: any;
   constructor(
     private breadcrumbService: BreadcrumbService,
     private route: ActivatedRoute,
@@ -46,7 +63,10 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
     private translate:TranslateService,
     public revealService:NgsRevealService,
     private userService:UserService,
-    private config:Config
+    private oglasService: OglasService,
+    public config:Config,
+    public toast: ToastrService,
+    private loader:NgxUiLoaderService
 
   ) { }
   ngAfterViewInit(): void {
@@ -84,6 +104,7 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
     this.swiperGalleryConfig = this.initSwiper();
 
     this.oglas.photos = this.initOglasImages(this.oglas.photos);
+
 
   }
 
@@ -165,6 +186,12 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
     this.price = Number(this.oglas.priceMainCurrency + '.' +  this.oglas.priceSubCurrency);
     
     this.delay = [80, 130, 210, 340, 550, 890];
+
+    for (let index = 0; index < this.oglas.commentTree.length; index++) {
+      this.oglas.commentTree[index].root = true;
+      this.oglas.commentTree[index].hideChild = true;
+    }
+
   }
 
   initSwiper() {
@@ -186,6 +213,109 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
       updateOnWindowResize: true,
       initialSlide: 0
     };
+  }
+
+  toastNoLogin() {
+    if(!this.config.user) {
+      this.toast.info(this.translate.instant('LOGIN_BEFORE_COMMENT'));
+    }
+  }
+  clearComment() {
+    this.komentar = '';
+    this.komentarNode = null;
+  }
+
+  setCommentTarget(node) {
+    this.komentarNode = node;
+    console.log(this.komentarNode);
+    
+  }
+  postComment(rootComment = false) {
+    let nodeId = null;
+    let params = null;
+    if(rootComment == false) {
+      if(!this.komentar.length) {
+        return;
+      }
+      nodeId = this.komentarNode.id;
+      params = {
+        komentar: this.komentar,
+        nodeId: this.komentarNode.id,
+        pkOglas: this.oglas.PkOglas,
+        userId: this.config.user.sub,
+      }
+    } else {
+      if(!this.rootKomentar.length) {
+        return;
+      }
+      params = {
+        komentar: this.rootKomentar,
+        nodeId: null,
+        pkOglas: this.oglas.PkOglas,
+        userId: this.config.user.sub,
+      }
+    }
+
+    this.commentPanel.hide();
+
+    this.loader.startLoader('comment_loader');
+    this.oglasService.postComment(params).subscribe((tree:any) => {
+
+      this.setupCommentTree(tree,nodeId);
+      this.rootKomentar = '';
+      this.komentar = '';
+      this.loader.stopLoader('comment_loader');
+      
+    }, err => {
+      this.loader.stopLoader('comment_loader');
+    });
+  }
+
+  setupCommentTree(tree, nodeId = null) {
+    this.oglas.commentTree = tree;
+    for (let index = 0; index < this.oglas.commentTree.length; index++) {
+      this.oglas.commentTree[index].root = true;
+      this.oglas.commentTree[index].hideChild = true;
+    }
+    if(nodeId) {
+      this.oglas.commentTree[this.traverse(this.oglas.commentTree, nodeId)].hideChild = false;
+    }
+  }
+
+  confirmationResolve(choice = false) {
+    if(choice == true) {
+      let params = {
+        pkOglas: this.oglas.PkOglas,
+        nodeId: this.markNodeDelete.id,
+
+      }
+      this.loader.startLoader('comment_loader');
+
+      this.oglasService.softDeleteComment(params).subscribe((tree:any) => {
+        this.setupCommentTree(tree,params.nodeId);
+        this.markNodeDelete = null;
+        this.loader.stopLoader('comment_loader');
+      });
+      this.loader.stopLoader('comment_loader');
+      this.markNodeDelete = null;
+      
+    } else {
+      this.markNodeDelete = null;
+    }
+  }
+
+  deleteNode(node) {
+    this.markNodeDelete = node;
+    this.confirm.open();
+
+  }
+
+  traverse(tree:any[],targetNodeId) {
+    return tree.findIndex(item => this.traverseChildren(item, targetNodeId));
+  }
+
+  traverseChildren(current: any, targetNodeId: number) {
+    return current.id === targetNodeId? true : current.children.some(item => this.traverseChildren(item, targetNodeId));
   }
 
 }

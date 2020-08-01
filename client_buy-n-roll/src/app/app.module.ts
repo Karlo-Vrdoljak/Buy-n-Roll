@@ -106,6 +106,7 @@ import { UserCardComponent } from './props/user-card/user-card.component';
 import { FavouritesAdsResolver } from './_resolvers/favourites.ads.resolver';
 import { AdvancedSearchComponent } from './props/advanced-search/advanced-search.component';
 import {SliderModule} from 'primeng/slider';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -230,7 +231,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     }),
     GallerizeModule,
     ConfirmDialogModule,
-    SliderModule
+    SliderModule,
+    OverlayPanelModule
   ],
   providers: [
     TestService,

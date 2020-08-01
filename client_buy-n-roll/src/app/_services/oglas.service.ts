@@ -65,4 +65,22 @@ export class OglasService {
       catchError(this.errorHandler.handleError)
     ).toPromise();
   }
+  postComment(params) {
+    return this.http.post(this.config.API_URL_ROOT + 'api/oglas/add/comment/', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
+  generatePdf(params) {
+    return this.http.post(this.config.API_URL_ROOT + 'api/kupoprodajni/', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
+  softDeleteComment(params) {
+    return this.http.post(this.config.API_URL_ROOT + 'api/oglas/delete/comment', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
 }

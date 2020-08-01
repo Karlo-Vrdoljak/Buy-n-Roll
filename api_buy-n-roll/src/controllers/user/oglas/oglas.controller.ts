@@ -19,15 +19,18 @@ import { Like } from 'typeorm';
 import { User } from 'src/entity/user.entity';
 import { ModuleRef } from '@nestjs/core';
 import { AuthService } from 'src/auth/auth.service';
+import { Comments } from 'src/entity/comments.entity';
+import { Photo } from 'src/entity/photo.entity';
+import { Duplex } from 'stream';
 
-@Controller('api/oglas/')
+@Controller('api/')
 export class OglasController {
   constructor(private oglasService:OglasService, private moduleRef:ModuleRef) { }
   auth: AuthService;
   onModuleInit() {
     this.auth = this.moduleRef.get(AuthService, {strict:false});
   }
-  @Get(':query')
+  @Get('oglas/:query')
   async getOglasiBySearchString(@Param() params, @Request() req, @Res() res: Response) {
     let oglas = await this.oglasService.findOglasByPk(params.query);
     if(oglas) {
@@ -39,15 +42,57 @@ export class OglasController {
         oglas = await this.oglasService.checkFavourite(oglas, null);
       }
 
+      let comments = await this.oglasService.findOglasComments(params.query);
+      oglas['commentTree'] = comments;
       res.status(HttpStatus.OK).send(oglas);
     } else {
       res.status(HttpStatus.FAILED_DEPENDENCY).send();
     }
   }
 
+
   @UseGuards(JwtAuthGuard,RolesGuard)
   @Roles('user')
-  @Post('insert')
+  @Post('oglas/add/comment')
+  async addComment(@Request() req, @Res() res: Response) {
+    let targetNode = req.body.nodeId ? await this.oglasService.getConnection().getRepository(Comments).createQueryBuilder('c')
+    .where('c.id = :pk', {pk: req.body.nodeId})
+    .getOne() : null;
+
+      let node = new Comments();
+    node.comment = req.body.komentar;
+    node.parent = targetNode;
+    node.oglas = await this.oglasService.findOglasByPk(req.body.pkOglas);
+    node.user = await this.oglasService.getConnection().createQueryBuilder(User, 'u')
+      .where('u.userId = :pk', {pk: req.body.userId}).getOne();
+    node.userId = req.body.userId;
+    await this.oglasService.getConnection().getRepository(Comments).save(node);
+    
+    let comments = await this.oglasService.findOglasComments(req.body.pkOglas);
+
+    res.status(HttpStatus.CREATED).send(comments);
+  }
+
+  
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles('user')
+  @Post('oglas/delete/comment')
+  async deleteComment(@Request() req, @Res() res: Response) {
+    let targetNode = await this.oglasService.getConnection().getRepository(Comments).createQueryBuilder('c')
+      .where('c.id = :pk', {pk: req.body.nodeId})
+      .getOne();
+      targetNode.comment = 'deleted.';
+    await this.oglasService.getConnection().getRepository(Comments).save(targetNode);
+    let comments = await this.oglasService.findOglasComments(req.body.pkOglas);
+
+    res.status(HttpStatus.CREATED).send(comments);
+
+  }
+
+
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles('user')
+  @Post('oglas/insert')
   async insertNewOglas(@Request() req, @Res() res: Response) {
     const dbUserVehicle = new UserVehicle();
     
@@ -136,7 +181,7 @@ export class OglasController {
 
   @UseGuards(JwtAuthGuard,RolesGuard)
   @Roles('user')
-  @Post('edit/saveChanges')
+  @Post('oglas/edit/saveChanges')
   async saveChanges(@Request() req, @Res() res: Response) {
     let oglas = await this.oglasService.findOglasByPk(req.body.PkOglas);
     
@@ -214,5 +259,16 @@ export class OglasController {
 
     res.status(HttpStatus.OK).send(chassis);
     
+  }
+
+  @Post('kupoprodajni')
+  async generatePdf(@Request() req, @Res() res: Response) {
+    const doc = await this.oglasService.generateKupoprodajni({PkOglas: req.body.PkOglas, kupacId: req.body.kupacId, prodavacId: req.body.prodavacId});
+    
+    let stream = new Duplex();
+    stream.push(doc);
+    stream.push(null);
+    res.setHeader('Content-Type', 'application/pdf');
+    stream.pipe(res);
   }
 }

@@ -173,7 +173,15 @@
   "MOJI_FAV": "MOJI FAVORITI",
   "USER_FAV": "FAVORITI",
   "FAV_ERR_LOGIN": "Morate biti prijavljeni da biste dodali ovaj oglas među svoje omiljene!",
-  "ADVANCED_SEARCH":"Napredne Pretrage"
+  "ADVANCED_SEARCH":"Napredne Pretrage",
+  "COMMENTS": "Komentari",
+  "COMMENT" : "Komentiraj",
+  "LOGIN_BEFORE_COMMENT": "Morate biti prijavljeni da biste komentirali!",
+  "SEND_COMMENT": "Objavi komentar"
+
+
+
+
 
 
 

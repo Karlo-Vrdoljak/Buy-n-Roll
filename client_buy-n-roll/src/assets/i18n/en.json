@@ -173,6 +173,9 @@
   "MOJI_FAV": "MY FAVOURITES",
   "USER_FAV": "FAVOURITES",
   "FAV_ERR_LOGIN": "You must be logged in to add this ad to your favourites!",
-  "ADVANCED_SEARCH":"Advanced Search"
-
+  "ADVANCED_SEARCH":"Advanced Search",
+  "COMMENTS": "Comments",
+  "COMMENT" : "Comment",
+  "LOGIN_BEFORE_COMMENT": "You need to be signed in to comment!",
+  "SEND_COMMENT": "Post my comment"
 }
