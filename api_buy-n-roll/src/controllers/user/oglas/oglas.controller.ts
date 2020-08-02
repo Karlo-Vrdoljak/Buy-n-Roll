@@ -34,6 +34,8 @@ export class OglasController {
   async getOglasiBySearchString(@Param() params, @Request() req, @Res() res: Response) {
     let oglas = await this.oglasService.findOglasByPk(params.query);
     if(oglas) {
+      oglas.views = oglas.views + 1;
+      await this.oglasService.getRepo().save(oglas);
       if(req.headers?.authorization?.split('Bearer ')) {
         let token = req.headers.authorization.split('Bearer ')[1];
         let user = this.auth.decodeToken(token);

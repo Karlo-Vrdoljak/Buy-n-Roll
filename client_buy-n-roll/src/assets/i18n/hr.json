@@ -194,7 +194,10 @@
   "UGOVOR_PROPS": "Odaberite sljedeće pojmove koji želite biti prisutni u ugovoru o kupnji",
   "FILTER": "Filtriraj",
   "GENERATE_UGOVOR": "Stvori kupoprodajni ugovor",
-  "FNAME_LNAME": "Ime i prezime"
+  "FNAME_LNAME": "Ime i prezime",
+  "OGLAS_STATUS": "STATUS OGLASA",
+  "VIEWS": "PREGLEDI"
+
 
 
 

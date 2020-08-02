@@ -109,6 +109,7 @@ import {SliderModule} from 'primeng/slider';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import { KupoprodajniComponent } from './props/kupoprodajni/kupoprodajni.component';
 import {TableModule} from 'primeng/table';
+import { AdStatusComponent } from './props/ad-status/ad-status.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -156,6 +157,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     UserCardComponent,
     AdvancedSearchComponent,
     KupoprodajniComponent,
+    AdStatusComponent,
   ],
   imports: [
     BrowserModule,

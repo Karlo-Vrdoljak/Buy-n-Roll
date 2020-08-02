@@ -194,5 +194,7 @@
   "UGOVOR_PROPS": "Select the following terms that you want to be present in the purchase contract",
   "FILTER": "Filter",
   "GENERATE_UGOVOR": "Create purchase contract",
-  "FNAME_LNAME": "Name and surname"
+  "FNAME_LNAME": "Name and surname",
+  "OGLAS_STATUS": "AD STATUS",
+  "VIEWS": "VIEWS"
 }

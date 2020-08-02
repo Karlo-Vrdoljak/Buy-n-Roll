@@ -157,8 +157,9 @@
         <app-catalogue-action-icons #actionIcons [phone]="profileData.phone" [email]="profileData.email" [alreadyFav]="oglas.alreadyFavourited" [username]="profileData.username" [ignoreContact]="hideContact" [editLink]="showEdit" [external]="false" [PkOglas]="oglas.PkOglas" [rating]="oglas.rating" [allFavs]="true" [msgShade]="600" [offset]="1"></app-catalogue-action-icons>
 
         <ng-container *ngTemplateOutlet="kupoprodajniButton"></ng-container>
-
-
+        <ng-container *ngTemplateOutlet="deleteOglas"></ng-container>
+        <ng-container *ngTemplateOutlet="views"></ng-container>
+        
       </div>
     </div>
   </div>
@@ -271,7 +272,7 @@
 <app-confirm-dialog #cd (onConfirm)="confirmationResolve($event)"></app-confirm-dialog>
 
 <ng-template #kupoprodajniButton>
-  <div *ngIf="config.user && (config.user.username == oglas.vehicle.user.username)" class="absolute positionKupoprodajni flex items-center justify-end">
+  <div matRipple *ngIf="config.user && (config.user.username == oglas.vehicle.user.username)" class="absolute positionKupoprodajni flex items-center justify-end" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: 300 }">
     <button [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] [title]="'KUPOPRODAJNI_GEN' | translate | titlecase" (click)="enablePdf=true;tryOpenKupoprodajni()" class="mx-1 focus:outline-none text-yellow-500 cursor-pointer navButton">
       <div class="flex flex-row items-center content-center justify-center">
         <div class="hideSm font-oswald text-xl pr-2">
@@ -282,5 +283,32 @@
     </button>
   </div>
 </ng-template>
+
+<ng-template #deleteOglas>
+  <div *ngIf="config.user && (config.user.username == oglas.vehicle.user.username)" class="absolute positionDelete flex items-center justify-end" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: 300 }">
+    <button [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] [title]="'KUPOPRODAJNI_GEN' | translate | titlecase" (click)="enablePdf=true;tryOpenKupoprodajni()" class="mx-1 focus:outline-none text-yellow-500 cursor-pointer navButton">
+      <div class="flex flex-row items-center content-center justify-center">
+        <div class="hideSm font-oswald text-xl pr-2">
+          {{ 'OGLAS_STATUS' | translate | uppercase }}
+        </div>
+        <i class="fas fa-sliders-h text-gray-600 text-3xl pr-0 lg:pr-2"></i>
+      </div>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #views>
+  <div class="absolute positionViews flex items-center justify-end" [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: 300 }">
+    <div class="mx-1 focus:outline-none text-yellow-500">
+      <div class="flex flex-row items-center content-center justify-center">
+        <div class="hideSm font-oswald text-xl pr-8 cursor-pointer">
+          <div>{{helperService.abbreviateNumber(oglas.views)}}</div>
+        </div>
+        <i class="fas fa-eye text-blue-400 text-3xl pr-0 lg:pr-2"></i>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
 
 <app-kupoprodajni *ngIf="enablePdf" #kp [oglas]="oglas"></app-kupoprodajni>

@@ -54,7 +54,7 @@
           </a>
         </div>
       </div>
-      <div class="px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 300 }">
+      <div *ngIf="oglasi || usersProfileUsername" class="px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 300 }">
         <a (click)="navigateProfile()" mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="'PROFILE' | translate">
           <div class="flex items-center align-middle">
             <div class="flex items-center align-middle  mx-auto justify-center">
