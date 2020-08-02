@@ -229,7 +229,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
       }, err => {
         this.usernameInput.control.setErrors({uniqueUsername: 'ERROR'});
-        console.log(this.usernameInput);
         
         this.loader.stopBackgroundLoader('registration_loader');
       });
@@ -260,10 +259,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.locationProp.displayDlgLocations = false;
     
   }
-  logger(data) {
-    console.log(data);
-    
-  }
+  logger(data) { console.log(data) }
 
   openPolicy(key) {
     
@@ -292,7 +288,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       ...this.userModel,
       ...this.location.selectedLocation
     };
-    console.log(params);
     this.userService.registerUserStepOne(params).subscribe(async resOne => {
       this.progressVal = 50;
       if(this.payload && this.FileUploader.files?.length > 0) {

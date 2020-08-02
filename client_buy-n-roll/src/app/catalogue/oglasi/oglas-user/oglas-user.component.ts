@@ -15,6 +15,7 @@ import { TranslationList } from 'src/app/_services/translation.list';
 import { CatalogueSearchItemComponent } from '../../catalogue-search-item/catalogue-search-item.component';
 import { DataView } from 'primeng/dataview';
 import { OglasService } from 'src/app/_services/oglas.service';
+import { OglasStatus } from 'src/app/_types/oglas.interface';
 
 @Component({
   selector: 'app-oglas-user',
@@ -28,6 +29,7 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
   profileData:User;
   translations:any;
   oglasi:any[];
+  displayOglasi:any[];
   routerSub: Subscription;
   translateSub:Subscription;
   sortKey: string;
@@ -38,6 +40,9 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
   sortOptions: { label: string; value: string; }[];
   selectedSortOption: any;
   currencyList: any;
+  deletedOglasi:any[];
+  
+  oglasiNoDeleted: boolean = true;
 
   constructor(
     public config:Config,
@@ -64,13 +69,11 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
 
 
   ngOnInit(): void {
-    console.log(
-      this.route.snapshot.data.pageData
-    );
+
     this.profileData = this.route.snapshot.data.pageData[0] || [];
     this.path = this.route.snapshot.data.pageData[1] || '';
     this.translations = this.route.snapshot.data.pageData[2] || {}; 
-    this.oglasi = this.route.snapshot.data.pageData[3] || []; 
+    this.setupOglasi();
     this.currencyList = this.route.snapshot.data.pageData[4] || [];
 
     this.setupBreadCrumbs();
@@ -80,6 +83,12 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
     this.setupSortOptions();
 
     this.setupUserData();
+  }
+
+  setupOglasi() {
+    this.oglasi = this.route.snapshot.data.pageData[3] || []; 
+    this.displayOglasi = this.oglasi.filter(o => o.status != OglasStatus.IZBRISAN);
+    this.deletedOglasi = this.oglasi.filter(o =>  o.status == OglasStatus.IZBRISAN);
   }
   setupLangObservable() {
     this.translateSub = this.translate.onLangChange.subscribe(event => {
@@ -111,7 +120,7 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
         this.profileData = this.route.snapshot.data.pageData[0] || [];
         this.path = this.route.snapshot.data.pageData[1] || '';
         this.translations = this.route.snapshot.data.pageData[2] || {}; 
-        this.oglasi = this.route.snapshot.data.pageData[3] || []; 
+        this.setupOglasi();
         this.currencyList = this.route.snapshot.data.pageData[4] || [];
         this.catalog.value = this.oglasi;
         this.catalog._value = this.oglasi;
@@ -175,6 +184,22 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
   
   navigateProfile() {
     this.router.navigate(['profile', {username: this.profileData.username}]);
+  }
+
+
+  toggleView() {
+    this.oglasiNoDeleted = this.oglasiNoDeleted == true? false: true;
+    if(!this.catalog?.value) {
+      this.displayOglasi = this.oglasi.filter(o => o.status != OglasStatus.IZBRISAN);
+      return;
+    }
+    if(this.catalog.value.every(item => item.status === OglasStatus.IZBRISAN)) {
+      this.displayOglasi = this.oglasi.filter(o => o.status != OglasStatus.IZBRISAN);
+      return;
+    }
+    if(this.catalog.value.every(item => item.status != OglasStatus.IZBRISAN)) {
+      this.displayOglasi = this.deletedOglasi;
+    }
   }
 
 }

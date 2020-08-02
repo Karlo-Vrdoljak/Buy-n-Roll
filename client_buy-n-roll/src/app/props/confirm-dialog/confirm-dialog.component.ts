@@ -8,20 +8,34 @@ import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 export class ConfirmDialogComponent implements OnInit {
   displayConfirm: boolean = false;
   @Output() onConfirm = new EventEmitter<boolean>();
-
+  @Output() onCustomConfirm = new EventEmitter<boolean>();
+  type: string;
+  message: string;
+  operation: any;
+  value:boolean = false;
   constructor() {}
 
   ngOnInit(): void {}
 
   confirmationResolve(choice = false) {
     if (choice == true) {
-      this.onConfirm.emit(true);
+      this.value = true;
     } else {
-      this.onConfirm.emit(false);
+      this.value = false;
     }
     this.displayConfirm = false;
   }
-  open() {
+  emitValue() {
+    if (this.operation) {
+      this.onCustomConfirm.emit(this.value);
+    } else {
+      this.onConfirm.emit(this.value);
+    }
+  }
+  open(message: string = null, type = "danger", operation = null) {
+    this.type = type;
+    this.message = message;
     this.displayConfirm = true;
+    this.operation = operation;
   }
 }

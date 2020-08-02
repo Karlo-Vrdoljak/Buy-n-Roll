@@ -196,5 +196,14 @@
   "GENERATE_UGOVOR": "Create purchase contract",
   "FNAME_LNAME": "Name and surname",
   "OGLAS_STATUS": "AD STATUS",
-  "VIEWS": "VIEWS"
+  "VIEWS": "VIEWS",
+  "CONFIRM_ACTION": "Confirm your action",
+  "WARNING_NEAKTIVAN": "If you do apply this setting, only YOU will be able to see this ad!",
+  "WARNING_BRISANJE": "If you do apply this setting, this ad will be treated as DELETED, no one will be able to find it! You can still recover it within 30 days in MY ADS section!",
+  "PRESS_SHIFT_STATUS": "Press the button to change your ad's status",
+  "SHOW_DELETED": "DELETED ONLY",
+  "SHOW_STANDARDNO": "STANDARD VIEW",
+  "AKTIVAN": "ACTIVE",
+  "NEAKTIVAN": "INACTIVE",
+  "IZBRISAN": "DELETED"
 }

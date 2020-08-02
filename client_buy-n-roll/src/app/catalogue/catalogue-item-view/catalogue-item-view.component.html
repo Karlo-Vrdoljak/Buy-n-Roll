@@ -157,9 +157,8 @@
         <app-catalogue-action-icons #actionIcons [phone]="profileData.phone" [email]="profileData.email" [alreadyFav]="oglas.alreadyFavourited" [username]="profileData.username" [ignoreContact]="hideContact" [editLink]="showEdit" [external]="false" [PkOglas]="oglas.PkOglas" [rating]="oglas.rating" [allFavs]="true" [msgShade]="600" [offset]="1"></app-catalogue-action-icons>
 
         <ng-container *ngTemplateOutlet="kupoprodajniButton"></ng-container>
-        <ng-container *ngTemplateOutlet="deleteOglas"></ng-container>
+        <ng-container *ngTemplateOutlet="oglasStatus"></ng-container>
         <ng-container *ngTemplateOutlet="views"></ng-container>
-        
       </div>
     </div>
   </div>
@@ -269,11 +268,12 @@
   </div>
 </p-overlayPanel>
 
-<app-confirm-dialog #cd (onConfirm)="confirmationResolve($event)"></app-confirm-dialog>
+
+<app-confirm-dialog #cd (onConfirm)="confirmationResolve($event)" (onCustomConfirm)="confirmStatus($event)"></app-confirm-dialog>
 
 <ng-template #kupoprodajniButton>
   <div matRipple *ngIf="config.user && (config.user.username == oglas.vehicle.user.username)" class="absolute positionKupoprodajni flex items-center justify-end" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: 300 }">
-    <button [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] [title]="'KUPOPRODAJNI_GEN' | translate | titlecase" (click)="enablePdf=true;tryOpenKupoprodajni()" class="mx-1 focus:outline-none text-yellow-500 cursor-pointer navButton">
+    <button  [title]="'KUPOPRODAJNI_GEN' | translate | titlecase" (click)="enablePdf=true;tryOpenKupoprodajni()" class="mx-1 focus:outline-none text-yellow-500 cursor-pointer navButton">
       <div class="flex flex-row items-center content-center justify-center">
         <div class="hideSm font-oswald text-xl pr-2">
           {{ 'KUPOPRODAJNI_GEN' | translate | uppercase }}
@@ -284,21 +284,43 @@
   </div>
 </ng-template>
 
-<ng-template #deleteOglas>
-  <div *ngIf="config.user && (config.user.username == oglas.vehicle.user.username)" class="absolute positionDelete flex items-center justify-end" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: 300 }">
-    <button [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] [title]="'KUPOPRODAJNI_GEN' | translate | titlecase" (click)="enablePdf=true;tryOpenKupoprodajni()" class="mx-1 focus:outline-none text-yellow-500 cursor-pointer navButton">
+<ng-template #oglasStatus>
+  <div matRipple *ngIf="config.user && (config.user.username == oglas.vehicle.user.username)" class="absolute positionDelete flex items-center justify-end" [ngsReveal]="{reset: true, origin: 'top', distance: '60px', delay: 300 }">
+    <button [title]="'OGLAS_STATUS' | translate | titlecase" (click)="statusOverlay.show($event)" class="mx-1 focus:outline-none text-yellow-500 cursor-pointer navButton">
       <div class="flex flex-row items-center content-center justify-center">
         <div class="hideSm font-oswald text-xl pr-2">
           {{ 'OGLAS_STATUS' | translate | uppercase }}
         </div>
-        <i class="fas fa-sliders-h text-gray-600 text-3xl pr-0 lg:pr-2"></i>
+        <i class="fas text-3xl" [ngClass]="{'fa-globe green-icon': initialStatus == 'AKTIVAN', 'fa-lock yellow-icon': initialStatus == 'NEAKTIVAN', 'fa-exclamation-circle red-icon': initialStatus == 'IZBRISAN'}"></i>
       </div>
     </button>
   </div>
 </ng-template>
 
+<p-overlayPanel #statusOverlay [dismissable]="false" [showCloseIcon]="true" (onHide)="resetStatus()">
+  <div class="flex flex-col">
+    <div class="font-mw text-gray-700 border-b-1 border-gray-500">{{ 'PRESS_SHIFT_STATUS' | translate }}</div>
+    <div class="flex flex-row items-center justify-center content-center p-6 relative">
+      <button (click)="shiftStatus()" mat-mini-fab color="accent" class="mx-1 mt-2 focus:outline-none" [ngClass]="{'green': oglas.status == 'AKTIVAN', 'red': oglas.status == 'IZBRISAN', 'yellow': oglas.status == 'NEAKTIVAN'}">
+        <i class="fas text-xl" [ngClass]="{'fa-globe green-icon': oglas.status == 'AKTIVAN', 'fa-lock yellow-icon': oglas.status == 'NEAKTIVAN', 'fa-exclamation-circle red-icon': oglas.status == 'IZBRISAN'}"></i>
+      </button>
+      <div class="font-oswald font-bold text-xl text-green-900 pl-2">{{oglas.status | translate | uppercase}}</div>
+    </div>
+    <div>
+      <button mat-raised-button color="accent" class="w-full" (click)="saveStatus()">
+        <div class="flex items-center align-middle justify-center">
+          <i class="fas fa-save pr-2 text-yellow-800 text-xl"></i>
+          {{ 'SAVE' | translate }}
+        </div>
+      </button>
+    </div>
+  </div>
+  
+</p-overlayPanel>
+
+
 <ng-template #views>
-  <div class="absolute positionViews flex items-center justify-end" [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: 300 }">
+  <div [ngClass]="{'positionViewsOwner': config.user && (config.user.username == oglas.vehicle.user.username), 'positionViews': !config.user || (config.user.username != oglas.vehicle.user.username)}" class="absolute flex items-center justify-end" [ngsReveal]="{reset: true, origin: 'right', distance: '60px', delay: 300 }">
     <div class="mx-1 focus:outline-none text-yellow-500">
       <div class="flex flex-row items-center content-center justify-center">
         <div class="hideSm font-oswald text-xl pr-8 cursor-pointer">

@@ -144,8 +144,6 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
     let prevRoute = this.route.snapshot.data.pageData;
     this.path = this.router.config.map(c => c.path).find(c => prevRoute.includes(c.split('/')[0]))?.split('/')[0];
     this.returnUrl = prevRoute;
-    console.log(this.returnUrl);
-    console.log(this.helperService.getLastNavigation());
     
     
     if(prevRoute != '/' && this.path) {

@@ -1,4 +1,3 @@
-@import "../../../variables.scss";
 @import "../../../assets/scss/light_material_override.scss";
 
 .banner {
@@ -74,11 +73,38 @@
 }
 .positionDelete {
   top: 4.5rem;
-  right: 4.5rem;
+  right: 4.75rem;
   z-index: 1000;
 }
-.positionViews {
+.positionViewsOwner {
   top: 7.5rem;
   right: 0.75rem;
   z-index: 1000;
+}
+
+.positionViews {
+  top: 1.25rem;
+  right: 4.5rem;
+  z-index: 1000;
+}
+
+:host ::ng-deep .mat-mini-fab.mat-accent {
+  &.green {
+    background-color: #38a169;
+  }
+  &.red {
+    background-color: #e53e3e;
+  }
+  &.yellow {
+    background-color: $lightYellow;
+  }
+}
+.green-icon {
+  color: #276749;
+}
+.yellow-icon {
+  color: #975a16;
+}
+.red-icon {
+  color: #9b2c2c;
 }

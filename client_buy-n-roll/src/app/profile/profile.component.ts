@@ -138,7 +138,6 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
   private setupUserData() {
     this.handleOptionalPhoto();
     this.handleOptionalLocation();
-    console.log(this.profileData);
     if (this.routerSubscription$ != null) {
       return;
     }
@@ -146,7 +145,6 @@ export class ProfileComponent extends BaseClass implements OnInit, OnDestroy {
       if (event instanceof NavigationEnd) {
         this.profileData = this.route.snapshot.data.pageData[0] || [];
         this.setupBreadCrumbs();
-        console.log(this.profileData);
         this.path = this.route.snapshot.data.pageData[1] || '';
         this.translations = this.route.snapshot.data.pageData[2] || {}; 
         this.handleOptionalPhoto();

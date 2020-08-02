@@ -113,12 +113,10 @@ export class TopbarComponent implements OnInit, OnDestroy {
   }
   setupLoginObservable() {
     this.loginSub = this.helperService.currentLogin.subscribe(event => {
-      // console.log(this.config.user?.username);
       if(!this.config.user) {
         return;
       }
       this.userService.getUserPhoto(this.config.user?.username).subscribe(data => {
-        // console.log("dispatched",data);
         if(!data?.photo) {
           this.profilePhoto = {
             PkPhoto: -1,
@@ -240,19 +238,12 @@ export class TopbarComponent implements OnInit, OnDestroy {
           ...this.selectedSeries,
           ...this.selectedModel? this.selectedModel: null
         }
-        console.log(params);
         
         this.router.navigate(["catalogues", params], {queryParams: {searchType: searchType}});
 
         this.displaySidebar = false;
       }
     }
-  }
-  infLog() {
-    console.log(this.config.user);
-    setTimeout(() => {
-      this.infLog();
-    }, 3000);
   }
   changeLang(lang:string) {
     this.storage.set("buynroll_lang",lang);
@@ -288,7 +279,6 @@ export class TopbarComponent implements OnInit, OnDestroy {
   onAdvancedSearch(event) {
     this.displayAdvancedSearch = false;
     this.advancedSearchProps = null;
-    console.log(event);
     if(event) {
       this.router.navigate(["catalogues", event], {queryParams: {searchType: searchTypes.advanced}});
       this.displaySidebar = false;

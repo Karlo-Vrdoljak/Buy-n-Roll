@@ -167,7 +167,6 @@ export class VehicleService implements OnModuleInit {
         manufacturerList[manufacturer.manufacturerName],
         'MODEL',
       );
-      // console.log(seriesList);
 
       await this.connection
         .createQueryBuilder()

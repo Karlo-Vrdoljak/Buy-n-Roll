@@ -18,7 +18,7 @@
 }
 
 .popover__trigger:hover .popover__content {
-  z-index: 10;
+  z-index: 1000000000000;
   opacity: 1;
   visibility: visible;
   transform: translate(-24rem, -20px);

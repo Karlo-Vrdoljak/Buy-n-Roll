@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ProtectedRoutes } from '../_types/misc';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { NgModel } from '@angular/forms';
+import { OglasStatus } from '../_types/oglas.interface';
 
 @Injectable({
   providedIn: "root",
@@ -198,5 +199,32 @@ export class HelperService {
     } 
     return items.map(i => i? true : null).every(e => e != null);
   }
+  filterOglas(oglasi:any[]) {
+    return oglasi.filter(o => {
+      if(o.vehicle.user.username == this.config.user?.username) {
+        if(o.status != OglasStatus.IZBRISAN) {
+          return true;
+        }
+      }
+      if(o.status == OglasStatus.AKTIVAN) {
+        return true;
+      }
+      return false;
+    });
+  }
+  filterCatalogOglas(oglasi:any[]) {
+    return oglasi.filter(o => {
+      if(o.username == this.config.user?.username) {
+        if(o.status != OglasStatus.IZBRISAN) {
+          return true;
+        }
+      }
+      if(o.status == OglasStatus.AKTIVAN) {
+        return true;
+      }
+      return false;
+    });
+  }
+
 
 }

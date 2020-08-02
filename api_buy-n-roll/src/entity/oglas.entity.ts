@@ -3,7 +3,7 @@ import { Model } from './model.entity';
 import { User } from './user.entity';
 import { Photo } from './photo.entity';
 import { UserVehicle } from './userVehicle.entity';
-import { PaymentMethod } from 'src/types/enums';
+import { PaymentMethod, OglasStatus } from 'src/types/enums';
 import { Location } from './location.entity';
 import { Favourites } from './favourites.entity';
 import { Comments } from './comments.entity';
@@ -39,6 +39,9 @@ export class Oglas {
 
   @Column({default: 0})
   rating:number;
+
+  @Column({type: "enum",enum: OglasStatus,default: OglasStatus.AKTIVAN })
+  status:OglasStatus;
 
   @Column({default:0})
   views:number;

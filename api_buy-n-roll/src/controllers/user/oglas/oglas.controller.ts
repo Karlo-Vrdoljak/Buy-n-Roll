@@ -282,4 +282,18 @@ export class OglasController {
     res.status(HttpStatus.OK);
     stream.pipe(res);
   }
+
+  
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles('user')
+  @Post('oglas/status/update')
+  async updateOglasStatus(@Request() req, @Res() res: Response) {
+    let oglas = await this.oglasService.getRepo().createQueryBuilder('o')
+    .where('o.PkOglas = :pk', {pk: req.body.PkOglas})
+    .getOne();
+    oglas.status = req.body.status;
+    let ret = await this.oglasService.getRepo().save(oglas);
+
+    res.status(HttpStatus.OK).send({status: ret.status});
+  }
 }

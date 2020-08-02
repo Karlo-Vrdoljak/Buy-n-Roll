@@ -66,3 +66,9 @@ export enum GasTypes {
   ETANOL = 'ETANOL',
   DIZEL = 'DIZEL',
 }
+
+export enum OglasStatus {
+  AKTIVAN = "AKTIVAN",
+  NEAKTIVAN = "NEAKTIVAN",
+  IZBRISAN = "IZBRISAN",
+}

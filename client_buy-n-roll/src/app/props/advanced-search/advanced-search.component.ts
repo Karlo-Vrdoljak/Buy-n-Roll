@@ -55,7 +55,6 @@ export class AdvancedSearchComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.advancedSearchProps);
     this.maxYear = (new Date()).getFullYear();
     this.advancedSearchProps.GasType = this.advancedSearchProps.GasType.map(gt => {
       return {

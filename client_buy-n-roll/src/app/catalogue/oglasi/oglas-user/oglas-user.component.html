@@ -2,7 +2,7 @@
 <div *ngIf="displayAccessories" class="banner relative">
 </div>
 
-<p-dataView *ngIf="oglasi.length > 0; else noRecords" #dv [value]="oglasi" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both" [sortField]="sortField" [sortOrder]="sortOrder">
+<p-dataView *ngIf="displayOglasi.length > 0; else noRecords" #dv [value]="displayOglasi" [paginator]="true" [rows]="20" [rowsPerPageOptions]="[10,20,30]" paginatorPosition="both" [sortField]="sortField" [sortOrder]="sortOrder">
   <p-header>
     <ng-container *ngTemplateOutlet="header"></ng-container>
   </p-header>
@@ -41,6 +41,16 @@
               {{ item.label | translate | titlecase }}
             </ng-template>
           </p-dropdown>
+        </div>
+        <div *ngIf="config.user && (config.user.username == profileData.username)" class="px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
+          <button (click)="toggleView()" mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" >
+            <div class="flex items-center align-middle">
+              <div class="flex items-center align-middle  mx-auto justify-center">
+                <i class="fas pr-0 sm:pr-2 text-gray-700 text-base leading-8" [ngClass]="{'fa-car-crash': !oglasiNoDeleted, 'fa-car': oglasiNoDeleted}"></i>
+              </div>
+              <div class="hideSm" style="flex-basis: 85%;">{{ (oglasiNoDeleted? 'SHOW_STANDARDNO': 'SHOW_DELETED') | translate }}</div>
+            </div>
+          </button>
         </div>
         <div class="px-2" [ngsReveal]="{reset: true, origin: 'right', delay: 200 }">
           <a [routerLink]="['/catalogues/oglas/new']" mat-button color="accent" class="mat-focus-indicator mat-button mat-button-base mat-accent w-full bg-orange-100" [title]="'FREE_OGLAS' | translate | titlecase">

@@ -12,6 +12,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { DataView } from 'primeng/dataview';
 import { OglasService } from '../_services/oglas.service';
 import * as rfdc from 'rfdc';
+import { Config } from 'src/environments/config';
 
 @Component({
   selector: "app-catalogue",
@@ -33,6 +34,7 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('dv') catalog:DataView;
   translations: any;
   currencyList: any;
+  loginSub: Subscription;
   constructor(
     private breadcrumbService: BreadcrumbService,
     private route: ActivatedRoute,
@@ -40,7 +42,8 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
     public helperService: HelperService,
     private translate:TranslateService,
     private loader: NgxUiLoaderService,
-    private oglasService: OglasService
+    private oglasService: OglasService,
+    private config:Config
   ) {}
   async ngAfterViewInit() { 
     await this.calculateExchangeRateForSort(); 
@@ -55,22 +58,22 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.routerSubscription$?.unsubscribe();
     this.translateSubscription$?.unsubscribe();
+    this.loginSub?.unsubscribe();
   }
 
   ngOnInit(): void {
-    console.log(this.route.snapshot);
-    
     this.breadcrumbs = this.breadcrumbService.catalogue();
     this.catalogList = this.route.snapshot.data.pageData[0] || [];
+    this.catalogList = this.helperService.filterCatalogOglas(this.catalogList);
+
     this.currencyList = this.route.snapshot.data.pageData[2] || [];
-    console.log(this.catalogList);
 
     this.routerSubscription$ = this.router.events.subscribe(async event => {
-      console.log('alo');
-      
       if (event instanceof NavigationEnd) {
         this.catalogList = this.route.snapshot.data.pageData[0] || [];
         this.currencyList = this.route.snapshot.data.pageData[2] || [];
+        this.catalogList = this.helperService.filterCatalogOglas(this.catalogList);
+
         if(this.catalog) this.catalog._value = this.catalogList;
         if(this.catalog) this.catalog.value = this.catalogList;
         if(this.catalogList.length) await this.calculateExchangeRateForSort();
@@ -79,10 +82,18 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.setupSortOptions();
-
+    this.setupLoginObs();
     this.setupLangObservable();
     this.updateOrientationState();
   }
+
+  setupLoginObs() {
+    this.loginSub = this.helperService.currentLogin.subscribe(event => {
+      this.catalogList = this.helperService.filterCatalogOglas(this.catalogList);
+    });
+
+  }
+
   setupCatalogList() {
     if(!this.catalogList.length) return;
     
@@ -118,8 +129,6 @@ export class CatalogueComponent implements OnInit, OnDestroy, AfterViewInit {
   async calculateExchangeRateForSort() {
     let result = await Promise.all(this.catalog.value.map(async e => {
       if(e.currencyName != "Euro") {
-        console.log(this.currencyList);
-        
         let ex = await this.oglasService.getExchangeRate(Object.values(this.currencyList).find((cl:any) => cl.name == e.currencyName));
         e['priceEurSort'] = (Number.parseInt(e.priceMainCurrency) + (Number.parseInt(e.priceSubCurrency) / 100)) * (1 / (Object.values(ex)[0]));
       }

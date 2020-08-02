@@ -50,8 +50,6 @@ export class OglasNewComponent extends BaseClass implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.route.snapshot.data.pageData);
-    
     this.profileData = this.route.snapshot.data.pageData[0] || [];
     this.path = this.route.snapshot.data.pageData[1] || '';
     this.translations = this.route.snapshot.data.pageData[2] || {}; 

@@ -1,22 +1,49 @@
 :host ::ng-deep .mat-mini-fab {
-  &.bgRed.mat-accent {
+  &.danger.mat-accent {
     position: absolute;
     margin-top: 0.25rem;
     margin-right: 0.25rem;
     background-color: #e53e3e;
   }
+  &.warn.mat-accent {
+    position: absolute;
+    margin-top: 0.25rem;
+    margin-right: 0.25rem;
+    background-color: #ecc94b;
+  }
 }
 
-:host ::ng-deep .mat-raised-button  {
-  &.bgRed.mat-accent {
+:host ::ng-deep .mat-raised-button {
+  &.danger.mat-accent {
     background-color: #e53e3e;
+    * {
+      color: #742a2a;
+    }
+  }
+  &.warn.mat-accent {
+    background-color: #ecc94b;
+    * {
+      color: #744210;
+    }
   }
 }
 :host ::ng-deep p-dialog {
-  &.confirm {
+  &.danger {
     .ui-dialog .ui-dialog-titlebar {
       background-color: #742a2a;
     }
   }
+  &.warn {
+    .ui-dialog .ui-dialog-titlebar {
+      background-color: #744210;
+    }
+  }
+  .message {
+    &.danger {
+      color: #742a2a;
+    }
+    &.warn {
+      color: #744210;
+    }
+  }
 }
-  

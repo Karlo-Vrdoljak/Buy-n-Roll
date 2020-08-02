@@ -83,4 +83,10 @@ export class OglasService {
       catchError(this.errorHandler.handleError)
     );
   }
+  updateOglasStatus(params) {
+    return this.http.post(this.config.API_URL_ROOT + 'api/oglas/status/update', params ).pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
 }

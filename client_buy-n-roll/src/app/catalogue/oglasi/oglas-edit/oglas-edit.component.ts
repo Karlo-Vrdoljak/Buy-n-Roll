@@ -293,7 +293,6 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
     } else {
       this.oglasModel = this.initDefaultOglasModel();
     }
-    console.log(this.oglasModel);
   }
 
   initCurrencyList(list:any[]) {
@@ -408,7 +407,6 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
       this.setupBreadCrumbs();
       this.translate.get(this.translationProvider.getRegistration()).subscribe(data => {
         this.translations = data;
-        console.log(this.oglasModel);
         
         if(this.oglasModel.selectedPaymentMethod) {
           this.initPaymentMethod();
@@ -555,7 +553,6 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
     } else {
       this.loader.startLoader('oglas_edit_loader')
       this.oglasService.saveNewOglas(params).subscribe((data:any) => {
-        console.log(data);
         
         this.displayForm = false;
         this.onOglasCreateSuccess.emit(true);

@@ -177,7 +177,6 @@ export class UsersService implements OnModuleInit{
       chassis.transmission = transmission;
       chassis.body = body;
       chassis.model = model;
-      console.log(model);
       
       await manager.save(chassis);
 

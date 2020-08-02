@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
 import { NgsRevealService } from 'ngx-scrollreveal';
 import { User } from 'src/app/_types/user.interface';
-import { Photo } from 'src/app/_types/oglas.interface';
+import { Photo, OglasStatus } from 'src/app/_types/oglas.interface';
 import { UserService } from 'src/app/_services/user.service';
 import { Config } from 'src/environments/config';
 import { CatalogueActionIconsComponent } from '../catalogue-action-icons/catalogue-action-icons.component';
@@ -54,10 +54,17 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
   enablePdf:boolean = false;
 
   @ViewChild('cd') confirm: ConfirmDialogComponent;
+  
   @ViewChild('kp') kupoprodajni: KupoprodajniComponent;
   @ViewChild('op') commentPanel: OverlayPanel;
   @ViewChild('actionIcons') actionIcons: CatalogueActionIconsComponent;
+  @ViewChild('statusOverlay') statusOverlayPanel: OverlayPanel;
+  
   markNodeDelete: any;
+  statusList: OglasStatus[];
+  statusIndex = null;
+  initialStatus:OglasStatus = null;
+  
   constructor(
     private breadcrumbService: BreadcrumbService,
     private route: ActivatedRoute,
@@ -72,10 +79,7 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
     private loader:NgxUiLoaderService
 
   ) { }
-  ngAfterViewInit(): void {
-    console.log(this.oglas);
-    
-  }
+  ngAfterViewInit(): void { }
   
 
   @HostListener("window:resize") updateOrientationState() {
@@ -108,6 +112,8 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
 
     this.oglas.photos = this.initOglasImages(this.oglas.photos);
 
+    this.statusList = Object.values(OglasStatus);
+    this.initialStatus = rfdc({proto:true})(this.oglas.status);
 
   }
 
@@ -230,7 +236,6 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
 
   setCommentTarget(node) {
     this.komentarNode = node;
-    console.log(this.komentarNode);
     
   }
   postComment(rootComment = false) {
@@ -323,6 +328,56 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
 
   tryOpenKupoprodajni() {
     this.kupoprodajni?.openDialogContract();
+  }
+
+
+
+  shiftStatus() {
+    this.statusIndex = this.statusList.findIndex(s => s.includes(this.oglas.status));
+    
+    if(this.statusIndex == this.statusList.length -1) this.statusIndex = -1;
+
+    this.oglas.status = this.statusList[++this.statusIndex];
+
+
+  }
+
+  resetStatus() {
+    this.oglas.status = this.initialStatus;
+  }
+  confirmStatus(choice = false) {
+    
+    if(choice) {
+      this.oglasService.updateOglasStatus({status: this.oglas.status, PkOglas: this.oglas.PkOglas}).subscribe((res:any) => {
+        this.initialStatus = res.status;
+        this.statusOverlayPanel.hide();
+      }, err => {
+        this.statusOverlayPanel.hide();
+      });
+    } else {
+      this.oglas.status = this.initialStatus;
+    }
+  }
+
+  saveStatus() {
+    if(this.oglas.status == OglasStatus.NEAKTIVAN) {
+      this.confirm.open('WARNING_NEAKTIVAN','warn', 'status');
+      return;
+    }
+
+    if(this.oglas.status == OglasStatus.IZBRISAN) {
+      this.confirm.open('WARNING_BRISANJE', 'danger', 'status');
+      return;
+    }
+    if(this.oglas.status == OglasStatus.AKTIVAN) {
+      this.oglasService.updateOglasStatus({status: this.oglas.status, PkOglas: this.oglas.PkOglas}).subscribe((res:any) => {
+        this.initialStatus = res.status;
+        this.statusOverlayPanel.hide();
+      }, err => {
+        this.statusOverlayPanel.hide();
+      });
+      return;
+    }
   }
 
 }

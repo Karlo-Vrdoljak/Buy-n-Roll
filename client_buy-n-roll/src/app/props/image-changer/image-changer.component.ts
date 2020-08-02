@@ -28,10 +28,7 @@ export class ImageChangerComponent implements OnInit {
     public domSan: DomSanitizer
     ) { }
 
-  ngOnInit(): void {
-    console.log(this);
-    
-  }
+  ngOnInit(): void { }
   EmitValue() {
     this.onImageUpload.emit(this.emitValue);
   }
@@ -76,9 +73,7 @@ export class ImageChangerComponent implements OnInit {
     img.setAttribute('style', `background-image: url('${URL.createObjectURL(this.payload)}')`);
     this.showCancel = true;
   }
-  logger(l) {
-    console.log(l);
-  }
+  logger(l) { console.log(l) }
 
   removeImg(file:File) {
     this.FileUploader.files = this.FileUploader.files.filter((pm:File) => pm.name != file.name);

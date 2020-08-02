@@ -17,7 +17,6 @@ export class LocationPropComponent implements OnInit {
   ngOnInit(): void {
   }
   passValue(location) {
-    console.log(location);
     
     this.onLocationSelect.emit(location);
   }

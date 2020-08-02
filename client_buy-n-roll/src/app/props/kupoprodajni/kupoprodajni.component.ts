@@ -106,7 +106,6 @@ export class KupoprodajniComponent implements OnInit {
     this.loader.startLoader('step_one');
     this.userService.findAllUsers().subscribe((data:any[]) => {
       this.buyersList = data.filter(u => u.userId != this.config.user.sub);
-      console.log(this.buyersList);
       this.state.steps.two = true;
 
       this.loader.stopLoader('step_one');
@@ -117,7 +116,6 @@ export class KupoprodajniComponent implements OnInit {
 
   }
   resolveStepTwo() {
-    console.log(this.state.user);
     for (var key in this.state.steps) {
       this.state.steps[key] = false;
     }
@@ -144,7 +142,6 @@ export class KupoprodajniComponent implements OnInit {
       PkOglas: this.oglas.PkOglas,
       prodavacId: this.state.loadProdavac? this.oglas.vehicle.user.userId: null
     }
-    console.log(params);
 
     this.loader.startLoader('step_three');
 

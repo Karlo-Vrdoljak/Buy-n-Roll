@@ -15,6 +15,7 @@ import { BaseClass } from 'src/app/_services/base.class';
 import { UserCardComponent } from 'src/app/props/user-card/user-card.component';
 import { CatalogueSearchItemComponent } from '../catalogue-search-item/catalogue-search-item.component';
 import { DataView } from 'primeng/dataview';
+import { OglasStatus } from 'src/app/_types/oglas.interface';
 
 @Component({
   selector: 'app-favourites',
@@ -63,13 +64,11 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
 
 
   ngOnInit(): void {
-    console.log(
-      this.route.snapshot
-    );
     this.users = this.route.snapshot.data.pageData[0] || null;
     this.path = this.route.snapshot.data.pageData[1] || '';
     this.translations = this.route.snapshot.data.pageData[2] || {};
-    this.oglasi = this.route.snapshot.data.pageData[3]?.oglasi || null;
+    this.setupOglasi();
+
     this.usersProfileUsername = this.route.snapshot.data.pageData[3]?.username || null;
 
     this.setupBreadCrumbs();
@@ -77,6 +76,11 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
 
     this.setupRouterSub();
     this.setupSortOptions();
+  }
+
+  setupOglasi() {
+    let oglasi = this.route.snapshot.data.pageData[3]?.oglasi || null;
+    this.oglasi = this.helperService.filterOglas(oglasi);
   }
 
 
@@ -89,7 +93,7 @@ export class FavouritesComponent  extends BaseClass implements OnInit, OnDestroy
         this.users = this.route.snapshot.data.pageData[0] || null;
         this.path = this.route.snapshot.data.pageData[1] || '';
         this.translations = this.route.snapshot.data.pageData[2] || {};
-        this.oglasi = this.route.snapshot.data.pageData[3]?.oglasi || null;
+        this.setupOglasi();
         this.usersProfileUsername = this.route.snapshot.data.pageData[3]?.username || null;
         this.setupBreadCrumbs();
         this.setupSortOptions();

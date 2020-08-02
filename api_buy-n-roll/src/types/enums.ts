@@ -21,6 +21,12 @@ export enum PaymentMethod {
   ZAMJENA = "ZAMJENA"
 }
 
+export enum OglasStatus {
+  AKTIVAN = "AKTIVAN",
+  NEAKTIVAN = "NEAKTIVAN",
+  IZBRISAN = "IZBRISAN",
+}
+
 export enum ErrorMessages {
   userNotFound = 'BUYNROLL_ERR_USER_NOT_FOUND',
   wrongPassword = 'BUYNROLL_ERR_WRONG_PASSWORD',

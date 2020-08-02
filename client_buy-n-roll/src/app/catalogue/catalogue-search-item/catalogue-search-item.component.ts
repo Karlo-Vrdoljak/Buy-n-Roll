@@ -60,8 +60,6 @@ export class CatalogueSearchItemComponent implements OnInit, OnDestroy {
     if(this.personalOglas == false) {
       this.handleOptionalPhotoProfile();
     }
-    console.log(this.searchItem);
-    
   }
 
   syncScrollReveal() {
