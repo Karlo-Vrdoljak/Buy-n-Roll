@@ -87,6 +87,8 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
 
   setupOglasi() {
     this.oglasi = this.route.snapshot.data.pageData[3] || []; 
+    console.log(this.oglasi);
+    
     this.displayOglasi = this.oglasi.filter(o => o.status != OglasStatus.IZBRISAN);
     this.deletedOglasi = this.oglasi.filter(o =>  o.status == OglasStatus.IZBRISAN);
   }
@@ -189,15 +191,11 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
 
   toggleView() {
     this.oglasiNoDeleted = this.oglasiNoDeleted == true? false: true;
-    if(!this.catalog?.value) {
+    if(this.oglasiNoDeleted) {
       this.displayOglasi = this.oglasi.filter(o => o.status != OglasStatus.IZBRISAN);
       return;
     }
-    if(this.catalog.value.every(item => item.status === OglasStatus.IZBRISAN)) {
-      this.displayOglasi = this.oglasi.filter(o => o.status != OglasStatus.IZBRISAN);
-      return;
-    }
-    if(this.catalog.value.every(item => item.status != OglasStatus.IZBRISAN)) {
+    if(!this.oglasiNoDeleted) {
       this.displayOglasi = this.deletedOglasi;
     }
   }

@@ -43,6 +43,9 @@ export class Oglas {
   @Column({type: "enum",enum: OglasStatus,default: OglasStatus.AKTIVAN })
   status:OglasStatus;
 
+  @Column({nullable:true, default: null})
+  deletedAt:Date;
+
   @Column({default:0})
   views:number;
 

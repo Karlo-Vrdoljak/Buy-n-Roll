@@ -566,6 +566,6 @@ export class OglasEditComponent extends BaseClass implements OnInit, OnDestroy, 
   }
 
   finishOglasCreation() {
-    this.router.navigate(['oglasi'], {queryParams: {username: this.config.user.username}});
+    this.router.navigate(['/oglasi/', {username: this.config.user.username}]);
   }
 }

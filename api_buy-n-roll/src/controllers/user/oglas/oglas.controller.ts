@@ -14,7 +14,7 @@ import { Transmission } from 'src/entity/transmission.entity';
 import { Body } from 'src/entity/body.entity';
 import { UserVehicle } from 'src/entity/userVehicle.entity';
 import { Chassis } from 'src/entity/chassis.entity';
-import { VehicleState } from 'src/types/enums';
+import { VehicleState, OglasStatus } from 'src/types/enums';
 import { Like } from 'typeorm';
 import { User } from 'src/entity/user.entity';
 import { ModuleRef } from '@nestjs/core';
@@ -292,6 +292,8 @@ export class OglasController {
     .where('o.PkOglas = :pk', {pk: req.body.PkOglas})
     .getOne();
     oglas.status = req.body.status;
+    oglas.deletedAt = req.body.status === OglasStatus.IZBRISAN ? new Date() : null;
+    
     let ret = await this.oglasService.getRepo().save(oglas);
 
     res.status(HttpStatus.OK).send({status: ret.status});

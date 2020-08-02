@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { RolesModule } from './roles/roles.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { ScheduleModule } from '@nestjs/schedule';
 
 
 @Module({
@@ -15,6 +16,7 @@ import { MulterModule } from '@nestjs/platform-express';
     UsersModule,
     RolesModule,
     // VehicleModule,
+    ScheduleModule.forRoot(),
     AuthModule,
     TypeOrmModule.forRoot(),
     MulterModule

@@ -1,8 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { User } from './entity/user.entity';
+import { CronExpression, SchedulerRegistry, Cron } from '@nestjs/schedule';
+import { CronJob } from 'cron';
+import { Connection } from 'typeorm';
+import { Oglas } from './entity/oglas.entity';
+import { Observable, pipe, interval, forkJoin, of } from 'rxjs';
+import { debounce  } from 'rxjs/operators';
 
 @Injectable()
-export class AppService {
+export class AppService implements OnModuleInit {
+  oglasCleanerJob: any;
+
+  constructor(private connection: Connection, private schedulerRegistry: SchedulerRegistry) {
+    
+  }
+  onModuleInit() { }
   
   async generateEmailRegister(user:User,lang:string) {
     if(lang == 'hr') {

@@ -11,9 +11,14 @@ import { User } from 'src/entity/user.entity';
 import { Photo } from 'src/entity/photo.entity';
 
 import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import {readFile, readFileSync} from 'fs';
+import {readFile, readFileSync, unlinkSync} from 'fs';
 import * as fontkit from '@pdf-lib/fontkit';
 import path = require('path');
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { forkJoin, interval, of } from 'rxjs';
+import { debounce } from 'rxjs/operators';
+import { UserVehicle } from 'src/entity/userVehicle.entity';
+import { Chassis } from 'src/entity/chassis.entity';
 
 
 @Injectable()
@@ -222,4 +227,43 @@ export class OglasService implements OnModuleInit {
 
     return await pdfDoc.save()
   }
+
+    // "30 * * * * *"
+    @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+    async deleteAllMarkedOglasiJob() {
+      this.deleteAllMarkedOglasi();
+    }
+  
+    async deleteAllMarkedOglasi() {
+      const DAYS_30 = 1000 * 60 * 60 * 24 * 30;
+      let diff = Date.now() - DAYS_30;
+      let timedOut = await this.connection.createQueryBuilder(Oglas, 'o')
+        .where('o.deletedAt >= :time', {time: diff}).getMany();
+      if(timedOut) {
+        let arrayPkOglas = timedOut.map(o => o.PkOglas);
+        let oglasi = await Promise.all(arrayPkOglas.map(async pk => {
+          return await this.findOglasByPk(pk);
+        }));
+
+        oglasi.map(async (o:Oglas) => {
+          if(o.photos) {
+            await Promise.all(o.photos.map(async p => {
+              await this.connection.createQueryBuilder().delete().from(Photo).where('photo.oglasPkOglas = :pk', {pk: o.PkOglas}).execute();
+
+              try {
+                unlinkSync(path.join(__dirname , '/../../assets/static/uploads/' , o.vehicle.user.username ,'/', p.filename));
+              } catch(err) {
+                console.error(err);
+              }
+            }));
+          }
+          
+          await this.connection.createQueryBuilder().delete().from(Oglas).where('oglas.PkOglas = :pk', {pk: o.PkOglas}).execute();
+          await this.connection.createQueryBuilder().delete().from(UserVehicle).where('user_vehicle.PkUserVehicle = :pk', {pk: o.vehicle.PkUserVehicle}).execute();
+          await this.connection.createQueryBuilder().delete().from(Chassis).where('chassis.PkChassis = :pk', {pk: o.vehicle.chassis.PkChassis}).execute();
+          await this.connection.createQueryBuilder().delete().from(Comments).where('comments.oglasPkOglas = :pk', {pk: o.PkOglas}).execute();
+          
+        });
+      }
+    }
 }
