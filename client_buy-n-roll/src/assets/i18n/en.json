@@ -177,5 +177,22 @@
   "COMMENTS": "Comments",
   "COMMENT" : "Comment",
   "LOGIN_BEFORE_COMMENT": "You need to be signed in to comment!",
-  "SEND_COMMENT": "Post my comment"
+  "SEND_COMMENT": "Post my comment",
+  "KUPOPRODAJNI_GEN": "Purchase contract",
+  "DELETED":"DELETED.",
+  "UGOVOR_OPTIONS": "Choose the following settings for your purchase contract",
+  "LOAD_KUPAC_DA" :"Load buyer data",
+  "LOAD_PRODAVAC_DA" :"Load your data",
+  "ALL_DATA_UGOVOR_DA" :"Advanced data loading",
+  "LOAD_KUPAC_NE": "Without loading buyer data",
+  "LOAD_PRODAVAC_NE": "Without loading your data",
+  "ALL_DATA_UGOVOR_NE": "Simplified data loading",
+  "CONTINUE": "CONTINUE",
+  "UGOVOR_SEARCH_USER": "Choose your buyer",
+  "BUYER": "BUYER",
+  "POJAM": "Term",
+  "UGOVOR_PROPS": "Select the following terms that you want to be present in the purchase contract",
+  "FILTER": "Filter",
+  "GENERATE_UGOVOR": "Create purchase contract",
+  "FNAME_LNAME": "Name and surname"
 }

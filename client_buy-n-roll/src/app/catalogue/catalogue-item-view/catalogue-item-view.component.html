@@ -155,6 +155,10 @@
           </div>
         </div>
         <app-catalogue-action-icons #actionIcons [phone]="profileData.phone" [email]="profileData.email" [alreadyFav]="oglas.alreadyFavourited" [username]="profileData.username" [ignoreContact]="hideContact" [editLink]="showEdit" [external]="false" [PkOglas]="oglas.PkOglas" [rating]="oglas.rating" [allFavs]="true" [msgShade]="600" [offset]="1"></app-catalogue-action-icons>
+
+        <ng-container *ngTemplateOutlet="kupoprodajniButton"></ng-container>
+
+
       </div>
     </div>
   </div>
@@ -210,7 +214,7 @@
         <div class="flex flex-row relative items-center content-center font-mw text-gray-700 bg-gray-100 p-2 border-l-4 border-yellow-300 shadow-sm rounded-r-sm">
           <div style="min-width: 3.25rem;" *ngIf="item.comment != 'deleted.'"><a [routerLink]="[ '/profile', {username: item.user.username} ]"><img class="rounded-full cursor-pointer shadow-md h-12 w-12 mr-2" [src]="item.user.photo.PkPhoto != -1? (config.STATIC_FILES + item.user.username + '/' + item.user.photo.filename) : item.user.photo.filename"></a></div>
           <div class="pt-2" [ngClass]="{'select-none font-semibold text-gray-500 font-oswald': item.comment == 'deleted.'}">
-            <span *ngIf="item.comment == 'deleted.'">{{item.comment | uppercase}}</span>
+            <span *ngIf="item.comment == 'deleted.'">{{ 'DELETED' | translate | uppercase}}</span>
             <span *ngIf="item.comment != 'deleted.'">{{item.comment}}</span>
           </div>
           <div class=" cursor-pointer font-oswald absolute top-0 text-sm text-gray-600 ml-12" *ngIf="item.comment != 'deleted.'"><a class="buynroll_lightGray hoverYlw" [routerLink]="[ '/profile', {username: item.user.username} ]">{{ item.user.lastName }}&nbsp;{{ item.user.firstName }}&nbsp;&bull;&nbsp;{{ helperService.date(item.createdAt) }}</a></div>
@@ -265,3 +269,18 @@
 </p-overlayPanel>
 
 <app-confirm-dialog #cd (onConfirm)="confirmationResolve($event)"></app-confirm-dialog>
+
+<ng-template #kupoprodajniButton>
+  <div *ngIf="config.user && (config.user.username == oglas.vehicle.user.username)" class="absolute positionKupoprodajni flex items-center justify-end">
+    <button [@fadeInRightOnEnter] [@fadeOutLeftOnLeave] [title]="'KUPOPRODAJNI_GEN' | translate | titlecase" (click)="enablePdf=true;tryOpenKupoprodajni()" class="mx-1 focus:outline-none text-yellow-500 cursor-pointer navButton">
+      <div class="flex flex-row items-center content-center justify-center">
+        <div class="hideSm font-oswald text-xl pr-2">
+          {{ 'KUPOPRODAJNI_GEN' | translate | uppercase }}
+        </div>
+        <i class="fas fa-file-pdf text-red-600 text-3xl pr-0 lg:pr-2"></i>
+      </div>
+    </button>
+  </div>
+</ng-template>
+
+<app-kupoprodajni *ngIf="enablePdf" #kp [oglas]="oglas"></app-kupoprodajni>

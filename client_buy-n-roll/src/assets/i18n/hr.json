@@ -177,7 +177,33 @@
   "COMMENTS": "Komentari",
   "COMMENT" : "Komentiraj",
   "LOGIN_BEFORE_COMMENT": "Morate biti prijavljeni da biste komentirali!",
-  "SEND_COMMENT": "Objavi komentar"
+  "SEND_COMMENT": "Objavi komentar",
+  "KUPOPRODAJNI_GEN": "Kupoprodajni ugovor",
+  "DELETED":"IZBRISANO.",
+  "UGOVOR_OPTIONS": "Odaberite sljedeće postavke za ugovor o kupnji",
+  "LOAD_KUPAC_DA" :"Učitaj podatke kupca",
+  "LOAD_PRODAVAC_DA" :"Učitaj svoje podatke",
+  "ALL_DATA_UGOVOR_DA" :"Napredno učitavanje podataka",
+  "LOAD_KUPAC_NE": "Bez učitavanja podataka kupca",
+  "LOAD_PRODAVAC_NE": "Bez učitavanja svojih podataka",
+  "ALL_DATA_UGOVOR_NE": "Pojednostavljeno učitavanje podataka",
+  "CONTINUE": "DALJE",
+  "UGOVOR_SEARCH_USER": "Odaberite svog kupca",
+  "BUYER": "KUPAC",
+  "POJAM": "Pojam",
+  "UGOVOR_PROPS": "Odaberite sljedeće pojmove koji želite biti prisutni u ugovoru o kupnji",
+  "FILTER": "Filtriraj",
+  "GENERATE_UGOVOR": "Stvori kupoprodajni ugovor",
+  "FNAME_LNAME": "Ime i prezime"
+
+
+
+
+
+
+
+
+
 
 
 

@@ -23,7 +23,7 @@ import { DrivetrainService } from 'src/vehicle/drivetrain/drivetrain.service';
 import { GasTypeService } from 'src/vehicle/gasType/gasType.service';
 import { TransmissionService } from 'src/vehicle/transmission/transmission.service';
 import { BodyService } from 'src/vehicle/body/body.service';
-import { VehicleState, PhotoTypes } from 'src/types/enums';
+import { VehicleState, PhotoTypes, PhotoDescriptions } from 'src/types/enums';
 import { Photo } from 'src/entity/photo.entity';
 import { RolesService } from 'src/roles/roles.service';
 import { Location } from 'src/entity/location.entity';
@@ -345,6 +345,22 @@ export class UsersService implements OnModuleInit{
     } else {
       return null;
     }
+  }
+  async findAllUsersWithPhotos() {
+    return (await this.getUserRepo()
+    .createQueryBuilder('u')
+    .leftJoinAndSelect('u.photo','p')
+    .andWhere('(p.photoOpis is null or p.photoOpis = :opis)', { opis: PhotoDescriptions.USER })
+    .getMany())
+    .map(u => {
+      if(!u.photo?.filename) {
+        u.photo = {
+          PkPhoto: -1,
+          filename: "assets/images/misc/noProfile.png"
+        } as Photo;
+      }
+      return u;
+    });
   }
 
 }

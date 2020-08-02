@@ -107,6 +107,9 @@ import { FavouritesAdsResolver } from './_resolvers/favourites.ads.resolver';
 import { AdvancedSearchComponent } from './props/advanced-search/advanced-search.component';
 import {SliderModule} from 'primeng/slider';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
+import { KupoprodajniComponent } from './props/kupoprodajni/kupoprodajni.component';
+import {TableModule} from 'primeng/table';
+
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#ffcd39",
@@ -152,6 +155,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FavouritesComponent,
     UserCardComponent,
     AdvancedSearchComponent,
+    KupoprodajniComponent,
   ],
   imports: [
     BrowserModule,
@@ -232,7 +236,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     GallerizeModule,
     ConfirmDialogModule,
     SliderModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    TableModule
   ],
   providers: [
     TestService,

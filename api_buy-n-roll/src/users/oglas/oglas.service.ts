@@ -172,18 +172,20 @@ export class OglasService implements OnModuleInit {
   }
 
   async generateKupoprodajni(data: any) {
-    let prodavac = await this.getConnection().createQueryBuilder(User,'u').where('u.userId = :pkp', { pkp: data.prodavacId })
+      
+    let prodavac = data.loadProdavac? await this.getConnection().createQueryBuilder(User,'u').where('u.userId = :pkp', { pkp: data.prodavacId })
       .leftJoinAndSelect('u.location', 'l')
-      .getOne();
-    let kupac = await this.getConnection().createQueryBuilder(User,'u').where('u.userId = :pkk', { pkk: data.kupacId })
+      .getOne(): null;
+
+    let kupac = data.loadKupac?  await this.getConnection().createQueryBuilder(User,'u').where('u.userId = :pkk', { pkk: data.kupacId })
       .leftJoinAndSelect('u.location', 'l')
-      .getOne();
+      .getOne() : null;
+
     let oglas = await this.findOglasByPk(data.PkOglas);
     let original = readFileSync(path.join(__dirname , '/../../assets/static/ugovor.pdf'));
 
     const pdfDoc = await PDFDocument.load(original);
     pdfDoc.registerFontkit(fontkit);
-    console.log(path.join(__dirname , '/../../assets/static/mw.ttf'));
     
     const helveticaFont = await pdfDoc.embedFont(readFileSync(path.join(__dirname , '/../../assets/static/mw.ttf')));
 
@@ -196,22 +198,27 @@ export class OglasService implements OnModuleInit {
     const pages = pdfDoc.getPages();
     const firstPage = pages[0];
     
-    const addText = (text:string, x:number, y:number, size = 12) => {
-      firstPage.drawText(text || '', {x, y, size, font: helveticaFont});
+    const addText = (text:string, x:number, y:number, size = 12, key = '') => {
+      if(data.useAllData || data.selectedProps?.includes(key)) {
+        firstPage.drawText(text || '', {x, y, size, font: helveticaFont});
+      }
     }
-
-    addText(`${prodavac.firstName} ${prodavac.lastName}` , 40, 800);
-    addText(prodavac.location?.display_name , 40, 770, 10);
-    addText(`${kupac.firstName} ${kupac.lastName}`, 40, 713);
-    addText(kupac.location?.display_name, 40, 683, 10);
+    if(prodavac) {
+      addText(`${prodavac.firstName} ${prodavac.lastName}` , 40, 800, 12, 'firstName,lastName');
+      addText(prodavac.location?.display_name , 40, 770, 10, 'display_name');
+    }
+    if(kupac) {
+      addText(`${kupac.firstName} ${kupac.lastName}`, 40, 713, 12, 'firstName,lastName');
+      addText(kupac.location?.display_name, 40, 683, 10, 'display_name');
+    }
     addText('Osobno vozilo', 260, 565);
-    addText(this.toTitleCase(oglas.vehicle.chassis.model.series.manufacturer.manufacturerName), 442, 565);
-    addText(oglas.vehicle.chassis.color.color, 442, 542, 9);
-    addText(oglas.vehicle.chassis.model.modelName, 258, 542, 9);
-    addText(oglas.vehicle.chassis.model.series.seriesName, 94, 542, 9);
-    addText(oglas.vehicle.chassis.VIN, 94, 515);
-    addText(this.toTitleCase(oglas.vehicle.chassis.body.bodyName), 442, 515);
-    addText(oglas.vehicle.chassis.makeYear, 316, 493);
+    addText(this.toTitleCase(oglas.vehicle.chassis.model.series.manufacturer.manufacturerName), 442, 565, 12, 'manufacturerName');
+    addText(oglas.vehicle.chassis.color.color, 442, 542, 9, 'color');
+    addText(oglas.vehicle.chassis.model.modelName, 258, 542, 9, 'modelName');
+    addText(oglas.vehicle.chassis.model.series.seriesName, 94, 542, 9, 'seriesName');
+    addText(oglas.vehicle.chassis.VIN, 94, 515, 12, 'VIN');
+    addText(this.toTitleCase(oglas.vehicle.chassis.body.bodyName), 442, 515, 12, 'bodyName');
+    addText(oglas.vehicle.chassis.makeYear, 316, 493, 12, 'makeYear');
 
     return await pdfDoc.save()
   }

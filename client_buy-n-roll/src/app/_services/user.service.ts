@@ -150,4 +150,10 @@ export class UserService {
       catchError(this.errorHandler.handleError)
     );
   }
+  findAllUsers() {
+    return this.http.get(this.config.API_URL_ROOT + 'user/all/').pipe(
+      retry(this.config.retryCount),
+      catchError(this.errorHandler.handleError)
+    );
+  }
 }

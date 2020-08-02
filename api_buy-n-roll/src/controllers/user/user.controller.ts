@@ -416,5 +416,17 @@ export class UserController {
     res.status(HttpStatus.CREATED).send(result);
   }
 
+
+  @Get('/all')
+  async findAllUsers(@Param() req, @Res() res: Response) {
+    let users = await this.userService.findAllUsersWithPhotos();
+    
+    if(users) {
+      res.status(HttpStatus.OK).send(users);
+    } else {
+      res.status(HttpStatus.EXPECTATION_FAILED).send();
+    }
+  }
+
 }
 

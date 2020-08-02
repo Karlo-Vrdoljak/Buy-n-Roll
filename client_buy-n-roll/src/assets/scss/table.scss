@@ -1,0 +1,20 @@
+:host ::ng-deep .buyerTable .ui-table {
+  .ui-table-thead > tr > th,
+  .ui-table-tbody > tr > td,
+  .ui-paginator-bottom,
+  .ui-table-wrapper {
+    border: 1px solid #e6e6e6;
+  }
+  .ui-table-wrapper {
+    height: 50vh;
+    min-height: 370px;
+  }
+  .ui-table-thead > tr > th {
+    border-top: 0;
+  }
+  .ui-table-caption {
+    background-color: #ecf2ff;
+    border: 1px solid #e6e6e6;
+    border-bottom: 0;
+  }
+}

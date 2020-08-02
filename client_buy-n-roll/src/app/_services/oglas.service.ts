@@ -72,7 +72,7 @@ export class OglasService {
     );
   }
   generatePdf(params) {
-    return this.http.post(this.config.API_URL_ROOT + 'api/kupoprodajni/', params ).pipe(
+    return this.http.post(this.config.API_URL_ROOT + 'api/kupoprodajni/', params , { responseType:'blob' as 'json' }).pipe(
       retry(this.config.retryCount),
       catchError(this.errorHandler.handleError)
     );

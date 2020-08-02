@@ -18,6 +18,7 @@ import { OglasService } from 'src/app/_services/oglas.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { ConfirmDialogComponent } from 'src/app/props/confirm-dialog/confirm-dialog.component';
+import { KupoprodajniComponent } from 'src/app/props/kupoprodajni/kupoprodajni.component';
 @Component({
   selector: 'app-catalogue-item-view',
   templateUrl: './catalogue-item-view.component.html',
@@ -50,8 +51,10 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
   komentar:string = '';
   rootKomentar:string = '';
   komentarNode = null;
+  enablePdf:boolean = false;
 
   @ViewChild('cd') confirm: ConfirmDialogComponent;
+  @ViewChild('kp') kupoprodajni: KupoprodajniComponent;
   @ViewChild('op') commentPanel: OverlayPanel;
   @ViewChild('actionIcons') actionIcons: CatalogueActionIconsComponent;
   markNodeDelete: any;
@@ -316,6 +319,10 @@ export class CatalogueItemViewComponent implements OnInit, AfterViewInit {
 
   traverseChildren(current: any, targetNodeId: number) {
     return current.id === targetNodeId? true : current.children.some(item => this.traverseChildren(item, targetNodeId));
+  }
+
+  tryOpenKupoprodajni() {
+    this.kupoprodajni?.openDialogContract();
   }
 
 }

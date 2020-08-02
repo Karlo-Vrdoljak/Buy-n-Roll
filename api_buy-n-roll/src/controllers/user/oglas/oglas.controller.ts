@@ -263,12 +263,21 @@ export class OglasController {
 
   @Post('kupoprodajni')
   async generatePdf(@Request() req, @Res() res: Response) {
-    const doc = await this.oglasService.generateKupoprodajni({PkOglas: req.body.PkOglas, kupacId: req.body.kupacId, prodavacId: req.body.prodavacId});
+    const doc = await this.oglasService.generateKupoprodajni({
+      PkOglas: req.body.PkOglas, 
+      kupacId: req.body.kupacId, 
+      prodavacId: req.body.prodavacId,
+      loadKupac : req.body.loadKupac,
+      loadProdavac : req.body.loadProdavac,
+      useAllData : req.body.useAllData,
+      selectedProps : req.body.selectedProps,
+    });
     
     let stream = new Duplex();
     stream.push(doc);
     stream.push(null);
     res.setHeader('Content-Type', 'application/pdf');
+    res.status(HttpStatus.OK);
     stream.pipe(res);
   }
 }
