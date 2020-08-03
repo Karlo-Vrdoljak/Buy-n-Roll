@@ -205,5 +205,7 @@
   "SHOW_STANDARDNO": "STANDARD VIEW",
   "AKTIVAN": "ACTIVE",
   "NEAKTIVAN": "INACTIVE",
-  "IZBRISAN": "DELETED"
+  "IZBRISAN": "DELETED",
+  "CURRENCY_PICK": "Choose a currency from the list",
+  "PAYMENT_PICK": "Choose a payment method from the list"
 }

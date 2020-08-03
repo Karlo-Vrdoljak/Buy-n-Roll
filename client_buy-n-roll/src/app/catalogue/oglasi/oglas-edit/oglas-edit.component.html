@@ -108,7 +108,8 @@
       </mat-form-field>
     </div>
     <div class="p-col-12 relative p-sm-12 p-md-6 p-lg-6 p-xl-6">
-      <div class="p-2 w-full">
+      <div class="p-2 w-full flex flex-col">
+        <div class="pb-1 text-gray-600 font-oswald text-xl font-light">{{ 'CURRENCY_PICK' | translate | uppercase }}</div>
         <p-dropdown required [autoDisplayFirst]="false" appendTo="body" [options]="currencyList" #selectedCurrencyInput="ngModel" [(ngModel)]="oglasModel.selectedCurrency" [filter]="true" optionLabel="label" [virtualScroll]="true" [itemSize]="36">
           <ng-template let-item pTemplate="selectedItem">
             <div class="flex flex-no-wrap items-center flex-row">
@@ -131,7 +132,8 @@
       </div>
     </div>
     <div class="p-col-12 relative p-sm-12 p-md-6 p-lg-6 p-xl-6">
-      <div class="p-2 w-full">
+      <div class="p-2 w-full flex flex-col">
+        <div class="pb-1 text-gray-600 font-oswald text-xl font-light">{{ 'PAYMENT_PICK' | translate | uppercase }}</div>
         <p-dropdown required [autoDisplayFirst]="false" appendTo="body" [options]="paymentMethodList" #selectedPaymentMethodInput="ngModel" [(ngModel)]="oglasModel.selectedPaymentMethod" [filter]="true" optionLabel="label">
           <ng-template let-item pTemplate="selectedItem">
             <div class="flex flex-no-wrap items-center justify-between flex-row">

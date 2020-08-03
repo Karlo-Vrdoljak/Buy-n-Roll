@@ -205,5 +205,9 @@
   "SHOW_STANDARDNO": "STANDARDNI PRIKAZ",
   "AKTIVAN": "AKTIVAN",
   "NEAKTIVAN": "NEAKTIVAN",
-  "IZBRISAN": "IZBRISAN"
+  "IZBRISAN": "IZBRISAN",
+  "CURRENCY_PICK": "Odaberite valutu među ponuđenim",
+  "PAYMENT_PICK": "Odaberite način plačanja među ponuđenim"
+
+
 }

@@ -1,5 +1,10 @@
 @import "../../variables.scss";
 
+:host ::ng-deep .mat-buttom {
+  margin: -1px;
+  padding: 1px;
+}
+
 :host ::ng-deep .mat-focused .mat-form-field-label {
   color: $deepGray;
 }
@@ -16,7 +21,7 @@
   color: $lightGray;
 }
 // :host ::ng-deep mat-form-field:first-child {
-  // color: $silver;
+// color: $silver;
 // }
 :host ::ng-deep .mat-form-field textarea {
   overflow: hidden;
@@ -38,7 +43,6 @@
   .step-wrap {
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   }
-
 }
 :host ::ng-deep .mat-vertical-content {
   padding: 0;
@@ -78,7 +82,7 @@
   }
 }
 
-@media screen and (max-width:1024px) {
+@media screen and (max-width: 1024px) {
   :host ::ng-deep .mat-vertical-content-container {
     margin-left: 0;
   }
@@ -90,7 +94,6 @@
 .m-0 {
   margin: 0;
 }
-
 
 :host ::ng-deep .mat-button.mat-accent {
   border-radius: 3px;
