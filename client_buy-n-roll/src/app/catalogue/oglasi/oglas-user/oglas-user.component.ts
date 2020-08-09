@@ -87,7 +87,6 @@ export class OglasUserComponent extends BaseClass implements OnInit, OnDestroy, 
 
   setupOglasi() {
     this.oglasi = this.route.snapshot.data.pageData[3] || []; 
-    console.log(this.oglasi);
     
     this.displayOglasi = this.oglasi.filter(o => o.status != OglasStatus.IZBRISAN);
     this.deletedOglasi = this.oglasi.filter(o =>  o.status == OglasStatus.IZBRISAN);
