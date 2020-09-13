@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4444",
-    "build": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --base-href \"/buy-n-roll/\" --prod",
+    "build": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --prod",
     "start:dist": "http-server -a localhost --port 4444",
     "test": "ng test",
     "lint": "ng lint",
